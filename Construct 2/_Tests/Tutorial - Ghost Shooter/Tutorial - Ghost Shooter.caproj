@@ -10,12 +10,19 @@
     <unique-id>1yal22kvcpxol</unique-id>
     <saved-with-version>13200</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Keyboard" version="1">Keyboard</plugin>
         <plugin author="Scirra" id="Mouse" version="1">Mouse</plugin>
+        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
     </used-plugins>
-    <used-behaviors />
+    <used-behaviors>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
+        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="Fade" version="1">Fade</behavior>
+        <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
+        <behavior author="Scirra" id="destroy" version="1">Destroy outside layout</behavior>
+        <behavior author="Scirra" id="scrollto" version="1">Scroll To</behavior>
+    </used-behaviors>
     <used-effects />
     <configurations>
         <configuration exporter-descname="HTML5" exporter-id="html5" name="HTML5" />
@@ -50,6 +57,14 @@
         </object-type>
         <object-type name="Bullet" sid="5074233831411298">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="797483094330513">
+                    <behavior id="Bullet" />
+                </behavior-type>
+                <behavior-type name="DestroyOutsideLayout" sid="9444412555788296">
+                    <behavior id="destroy" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="1700958703382886" speed="5">
                     <frame duration="1" hotspotX="0.52" hotspotY="0.5">
@@ -69,6 +84,11 @@
         </object-type>
         <object-type name="Monster" sid="9148773092710802">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="3246174891947803">
+                    <behavior id="Bullet" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="9032013466316305" speed="5">
                     <frame duration="1" hotspotX="0.503448" hotspotY="0.5">
@@ -88,9 +108,21 @@
         </object-type>
         <object-type name="Player" sid="5680699769856538">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="8Direction" sid="2122897363938609">
+                    <behavior id="EightDir" />
+                </behavior-type>
+                <behavior-type name="ScrollTo" sid="1611660132076592">
+                    <behavior id="scrollto" />
+                </behavior-type>
+                <behavior-type name="BoundToLayout" sid="8739257538595193">
+                    <behavior id="bound" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="414490574863604" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.504854">
+                        <image-point name="Gun" x="0.916667" y="0.504854" />
                         <collision-poly>
                             <point x="0.240741" y="0.252427" />
                             <point x="0.5" y="0.0776699" />
@@ -107,6 +139,11 @@
         </object-type>
         <object-type name="Explosion" sid="291645191182235">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Fade" sid="2418900983445609">
+                    <behavior id="Fade" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="4539828350151573" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.504951" />

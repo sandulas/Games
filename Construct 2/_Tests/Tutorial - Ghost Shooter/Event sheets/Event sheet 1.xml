@@ -2,5 +2,32 @@
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
-    <events />
+    <events>
+        <event-block sid="299979930210202">
+            <conditions>
+                <condition id="-1" name="Every tick" sid="1924436586414774" type="System" />
+            </conditions>
+            <actions>
+                <action id="-22" name="Set angle toward position" sid="5389718574590333" type="Player">
+                    <param id="0" name="X">Mouse.X</param>
+                    <param id="1" name="Y">Mouse.Y</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="24635298725162">
+            <conditions>
+                <condition id="0" name="On click" sid="7513710741323974" type="Mouse">
+                    <param id="0" name="Mouse button">0</param>
+                    <param id="1" name="Click type">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="0" name="Spawn another object" sid="4795367881419105" type="Player">
+                    <param id="0" name="Object">Bullet</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="Image point">1</param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
 </c2eventsheet>
