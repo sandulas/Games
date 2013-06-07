@@ -29,5 +29,21 @@
                 </action>
             </actions>
         </event-block>
+        <event-block sid="7456838721560164">
+            <conditions>
+                <condition id="0" name="On collision with another object" sid="765127152094979" type="Bullet">
+                    <param id="0" name="Object">Monster</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" sid="6234015942019223" type="Monster" />
+                <action id="0" name="Spawn another object" sid="9024162205732547" type="Bullet">
+                    <param id="0" name="Object">Explosion</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+                <action id="-9" name="Destroy" sid="6241612486526001" type="Bullet" />
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>

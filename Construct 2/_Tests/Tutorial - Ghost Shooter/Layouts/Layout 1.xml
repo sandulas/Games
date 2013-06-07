@@ -189,7 +189,7 @@
                             </properties>
                         </behavior-instance>
                     </behavior-instances>
-                    <blend-mode>0</blend-mode>
+                    <blend-mode>1</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>60</x>
