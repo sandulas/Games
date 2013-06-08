@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
-    <name>Event sheet 1</name>
+    <name>Gameplay</name>
     <events>
+        <include>Controls</include>
         <variable constant="0" name="Score" sid="3887013609516564" static="0" type="number">0</variable>
         <event-block sid="299979930210202">
             <conditions>
@@ -15,6 +16,42 @@
                 </action>
                 <action id="0" name="Set text" sid="3484452396551875" type="Text">
                     <param id="0" name="Text">&quot;Score: &quot; &amp; Score</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="8170820960256397">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="2614704524954719" type="System" />
+            </conditions>
+            <actions>
+                <action id="-8" name="Set angle" sid="9064916510715996" type="Monster">
+                    <param id="0" name="Angle">random(360)</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="9086394351390893">
+            <conditions>
+                <condition id="-4" name="Is outside layout" sid="2375039859901644" type="Monster" />
+            </conditions>
+            <actions>
+                <action id="-22" name="Set angle toward position" sid="5485679119508223" type="Monster">
+                    <param id="0" name="X">Player.X</param>
+                    <param id="1" name="Y">Player.Y</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="414254005089617">
+            <conditions>
+                <condition id="-6" name="Every X seconds" sid="1336181759250979" type="System">
+                    <param id="0" name="Interval (seconds)">3</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-3" name="Create object" sid="674413250063153" type="System">
+                    <param id="0" name="Object to create">Monster</param>
+                    <param id="1" name="Layer">1</param>
+                    <param id="2" name="X">-100</param>
+                    <param id="3" name="Y">random(600)</param>
                 </action>
             </actions>
         </event-block>
@@ -73,25 +110,14 @@
                 </action>
             </actions>
         </event-block>
-        <event-block sid="8170820960256397">
+        <event-block sid="3251982112187489">
             <conditions>
-                <condition id="-2" name="On start of layout" sid="2614704524954719" type="System" />
+                <condition id="0" name="On collision with another object" sid="6208886495201529" type="Monster">
+                    <param id="0" name="Object">Player</param>
+                </condition>
             </conditions>
             <actions>
-                <action id="-8" name="Set angle" sid="9064916510715996" type="Monster">
-                    <param id="0" name="Angle">random(360)</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="9086394351390893">
-            <conditions>
-                <condition id="-4" name="Is outside layout" sid="2375039859901644" type="Monster" />
-            </conditions>
-            <actions>
-                <action id="-22" name="Set angle toward position" sid="5485679119508223" type="Monster">
-                    <param id="0" name="X">Player.X</param>
-                    <param id="1" name="Y">Player.Y</param>
-                </action>
+                <action id="-9" name="Destroy" sid="6358902615213104" type="Player" />
             </actions>
         </event-block>
     </events>
