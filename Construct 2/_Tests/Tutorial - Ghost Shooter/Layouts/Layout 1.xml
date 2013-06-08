@@ -2,10 +2,10 @@
 <c2layout>
     <name>Layout 1</name>
     <sid>6975072014266779</sid>
-    <event-sheet>Event sheet 1</event-sheet>
+    <event-sheet>Gameplay</event-sheet>
     <size>
-        <width>800</width>
-        <height>600</height>
+        <width>1280</width>
+        <height>1024</height>
     </size>
     <margins>
         <horizontal>500</horizontal>
