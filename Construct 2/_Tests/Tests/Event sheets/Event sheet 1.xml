@@ -2,5 +2,36 @@
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
-    <events />
+    <events>
+        <event-block sid="7938774258462822">
+            <conditions>
+                <condition id="4" name="Is touching object" sid="4428569876124662" type="Touch">
+                    <param id="0" name="Object">ArrowLeft</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="8098864924357706" type="Text">
+                    <param id="0" name="Text">&quot;Left&quot;</param>
+                </action>
+                <action behavior="8Direction" id="7" name="Simulate control" sid="7534690898236197" type="Basket">
+                    <param id="0" name="Control">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="3583415745062455">
+            <conditions>
+                <condition id="4" name="Is touching object" sid="2094400913607044" type="Touch">
+                    <param id="0" name="Object">ArrowRight</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="8761055669442915" type="Text">
+                    <param id="0" name="Text">&quot;Right&quot;</param>
+                </action>
+                <action behavior="8Direction" id="7" name="Simulate control" sid="7633517281844629" type="Basket">
+                    <param id="0" name="Control">1</param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
 </c2eventsheet>
