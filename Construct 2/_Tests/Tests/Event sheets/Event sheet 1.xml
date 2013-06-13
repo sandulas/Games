@@ -3,6 +3,27 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
     <events>
+        <event-block sid="2934572068296183">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="4326678789646198" type="System" />
+            </conditions>
+            <actions>
+                <action behavior="Pin" id="0" name="Pin to object" sid="9825897753163491" type="CollisionRectangle">
+                    <param id="0" name="Pin to">Basket</param>
+                    <param id="1" name="Mode">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="7795241370773659">
+            <conditions>
+                <condition id="-1" name="Every tick" sid="3096913442073475" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="7940229237680669" type="Text">
+                    <param id="0" name="Text">&quot;fps: &quot; &amp; fps</param>
+                </action>
+            </actions>
+        </event-block>
         <event-block sid="7938774258462822">
             <conditions>
                 <condition id="4" name="Is touching object" sid="4428569876124662" type="Touch">
@@ -27,13 +48,19 @@
                 </action>
             </actions>
         </event-block>
-        <event-block sid="7795241370773659">
+        <event-block sid="4018687319177155">
             <conditions>
-                <condition id="-1" name="Every tick" sid="3096913442073475" type="System" />
+                <condition id="0" name="On collision with another object" sid="5666167263829487" type="flowerjomandawhitetransparentbackground">
+                    <param id="0" name="Object">CollisionRectangle</param>
+                </condition>
             </conditions>
             <actions>
-                <action id="0" name="Set text" sid="7940229237680669" type="Text">
-                    <param id="0" name="Text">&quot;fps: &quot; &amp; fps</param>
+                <action behavior="Pin" id="0" name="Pin to object" sid="8197282114264665" type="flowerjomandawhitetransparentbackground">
+                    <param id="0" name="Pin to">Basket</param>
+                    <param id="1" name="Mode">1</param>
+                </action>
+                <action behavior="Rotate" id="0" name="Set speed" sid="6945564794891888" type="flowerjomandawhitetransparentbackground">
+                    <param id="0" name="Speed">0</param>
                 </action>
             </actions>
         </event-block>

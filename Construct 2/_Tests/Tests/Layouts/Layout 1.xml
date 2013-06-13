@@ -287,8 +287,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>399</x>
-                        <y>549</y>
+                        <x>435</x>
+                        <y>543</y>
                         <z>0</z>
                         <width>147.028457642</width>
                         <height>147.767288208</height>
@@ -383,6 +383,7 @@
                                 <acceleration>0</acceleration>
                             </properties>
                         </behavior-instance>
+                        <behavior-instance type="Pin" />
                     </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
@@ -423,6 +424,7 @@
                                 <acceleration>0</acceleration>
                             </properties>
                         </behavior-instance>
+                        <behavior-instance type="Pin" />
                     </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
@@ -531,6 +533,31 @@
                         <hotspotY>0.5</hotspotY>
                         <angle>1.570796371</angle>
                         <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="CollisionRectangle" uid="15">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>0</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>532</x>
+                        <y>703</y>
+                        <z>0</z>
+                        <width>52.176094055</width>
+                        <height>17.594264984</height>
+                        <depth>0</depth>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.517241359</hotspotY>
+                        <angle>0</angle>
+                        <opacity>0.5</opacity>
                     </world>
                 </instance>
             </instances>
