@@ -10,9 +10,6 @@
                 </condition>
             </conditions>
             <actions>
-                <action id="0" name="Set text" sid="8098864924357706" type="Text">
-                    <param id="0" name="Text">&quot;Left&quot;</param>
-                </action>
                 <action behavior="8Direction" id="7" name="Simulate control" sid="7534690898236197" type="Basket">
                     <param id="0" name="Control">0</param>
                 </action>
@@ -25,11 +22,18 @@
                 </condition>
             </conditions>
             <actions>
-                <action id="0" name="Set text" sid="8761055669442915" type="Text">
-                    <param id="0" name="Text">&quot;Right&quot;</param>
-                </action>
                 <action behavior="8Direction" id="7" name="Simulate control" sid="7633517281844629" type="Basket">
                     <param id="0" name="Control">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="7795241370773659">
+            <conditions>
+                <condition id="-1" name="Every tick" sid="3096913442073475" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="7940229237680669" type="Text">
+                    <param id="0" name="Text">&quot;fps: &quot; &amp; fps</param>
                 </action>
             </actions>
         </event-block>

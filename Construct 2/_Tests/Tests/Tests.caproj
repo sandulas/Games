@@ -10,15 +10,21 @@
     <unique-id>wne9x8ols22p</unique-id>
     <saved-with-version>13200</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Keyboard" version="1">Keyboard</plugin>
         <plugin author="Scirra" id="Mouse" version="1">Mouse</plugin>
+        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
+        <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
     </used-plugins>
     <used-behaviors>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
+        <behavior author="Scirra" id="DragnDrop" version="1">Drag &amp; Drop</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
+        <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
         <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
+        <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -50,6 +56,9 @@
                 </behavior-type>
                 <behavior-type name="BoundToLayout" sid="730100886440061">
                     <behavior id="bound" />
+                </behavior-type>
+                <behavior-type name="DragDrop" sid="1920985988005595">
+                    <behavior id="DragnDrop" />
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
@@ -108,6 +117,102 @@
         </object-type>
         <object-type name="Text" sid="376419690335485">
             <plugin id="Text" />
+        </object-type>
+        <object-type name="TiledBackground" sid="8506506183048249">
+            <plugin id="TiledBg" />
+            <texture />
+        </object-type>
+        <object-type name="Flower" sid="1809125226076769">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="9034328949957173">
+                    <behavior id="Bullet" />
+                </behavior-type>
+                <behavior-type name="Sine" sid="600069706165954">
+                    <behavior id="Sin" />
+                </behavior-type>
+                <behavior-type name="Sine2" sid="236108718795828">
+                    <behavior id="Sin" />
+                </behavior-type>
+                <behavior-type name="Wrap" sid="7631437180144078">
+                    <behavior id="wrap" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="6060252683936685" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.148241" y="0.8525" />
+                            <point x="0.00502513" y="0.5" />
+                            <point x="0.143216" y="0.1425" />
+                            <point x="0.5" y="0.085" />
+                            <point x="0.763819" y="0.235" />
+                            <point x="0.929648" y="0.5" />
+                            <point x="0.829146" y="0.83" />
+                            <point x="0.5" y="0.9725" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="flowerjomandawhitetransparentbackground" sid="5368995157426031">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="8591873764257554">
+                    <behavior id="Bullet" />
+                </behavior-type>
+                <behavior-type name="Wrap" sid="2891196976862669">
+                    <behavior id="wrap" />
+                </behavior-type>
+                <behavior-type name="Rotate" sid="5086406392101467">
+                    <behavior id="Rotate" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3591675707943885" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.145" y="0.147959" />
+                            <point x="0.5" y="0.00255102" />
+                            <point x="0.84" y="0.163265" />
+                            <point x="0.985" y="0.5" />
+                            <point x="0.845" y="0.841837" />
+                            <point x="0.5" y="0.997449" />
+                            <point x="0.1475" y="0.84949" />
+                            <point x="0.0175" y="0.5" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="flowerlotusbeautifultransparentbackground" sid="9572941178640115">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="7792389006309257">
+                    <behavior id="Bullet" />
+                </behavior-type>
+                <behavior-type name="Sine" sid="7997491494099789">
+                    <behavior id="Sin" />
+                </behavior-type>
+                <behavior-type name="Wrap" sid="9721211450533434">
+                    <behavior id="wrap" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3517081716099932" speed="5">
+                    <frame duration="1" hotspotX="0.74813" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.149626" y="0.866667" />
+                            <point x="0.15212" y="0.135556" />
+                            <point x="0.498753" y="0.0911111" />
+                            <point x="0.758105" y="0.215556" />
+                            <point x="0.76808" y="0.5" />
+                            <point x="0.837905" y="0.855556" />
+                            <point x="0.498753" y="0.895556" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
         </object-type>
     </object-folder>
     <families />
