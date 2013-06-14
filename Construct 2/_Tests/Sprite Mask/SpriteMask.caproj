@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2project>
+    <name>SpriteMask</name>
+    <description></description>
+    <version>1.0.0.0</version>
+    <author></author>
+    <author-email></author-email>
+    <author-website>http://</author-website>
+    <app-id>com.mycompany.myapp</app-id>
+    <unique-id>3i3edilttdxpc</unique-id>
+    <saved-with-version>13200</saved-with-version>
+    <used-plugins>
+        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
+    </used-plugins>
+    <used-behaviors />
+    <used-effects />
+    <configurations>
+        <configuration exporter-descname="HTML5" exporter-id="html5" name="HTML5" />
+    </configurations>
+    <window-size>
+        <width>1024</width>
+        <height>768</height>
+    </window-size>
+    <pixel-rounding>0</pixel-rounding>
+    <use-loader-layout>0</use-loader-layout>
+    <configuration-settings>
+        <prop name="Clear background">Yes</prop>
+        <prop name="Enable WebGL">On</prop>
+        <prop name="Fullscreen in browser">Letterbox scale</prop>
+        <prop name="Hide address bar">No</prop>
+        <prop name="Loader style">Progress bar &amp; logo</prop>
+        <prop name="Pause on unfocus">No</prop>
+        <prop name="Preview browser">(default)</prop>
+        <prop name="Sampling">Linear</prop>
+        <prop name="Use iOS retina display">All devices</prop>
+    </configuration-settings>
+    <object-folder expanded="1">
+        <object-type name="BasketBack" sid="1036235661345126">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="1990198349385088" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.501538">
+                        <collision-poly>
+                            <point x="0.04" y="0.0738462" />
+                            <point x="0.5" y="0.0246154" />
+                            <point x="0.961667" y="0.0707692" />
+                            <point x="0.631667" y="0.32" />
+                            <point x="0.365" y="0.326154" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="BasketFront" sid="3521294279531219">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="1812431880882372" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.501538">
+                        <collision-poly>
+                            <point x="0.156667" y="0.289231" />
+                            <point x="0.5" y="0.326154" />
+                            <point x="0.848333" y="0.28" />
+                            <point x="0.916667" y="0.498462" />
+                            <point x="0.881667" y="0.781538" />
+                            <point x="0.5" y="0.981538" />
+                            <point x="0.13" y="0.76" />
+                            <point x="0.095" y="0.498462" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="BasketMask" sid="1348673445993175">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="9486150147819782" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.501326">
+                        <collision-poly>
+                            <point x="0.00390625" y="0.0106101" />
+                            <point x="0.5" y="0.774536" />
+                            <point x="1" y="0" />
+                            <point x="1" y="1" />
+                            <point x="0" y="1" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="Flower" sid="3226060421508222">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="2929277113922714" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.143216" y="0.1425" />
+                            <point x="0.5" y="0.085" />
+                            <point x="0.763819" y="0.235" />
+                            <point x="0.932161" y="0.5" />
+                            <point x="0.829146" y="0.83" />
+                            <point x="0.5" y="0.9725" />
+                            <point x="0.148241" y="0.8525" />
+                            <point x="0.00502513" y="0.5" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+    </object-folder>
+    <families />
+    <layout-folder expanded="1">
+        <layout>Layout 1.xml</layout>
+    </layout-folder>
+    <event-folder expanded="1">
+        <event-sheet>Event sheet 1.xml</event-sheet>
+    </event-folder>
+    <global-instances />
+    <sounds-folder expanded="1" />
+    <music-folder expanded="1" />
+    <files-folder expanded="1" />
+</c2project>
