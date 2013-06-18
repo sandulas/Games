@@ -64,5 +64,40 @@
                 </action>
             </actions>
         </event-block>
+        <event-block sid="5423040921386667">
+            <conditions>
+                <condition id="0" name="On collision with another object" sid="9442918928526423" type="Flower">
+                    <param id="0" name="Object">CollisionRectangle</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Pin" id="0" name="Pin to object" sid="2414751426404311" type="Flower">
+                    <param id="0" name="Pin to">Basket</param>
+                    <param id="1" name="Mode">1</param>
+                </action>
+                <action behavior="Sine" id="0" name="Set active" sid="9968431628572417" type="Flower">
+                    <param id="0" name="State">0</param>
+                </action>
+                <action behavior="Sine2" id="0" name="Set active" sid="6899103272155046" type="Flower">
+                    <param id="0" name="State">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="5322375311897453">
+            <conditions>
+                <condition id="0" name="On collision with another object" sid="7325284332350959" type="flowerlotusbeautifultransparentbackground">
+                    <param id="0" name="Object">CollisionRectangle</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="Pin" id="0" name="Pin to object" sid="8030417689149186" type="flowerlotusbeautifultransparentbackground">
+                    <param id="0" name="Pin to">Basket</param>
+                    <param id="1" name="Mode">1</param>
+                </action>
+                <action behavior="Sine" id="0" name="Set active" sid="9663378074825881" type="flowerlotusbeautifultransparentbackground">
+                    <param id="0" name="State">0</param>
+                </action>
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>
