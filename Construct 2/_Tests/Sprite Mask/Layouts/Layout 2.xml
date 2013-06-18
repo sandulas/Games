@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2layout>
-    <name>Layout 1</name>
-    <sid>9588176698489927</sid>
-    <event-sheet>Event sheet 1</event-sheet>
+    <name>Layout 2</name>
+    <sid>4250903346887171</sid>
+    <event-sheet></event-sheet>
     <size>
         <width>1024</width>
         <height>768</height>
@@ -13,7 +13,7 @@
     </margins>
     <unbounded-scrolling>0</unbounded-scrolling>
     <layers>
-        <layer name="background" sid="3914479832885256">
+        <layer name="Background" sid="2139216419190283">
             <initially-visible>1</initially-visible>
             <background-color>255,255,255</background-color>
             <transparent>0</transparent>
@@ -27,7 +27,7 @@
             <blend-mode>0</blend-mode>
             <effect-fallback>0</effect-fallback>
             <instances>
-                <instance type="BasketBack" uid="0">
+                <instance type="Basket" uid="6">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
@@ -37,8 +37,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>500</x>
-                        <y>600</y>
+                        <x>514</x>
+                        <y>531</y>
                         <z>0</z>
                         <width>600</width>
                         <height>325</height>
@@ -52,7 +52,7 @@
             </instances>
             <effects />
         </layer>
-        <layer name="action" sid="9039425605819845">
+        <layer name="action" sid="6780327797228711">
             <initially-visible>1</initially-visible>
             <background-color>255,255,255</background-color>
             <transparent>1</transparent>
@@ -66,7 +66,7 @@
             <blend-mode>0</blend-mode>
             <effect-fallback>0</effect-fallback>
             <instances>
-                <instance type="Flower" uid="3">
+                <instance type="Flower" uid="7">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
@@ -76,11 +76,11 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>619</x>
-                        <y>499</y>
+                        <x>388</x>
+                        <y>415</y>
                         <z>0</z>
-                        <width>398</width>
-                        <height>400</height>
+                        <width>333.644439697</width>
+                        <height>335.321044922</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
@@ -88,7 +88,7 @@
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="Flower" uid="4">
+                <instance type="Flower" uid="8">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
@@ -98,11 +98,11 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>404</x>
-                        <y>468</y>
+                        <x>656</x>
+                        <y>404</y>
                         <z>0</z>
-                        <width>398</width>
-                        <height>400</height>
+                        <width>312.985198975</width>
+                        <height>314.557983398</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
@@ -110,7 +110,7 @@
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="BasketMask" uid="2">
+                <instance type="BasketMask2" uid="5">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
@@ -120,53 +120,14 @@
                     <blend-mode>8</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>499</x>
-                        <y>653</y>
+                        <x>513</x>
+                        <y>579</y>
                         <z>0</z>
                         <width>1024</width>
                         <height>377</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.501326263</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-            </instances>
-            <effects />
-        </layer>
-        <layer name="foreground" sid="9341491418017863">
-            <initially-visible>1</initially-visible>
-            <background-color>255,255,255</background-color>
-            <transparent>1</transparent>
-            <parallax>
-                <x>1</x>
-                <y>1</y>
-            </parallax>
-            <zoom-rate>1</zoom-rate>
-            <opacity>1</opacity>
-            <force-own-texture>0</force-own-texture>
-            <blend-mode>0</blend-mode>
-            <effect-fallback>0</effect-fallback>
-            <instances>
-                <instance type="BasketFront" uid="1">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>500</x>
-                        <y>600</y>
-                        <z>0</z>
-                        <width>600</width>
-                        <height>325</height>
-                        <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.501538455</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
