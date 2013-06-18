@@ -105,10 +105,44 @@
                 </animation>
             </animation-folder>
         </object-type>
+        <object-type name="BasketMask2" sid="5644829753117693">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3137787702869862" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.501326">
+                        <collision-poly>
+                            <point x="0.00683594" y="0.0185676" />
+                            <point x="0.5" y="0.220159" />
+                            <point x="1" y="0" />
+                            <point x="1" y="1" />
+                            <point x="0" y="1" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="Basket" sid="6518681803729483">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="7583852669871289" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.501538">
+                        <collision-poly>
+                            <point x="0.04" y="0.0738462" />
+                            <point x="0.5" y="0.0246154" />
+                            <point x="0.961667" y="0.0707692" />
+                            <point x="0.88" y="0.778462" />
+                            <point x="0.5" y="0.978462" />
+                            <point x="0.13" y="0.76" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
     </object-folder>
     <families />
     <layout-folder expanded="1">
         <layout>Layout 1.xml</layout>
+        <layout>Layout 2.xml</layout>
     </layout-folder>
     <event-folder expanded="1">
         <event-sheet>Event sheet 1.xml</event-sheet>
