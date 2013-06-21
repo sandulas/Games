@@ -12,6 +12,9 @@
                     <param id="0" name="Pin to">Basket</param>
                     <param id="1" name="Mode">1</param>
                 </action>
+                <action behavior="Physics" id="12" name="Set world gravity" sid="2423575811525766" type="Basket">
+                    <param id="0" name="Gravity">30</param>
+                </action>
             </actions>
         </event-block>
         <event-block sid="7795241370773659">
@@ -22,6 +25,14 @@
                 <action id="0" name="Set text" sid="7940229237680669" type="Text">
                     <param id="0" name="Text">&quot;fps: &quot; &amp; fps</param>
                 </action>
+                <action id="0" name="Set text" sid="4399857210774637" type="Text2">
+                    <param id="0" name="Text">&quot;debug: &quot; &amp; round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
+                </action>
+                <action behavior="Physics" id="2" name="Apply force at angle" sid="8053339178305997" type="Basket">
+                    <param id="0" name="Force">100</param>
+                    <param id="1" name="Angle">90+Touch.Beta</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
             </actions>
         </event-block>
         <event-block sid="7938774258462822">
@@ -31,8 +42,13 @@
                 </condition>
             </conditions>
             <actions>
-                <action behavior="8Direction" id="7" name="Simulate control" sid="7534690898236197" type="Basket">
+                <action behavior="8Direction" disabled="1" id="7" name="Simulate control" sid="7534690898236197" type="Basket">
                     <param id="0" name="Control">0</param>
+                </action>
+                <action behavior="Physics" id="2" name="Apply force at angle" sid="710416257883039" type="Basket">
+                    <param id="0" name="Force">10000</param>
+                    <param id="1" name="Angle">105</param>
+                    <param id="2" name="Image point">0</param>
                 </action>
             </actions>
         </event-block>
@@ -43,8 +59,13 @@
                 </condition>
             </conditions>
             <actions>
-                <action behavior="8Direction" id="7" name="Simulate control" sid="7633517281844629" type="Basket">
+                <action behavior="8Direction" disabled="1" id="7" name="Simulate control" sid="7633517281844629" type="Basket">
                     <param id="0" name="Control">1</param>
+                </action>
+                <action behavior="Physics" id="2" name="Apply force at angle" sid="1868840850396251" type="Basket">
+                    <param id="0" name="Force">10000</param>
+                    <param id="1" name="Angle">75</param>
+                    <param id="2" name="Image point">0</param>
                 </action>
             </actions>
         </event-block>
