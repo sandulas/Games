@@ -98,7 +98,7 @@
                                 <collision-mask>Bounding box</collision-mask>
                                 <prevent-rotation>Yes</prevent-rotation>
                                 <density>1</density>
-                                <friction>0.55</friction>
+                                <friction>0.3</friction>
                                 <elasticity>0</elasticity>
                                 <linear-damping>0</linear-damping>
                                 <angular-damping>0</angular-damping>
@@ -619,7 +619,7 @@
                                 <collision-mask>Use collision polygon</collision-mask>
                                 <prevent-rotation>No</prevent-rotation>
                                 <density>1</density>
-                                <friction>0.1</friction>
+                                <friction>0.3</friction>
                                 <elasticity>0</elasticity>
                                 <linear-damping>0</linear-damping>
                                 <angular-damping>0</angular-damping>
@@ -638,6 +638,33 @@
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.529411793</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="Text3" uid="18">
+                    <properties>
+                        <text>debug 2:</text>
+                        <initial-visibility>Visible</initial-visibility>
+                        <font>Arial,-16</font>
+                        <color>0,0,0</color>
+                        <horizontal-alignment>Left</horizontal-alignment>
+                        <vertical-alignment>Top</vertical-alignment>
+                        <hotspot>Top-left</hotspot>
+                        <wrapping>Word</wrapping>
+                        <line-height>0</line-height>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>10</x>
+                        <y>62</y>
+                        <z>0</z>
+                        <width>200</width>
+                        <height>30</height>
+                        <depth>0</depth>
+                        <hotspotX>0</hotspotX>
+                        <hotspotY>0</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
