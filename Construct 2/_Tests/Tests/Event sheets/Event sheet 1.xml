@@ -3,6 +3,7 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
     <events>
+        <variable constant="0" name="force" sid="1551729058708256" static="0" type="number">0</variable>
         <event-block sid="2934572068296183">
             <conditions>
                 <condition id="-2" name="On start of layout" sid="4326678789646198" type="System" />
@@ -12,8 +13,8 @@
                     <param id="0" name="Pin to">Basket</param>
                     <param id="1" name="Mode">1</param>
                 </action>
-                <action behavior="Physics" id="12" name="Set world gravity" sid="2423575811525766" type="Basket">
-                    <param id="0" name="Gravity">30</param>
+                <action behavior="Physics" disabled="1" id="12" name="Set world gravity" sid="2423575811525766" type="Basket">
+                    <param id="0" name="Gravity">0</param>
                 </action>
             </actions>
         </event-block>
@@ -28,27 +29,77 @@
                 <action id="0" name="Set text" sid="4399857210774637" type="Text2">
                     <param id="0" name="Text">&quot;debug: &quot; &amp; round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
                 </action>
+                <action id="0" name="Set text" sid="710920471341918" type="Text3">
+                    <param id="0" name="Text">&quot;force: &quot; &amp; force</param>
+                </action>
                 <action behavior="Physics" id="2" name="Apply force at angle" sid="8053339178305997" type="Basket">
-                    <param id="0" name="Force">100</param>
-                    <param id="1" name="Angle">90+Touch.Beta</param>
+                    <param id="0" name="Force">force</param>
+                    <param id="1" name="Angle">0</param>
                     <param id="2" name="Image point">0</param>
                 </action>
             </actions>
+            <sub-events>
+                <event-block sid="1550161644019995">
+                    <conditions>
+                        <condition id="-20" name="Is on mobile device" sid="3715156199264907" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="9805503710524837" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Value">10*Touch.Beta</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="8464317214613155">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="4635780796788289" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Value">-300</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="8452752378124071" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Value">-300</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="8980973303981636">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="5664028908863277" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">300</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="7038974276243381" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Value">300</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
         </event-block>
         <event-block sid="7938774258462822">
             <conditions>
                 <condition id="4" name="Is touching object" sid="4428569876124662" type="Touch">
                     <param id="0" name="Object">ArrowLeft</param>
                 </condition>
+                <condition id="-14" name="Compare variable" sid="2330984769710428" type="System">
+                    <param id="0" name="Variable">force</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Value">-290</param>
+                </condition>
             </conditions>
             <actions>
-                <action behavior="8Direction" disabled="1" id="7" name="Simulate control" sid="7534690898236197" type="Basket">
+                <action behavior="8Direction" id="7" name="Simulate control" sid="7534690898236197" type="Basket">
                     <param id="0" name="Control">0</param>
                 </action>
-                <action behavior="Physics" id="2" name="Apply force at angle" sid="710416257883039" type="Basket">
-                    <param id="0" name="Force">10000</param>
-                    <param id="1" name="Angle">105</param>
-                    <param id="2" name="Image point">0</param>
+                <action disabled="1" id="-9" name="Set value" sid="865341564329644" type="System">
+                    <param id="0" name="Variable">force</param>
+                    <param id="1" name="Value">force-10</param>
                 </action>
             </actions>
         </event-block>
@@ -57,68 +108,80 @@
                 <condition id="4" name="Is touching object" sid="2094400913607044" type="Touch">
                     <param id="0" name="Object">ArrowRight</param>
                 </condition>
+                <condition id="-14" name="Compare variable" sid="840054891376236" type="System">
+                    <param id="0" name="Variable">force</param>
+                    <param id="1" name="Comparison">2</param>
+                    <param id="2" name="Value">290</param>
+                </condition>
             </conditions>
             <actions>
-                <action behavior="8Direction" disabled="1" id="7" name="Simulate control" sid="7633517281844629" type="Basket">
+                <action behavior="8Direction" id="7" name="Simulate control" sid="7633517281844629" type="Basket">
                     <param id="0" name="Control">1</param>
                 </action>
-                <action behavior="Physics" id="2" name="Apply force at angle" sid="1868840850396251" type="Basket">
-                    <param id="0" name="Force">10000</param>
-                    <param id="1" name="Angle">75</param>
-                    <param id="2" name="Image point">0</param>
+                <action disabled="1" id="-9" name="Set value" sid="9354310765182182" type="System">
+                    <param id="0" name="Variable">force</param>
+                    <param id="1" name="Value">force+10</param>
                 </action>
             </actions>
         </event-block>
-        <event-block sid="4018687319177155">
-            <conditions>
-                <condition id="0" name="On collision with another object" sid="5666167263829487" type="flowerjomandawhitetransparentbackground">
-                    <param id="0" name="Object">CollisionRectangle</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action behavior="Pin" id="0" name="Pin to object" sid="8197282114264665" type="flowerjomandawhitetransparentbackground">
-                    <param id="0" name="Pin to">Basket</param>
-                    <param id="1" name="Mode">1</param>
-                </action>
-                <action behavior="Rotate" id="0" name="Set speed" sid="6945564794891888" type="flowerjomandawhitetransparentbackground">
-                    <param id="0" name="Speed">0</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="5423040921386667">
-            <conditions>
-                <condition id="0" name="On collision with another object" sid="9442918928526423" type="Flower">
-                    <param id="0" name="Object">CollisionRectangle</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action behavior="Pin" id="0" name="Pin to object" sid="2414751426404311" type="Flower">
-                    <param id="0" name="Pin to">Basket</param>
-                    <param id="1" name="Mode">1</param>
-                </action>
-                <action behavior="Sine" id="0" name="Set active" sid="9968431628572417" type="Flower">
-                    <param id="0" name="State">0</param>
-                </action>
-                <action behavior="Sine2" id="0" name="Set active" sid="6899103272155046" type="Flower">
-                    <param id="0" name="State">0</param>
-                </action>
-            </actions>
-        </event-block>
-        <event-block sid="5322375311897453">
-            <conditions>
-                <condition id="0" name="On collision with another object" sid="7325284332350959" type="flowerlotusbeautifultransparentbackground">
-                    <param id="0" name="Object">CollisionRectangle</param>
-                </condition>
-            </conditions>
-            <actions>
-                <action behavior="Pin" id="0" name="Pin to object" sid="8030417689149186" type="flowerlotusbeautifultransparentbackground">
-                    <param id="0" name="Pin to">Basket</param>
-                    <param id="1" name="Mode">1</param>
-                </action>
-                <action behavior="Sine" id="0" name="Set active" sid="9663378074825881" type="flowerlotusbeautifultransparentbackground">
-                    <param id="0" name="State">0</param>
-                </action>
-            </actions>
+        <event-group collapsed="1" description="" sid="3238127917333569" title="Catch Flowers">
+            <sub-events>
+                <event-block sid="4018687319177155">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="5666167263829487" type="flowerjomandawhitetransparentbackground">
+                            <param id="0" name="Object">CollisionRectangle</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Pin" id="0" name="Pin to object" sid="8197282114264665" type="flowerjomandawhitetransparentbackground">
+                            <param id="0" name="Pin to">Basket</param>
+                            <param id="1" name="Mode">1</param>
+                        </action>
+                        <action behavior="Rotate" id="0" name="Set speed" sid="6945564794891888" type="flowerjomandawhitetransparentbackground">
+                            <param id="0" name="Speed">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="5423040921386667">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="9442918928526423" type="Flower">
+                            <param id="0" name="Object">CollisionRectangle</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Pin" id="0" name="Pin to object" sid="2414751426404311" type="Flower">
+                            <param id="0" name="Pin to">Basket</param>
+                            <param id="1" name="Mode">1</param>
+                        </action>
+                        <action behavior="Sine" id="0" name="Set active" sid="9968431628572417" type="Flower">
+                            <param id="0" name="State">0</param>
+                        </action>
+                        <action behavior="Sine2" id="0" name="Set active" sid="6899103272155046" type="Flower">
+                            <param id="0" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="5322375311897453">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="7325284332350959" type="flowerlotusbeautifultransparentbackground">
+                            <param id="0" name="Object">CollisionRectangle</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="Pin" id="0" name="Pin to object" sid="8030417689149186" type="flowerlotusbeautifultransparentbackground">
+                            <param id="0" name="Pin to">Basket</param>
+                            <param id="1" name="Mode">1</param>
+                        </action>
+                        <action behavior="Sine" id="0" name="Set active" sid="9663378074825881" type="flowerlotusbeautifultransparentbackground">
+                            <param id="0" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-block sid="4912522518807894">
+            <conditions />
+            <actions />
         </event-block>
     </events>
 </c2eventsheet>
