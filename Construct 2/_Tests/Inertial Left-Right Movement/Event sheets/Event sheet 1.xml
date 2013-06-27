@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="0" name="force" sid="1551729058708256" static="0" type="number">0</variable>
+        <event-block sid="2934572068296183">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="4326678789646198" type="System" />
+            </conditions>
+            <actions>
+                <action behavior="Physics" disabled="1" id="12" name="Set world gravity" sid="2423575811525766" type="Basket">
+                    <param id="0" name="Gravity">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="7795241370773659">
+            <conditions>
+                <condition id="-1" name="Every tick" sid="3096913442073475" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="7940229237680669" type="text_fps">
+                    <param id="0" name="Text">fps</param>
+                </action>
+                <action id="0" name="Set text" sid="4399857210774637" type="text_gyro">
+                    <param id="0" name="Text">round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
+                </action>
+                <action id="0" name="Set text" sid="710920471341918" type="text_debug">
+                    <param id="0" name="Text">WindowWidth &amp; &quot;, &quot; &amp; WindowHeight &amp; &quot; - &quot; &amp; Touch.AbsoluteX &amp; &quot;, &quot; &amp; Touch.AbsoluteY</param>
+                </action>
+                <action behavior="Physics" id="2" name="Apply force at angle" sid="8053339178305997" type="Basket">
+                    <param id="0" name="Force">force</param>
+                    <param id="1" name="Angle">0</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="1550161644019995">
+                    <conditions>
+                        <condition id="-20" name="Is on mobile device" sid="3715156199264907" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="9805503710524837" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Value">10*Touch.Beta</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="8464317214613155">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="4635780796788289" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Value">-300</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="8452752378124071" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Value">-300</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="8980973303981636">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="5664028908863277" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Value">300</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="7038974276243381" type="System">
+                            <param id="0" name="Variable">force</param>
+                            <param id="1" name="Value">300</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="7938774258462822">
+            <conditions>
+                <condition id="-8" name="Compare two values" sid="4712538688068523" type="System">
+                    <param id="0" name="First value">Touch.TouchCount</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Second value">1</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="9457345907455121" type="System">
+                    <param id="0" name="First value">Touch.AbsoluteX</param>
+                    <param id="1" name="Comparison">2</param>
+                    <param id="2" name="Second value">round(WindowWidth / 2)</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="8Direction" id="7" name="Simulate control" sid="7534690898236197" type="Basket2">
+                    <param id="0" name="Control">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="3195087739665966">
+            <conditions>
+                <condition id="-8" name="Compare two values" sid="3835562014434259" type="System">
+                    <param id="0" name="First value">Touch.TouchCount</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Second value">1</param>
+                </condition>
+                <condition id="-8" name="Compare two values" sid="5644173667232291" type="System">
+                    <param id="0" name="First value">Touch.AbsoluteX</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Second value">round(WindowWidth / 2)</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="8Direction" id="7" name="Simulate control" sid="4261766015371097" type="Basket2">
+                    <param id="0" name="Control">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="494185766776796">
+            <conditions>
+                <condition id="-8" name="Compare two values" sid="6733822887235658" type="System">
+                    <param id="0" name="First value">Touch.Beta</param>
+                    <param id="1" name="Comparison">2</param>
+                    <param id="2" name="Second value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="8Direction" id="5" name="Set acceleration" sid="3222483287777694" type="Basket">
+                    <param id="0" name="Acceleration">300+abs(Touch.Beta)*10</param>
+                </action>
+                <action behavior="8Direction" id="7" name="Simulate control" sid="1295486910701124" type="Basket2">
+                    <param id="0" name="Control">0</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="8346184094833211">
+            <conditions>
+                <condition id="-8" name="Compare two values" sid="5094530559572486" type="System">
+                    <param id="0" name="First value">Touch.Beta</param>
+                    <param id="1" name="Comparison">4</param>
+                    <param id="2" name="Second value">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action behavior="8Direction" id="5" name="Set acceleration" sid="3007900580991508" type="Basket">
+                    <param id="0" name="Acceleration">300+abs(Touch.Beta)*10</param>
+                </action>
+                <action behavior="8Direction" id="7" name="Simulate control" sid="2199521073473703" type="Basket2">
+                    <param id="0" name="Control">1</param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>
