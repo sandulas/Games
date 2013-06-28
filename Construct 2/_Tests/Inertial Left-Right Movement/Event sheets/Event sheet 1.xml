@@ -25,8 +25,11 @@
                 <action id="0" name="Set text" sid="4399857210774637" type="text_gyro">
                     <param id="0" name="Text">round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
                 </action>
-                <action id="0" name="Set text" sid="710920471341918" type="text_debug">
+                <action disabled="1" id="0" name="Set text" sid="710920471341918" type="text_window">
                     <param id="0" name="Text">WindowWidth &amp; &quot;, &quot; &amp; WindowHeight &amp; &quot; - &quot; &amp; Touch.AbsoluteX &amp; &quot;, &quot; &amp; Touch.AbsoluteY</param>
+                </action>
+                <action id="0" name="Set text" sid="6053141736742775" type="text_window">
+                    <param id="0" name="Text">LayoutWidth</param>
                 </action>
                 <action behavior="Physics" id="2" name="Apply force at angle" sid="8053339178305997" type="Basket">
                     <param id="0" name="Force">force</param>
@@ -35,6 +38,52 @@
                 </action>
             </actions>
             <sub-events>
+                <event-block sid="8856050429573336">
+                    <conditions>
+                        <condition id="-14" name="Pick by unique ID" sid="296574414131619" type="Basket2">
+                            <param id="0" name="Unique ID">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="8505937193296991" type="text_debug">
+                            <param id="0" name="Text">round(Basket2.BBoxLeft) &amp; &quot; : &quot; &amp; round(Basket2.BBoxRight)</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="6067364842878635">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="9148555355598943" type="System">
+                                    <param id="0" name="First value">Basket2.BBoxLeft</param>
+                                    <param id="1" name="Comparison">2</param>
+                                    <param id="2" name="Second value">-1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="0" name="Stop" sid="1642815032730762" type="Basket2" />
+                                <action id="-3" name="Set position" sid="1714399326533615" type="Basket2">
+                                    <param id="0" name="X">0+Basket2.Width/2</param>
+                                    <param id="1" name="Y">Basket2.Y</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="6356700718701248">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="2325972954118328" type="System">
+                                    <param id="0" name="First value">Basket2.BBoxRight</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">LayoutWidth</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="0" name="Stop" sid="8357999767038582" type="Basket2" />
+                                <action id="-3" name="Set position" sid="7503549847245939" type="Basket2">
+                                    <param id="0" name="X">LayoutWidth-Basket2.Width/2</param>
+                                    <param id="1" name="Y">Basket2.Y</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
                 <event-block sid="1550161644019995">
                     <conditions>
                         <condition id="-20" name="Is on mobile device" sid="3715156199264907" type="System" />
@@ -125,7 +174,7 @@
                 </condition>
             </conditions>
             <actions>
-                <action behavior="8Direction" id="5" name="Set acceleration" sid="3222483287777694" type="Basket">
+                <action behavior="8Direction" id="5" name="Set acceleration" sid="3222483287777694" type="Basket2">
                     <param id="0" name="Acceleration">300+abs(Touch.Beta)*10</param>
                 </action>
                 <action behavior="8Direction" id="7" name="Simulate control" sid="1295486910701124" type="Basket2">
@@ -142,7 +191,7 @@
                 </condition>
             </conditions>
             <actions>
-                <action behavior="8Direction" id="5" name="Set acceleration" sid="3007900580991508" type="Basket">
+                <action behavior="8Direction" id="5" name="Set acceleration" sid="6880251919576127" type="Basket2">
                     <param id="0" name="Acceleration">300+abs(Touch.Beta)*10</param>
                 </action>
                 <action behavior="8Direction" id="7" name="Simulate control" sid="2199521073473703" type="Basket2">

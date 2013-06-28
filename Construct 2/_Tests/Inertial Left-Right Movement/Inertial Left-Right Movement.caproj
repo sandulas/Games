@@ -46,9 +46,6 @@
         <object-type name="Basket" sid="3630793129178973">
             <plugin id="Sprite" />
             <behaviors>
-                <behavior-type name="8Direction" sid="9715401997772656">
-                    <behavior id="EightDir" />
-                </behavior-type>
                 <behavior-type name="BoundToLayout" sid="730100886440061">
                     <behavior id="bound" />
                 </behavior-type>
@@ -108,9 +105,6 @@
                 <behavior-type name="8Direction" sid="6379284288353186">
                     <behavior id="EightDir" />
                 </behavior-type>
-                <behavior-type name="BoundToLayout" sid="5875504958685431">
-                    <behavior id="bound" />
-                </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="6859498103760667" speed="5">
@@ -126,6 +120,9 @@
                     </frame>
                 </animation>
             </animation-folder>
+        </object-type>
+        <object-type name="text_window" sid="9227347402207927">
+            <plugin id="Text" />
         </object-type>
     </object-folder>
     <families />
