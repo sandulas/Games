@@ -51,16 +51,6 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <behavior-instances>
-                        <behavior-instance type="8Direction">
-                            <properties>
-                                <max-speed>800</max-speed>
-                                <acceleration>1500</acceleration>
-                                <deceleration>1500</deceleration>
-                                <directions>Left &amp; right</directions>
-                                <set-angle>No</set-angle>
-                                <default-controls>Yes</default-controls>
-                            </properties>
-                        </behavior-instance>
                         <behavior-instance type="BoundToLayout">
                             <properties>
                                 <bound-by>Edge</bound-by>
@@ -124,7 +114,7 @@
                 </instance>
                 <instance type="text_gyro" uid="16">
                     <properties>
-                        <text>debug:</text>
+                        <text>gyro:</text>
                         <initial-visibility>Visible</initial-visibility>
                         <font>Arial,-16</font>
                         <color>0,0,0</color>
@@ -188,7 +178,7 @@
                 </instance>
                 <instance type="text_debug" uid="18">
                     <properties>
-                        <text>debug 2:</text>
+                        <text>debug:</text>
                         <initial-visibility>Visible</initial-visibility>
                         <font>Arial,-16</font>
                         <color>0,0,0</color>
@@ -202,7 +192,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>10</x>
-                        <y>62</y>
+                        <y>88</y>
                         <z>0</z>
                         <width>200</width>
                         <height>30</height>
@@ -223,17 +213,12 @@
                     <behavior-instances>
                         <behavior-instance type="8Direction">
                             <properties>
-                                <max-speed>800</max-speed>
+                                <max-speed>1600</max-speed>
                                 <acceleration>600</acceleration>
                                 <deceleration>600</deceleration>
                                 <directions>Left &amp; right</directions>
                                 <set-angle>No</set-angle>
                                 <default-controls>Yes</default-controls>
-                            </properties>
-                        </behavior-instance>
-                        <behavior-instance type="BoundToLayout">
-                            <properties>
-                                <bound-by>Edge</bound-by>
                             </properties>
                         </behavior-instance>
                     </behavior-instances>
@@ -246,8 +231,35 @@
                         <width>286.171234131</width>
                         <height>151.021469116</height>
                         <depth>0</depth>
-                        <hotspotX>0.500840008</hotspotX>
+                        <hotspotX>0.500840366</hotspotX>
                         <hotspotY>0.5</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="text_window" uid="2">
+                    <properties>
+                        <text>window:</text>
+                        <initial-visibility>Visible</initial-visibility>
+                        <font>Arial,-16</font>
+                        <color>0,0,0</color>
+                        <horizontal-alignment>Left</horizontal-alignment>
+                        <vertical-alignment>Top</vertical-alignment>
+                        <hotspot>Top-left</hotspot>
+                        <wrapping>Word</wrapping>
+                        <line-height>0</line-height>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>10</x>
+                        <y>62</y>
+                        <z>0</z>
+                        <width>200</width>
+                        <height>30</height>
+                        <depth>0</depth>
+                        <hotspotX>0</hotspotX>
+                        <hotspotY>0</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
