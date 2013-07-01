@@ -18,8 +18,6 @@
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
-        <behavior author="Scirra" id="Physics" version="1">Physics</behavior>
-        <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -43,31 +41,6 @@
         <prop name="Use iOS retina display">All devices</prop>
     </configuration-settings>
     <object-folder expanded="1">
-        <object-type name="Basket" sid="3630793129178973">
-            <plugin id="Sprite" />
-            <behaviors>
-                <behavior-type name="BoundToLayout" sid="730100886440061">
-                    <behavior id="bound" />
-                </behavior-type>
-                <behavior-type name="Physics" sid="8362418491791566">
-                    <behavior id="Physics" />
-                </behavior-type>
-            </behaviors>
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="5898039749889454" speed="5">
-                    <frame duration="1" hotspotX="0.50084" hotspotY="0.5">
-                        <collision-poly>
-                            <point x="0.0302521" y="0.0573248" />
-                            <point x="0.49916" y="0.00636943" />
-                            <point x="0.971429" y="0.0541401" />
-                            <point x="0.885714" y="0.78344" />
-                            <point x="0.49916" y="0.996815" />
-                            <point x="0.12605" y="0.761146" />
-                        </collision-poly>
-                    </frame>
-                </animation>
-            </animation-folder>
-        </object-type>
         <object-type name="Mouse" sid="4916464094695823">
             <plugin id="Mouse" />
         </object-type>
@@ -82,19 +55,6 @@
         </object-type>
         <object-type name="text_gyro" sid="2519611929631944">
             <plugin id="Text" />
-        </object-type>
-        <object-type name="Sprite" sid="9762138003145897">
-            <plugin id="Sprite" />
-            <behaviors>
-                <behavior-type name="Physics" sid="8962623429912394">
-                    <behavior id="Physics" />
-                </behavior-type>
-            </behaviors>
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="4455461170108924" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.529412" />
-                </animation>
-            </animation-folder>
         </object-type>
         <object-type name="text_debug" sid="3936774838449364">
             <plugin id="Text" />
