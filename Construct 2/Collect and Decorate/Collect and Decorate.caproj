@@ -41,7 +41,7 @@
     <object-folder expanded="1">
         <object-type name="TiledBackground1" sid="2122073493812775">
             <plugin id="TiledBg" />
-            <texture />
+            <texture format="jpeg" quality="100" />
         </object-type>
         <object-type name="Text" sid="6465778307550508">
             <plugin id="Text" />
