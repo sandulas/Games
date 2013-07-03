@@ -25,7 +25,7 @@
                     <param id="0" name="Variable">debug_line3</param>
                     <param id="1" name="Value">&quot;window size:&quot; &amp; WindowWidth &amp; &quot;:&quot; &amp; WindowHeight</param>
                 </action>
-                <action id="0" name="Set text" sid="975897938275178" type="text_debug">
+                <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                     <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
                 </action>
             </actions>
