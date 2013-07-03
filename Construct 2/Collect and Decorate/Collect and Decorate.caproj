@@ -10,12 +10,15 @@
     <unique-id>fjwuowywb9nv</unique-id>
     <saved-with-version>13200</saved-with-version>
     <used-plugins>
+        <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
-        <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
     </used-plugins>
     <used-behaviors>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
+        <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
+        <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -39,23 +42,47 @@
         <prop name="Use iOS retina display">All devices</prop>
     </configuration-settings>
     <object-folder expanded="1">
-        <object-type name="TiledBackground1" sid="2122073493812775">
+        <object-type name="TiledBackground01" sid="2122073493812775">
             <plugin id="TiledBg" />
             <texture format="jpeg" quality="100" />
         </object-type>
-        <object-type name="Text" sid="6465778307550508">
-            <plugin id="Text" />
-        </object-type>
-        <object-type name="TextBox" sid="3977392980109545">
-            <plugin id="TextBox" />
-        </object-type>
-        <object-type name="text_debug" sid="4642375975697103">
+        <object-type name="TextDebug" sid="4642375975697103">
             <plugin id="Text" />
             <behaviors>
                 <behavior-type name="Anchor" sid="3951593436411567">
                     <behavior id="Anchor" />
                 </behavior-type>
             </behaviors>
+        </object-type>
+        <object-type name="Flower01" sid="5986002287909603">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Sine" sid="2149645025866215">
+                    <behavior id="Sin" />
+                </behavior-type>
+                <behavior-type name="Wrap" sid="8421670284582779">
+                    <behavior id="wrap" />
+                </behavior-type>
+                <behavior-type name="Bullet" sid="3382440300643501">
+                    <behavior id="Bullet" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8622551778266986" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.157609" y="0.154255" />
+                            <point x="0.5" y="0.0585106" />
+                            <point x="0.793478" y="0.202128" />
+                            <point x="0.891304" y="0.5" />
+                            <point x="0.798913" y="0.803191" />
+                            <point x="0.5" y="0.707447" />
+                            <point x="0.23913" y="0.765957" />
+                            <point x="0.0597826" y="0.5" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
         </object-type>
     </object-folder>
     <families />
