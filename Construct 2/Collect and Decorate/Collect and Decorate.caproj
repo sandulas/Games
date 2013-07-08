@@ -84,6 +84,32 @@
                 </animation>
             </animation-folder>
         </object-type>
+        <object-type name="Flower02" sid="5160872777295067">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="948912090429652">
+                    <behavior id="Bullet" />
+                </behavior-type>
+                <behavior-type name="Wrap" sid="8998815642678609">
+                    <behavior id="wrap" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="6879712669436828" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.201087" y="0.803191" />
+                            <point x="0.048913" y="0.5" />
+                            <point x="0.266304" y="0.260638" />
+                            <point x="0.5" y="0.0638298" />
+                            <point x="0.804348" y="0.191489" />
+                            <point x="0.956522" y="0.5" />
+                            <point x="0.766304" y="0.771277" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
     </object-folder>
     <families />
     <layout-folder expanded="1">
