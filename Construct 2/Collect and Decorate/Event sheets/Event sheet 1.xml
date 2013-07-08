@@ -30,5 +30,27 @@
                 </action>
             </actions>
         </event-block>
+        <event-block sid="1734356595303205">
+            <conditions>
+                <condition id="-3" inverted="1" name="Is on-screen" sid="1079724658054013" type="Flower02" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="917716086724838" type="System">
+                    <param id="0" name="Variable">debug_line4</param>
+                    <param id="1" name="Value">&quot;flower02 on-screen: false&quot;</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="4111375704217271">
+            <conditions>
+                <condition id="-3" name="Is on-screen" sid="5172961699325863" type="Flower02" />
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="3248116834916881" type="System">
+                    <param id="0" name="Variable">debug_line4</param>
+                    <param id="1" name="Value">&quot;flower02 on-screen: true&quot;</param>
+                </action>
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>
