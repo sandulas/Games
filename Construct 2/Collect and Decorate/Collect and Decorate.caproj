@@ -15,8 +15,8 @@
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
         <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
@@ -71,14 +71,14 @@
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8622551778266986" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.5">
                         <collision-poly>
-                            <point x="0.157609" y="0.154255" />
-                            <point x="0.5" y="0.0585106" />
-                            <point x="0.793478" y="0.202128" />
-                            <point x="0.891304" y="0.5" />
-                            <point x="0.798913" y="0.803191" />
-                            <point x="0.5" y="0.707447" />
-                            <point x="0.23913" y="0.765957" />
-                            <point x="0.0597826" y="0.5" />
+                            <point x="0.0978264" y="0.180851" />
+                            <point x="0.494565" y="0.0265957" />
+                            <point x="0.788043" y="0.0904259" />
+                            <point x="0.951087" y="0.271277" />
+                            <point x="0.940218" y="0.654254" />
+                            <point x="0.641305" y="0.952128" />
+                            <point x="0.309782" y="0.888298" />
+                            <point x="0.0434783" y="0.526596" />
                         </collision-poly>
                     </frame>
                 </animation>
@@ -98,13 +98,14 @@
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="6879712669436828" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.5">
                         <collision-poly>
-                            <point x="0.201087" y="0.803191" />
+                            <point x="0.266304" y="0.914893" />
                             <point x="0.048913" y="0.5" />
-                            <point x="0.266304" y="0.260638" />
-                            <point x="0.5" y="0.0638298" />
-                            <point x="0.804348" y="0.191489" />
-                            <point x="0.956522" y="0.5" />
-                            <point x="0.766304" y="0.771277" />
+                            <point x="0.11413" y="0.255319" />
+                            <point x="0.434783" y="0.0319149" />
+                            <point x="0.853261" y="0.12234" />
+                            <point x="0.972826" y="0.478723" />
+                            <point x="0.915761" y="0.723405" />
+                            <point x="0.701087" y="0.946809" />
                         </collision-poly>
                     </frame>
                 </animation>
@@ -134,12 +135,11 @@
                     <frame duration="1" hotspotX="0.5" hotspotY="0.503185">
                         <collision-poly>
                             <point x="0.121131" y="0.208599" />
-                            <point x="0.293899" y="0.249204" />
-                            <point x="0.5" y="0.261146" />
-                            <point x="0.77247" y="0.234873" />
+                            <point x="0.348661" y="0.261943" />
+                            <point x="0.716517" y="0.247612" />
                             <point x="0.893155" y="0.197452" />
                             <point x="0.938691" y="0.0525478" />
-                            <point x="0.648214" y="1" />
+                            <point x="0.658929" y="1" />
                             <point x="0.0452381" y="0.100318" />
                             <point x="0.0549107" y="0.0541401" />
                         </collision-poly>
