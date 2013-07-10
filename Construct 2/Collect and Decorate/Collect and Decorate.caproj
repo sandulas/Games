@@ -15,11 +15,11 @@
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
-        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
-        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
+        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
+        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
+        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
     <used-effects />
@@ -116,8 +116,8 @@
         <object-type name="BasketBack" sid="1746142011668736">
             <plugin id="Sprite" />
             <behaviors>
-                <behavior-type name="Pin" sid="7563070259909361">
-                    <behavior id="Pin" />
+                <behavior-type name="8Direction" sid="4990355819673646">
+                    <behavior id="EightDir" />
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
@@ -138,8 +138,8 @@
         <object-type name="BasketFront" sid="6526358606307947">
             <plugin id="Sprite" />
             <behaviors>
-                <behavior-type name="8Direction" sid="9791955138045268">
-                    <behavior id="EightDir" />
+                <behavior-type name="Pin" sid="8829671040748682">
+                    <behavior id="Pin" />
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
