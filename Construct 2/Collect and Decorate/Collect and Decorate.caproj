@@ -17,6 +17,8 @@
     <used-behaviors>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
+        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
         <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
@@ -113,6 +115,11 @@
         </object-type>
         <object-type name="BasketBack" sid="1746142011668736">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Pin" sid="7563070259909361">
+                    <behavior id="Pin" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="4129582076718223" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.5">
@@ -130,6 +137,11 @@
         </object-type>
         <object-type name="BasketFront" sid="6526358606307947">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="8Direction" sid="9791955138045268">
+                    <behavior id="EightDir" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3284660221097965" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.503185">
@@ -149,6 +161,11 @@
         </object-type>
         <object-type name="BasketMask" sid="1305292590988393">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Pin" sid="2516074373543568">
+                    <behavior id="Pin" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3787374026707088" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.5">
