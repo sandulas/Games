@@ -31,6 +31,10 @@
                             <param id="0" name="Variable">debug_line4</param>
                             <param id="1" name="Value">&quot;basket X and Width:&quot; &amp; BasketFront.X &amp; &quot;:&quot; &amp; BasketFront.Width</param>
                         </action>
+                        <action id="-9" name="Set value" sid="1107931903011661" type="System">
+                            <param id="0" name="Variable">debug_line5</param>
+                            <param id="1" name="Value">&quot;Viewport:&quot; &amp; ViewportLeft(0) &amp; &quot;:&quot; &amp; ViewportRight(0)</param>
+                        </action>
                         <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                             <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
                         </action>
@@ -75,12 +79,12 @@
                             <param id="0" name="X">BasketBack.X</param>
                             <param id="1" name="Y">BasketBack.Y+49</param>
                         </action>
-                        <action behavior="Pin" id="0" name="Pin to object" sid="7930521315434962" type="BasketBack">
-                            <param id="0" name="Pin to">BasketFront</param>
+                        <action behavior="Pin" id="0" name="Pin to object" sid="2689398981424035" type="BasketMask">
+                            <param id="0" name="Pin to">BasketBack</param>
                             <param id="1" name="Mode">0</param>
                         </action>
-                        <action behavior="Pin" id="0" name="Pin to object" sid="2689398981424035" type="BasketMask">
-                            <param id="0" name="Pin to">BasketFront</param>
+                        <action behavior="Pin" id="0" name="Pin to object" sid="1008709515142683" type="BasketFront">
+                            <param id="0" name="Pin to">BasketBack</param>
                             <param id="1" name="Mode">0</param>
                         </action>
                     </actions>
@@ -88,30 +92,30 @@
                 <event-block sid="6531316476311438">
                     <conditions>
                         <condition id="-8" name="Compare two values" sid="3158115176450289" type="System">
-                            <param id="0" name="First value">BasketFront.X-BasketFront.Width / 2</param>
+                            <param id="0" name="First value">BasketBack.X-BasketBack.Width / 2</param>
                             <param id="1" name="Comparison">2</param>
-                            <param id="2" name="Second value">0</param>
+                            <param id="2" name="Second value">ViewportLeft(0)</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="0" name="Stop" sid="8029129041516428" type="BasketFront" />
-                        <action id="-1" name="Set X" sid="1176295551842544" type="BasketFront">
-                            <param id="0" name="X">BasketFront.Width/2</param>
+                        <action behavior="8Direction" id="0" name="Stop" sid="8029129041516428" type="BasketBack" />
+                        <action id="-1" name="Set X" sid="1176295551842544" type="BasketBack">
+                            <param id="0" name="X">BasketBack.Width/2+ViewportLeft(0)</param>
                         </action>
                     </actions>
                 </event-block>
                 <event-block sid="3865885505750034">
                     <conditions>
                         <condition id="-8" name="Compare two values" sid="8868250450613364" type="System">
-                            <param id="0" name="First value">BasketFront.X+BasketFront.Width / 2</param>
+                            <param id="0" name="First value">BasketBack.X+BasketBack.Width / 2</param>
                             <param id="1" name="Comparison">4</param>
-                            <param id="2" name="Second value">LayoutWidth</param>
+                            <param id="2" name="Second value">LayoutWidth-ViewportLeft(0)</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="0" name="Stop" sid="8632496894258867" type="BasketFront" />
-                        <action id="-1" name="Set X" sid="2986964478245306" type="BasketFront">
-                            <param id="0" name="X">LayoutWidth-BasketFront.Width/2</param>
+                        <action behavior="8Direction" id="0" name="Stop" sid="8632496894258867" type="BasketBack" />
+                        <action id="-1" name="Set X" sid="2986964478245306" type="BasketBack">
+                            <param id="0" name="X">LayoutWidth-BasketBack.Width/2-ViewportLeft(0)</param>
                         </action>
                     </actions>
                 </event-block>
