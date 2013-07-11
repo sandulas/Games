@@ -3,6 +3,8 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Event sheet 1</name>
     <events>
+        <variable constant="0" name="InputTypeTilt" sid="9781080764917053" static="0" type="number">0</variable>
+        <variable constant="0" name="InputTypeTouch" sid="4130087384966601" static="0" type="number">1</variable>
         <variable constant="0" name="debug_line1" sid="4177495052590903" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line2" sid="8516279301245715" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
@@ -31,7 +33,7 @@
                             <param id="0" name="Variable">debug_line4</param>
                             <param id="1" name="Value">&quot;basket: &quot; &amp; round(BasketBack.X) &amp; &quot;:&quot; &amp; round(BasketBack.Y) &amp; &quot; | &quot; &amp; BasketBack.Width &amp; &quot;:&quot; &amp; BasketBack.Height</param>
                         </action>
-                        <action id="-9" name="Set value" sid="1107931903011661" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="1107931903011661" type="System">
                             <param id="0" name="Variable">debug_line5</param>
                             <param id="1" name="Value">&quot;viewport:&quot; &amp; round(ViewportLeft(0)) &amp; &quot;:&quot; &amp; round(ViewportRight(0)) &amp; &quot; | &quot; &amp; round(ViewportTop(0)) &amp; &quot;:&quot; &amp; round(ViewportBottom(0))</param>
                         </action>
@@ -138,6 +140,11 @@
                 <comment>move the basket</comment>
                 <event-block sid="9769061595512004">
                     <conditions>
+                        <condition id="-8" name="Compare two values" sid="6324581820548689" type="System">
+                            <param id="0" name="First value">Function.Call(&quot;GetInputType&quot;)</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">InputTypeTouch</param>
+                        </condition>
                         <condition id="-8" name="Compare two values" sid="3246067630107777" type="System">
                             <param id="0" name="First value">Touch.TouchCount</param>
                             <param id="1" name="Comparison">0</param>
@@ -176,45 +183,179 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <event-block sid="8961299935954087">
+                <event-block sid="3754265014540669">
                     <conditions>
-                        <condition id="-8" name="Compare two values" sid="7181362146604866" type="System">
+                        <condition id="-8" name="Compare two values" sid="7242856083128575" type="System">
+                            <param id="0" name="First value">Function.Call(&quot;GetInputType&quot;)</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">InputTypeTilt</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="2683501580625759">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="1253450333172046" type="System">
+                                    <param id="0" name="First value">Touch.Beta</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="5" name="Set acceleration" sid="6567956466330917" type="BasketBack">
+                                    <param id="0" name="Acceleration">abs(Touch.Beta)*40</param>
+                                </action>
+                                <action behavior="8Direction" id="7" name="Simulate control" sid="4144867030145711" type="BasketBack">
+                                    <param id="0" name="Control">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="8961299935954087">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="7181362146604866" type="System">
+                                    <param id="0" name="First value">Touch.Beta</param>
+                                    <param id="1" name="Comparison">2</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="5" name="Set acceleration" sid="9051781317086118" type="BasketBack">
+                                    <param id="0" name="Acceleration">abs(Touch.Beta)*40</param>
+                                </action>
+                                <action behavior="8Direction" id="7" name="Simulate control" sid="4294155585198879" type="BasketBack">
+                                    <param id="0" name="Control">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="8512833754096424" title="user interface">
+            <sub-events>
+                <event-block sid="8420755731706846">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="7107420640686744" type="System" />
+                        <condition id="-8" name="Compare two values" sid="8065505712611534" type="System">
+                            <param id="0" name="First value">Touch.Alpha</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" sid="783446917001843" type="System">
                             <param id="0" name="First value">Touch.Beta</param>
-                            <param id="1" name="Comparison">2</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                        <condition id="-8" name="Compare two values" sid="8654649248254451" type="System">
+                            <param id="0" name="First value">Touch.Gamma</param>
+                            <param id="1" name="Comparison">0</param>
                             <param id="2" name="Second value">0</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="5" name="Set acceleration" sid="9051781317086118" type="BasketBack">
-                            <param id="0" name="Acceleration">abs(Touch.Beta)*40</param>
-                        </action>
-                        <action behavior="8Direction" disabled="1" id="4" name="Set max speed" sid="8535018378290448" type="BasketBack">
-                            <param id="0" name="Max Speed">abs(Touch.Beta)*40</param>
-                        </action>
-                        <action behavior="8Direction" id="7" name="Simulate control" sid="4294155585198879" type="BasketBack">
-                            <param id="0" name="Control">0</param>
+                        <action id="0" name="Call function" sid="8061172013427099" type="Function">
+                            <param id="0" name="Name">&quot;SetInputType&quot;</param>
+                            <param id="1" name="Parameter {n}">InputTypeTouch</param>
                         </action>
                     </actions>
                 </event-block>
-                <event-block sid="2683501580625759">
+                <event-block sid="243061426647839">
                     <conditions>
-                        <condition id="-8" name="Compare two values" sid="1253450333172046" type="System">
-                            <param id="0" name="First value">Touch.Beta</param>
-                            <param id="1" name="Comparison">4</param>
-                            <param id="2" name="Second value">0</param>
+                        <condition id="3" name="On touched object" sid="1608985526189473" type="Touch">
+                            <param id="0" name="Object">ButtonTiltTouch</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action behavior="8Direction" id="5" name="Set acceleration" sid="6567956466330917" type="BasketBack">
-                            <param id="0" name="Acceleration">abs(Touch.Beta)*40</param>
-                        </action>
-                        <action behavior="8Direction" disabled="1" id="4" name="Set max speed" sid="2192854186907825" type="BasketBack">
-                            <param id="0" name="Max Speed">abs(Touch.Beta)*40</param>
-                        </action>
-                        <action behavior="8Direction" id="7" name="Simulate control" sid="4144867030145711" type="BasketBack">
-                            <param id="0" name="Control">1</param>
+                        <action id="0" name="Call function" sid="7545523917970667" type="Function">
+                            <param id="0" name="Name">&quot;ToggleInputType&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
                         </action>
                     </actions>
+                </event-block>
+                <event-block sid="7256211391557764">
+                    <conditions>
+                        <condition id="0" name="On function" sid="238816686311618" type="Function">
+                            <param id="0" name="Name">&quot;SetInputType&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set frame" sid="9136234448014967" type="ButtonTiltTouch">
+                            <param id="0" name="Frame number">Function.Param(0)</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="2321325818835405">
+                            <conditions>
+                                <condition id="1" name="Compare parameter" sid="2931860607427883" type="Function">
+                                    <param id="0" name="Index">0</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">InputTypeTouch</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="5" name="Set acceleration" sid="5649772451227905" type="BasketBack">
+                                    <param id="0" name="Acceleration">800</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="2220659859650412">
+                    <conditions>
+                        <condition id="0" name="On function" sid="6910066173111019" type="Function">
+                            <param id="0" name="Name">&quot;GetInputType&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="1" name="Set return value" sid="4385544508535959" type="Function">
+                            <param id="0" name="Value">ButtonTiltTouch.AnimationFrame</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="4960411790997027">
+                    <conditions>
+                        <condition id="0" name="On function" sid="9397254506568765" type="Function">
+                            <param id="0" name="Name">&quot;ToggleInputType&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="142809901467022" type="Function">
+                            <param id="0" name="Name">&quot;GetInputType&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="2807133093565939">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="6195442754839716" type="System">
+                                    <param id="0" name="First value">Function.ReturnValue</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">InputTypeTilt</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="3906403026366426" type="Function">
+                                    <param id="0" name="Name">&quot;SetInputType&quot;</param>
+                                    <param id="1" name="Parameter {n}">InputTypeTouch</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="5347637442648493">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="5929929728912626" type="System">
+                                    <param id="0" name="First value">Function.ReturnValue</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">InputTypeTouch</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="1096072065796701" type="Function">
+                                    <param id="0" name="Name">&quot;SetInputType&quot;</param>
+                                    <param id="1" name="Parameter {n}">InputTypeTilt</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>
