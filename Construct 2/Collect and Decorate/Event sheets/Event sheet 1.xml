@@ -176,6 +176,46 @@
                         </event-block>
                     </sub-events>
                 </event-block>
+                <event-block sid="8961299935954087">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="7181362146604866" type="System">
+                            <param id="0" name="First value">Touch.Beta</param>
+                            <param id="1" name="Comparison">2</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="8Direction" id="5" name="Set acceleration" sid="9051781317086118" type="BasketBack">
+                            <param id="0" name="Acceleration">abs(Touch.Beta)*40</param>
+                        </action>
+                        <action behavior="8Direction" disabled="1" id="4" name="Set max speed" sid="8535018378290448" type="BasketBack">
+                            <param id="0" name="Max Speed">abs(Touch.Beta)*40</param>
+                        </action>
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="4294155585198879" type="BasketBack">
+                            <param id="0" name="Control">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2683501580625759">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="1253450333172046" type="System">
+                            <param id="0" name="First value">Touch.Beta</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action behavior="8Direction" id="5" name="Set acceleration" sid="6567956466330917" type="BasketBack">
+                            <param id="0" name="Acceleration">abs(Touch.Beta)*40</param>
+                        </action>
+                        <action behavior="8Direction" disabled="1" id="4" name="Set max speed" sid="2192854186907825" type="BasketBack">
+                            <param id="0" name="Max Speed">abs(Touch.Beta)*40</param>
+                        </action>
+                        <action behavior="8Direction" id="7" name="Simulate control" sid="4144867030145711" type="BasketBack">
+                            <param id="0" name="Control">1</param>
+                        </action>
+                    </actions>
+                </event-block>
             </sub-events>
         </event-group>
     </events>
