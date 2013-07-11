@@ -8,7 +8,7 @@
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
-        <event-group description="" sid="4017667352759457" title="Debugging">
+        <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
             <sub-events>
                 <event-block sid="8578860188414138">
                     <conditions>
@@ -29,11 +29,11 @@
                         </action>
                         <action id="-9" name="Set value" sid="4296299342373679" type="System">
                             <param id="0" name="Variable">debug_line4</param>
-                            <param id="1" name="Value">&quot;basket X and Width:&quot; &amp; BasketFront.X &amp; &quot;:&quot; &amp; BasketFront.Width</param>
+                            <param id="1" name="Value">&quot;basket: &quot; &amp; round(BasketBack.X) &amp; &quot;:&quot; &amp; round(BasketBack.Y) &amp; &quot; | &quot; &amp; BasketBack.Width &amp; &quot;:&quot; &amp; BasketBack.Height</param>
                         </action>
                         <action id="-9" name="Set value" sid="1107931903011661" type="System">
                             <param id="0" name="Variable">debug_line5</param>
-                            <param id="1" name="Value">&quot;Viewport:&quot; &amp; ViewportLeft(0) &amp; &quot;:&quot; &amp; ViewportRight(0)</param>
+                            <param id="1" name="Value">&quot;viewport:&quot; &amp; round(ViewportLeft(0)) &amp; &quot;:&quot; &amp; round(ViewportRight(0)) &amp; &quot; | &quot; &amp; round(ViewportTop(0)) &amp; &quot;:&quot; &amp; round(ViewportBottom(0))</param>
                         </action>
                         <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                             <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
@@ -64,8 +64,9 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9240795401389315" title="Setup Basket">
+        <event-group description="" sid="9240795401389315" title="basket setup">
             <sub-events>
+                <comment>position and pin basket elements</comment>
                 <event-block sid="8023288898181642">
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="6225811202792062" type="System" />
@@ -89,6 +90,7 @@
                         </action>
                     </actions>
                 </event-block>
+                <comment>keep the basket inside the window</comment>
                 <event-block sid="6531316476311438">
                     <conditions>
                         <condition id="-8" name="Compare two values" sid="3158115176450289" type="System">
@@ -118,6 +120,61 @@
                             <param id="0" name="X">LayoutWidth-BasketBack.Width/2-ViewportLeft(0)</param>
                         </action>
                     </actions>
+                </event-block>
+                <event-block sid="4010879040228096">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="9246021615785605" type="System">
+                            <param id="0" name="First value">ViewportBottom(0)</param>
+                            <param id="1" name="Comparison">4</param>
+                            <param id="2" name="Second value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Set Y" sid="9023474223943996" type="BasketBack">
+                            <param id="0" name="Y">720 - ViewportTop(0)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <comment>move the basket</comment>
+                <event-block sid="9769061595512004">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="3246067630107777" type="System">
+                            <param id="0" name="First value">Touch.TouchCount</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="8120667341452398">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="1370725383009671" type="System">
+                                    <param id="0" name="First value">Touch.X</param>
+                                    <param id="1" name="Comparison">2</param>
+                                    <param id="2" name="Second value">round(LayoutWidth / 2)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="7" name="Simulate control" sid="4405914045238273" type="BasketBack">
+                                    <param id="0" name="Control">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="6674399430058913">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="1198860571415538" type="System">
+                                    <param id="0" name="First value">Touch.X</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">round(LayoutWidth / 2)</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="8Direction" id="7" name="Simulate control" sid="4540647321377277" type="BasketBack">
+                                    <param id="0" name="Control">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>
