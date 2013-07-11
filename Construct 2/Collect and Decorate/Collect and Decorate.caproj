@@ -14,6 +14,7 @@
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
+        <plugin author="Scirra" id="Function" version="1">Function</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
@@ -185,6 +186,45 @@
         <object-type name="Touch" sid="1014926416568716">
             <plugin id="Touch" />
         </object-type>
+        <object-type name="ButtonTiltTouch" sid="3941677949601555">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Anchor" sid="1859924317412476">
+                    <behavior id="Anchor" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="2" loop="0" name="Default" pingpong="0" repeatcount="0" repeatto="0" sid="2307777543383946" speed="0">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.22" y="0.33" />
+                            <point x="0.5" y="0.28" />
+                            <point x="0.84" y="0.24" />
+                            <point x="0.933333" y="0.5" />
+                            <point x="0.78" y="0.67" />
+                            <point x="0.5" y="0.73" />
+                            <point x="0.16" y="0.76" />
+                            <point x="0.0666667" y="0.5" />
+                        </collision-poly>
+                    </frame>
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.166667" y="0.25" />
+                            <point x="0.5" y="0.22" />
+                            <point x="0.833333" y="0.25" />
+                            <point x="0.853333" y="0.5" />
+                            <point x="0.833333" y="0.75" />
+                            <point x="0.5" y="0.78" />
+                            <point x="0.166667" y="0.75" />
+                            <point x="0.146667" y="0.5" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="Function" sid="6900849948240628">
+            <plugin id="Function" />
+        </object-type>
     </object-folder>
     <families />
     <layout-folder expanded="1">
@@ -199,6 +239,7 @@
                 <use-mouse-input>Yes</use-mouse-input>
             </properties>
         </global-instance>
+        <global-instance type="Function" uid="9" />
     </global-instances>
     <sounds-folder expanded="1" />
     <music-folder expanded="1" />
