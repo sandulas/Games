@@ -10,17 +10,17 @@
     <unique-id>fjwuowywb9nv</unique-id>
     <saved-with-version>13200</saved-with-version>
     <used-plugins>
+        <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
-        <plugin author="Scirra" id="Function" version="1">Function</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
-        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
         <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
@@ -70,6 +70,9 @@
                 <behavior-type name="Bullet" sid="3382440300643501">
                     <behavior id="Bullet" />
                 </behavior-type>
+                <behavior-type name="Pin" sid="4332696337991764">
+                    <behavior id="Pin" />
+                </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8622551778266986" speed="5">
@@ -96,6 +99,9 @@
                 </behavior-type>
                 <behavior-type name="Wrap" sid="8998815642678609">
                     <behavior id="wrap" />
+                </behavior-type>
+                <behavior-type name="Pin" sid="6646689064319148">
+                    <behavior id="Pin" />
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">

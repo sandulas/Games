@@ -116,12 +116,13 @@
                             </properties>
                         </behavior-instance>
                         <behavior-instance type="Wrap" />
+                        <behavior-instance type="Pin" />
                     </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>702</x>
-                        <y>180</y>
+                        <x>724</x>
+                        <y>131</y>
                         <z>0</z>
                         <width>184</width>
                         <height>188</height>
@@ -163,12 +164,13 @@
                                 <set-angle>Yes</set-angle>
                             </properties>
                         </behavior-instance>
+                        <behavior-instance type="Pin" />
                     </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>581</x>
-                        <y>36</y>
+                        <x>481</x>
+                        <y>204</y>
                         <z>0</z>
                         <width>184</width>
                         <height>188</height>
