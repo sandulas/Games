@@ -10,7 +10,7 @@
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
-        <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
+        <event-group description="" sid="4017667352759457" title="debugging">
             <sub-events>
                 <event-block sid="8578860188414138">
                     <conditions>
@@ -23,7 +23,7 @@
                         </action>
                         <action id="-9" name="Set value" sid="8857837955004008" type="System">
                             <param id="0" name="Variable">debug_line2</param>
-                            <param id="1" name="Value">&quot;Gyro: &quot; &amp; round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
+                            <param id="1" name="Value">&quot;gyro: &quot; &amp; round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
                         </action>
                         <action id="-9" name="Set value" sid="800556600795071" type="System">
                             <param id="0" name="Variable">debug_line3</param>
@@ -383,6 +383,41 @@
         </event-group>
         <event-group description="" sid="9190612382300273" title="catch flowers">
             <sub-events>
+                <event-block sid="7034896334876518">
+                    <conditions>
+                        <condition id="0" name="On collision with another object" sid="5990704074928246" type="Flower01">
+                            <param id="0" name="Object">BasketFront</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="2631725439152128">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="3573980925698865" type="System">
+                                    <param id="0" name="First value">(Flower01.BBoxLeft &gt; BasketFront.BBoxLeft) &amp; (Flower01.BBoxRight &lt; BasketFront.BBoxRight)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-26" name="Move to layer" sid="27376112420179" type="Flower01">
+                                    <param id="0" name="Layer">&quot;action&quot;</param>
+                                </action>
+                                <action id="-29" name="Move to object" sid="9114626647499762" type="Flower01">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Object">BasketMask</param>
+                                </action>
+                                <action id="-2" name="Set Y" sid="1580254465273767" type="Flower01">
+                                    <param id="0" name="Y">Flower01.Y+Flower01.Height / 2 + 20 - random(40)</param>
+                                </action>
+                                <action behavior="Pin" id="0" name="Pin to object" sid="6041077697546096" type="Flower01">
+                                    <param id="0" name="Pin to">BasketBack</param>
+                                    <param id="1" name="Mode">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
                 <event-block sid="7056574856834537">
                     <conditions>
                         <condition id="0" name="On collision with another object" sid="4666037920785692" type="Flower02">
@@ -400,19 +435,19 @@
                                 </condition>
                             </conditions>
                             <actions>
+                                <action id="-26" name="Move to layer" sid="509913092048743" type="Flower02">
+                                    <param id="0" name="Layer">&quot;action&quot;</param>
+                                </action>
+                                <action id="-29" name="Move to object" sid="7320357720272191" type="Flower02">
+                                    <param id="0" name="Where">1</param>
+                                    <param id="1" name="Object">BasketMask</param>
+                                </action>
+                                <action id="-2" name="Set Y" sid="5644502561788693" type="Flower02">
+                                    <param id="0" name="Y">Flower02.Y+Flower02.Height / 2 + 20 - random(40)</param>
+                                </action>
                                 <action behavior="Pin" id="0" name="Pin to object" sid="6831207648889741" type="Flower02">
                                     <param id="0" name="Pin to">BasketBack</param>
                                     <param id="1" name="Mode">0</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="8779905517609488">
-                            <conditions>
-                                <condition id="-22" name="Else" sid="8824408068386243" type="System" />
-                            </conditions>
-                            <actions>
-                                <action id="-26" name="Move to layer" sid="509913092048743" type="Flower02">
-                                    <param id="0" name="Layer">&quot;foreground&quot;</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -420,6 +455,6 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <comment>daca floarea face collision, dar nu o prinzi in cos si este o alta floare peste ea, prima floare se muta deasupra celei de-a doua si e un efect de flicker urat; cand se genereaza florile, trebuie calculat z-index-ul in functie de ordinea in care ajung florile jos; cele care ajung primele trebuie sa fie deasupra</comment>
+        <comment>cand prinzi o floare care are o floare sub ea, floarea pe care ai prins-o se muta brusc sub floarea de dedesuptul ei si face un flicker; cand se genereaza florile, trebuie calculat z-index-ul in functie de ordinea in care ajung florile jos; cele care ajung primele trebuie sa fie dedesupt</comment>
     </events>
 </c2eventsheet>
