@@ -8,8 +8,9 @@
     <author-website>http://</author-website>
     <app-id>com.mycompany.myapp</app-id>
     <unique-id>fjwuowywb9nv</unique-id>
-    <saved-with-version>13200</saved-with-version>
+    <saved-with-version>13900</saved-with-version>
     <used-plugins>
+        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
@@ -17,12 +18,12 @@
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
-        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
+        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
+        <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
-        <behavior author="Scirra" id="wrap" version="1">Wrap</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -57,69 +58,6 @@
                     <behavior id="Anchor" />
                 </behavior-type>
             </behaviors>
-        </object-type>
-        <object-type name="Flower01" sid="5986002287909603">
-            <plugin id="Sprite" />
-            <behaviors>
-                <behavior-type name="Sine" sid="2149645025866215">
-                    <behavior id="Sin" />
-                </behavior-type>
-                <behavior-type name="Wrap" sid="8421670284582779">
-                    <behavior id="wrap" />
-                </behavior-type>
-                <behavior-type name="Bullet" sid="3382440300643501">
-                    <behavior id="Bullet" />
-                </behavior-type>
-                <behavior-type name="Pin" sid="4332696337991764">
-                    <behavior id="Pin" />
-                </behavior-type>
-            </behaviors>
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8622551778266986" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
-                        <collision-poly>
-                            <point x="0.0978264" y="0.180851" />
-                            <point x="0.494565" y="0.0265957" />
-                            <point x="0.788043" y="0.0904259" />
-                            <point x="0.951087" y="0.271277" />
-                            <point x="0.940218" y="0.654254" />
-                            <point x="0.641305" y="0.952128" />
-                            <point x="0.309782" y="0.888298" />
-                            <point x="0.0434783" y="0.526596" />
-                        </collision-poly>
-                    </frame>
-                </animation>
-            </animation-folder>
-        </object-type>
-        <object-type name="Flower02" sid="5160872777295067">
-            <plugin id="Sprite" />
-            <behaviors>
-                <behavior-type name="Bullet" sid="948912090429652">
-                    <behavior id="Bullet" />
-                </behavior-type>
-                <behavior-type name="Wrap" sid="8998815642678609">
-                    <behavior id="wrap" />
-                </behavior-type>
-                <behavior-type name="Pin" sid="6646689064319148">
-                    <behavior id="Pin" />
-                </behavior-type>
-            </behaviors>
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="6879712669436828" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
-                        <collision-poly>
-                            <point x="0.266304" y="0.914893" />
-                            <point x="0.048913" y="0.5" />
-                            <point x="0.11413" y="0.255319" />
-                            <point x="0.434783" y="0.0319149" />
-                            <point x="0.853261" y="0.12234" />
-                            <point x="0.972826" y="0.478723" />
-                            <point x="0.915761" y="0.723405" />
-                            <point x="0.701087" y="0.946809" />
-                        </collision-poly>
-                    </frame>
-                </animation>
-            </animation-folder>
         </object-type>
         <object-type name="BasketBack" sid="1746142011668736">
             <plugin id="Sprite" />
@@ -231,6 +169,69 @@
         <object-type name="Function" sid="6900849948240628">
             <plugin id="Function" />
         </object-type>
+        <object-type name="Flower" sid="9088726652032803">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="3712493812665888">
+                    <behavior id="Bullet" />
+                </behavior-type>
+                <behavior-type name="Sine" sid="3048280301856507">
+                    <behavior id="Sin" />
+                </behavior-type>
+                <behavior-type name="Rotate" sid="4168534218543826">
+                    <behavior id="Rotate" />
+                </behavior-type>
+                <behavior-type name="Pin" sid="5803058175127676">
+                    <behavior id="Pin" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="3" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="4781391432828199" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.107337" y="0.236702" />
+                            <point x="0.330163" y="0.0651596" />
+                            <point x="0.64538" y="0.0332447" />
+                            <point x="0.868207" y="0.158245" />
+                            <point x="0.970788" y="0.39262" />
+                            <point x="0.911685" y="0.730718" />
+                            <point x="0.735054" y="0.9498" />
+                            <point x="0.41712" y="0.968085" />
+                            <point x="0.1875" y="0.825798" />
+                            <point x="0.0394022" y="0.519947" />
+                        </collision-poly>
+                    </frame>
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.0991848" y="0.18484" />
+                            <point x="0.472826" y="0.0412234" />
+                            <point x="0.743207" y="0.0578458" />
+                            <point x="0.956522" y="0.256649" />
+                            <point x="0.956522" y="0.635638" />
+                            <point x="0.672555" y="0.957447" />
+                            <point x="0.322011" y="0.909574" />
+                            <point x="0.216033" y="0.767287" />
+                            <point x="0.0407609" y="0.531915" />
+                        </collision-poly>
+                    </frame>
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.238158" y="0.118827" />
+                            <point x="0.535526" y="0.0447531" />
+                            <point x="0.856579" y="0.186728" />
+                            <point x="0.967105" y="0.623457" />
+                            <point x="0.919737" y="0.733024" />
+                            <point x="0.409211" y="0.955247" />
+                            <point x="0.0986842" y="0.756173" />
+                            <point x="0.0381579" y="0.401235" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type global="1" name="Dictionary" sid="6625491750495325">
+            <plugin id="Dictionary" />
+        </object-type>
     </object-folder>
     <families />
     <layout-folder expanded="1">
@@ -249,5 +250,13 @@
     </global-instances>
     <sounds-folder expanded="1" />
     <music-folder expanded="1" />
-    <files-folder expanded="1" />
+    <files-folder expanded="1">
+        <file-folder expanded="0" name="Icons">
+            <file name="icon-16.png" />
+            <file name="icon-32.png" />
+            <file name="icon-114.png" />
+            <file name="icon-128.png" />
+            <file name="loading-logo.png" />
+        </file-folder>
+    </files-folder>
 </c2project>
