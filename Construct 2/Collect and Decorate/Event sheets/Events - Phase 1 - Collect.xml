@@ -1,72 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
-    <name>Event sheet 1</name>
+    <name>Events - Phase 1 - Collect</name>
     <events>
+        <include>Events - Common</include>
         <variable constant="0" name="Input_Tilt" sid="9781080764917053" static="0" type="number">0</variable>
         <variable constant="0" name="Input_Touch" sid="4130087384966601" static="0" type="number">1</variable>
         <variable constant="0" name="Game_SpawnInterval" sid="9815157490617659" static="0" type="number">4</variable>
-        <variable constant="0" name="Game_FlowerWhite" sid="2029747525464988" static="0" type="number">0</variable>
-        <variable constant="0" name="Game_FlowerBlue" sid="7950551552190707" static="0" type="number">1</variable>
-        <variable constant="0" name="Game_FlowerRed" sid="9111917904231352" static="0" type="number">2</variable>
-        <variable constant="0" name="debug_line1" sid="4177495052590903" static="0" type="text">-</variable>
-        <variable constant="0" name="debug_line2" sid="8516279301245715" static="0" type="text">-</variable>
-        <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
-        <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
-        <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
-        <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
+        <event-group collapsed="1" description="" sid="4977919394299346" title="debugging">
             <sub-events>
-                <event-block sid="8578860188414138">
+                <event-block sid="723856547017191">
                     <conditions>
-                        <condition id="-1" name="Every tick" sid="8454074773443701" type="System" />
+                        <condition id="-1" name="Every tick" sid="5920617386203848" type="System" />
                     </conditions>
                     <actions>
-                        <action id="-9" name="Set value" sid="2096030895599525" type="System">
-                            <param id="0" name="Variable">debug_line1</param>
-                            <param id="1" name="Value">&quot;fps:&quot; &amp; fps</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="8857837955004008" type="System">
+                        <action id="-9" name="Set value" sid="1275412182836994" type="System">
                             <param id="0" name="Variable">debug_line2</param>
                             <param id="1" name="Value">&quot;gyro: &quot; &amp; round(Touch.Alpha) &amp; &quot;, &quot; &amp; round(Touch.Beta) &amp; &quot;, &quot; &amp; round(Touch.Gamma)</param>
                         </action>
-                        <action id="-9" name="Set value" sid="800556600795071" type="System">
+                        <action id="-9" name="Set value" sid="7118602726888872" type="System">
                             <param id="0" name="Variable">debug_line3</param>
                             <param id="1" name="Value">&quot;window size:&quot; &amp; WindowWidth &amp; &quot;:&quot; &amp; WindowHeight</param>
                         </action>
-                        <action id="-9" name="Set value" sid="1107931903011661" type="System">
+                        <action id="-9" name="Set value" sid="4491977584666217" type="System">
                             <param id="0" name="Variable">debug_line4</param>
                             <param id="1" name="Value">&quot;viewport (l:r | t:b): &quot; &amp; round(ViewportLeft(0)) &amp; &quot;:&quot; &amp; round(ViewportRight(0)) &amp; &quot; | &quot; &amp; round(ViewportTop(0)) &amp; &quot;:&quot; &amp; round(ViewportBottom(0))</param>
                         </action>
-                        <action id="-9" name="Set value" sid="3297859086027639" type="System">
+                        <action id="-9" name="Set value" sid="1433623885856547" type="System">
                             <param id="0" name="Variable">debug_line5</param>
                             <param id="1" name="Value">&quot;basket box (l:r): &quot; &amp; round(BasketBack.BBoxLeft) &amp; &quot;:&quot; &amp; round(BasketBack.BBoxRight)</param>
                         </action>
-                        <action disabled="1" id="-9" name="Set value" sid="4296299342373679" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="4055896566178686" type="System">
                             <param id="0" name="Variable">debug_line4</param>
                             <param id="1" name="Value">&quot;basket: &quot; &amp; round(BasketBack.X) &amp; &quot;:&quot; &amp; round(BasketBack.Y) &amp; &quot; | &quot; &amp; BasketBack.Width &amp; &quot;:&quot; &amp; BasketBack.Height</param>
                         </action>
-                        <action disabled="1" id="-9" name="Set value" sid="9882943133772974" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="2040960784665012" type="System">
                             <param id="0" name="Variable">debug_line5</param>
                             <param id="1" name="Value">&quot;touch (x:y): &quot; &amp; round(Touch.X) &amp; &quot;:&quot; &amp; round(Touch.Y)</param>
                         </action>
-                        <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
-                            <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="1734356595303205">
-                    <conditions />
-                    <actions>
-                        <action disabled="1" id="-9" name="Set value" sid="917716086724838" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="6066613278141078" type="System">
                             <param id="0" name="Variable">debug_line4</param>
                             <param id="1" name="Value">&quot;flower02 on-screen: false&quot;</param>
                         </action>
-                    </actions>
-                </event-block>
-                <event-block sid="4111375704217271">
-                    <conditions />
-                    <actions>
-                        <action disabled="1" id="-9" name="Set value" sid="3248116834916881" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="3381689363005877" type="System">
                             <param id="0" name="Variable">debug_line4</param>
                             <param id="1" name="Value">&quot;flower02 on-screen: true&quot;</param>
                         </action>
@@ -386,9 +362,9 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9190612382300273" title="catch flowers" />
         <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">
             <sub-events>
+                <comment>create and setup flowers</comment>
                 <event-block sid="1904972802140828">
                     <conditions>
                         <condition id="-6" name="Every X seconds" sid="2779177928082141" type="System">
@@ -522,6 +498,5 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <comment>create and setup flowers</comment>
     </events>
 </c2eventsheet>

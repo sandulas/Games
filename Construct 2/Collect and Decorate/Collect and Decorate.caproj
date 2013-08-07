@@ -18,12 +18,12 @@
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
+        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
-        <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
+        <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -232,13 +232,20 @@
         <object-type global="1" name="Dictionary" sid="6625491750495325">
             <plugin id="Dictionary" />
         </object-type>
+        <object-type name="TiledBackground02" sid="7771932771749148">
+            <plugin id="TiledBg" />
+            <texture />
+        </object-type>
     </object-folder>
     <families />
     <layout-folder expanded="1">
-        <layout>Layout 1.xml</layout>
+        <layout>Phase 1 - Collect.xml</layout>
+        <layout>Phase 2 - Create.xml</layout>
     </layout-folder>
     <event-folder expanded="1">
-        <event-sheet>Event sheet 1.xml</event-sheet>
+        <event-sheet>Events - Phase 1 - Collect.xml</event-sheet>
+        <event-sheet>Events - Phase 2 - Create.xml</event-sheet>
+        <event-sheet>Events - Common.xml</event-sheet>
     </event-folder>
     <global-instances>
         <global-instance type="Touch" uid="7">

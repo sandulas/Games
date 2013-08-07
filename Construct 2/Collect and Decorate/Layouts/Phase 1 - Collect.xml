@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2layout>
-    <name>Layout 1</name>
+    <name>Phase 1 - Collect</name>
     <sid>4322205199113808</sid>
-    <event-sheet>Event sheet 1</event-sheet>
+    <event-sheet>Events - Phase 1 - Collect</event-sheet>
     <size>
         <width>1280</width>
         <height>800</height>
@@ -279,8 +279,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>1029</x>
-                        <y>-114</y>
+                        <x>95</x>
+                        <y>-105</y>
                         <z>0</z>
                         <width>184</width>
                         <height>188</height>
