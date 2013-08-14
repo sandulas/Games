@@ -7,7 +7,7 @@
         <variable constant="0" name="Input_Tilt" sid="9781080764917053" static="0" type="number">0</variable>
         <variable constant="0" name="Input_Touch" sid="4130087384966601" static="0" type="number">1</variable>
         <variable constant="0" name="Game_SpawnInterval" sid="9815157490617659" static="0" type="number">4</variable>
-        <event-group description="" sid="4977919394299346" title="debugging">
+        <event-group collapsed="1" description="" sid="4977919394299346" title="debugging">
             <sub-events>
                 <event-block sid="723856547017191">
                     <conditions>
@@ -215,7 +215,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="8512833754096424" title="user interface">
+        <event-group description="" sid="8512833754096424" title="user interface">
             <sub-events>
                 <comment>input type</comment>
                 <event-block sid="8420755731706846">
@@ -386,9 +386,6 @@
                             <param id="0" name="X">random(ViewportLeft(0) + Flower.Width / 2, ViewportRight(0) - Flower.Width / 2)</param>
                             <param id="1" name="Y">ViewportTop(0) - Flower.Height / 2 - 10</param>
                         </action>
-                        <action behavior="Bullet" id="3" name="Set angle of motion" sid="9909677735120497" type="Flower">
-                            <param id="0" name="Angle">90</param>
-                        </action>
                     </actions>
                     <sub-events>
                         <event-block sid="1835746999471952">
@@ -399,11 +396,7 @@
                                     <param id="2" name="Second value">Game_FlowerWhite</param>
                                 </condition>
                             </conditions>
-                            <actions>
-                                <action behavior="Bullet" id="0" name="Set speed" sid="3515125032199772" type="Flower">
-                                    <param id="0" name="Speed">40 + random(-10, 10)</param>
-                                </action>
-                            </actions>
+                            <actions />
                         </event-block>
                         <event-block sid="9010410717811601">
                             <conditions>
@@ -413,18 +406,7 @@
                                     <param id="2" name="Second value">Game_FlowerBlue</param>
                                 </condition>
                             </conditions>
-                            <actions>
-                                <action behavior="Bullet" id="0" name="Set speed" sid="8035075561541758" type="Flower">
-                                    <param id="0" name="Speed">80 + random(-15, 15)</param>
-                                </action>
-                                <action id="-3" name="Set position" sid="9627740177420429" type="Flower">
-                                    <param id="0" name="X">random(ViewportLeft(0) + Flower.Width / 2 + Flower.Sine.Magnitude, ViewportRight(0) - Flower.Width / 2 -  Flower.Sine.Magnitude)</param>
-                                    <param id="1" name="Y">ViewportTop(0) - Flower.Height / 2 - 10</param>
-                                </action>
-                                <action behavior="Sine" id="0" name="Set active" sid="1105811696613993" type="Flower">
-                                    <param id="0" name="State">1</param>
-                                </action>
-                            </actions>
+                            <actions />
                         </event-block>
                         <event-block sid="9591256885901627">
                             <conditions>
@@ -434,11 +416,7 @@
                                     <param id="2" name="Second value">Game_FlowerRed</param>
                                 </condition>
                             </conditions>
-                            <actions>
-                                <action behavior="Bullet" id="0" name="Set speed" sid="8629183785184759" type="Flower">
-                                    <param id="0" name="Speed">120 + random(-20, 20)</param>
-                                </action>
-                            </actions>
+                            <actions />
                         </event-block>
                     </sub-events>
                 </event-block>
@@ -470,10 +448,6 @@
                                 </action>
                                 <action id="-2" name="Set Y" sid="9702160915224836" type="Flower">
                                     <param id="0" name="Y">Flower.Y+Flower.Height / 2 + 20 - random(40)</param>
-                                </action>
-                                <action behavior="Pin" id="0" name="Pin to object" sid="1817513702348709" type="Flower">
-                                    <param id="0" name="Pin to">BasketBack</param>
-                                    <param id="1" name="Mode">0</param>
                                 </action>
                             </actions>
                         </event-block>
