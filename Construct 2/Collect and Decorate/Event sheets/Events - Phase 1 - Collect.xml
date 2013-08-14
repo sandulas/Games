@@ -7,7 +7,7 @@
         <variable constant="0" name="Input_Tilt" sid="9781080764917053" static="0" type="number">0</variable>
         <variable constant="0" name="Input_Touch" sid="4130087384966601" static="0" type="number">1</variable>
         <variable constant="0" name="Game_SpawnInterval" sid="9815157490617659" static="0" type="number">4</variable>
-        <event-group collapsed="1" description="" sid="4977919394299346" title="debugging">
+        <event-group description="" sid="4977919394299346" title="debugging">
             <sub-events>
                 <event-block sid="723856547017191">
                     <conditions>
