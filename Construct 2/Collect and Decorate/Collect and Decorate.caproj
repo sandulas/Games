@@ -10,17 +10,18 @@
     <unique-id>fjwuowywb9nv</unique-id>
     <saved-with-version>13900</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
+        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
-        <behavior author="Scirra" id="DragnDrop" version="1">Drag &amp; Drop</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="DragnDrop" version="1">Drag &amp; Drop</behavior>
+        <behavior author="Scirra" id="Physics" version="1">Physics</behavior>
         <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
     </used-behaviors>
     <used-effects />
@@ -170,9 +171,15 @@
         </object-type>
         <object-type name="Flower" sid="9088726652032803">
             <plugin id="Sprite" />
+            <instance-variables>
+                <instance-variable name="status" sid="3396191073967303" type="number" />
+            </instance-variables>
             <behaviors>
                 <behavior-type name="DragDrop" sid="7481515128562502">
                     <behavior id="DragnDrop" />
+                </behavior-type>
+                <behavior-type name="Physics" sid="2569052359442111">
+                    <behavior id="Physics" />
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
@@ -234,16 +241,31 @@
                 </animation>
             </animation-folder>
         </object-type>
+        <object-type name="Sprite" sid="3866754308558878">
+            <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Physics" sid="8679911352330298">
+                    <behavior id="Physics" />
+                </behavior-type>
+            </behaviors>
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="1147326613345381" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
+                </animation>
+            </animation-folder>
+        </object-type>
     </object-folder>
     <families />
     <layout-folder expanded="1">
         <layout>Phase 1 - Collect.xml</layout>
         <layout>Phase 2 - Create.xml</layout>
+        <layout>Phase 3 - Decorate.xml</layout>
     </layout-folder>
     <event-folder expanded="1">
         <event-sheet>Events - Phase 1 - Collect.xml</event-sheet>
         <event-sheet>Events - Phase 2 - Create.xml</event-sheet>
         <event-sheet>Events - Common.xml</event-sheet>
+        <event-sheet>Events - Phase 3 - Decorate.xml</event-sheet>
     </event-folder>
     <global-instances>
         <global-instance type="Touch" uid="7">
