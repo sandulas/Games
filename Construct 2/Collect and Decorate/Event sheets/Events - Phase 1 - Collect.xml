@@ -50,7 +50,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="9240795401389315" title="basket placement and movement">
+        <event-group description="" sid="9240795401389315" title="basket placement and movement">
             <sub-events>
                 <comment>position and pin basket elements</comment>
                 <event-block sid="8023288898181642">
