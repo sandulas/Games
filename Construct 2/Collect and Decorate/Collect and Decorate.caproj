@@ -310,7 +310,13 @@
             </animation-folder>
         </object-type>
     </object-folder>
-    <families />
+    <families>
+        <family name="Flowers" plugin-id="Sprite" sid="4350565727633146">
+            <members>
+                <member>Flower</member>
+            </members>
+        </family>
+    </families>
     <layout-folder expanded="1">
         <layout>Phase 1 - Collect.xml</layout>
         <layout>Phase 2 - Create.xml</layout>
