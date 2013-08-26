@@ -9,11 +9,11 @@
         <variable constant="1" name="OFFSET_Y" sid="7039048524514207" static="0" type="number">200</variable>
         <variable constant="1" name="POSITION_DISTANCE" sid="2519607737337948" static="0" type="number">120</variable>
         <variable constant="1" name="SNAP_DISTANCE" sid="4794724088729645" static="0" type="number">30</variable>
-        <variable constant="0" name="center_x" sid="3219718291974603" static="0" type="number">0</variable>
-        <variable constant="0" name="center_y" sid="6802560652983374" static="0" type="number">0</variable>
-        <variable constant="0" name="circle_x" sid="5664118315396733" static="0" type="number">0</variable>
-        <variable constant="0" name="circle_y" sid="7679215850877626" static="0" type="number">0</variable>
-        <variable constant="0" name="r" sid="1250391655452096" static="0" type="number">0</variable>
+        <variable constant="0" name="CenterX" sid="3219718291974603" static="0" type="number">0</variable>
+        <variable constant="0" name="CenterY" sid="6802560652983374" static="0" type="number">0</variable>
+        <variable constant="0" name="CircleX" sid="5664118315396733" static="0" type="number">0</variable>
+        <variable constant="0" name="CircleY" sid="7679215850877626" static="0" type="number">0</variable>
+        <variable constant="0" name="R" sid="1250391655452096" static="0" type="number">0</variable>
         <event-block sid="8454843402305543">
             <conditions />
             <actions />
@@ -29,15 +29,15 @@
             </conditions>
             <actions>
                 <action id="-9" name="Set value" sid="9119203713341441" type="System">
-                    <param id="0" name="Variable">r</param>
+                    <param id="0" name="Variable">R</param>
                     <param id="1" name="Value">abs((ViewportRight (0)- ViewportLeft(0)) / 2 / cos(ANGLE1))</param>
                 </action>
                 <action id="-9" name="Set value" sid="1522665260619179" type="System">
-                    <param id="0" name="Variable">center_x</param>
+                    <param id="0" name="Variable">CenterX</param>
                     <param id="1" name="Value">LayoutWidth / 2</param>
                 </action>
                 <action id="-9" name="Set value" sid="6233656270218546" type="System">
-                    <param id="0" name="Variable">center_y</param>
+                    <param id="0" name="Variable">CenterY</param>
                     <param id="1" name="Value">ViewportTop(0) - r+OFFSET_Y</param>
                 </action>
                 <action id="0" name="Call function" sid="2702737521522551" type="Function">
@@ -47,8 +47,8 @@
                 <action id="-3" name="Create object" sid="8893559101239566" type="System">
                     <param id="0" name="Object to create">RedDot</param>
                     <param id="1" name="Layer">0</param>
-                    <param id="2" name="X">circle_x</param>
-                    <param id="3" name="Y">circle_y</param>
+                    <param id="2" name="X">CircleX</param>
+                    <param id="3" name="Y">CircleY</param>
                 </action>
                 <action id="-8" name="Set angle" sid="3146435746707184" type="RedDot">
                     <param id="0" name="Angle">loopindex</param>
@@ -60,8 +60,8 @@
                 <action id="-3" name="Create object" sid="7409737726466545" type="System">
                     <param id="0" name="Object to create">RedDot</param>
                     <param id="1" name="Layer">0</param>
-                    <param id="2" name="X">circle_x</param>
-                    <param id="3" name="Y">circle_y</param>
+                    <param id="2" name="X">CircleX</param>
+                    <param id="3" name="Y">CircleY</param>
                 </action>
                 <action id="-8" name="Set angle" sid="7223443382399028" type="RedDot">
                     <param id="0" name="Angle">loopindex</param>
@@ -76,8 +76,8 @@
                 <action id="-3" name="Create object" sid="2721224230043301" type="System">
                     <param id="0" name="Object to create">RedDot</param>
                     <param id="1" name="Layer">0</param>
-                    <param id="2" name="X">circle_x</param>
-                    <param id="3" name="Y">circle_y</param>
+                    <param id="2" name="X">CircleX</param>
+                    <param id="3" name="Y">CircleY</param>
                 </action>
                 <action id="-8" name="Set angle" sid="5690972141879994" type="RedDot">
                     <param id="0" name="Angle">loopindex</param>
@@ -96,14 +96,14 @@
                 <event-block sid="3725350389971643">
                     <conditions>
                         <condition id="-8" name="Compare two values" sid="6540975687340696" type="System">
-                            <param id="0" name="First value">distance(center_x, center_y, Flower.X, Flower.Y)</param>
+                            <param id="0" name="First value">distance(CenterX, CenterY, Flower.X, Flower.Y)</param>
                             <param id="1" name="Comparison">2</param>
                             <param id="2" name="Second value">r+POSITION_DISTANCE</param>
                         </condition>
                     </conditions>
                     <actions>
                         <action id="-8" name="Set angle" sid="7041637424410707" type="Flower">
-                            <param id="0" name="Angle">angle(center_x, center_y, Flower.X, Flower.Y)-90</param>
+                            <param id="0" name="Angle">angle(CenterX, CenterY, Flower.X, Flower.Y)-90</param>
                         </action>
                     </actions>
                 </event-block>
@@ -115,7 +115,7 @@
                             <param id="2" name="Second value">2</param>
                         </condition>
                         <condition id="-8" name="Compare two values" sid="8761046987581508" type="System">
-                            <param id="0" name="First value">distance(center_x, center_y, Flower.X, Flower.Y)</param>
+                            <param id="0" name="First value">distance(CenterX, CenterY, Flower.X, Flower.Y)</param>
                             <param id="1" name="Comparison">2</param>
                             <param id="2" name="Second value">r+SNAP_DISTANCE</param>
                         </condition>
@@ -123,14 +123,14 @@
                     <actions>
                         <action id="0" name="Call function" sid="4300334386425395" type="Function">
                             <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
-                            <param id="1" name="Parameter {n}">r{###}angle(center_x, center_y, Flower.X, Flower.Y)</param>
+                            <param id="1" name="Parameter {n}">r{###}angle(CenterX, CenterY, Flower.X, Flower.Y)</param>
                         </action>
                         <action id="-3" name="Set position" sid="2414257410781437" type="Flower">
-                            <param id="0" name="X">circle_x</param>
-                            <param id="1" name="Y">circle_y</param>
+                            <param id="0" name="X">CircleX</param>
+                            <param id="1" name="Y">CircleY</param>
                         </action>
                         <action id="-8" name="Set angle" sid="4499185675286072" type="Flower">
-                            <param id="0" name="Angle">angle(center_x, center_y, Flower.X, Flower.Y)-90</param>
+                            <param id="0" name="Angle">angle(CenterX, CenterY, Flower.X, Flower.Y)-90</param>
                         </action>
                         <action behavior="DragDrop" id="1" name="Drop" sid="4621544495797734" type="Flower" />
                         <action id="-10" name="Set value" sid="1986996317860134" type="Flower">
@@ -147,7 +147,7 @@
                             <param id="2" name="Second value">2</param>
                         </condition>
                         <condition id="-8" name="Compare two values" sid="3097246737771131" type="System">
-                            <param id="0" name="First value">distance(center_x, center_y, Touch.X, Touch.Y)</param>
+                            <param id="0" name="First value">distance(CenterX, CenterY, Touch.X, Touch.Y)</param>
                             <param id="1" name="Comparison">2</param>
                             <param id="2" name="Second value">r+SNAP_DISTANCE</param>
                         </condition>
@@ -158,8 +158,8 @@
                             <param id="1" name="Parameter {n}">r{###}Flower.Angle+90</param>
                         </action>
                         <action id="-3" name="Set position" sid="5754879303735921" type="Flower">
-                            <param id="0" name="X">circle_x</param>
-                            <param id="1" name="Y">circle_y</param>
+                            <param id="0" name="X">CircleX</param>
+                            <param id="1" name="Y">CircleY</param>
                         </action>
                         <action id="-10" name="Set value" sid="3722941449332772" type="Flower">
                             <param id="0" name="Instance variable">status</param>
@@ -177,12 +177,12 @@
             </conditions>
             <actions>
                 <action id="-9" name="Set value" sid="6369028732026035" type="System">
-                    <param id="0" name="Variable">circle_x</param>
-                    <param id="1" name="Value">center_x + Function.Param(0) * cos(Function.Param(1))</param>
+                    <param id="0" name="Variable">CircleX</param>
+                    <param id="1" name="Value">CenterX + Function.Param(0) * cos(Function.Param(1))</param>
                 </action>
                 <action id="-9" name="Set value" sid="4411156778236766" type="System">
-                    <param id="0" name="Variable">circle_y</param>
-                    <param id="1" name="Value">center_y + Function.Param(0) * sin(Function.Param(1))</param>
+                    <param id="0" name="Variable">CircleY</param>
+                    <param id="1" name="Value">CenterY + Function.Param(0) * sin(Function.Param(1))</param>
                 </action>
             </actions>
         </event-block>

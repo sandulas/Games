@@ -3,99 +3,175 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Events - Phase 3 - Decorate</name>
     <events>
+        <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="0" type="number">0</variable>
+        <variable constant="0" name="FlowersCount" sid="7299355969258432" static="0" type="number">15</variable>
         <include>Events - Common</include>
-        <event-group collapsed="1" description="" disabled="1" sid="4400270356835207" title="Flowers">
+        <event-group description="" sid="4400270356835207" title="Flowers">
             <sub-events>
-                <event-block sid="9478820508006296">
+                <comment>create flowers</comment>
+                <event-block sid="7014517622640797">
                     <conditions>
-                        <condition id="-2" name="On start of layout" sid="5769088419437457" type="System" />
+                        <condition id="-2" name="On start of layout" sid="7063747738115322" type="System" />
+                        <condition id="-10" name="For" sid="3082746535428171" type="System">
+                            <param id="0" name="Name">&quot;&quot;</param>
+                            <param id="1" name="Start index">1</param>
+                            <param id="2" name="End index">FlowersCount</param>
+                        </condition>
                     </conditions>
                     <actions>
-                        <action behavior="DragDrop" id="0" name="Set enabled" sid="7457679503016499" type="Flower">
+                        <action id="-3" name="Create object" sid="834650229187708" type="System">
+                            <param id="0" name="Object to create">Flower</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="X">Handle.X + loopindex*70</param>
+                            <param id="3" name="Y">Handle.Y</param>
+                        </action>
+                        <action behavior="Bullet" id="5" name="Set enabled" sid="8340643653458692" type="Flower">
                             <param id="0" name="State">0</param>
                         </action>
-                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="8343173272348279" type="Flower">
+                        <action id="9" name="Set scale" sid="6668201295727792" type="Flower">
+                            <param id="0" name="Scale">0.5</param>
+                        </action>
+                        <action id="5" name="Set frame" sid="9436128099243996" type="Flower">
+                            <param id="0" name="Frame number">floor(random(Flower.AnimationFrameCount))</param>
+                        </action>
+                        <action behavior="Physics" id="27" name="Set enabled" sid="4723768118030324" type="Flower">
+                            <param id="0" name="Mode">1</param>
+                        </action>
+                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="6527888485940189" type="Flower">
                             <param id="0" name="Object">Flower</param>
                             <param id="1" name="State">0</param>
                         </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="5593692342965862">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="5868887008193373" type="System">
+                                    <param id="0" name="First value">loopindex % 2</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-24" name="Move to top" sid="3203867173999908" type="Flower" />
+                            </actions>
+                        </event-block>
+                        <event-block sid="5495084192163887">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="1785793577248804" type="System">
+                                    <param id="0" name="First value">loopindex % 2</param>
+                                    <param id="1" name="Comparison">1</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-25" name="Move to bottom" sid="6583249729721025" type="Flower" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
-                <event-block sid="3608892665492703">
+                <event-block sid="4687575304755778">
                     <conditions>
-                        <condition id="-2" name="On start of layout" sid="4436514686443011" type="System" />
-                        <condition id="-14" name="Pick by unique ID" sid="5082431660796814" type="Flower">
-                            <param id="0" name="Unique ID">20</param>
-                        </condition>
+                        <condition id="-2" name="On start of layout" sid="678367020166739" type="System" />
                     </conditions>
                     <actions>
-                        <action id="5" name="Set frame" sid="7643557909306051" type="Flower">
-                            <param id="0" name="Frame number">0</param>
+                        <action id="-3" name="Create object" sid="5236568714321276" type="System">
+                            <param id="0" name="Object to create">Handle</param>
+                            <param id="1" name="Layer">1</param>
+                            <param id="2" name="X">Handle.X + (FlowersCount + 1) * 70</param>
+                            <param id="3" name="Y">Handle.Y</param>
                         </action>
-                        <action id="2" name="Stop" sid="3563766834136511" type="Flower" />
                     </actions>
                 </event-block>
-                <event-block sid="2966715181859779">
+                <comment>connect flowers</comment>
+                <event-block sid="8622399581451">
                     <conditions>
-                        <condition id="-2" name="On start of layout" sid="8601429854703383" type="System" />
-                        <condition id="-14" name="Pick by unique ID" sid="1630558333297254" type="Flower">
-                            <param id="0" name="Unique ID">22</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="5" name="Set frame" sid="1252661517771331" type="Flower">
-                            <param id="0" name="Frame number">1</param>
-                        </action>
-                        <action id="2" name="Stop" sid="829412739867743" type="Flower" />
-                    </actions>
-                </event-block>
-                <event-block sid="1217605902448117">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="6623770098980899" type="System" />
-                        <condition id="1" name="Is overlapping another object" sid="8326356407845941" type="Flower">
+                        <condition id="-2" name="On start of layout" sid="5550696016615338" type="System" />
+                        <condition id="-11" name="For Each" sid="5852725855907303" type="System">
                             <param id="0" name="Object">Flower</param>
                         </condition>
                     </conditions>
-                    <actions>
-                        <action behavior="Physics" id="11" name="Create revolute joint" sid="5643676766392023" type="Flower">
-                            <param id="0" name="This image point">0</param>
-                            <param id="1" name="Object">Flower</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="8434162917341405">
-                    <conditions>
-                        <condition id="-8" name="Compare two values" sid="3092244465657831" type="System">
-                            <param id="0" name="First value">touch.TouchCount</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Second value">1</param>
-                        </condition>
-                        <condition id="-14" name="Pick by unique ID" sid="3687671653656686" type="Flower">
-                            <param id="0" name="Unique ID">20</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action behavior="Physics" id="1" name="Apply force towards position" sid="3087122011681137" type="Flower">
-                            <param id="0" name="Force">200</param>
-                            <param id="1" name="X">Touch.X</param>
-                            <param id="2" name="Y">Touch.Y</param>
-                            <param id="3" name="Image point">0</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="6778242034085353">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="2945334570460183" type="System" />
-                        <condition id="-14" name="Pick by unique ID" sid="3023696318309455" type="Flower">
-                            <param id="0" name="Unique ID">20</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-25" name="Move to bottom" sid="5375754189975753" type="Flower" />
-                    </actions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="1385101807232099">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="8216741795881552" type="System">
+                                    <param id="0" name="First value">loopindex</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                                <condition id="-15" name="Pick nearest/furthest" sid="4709562870545281" type="Handle">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="X">Flower.X</param>
+                                    <param id="2" name="Y">Flower.Y</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="Physics" disabled="1" id="11" name="Create revolute joint" sid="2364674305381451" type="Flower">
+                                    <param id="0" name="This image point">0</param>
+                                    <param id="1" name="Object">Handle</param>
+                                </action>
+                                <action behavior="Physics" id="11" name="Create revolute joint" sid="6349343316790178" type="Handle">
+                                    <param id="0" name="This image point">0</param>
+                                    <param id="1" name="Object">Flower</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="9192473944810401">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="5595482088044314" type="System">
+                                    <param id="0" name="First value">loopindex</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">FlowersCount-1</param>
+                                </condition>
+                                <condition id="-15" name="Pick nearest/furthest" sid="4084691612697352" type="Handle">
+                                    <param id="0" name="Which">0</param>
+                                    <param id="1" name="X">Flower.X</param>
+                                    <param id="2" name="Y">Flower.Y</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="Physics" disabled="1" id="11" name="Create revolute joint" sid="6851109205073598" type="Flower">
+                                    <param id="0" name="This image point">0</param>
+                                    <param id="1" name="Object">Handle</param>
+                                </action>
+                                <action behavior="Physics" id="11" name="Create revolute joint" sid="2294649516096184" type="Handle">
+                                    <param id="0" name="This image point">0</param>
+                                    <param id="1" name="Object">Flower</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="4950446967196114">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="2711927673509684" type="System">
+                                    <param id="0" name="First value">loopindex</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                                <condition id="-14" name="Pick by unique ID" sid="4556595268196246" type="Flowers">
+                                    <param id="0" name="Unique ID">PrevFlowerId</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action behavior="Physics" id="11" name="Create revolute joint" sid="4043186638891799" type="Flower">
+                                    <param id="0" name="This image point">0</param>
+                                    <param id="1" name="Object">Flowers</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="9515931224848708">
+                            <conditions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="7568188780362758" type="System">
+                                    <param id="0" name="Variable">PrevFlowerId</param>
+                                    <param id="1" name="Value">Flower.UID</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="6195917185795146" title="Test">
+        <event-group collapsed="1" description="" sid="6195917185795146" title="Test">
             <sub-events>
                 <event-block sid="1392349276854711">
                     <conditions>
