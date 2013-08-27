@@ -126,6 +126,10 @@
                             <param id="0" name="Object">Flower</param>
                             <param id="1" name="State">0</param>
                         </action>
+                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="281679327512777" type="Flower">
+                            <param id="0" name="Object">Handle</param>
+                            <param id="1" name="State">0</param>
+                        </action>
                     </actions>
                 </event-block>
                 <event-block sid="8622399581451">
