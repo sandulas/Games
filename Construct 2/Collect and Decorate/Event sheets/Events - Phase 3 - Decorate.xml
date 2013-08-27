@@ -12,7 +12,7 @@
             </conditions>
             <actions>
                 <action behavior="Physics" id="12" name="Set world gravity" sid="1413495250168705" type="Handle">
-                    <param id="0" name="Gravity">10</param>
+                    <param id="0" name="Gravity">20</param>
                 </action>
             </actions>
         </event-block>
@@ -41,7 +41,7 @@
                         <action id="9" name="Set scale" sid="6668201295727792" type="Flower">
                             <param id="0" name="Scale">0.5</param>
                         </action>
-                        <action disabled="1" id="5" name="Set frame" sid="9436128099243996" type="Flower">
+                        <action id="5" name="Set frame" sid="9436128099243996" type="Flower">
                             <param id="0" name="Frame number">floor(random(Flower.AnimationFrameCount))</param>
                         </action>
                         <action behavior="Physics" id="27" name="Set enabled" sid="4723768118030324" type="Flower">
@@ -176,134 +176,6 @@
                             </actions>
                         </event-block>
                     </sub-events>
-                </event-block>
-            </sub-events>
-        </event-group>
-        <event-group collapsed="1" description="" sid="6195917185795146" title="Test">
-            <sub-events>
-                <event-block sid="1392349276854711">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="1853259077446987" type="System" />
-                    </conditions>
-                    <actions>
-                        <action behavior="Physics" disabled="1" id="12" name="Set world gravity" sid="9657897747685212" type="Test2">
-                            <param id="0" name="Gravity">0</param>
-                        </action>
-                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="4434957670953914" type="Test2">
-                            <param id="0" name="Object">Test</param>
-                            <param id="1" name="State">0</param>
-                        </action>
-                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="273138912289563" type="Test">
-                            <param id="0" name="Object">Test2</param>
-                            <param id="1" name="State">0</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="302291916604816">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="6400461880712191" type="System" />
-                        <condition id="-14" name="Pick by unique ID" sid="3259249633276998" type="Test2">
-                            <param id="0" name="Unique ID">27</param>
-                        </condition>
-                        <condition id="-14" name="Pick by unique ID" sid="4710218065144825" type="Test">
-                            <param id="0" name="Unique ID">23</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action behavior="Physics" id="22" name="Create limited revolute joint" sid="6829652893236605" type="Test2">
-                            <param id="0" name="This image point">0</param>
-                            <param id="1" name="Object">Test</param>
-                            <param id="2" name="Lower angle">-20</param>
-                            <param id="3" name="Upper angle">20</param>
-                        </action>
-                        <action behavior="Physics" disabled="1" id="11" name="Create revolute joint" sid="7934620435673709" type="Test2">
-                            <param id="0" name="This image point">0</param>
-                            <param id="1" name="Object">Test</param>
-                        </action>
-                        <action behavior="Physics" id="21" name="Set immovable" sid="1866286695951405" type="Test2">
-                            <param id="0" name="Setting">1</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block disabled="1" sid="370271242295073">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="5789531919806213" type="System" />
-                        <condition id="-10" name="For" sid="8097447065543749" type="System">
-                            <param id="0" name="Name">&quot;count&quot;</param>
-                            <param id="1" name="Start index">1</param>
-                            <param id="2" name="End index">5</param>
-                        </condition>
-                    </conditions>
-                    <actions />
-                </event-block>
-                <event-block disabled="1" sid="287024828090559">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="5775890210225308" type="System" />
-                        <condition id="-14" name="Pick by unique ID" sid="1927267237645868" type="Test2">
-                            <param id="0" name="Unique ID">29</param>
-                        </condition>
-                        <condition id="-14" name="Pick by unique ID" sid="4044375963341144" type="Test">
-                            <param id="0" name="Unique ID">28</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action behavior="Physics" disabled="1" id="10" name="Create distance joint" sid="7398327850156979" type="Test2">
-                            <param id="0" name="This image point">0</param>
-                            <param id="1" name="Object">Test</param>
-                            <param id="2" name="That image point">2</param>
-                            <param id="3" name="Damping ratio">0</param>
-                            <param id="4" name="Spring frequency">0</param>
-                        </action>
-                        <action behavior="Physics" id="22" name="Create limited revolute joint" sid="2258644840214178" type="Test2">
-                            <param id="0" name="This image point">0</param>
-                            <param id="1" name="Object">Test</param>
-                            <param id="2" name="Lower angle">-20</param>
-                            <param id="3" name="Upper angle">20</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="1217605902448117">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="6623770098980899" type="System" />
-                        <condition id="1" name="Is overlapping another object" sid="2906315864652546" type="Test">
-                            <param id="0" name="Object">Test</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action behavior="Physics" disabled="1" id="10" name="Create distance joint" sid="4717410583261985" type="Test">
-                            <param id="0" name="This image point">1</param>
-                            <param id="1" name="Object">Test</param>
-                            <param id="2" name="That image point">2</param>
-                            <param id="3" name="Damping ratio">0</param>
-                            <param id="4" name="Spring frequency">0</param>
-                        </action>
-                        <action behavior="Physics" id="22" name="Create limited revolute joint" sid="5643676766392023" type="Test">
-                            <param id="0" name="This image point">3</param>
-                            <param id="1" name="Object">Test</param>
-                            <param id="2" name="Lower angle">-20</param>
-                            <param id="3" name="Upper angle">20</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block disabled="1" sid="8434162917341405">
-                    <conditions>
-                        <condition id="-8" name="Compare two values" sid="3092244465657831" type="System">
-                            <param id="0" name="First value">touch.TouchCount</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Second value">1</param>
-                        </condition>
-                        <condition id="-14" name="Pick by unique ID" sid="3687671653656686" type="Test2">
-                            <param id="0" name="Unique ID">27</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action behavior="Physics" id="1" name="Apply force towards position" sid="4352877084842855" type="Test2">
-                            <param id="0" name="Force">200</param>
-                            <param id="1" name="X">Touch.X</param>
-                            <param id="2" name="Y">Touch.Y</param>
-                            <param id="3" name="Image point">0</param>
-                        </action>
-                    </actions>
                 </event-block>
             </sub-events>
         </event-group>
