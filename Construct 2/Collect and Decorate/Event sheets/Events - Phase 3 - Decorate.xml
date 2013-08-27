@@ -3,8 +3,11 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Events - Phase 3 - Decorate</name>
     <events>
-        <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="0" type="number">0</variable>
+        <variable constant="0" name="StartX" sid="3880459603791739" static="0" type="number">0</variable>
+        <variable constant="0" name="StartY" sid="9516740109418225" static="0" type="number">0</variable>
         <variable constant="0" name="FlowersCount" sid="7299355969258432" static="0" type="number">12</variable>
+        <variable constant="0" name="OverlapPercent" sid="2236137402117079" static="0" type="number">20</variable>
+        <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="0" type="number">0</variable>
         <include>Events - Common</include>
         <event-block sid="9809400649618648">
             <conditions>
@@ -35,14 +38,14 @@
                             <param id="2" name="X">Handle.X + loopindex*70</param>
                             <param id="3" name="Y">Handle.Y</param>
                         </action>
-                        <action behavior="Bullet" id="5" name="Set enabled" sid="8340643653458692" type="Flower">
-                            <param id="0" name="State">0</param>
-                        </action>
                         <action id="9" name="Set scale" sid="6668201295727792" type="Flower">
                             <param id="0" name="Scale">0.5</param>
                         </action>
                         <action id="5" name="Set frame" sid="9436128099243996" type="Flower">
                             <param id="0" name="Frame number">floor(random(Flower.AnimationFrameCount))</param>
+                        </action>
+                        <action behavior="Bullet" id="5" name="Set enabled" sid="8340643653458692" type="Flower">
+                            <param id="0" name="State">0</param>
                         </action>
                         <action behavior="Physics" id="27" name="Set enabled" sid="4723768118030324" type="Flower">
                             <param id="0" name="Mode">1</param>
