@@ -4,8 +4,18 @@
     <name>Events - Phase 3 - Decorate</name>
     <events>
         <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="0" type="number">0</variable>
-        <variable constant="0" name="FlowersCount" sid="7299355969258432" static="0" type="number">15</variable>
+        <variable constant="0" name="FlowersCount" sid="7299355969258432" static="0" type="number">12</variable>
         <include>Events - Common</include>
+        <event-block sid="9809400649618648">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="9736519629033493" type="System" />
+            </conditions>
+            <actions>
+                <action behavior="Physics" id="12" name="Set world gravity" sid="1413495250168705" type="Handle">
+                    <param id="0" name="Gravity">10</param>
+                </action>
+            </actions>
+        </event-block>
         <event-group description="" sid="4400270356835207" title="Flowers">
             <sub-events>
                 <comment>create flowers</comment>
@@ -31,7 +41,7 @@
                         <action id="9" name="Set scale" sid="6668201295727792" type="Flower">
                             <param id="0" name="Scale">0.5</param>
                         </action>
-                        <action id="5" name="Set frame" sid="9436128099243996" type="Flower">
+                        <action disabled="1" id="5" name="Set frame" sid="9436128099243996" type="Flower">
                             <param id="0" name="Frame number">floor(random(Flower.AnimationFrameCount))</param>
                         </action>
                         <action behavior="Physics" id="27" name="Set enabled" sid="4723768118030324" type="Flower">
@@ -106,10 +116,6 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action behavior="Physics" disabled="1" id="11" name="Create revolute joint" sid="2364674305381451" type="Flower">
-                                    <param id="0" name="This image point">0</param>
-                                    <param id="1" name="Object">Handle</param>
-                                </action>
                                 <action behavior="Physics" id="11" name="Create revolute joint" sid="6349343316790178" type="Handle">
                                     <param id="0" name="This image point">0</param>
                                     <param id="1" name="Object">Flower</param>
@@ -130,10 +136,6 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action behavior="Physics" disabled="1" id="11" name="Create revolute joint" sid="6851109205073598" type="Flower">
-                                    <param id="0" name="This image point">0</param>
-                                    <param id="1" name="Object">Handle</param>
-                                </action>
                                 <action behavior="Physics" id="11" name="Create revolute joint" sid="2294649516096184" type="Handle">
                                     <param id="0" name="This image point">0</param>
                                     <param id="1" name="Object">Flower</param>
@@ -152,9 +154,15 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action behavior="Physics" id="11" name="Create revolute joint" sid="4043186638891799" type="Flower">
-                                    <param id="0" name="This image point">0</param>
+                                <action behavior="Physics" disabled="1" id="11" name="Create revolute joint" sid="4043186638891799" type="Flower">
+                                    <param id="0" name="This image point">&quot;left&quot;</param>
                                     <param id="1" name="Object">Flowers</param>
+                                </action>
+                                <action behavior="Physics" id="22" name="Create limited revolute joint" sid="3040171239691541" type="Flower">
+                                    <param id="0" name="This image point">&quot;left&quot;</param>
+                                    <param id="1" name="Object">Flowers</param>
+                                    <param id="2" name="Lower angle">-20</param>
+                                    <param id="3" name="Upper angle">20</param>
                                 </action>
                             </actions>
                         </event-block>
