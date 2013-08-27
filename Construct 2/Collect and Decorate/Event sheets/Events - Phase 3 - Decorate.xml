@@ -3,21 +3,17 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Events - Phase 3 - Decorate</name>
     <events>
-        <variable constant="0" name="StartX" sid="3880459603791739" static="0" type="number">0</variable>
-        <variable constant="0" name="StartY" sid="9516740109418225" static="0" type="number">0</variable>
+        <variable constant="0" name="StartX" sid="3880459603791739" static="0" type="number">180</variable>
+        <variable constant="0" name="StartY" sid="9516740109418225" static="0" type="number">160</variable>
         <variable constant="0" name="FlowersCount" sid="7299355969258432" static="0" type="number">12</variable>
-        <variable constant="0" name="OverlapPercent" sid="2236137402117079" static="0" type="number">20</variable>
+        <variable constant="0" name="OverlapPercent" sid="2236137402117079" static="0" type="number">0.15</variable>
         <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="0" type="number">0</variable>
         <include>Events - Common</include>
         <event-block sid="9809400649618648">
             <conditions>
                 <condition id="-2" name="On start of layout" sid="9736519629033493" type="System" />
             </conditions>
-            <actions>
-                <action behavior="Physics" id="12" name="Set world gravity" sid="1413495250168705" type="Handle">
-                    <param id="0" name="Gravity">20</param>
-                </action>
-            </actions>
+            <actions />
         </event-block>
         <event-group description="" sid="4400270356835207" title="Flowers">
             <sub-events>
@@ -35,8 +31,8 @@
                         <action id="-3" name="Create object" sid="834650229187708" type="System">
                             <param id="0" name="Object to create">Flower</param>
                             <param id="1" name="Layer">1</param>
-                            <param id="2" name="X">Handle.X + loopindex*70</param>
-                            <param id="3" name="Y">Handle.Y</param>
+                            <param id="2" name="X">StartX</param>
+                            <param id="3" name="Y">StartY</param>
                         </action>
                         <action id="9" name="Set scale" sid="6668201295727792" type="Flower">
                             <param id="0" name="Scale">0.5</param>
@@ -47,15 +43,34 @@
                         <action behavior="Bullet" id="5" name="Set enabled" sid="8340643653458692" type="Flower">
                             <param id="0" name="State">0</param>
                         </action>
-                        <action behavior="Physics" id="27" name="Set enabled" sid="4723768118030324" type="Flower">
-                            <param id="0" name="Mode">1</param>
-                        </action>
-                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="6527888485940189" type="Flower">
-                            <param id="0" name="Object">Flower</param>
-                            <param id="1" name="State">0</param>
-                        </action>
                     </actions>
                     <sub-events>
+                        <event-block sid="5521111084713958">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="6048616226536811" type="System">
+                                    <param id="0" name="First value">loopindex</param>
+                                    <param id="1" name="Comparison">4</param>
+                                    <param id="2" name="Second value">1</param>
+                                </condition>
+                                <condition id="-14" name="Pick by unique ID" sid="4691594404759584" type="Flowers">
+                                    <param id="0" name="Unique ID">PrevFlowerId</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-1" name="Set X" sid="8906254232742433" type="Flower">
+                                    <param id="0" name="X">Flowers.X + Flowers.Width / 2 - Flowers.Width * OverlapPercent + Flower.Width / 2 - Flower.Width * OverlapPercent</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="6433516641560013">
+                            <conditions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="1285376557461711" type="System">
+                                    <param id="0" name="Variable">PrevFlowerId</param>
+                                    <param id="1" name="Value">Flower.UID</param>
+                                </action>
+                            </actions>
+                        </event-block>
                         <event-block sid="5593692342965862">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="5868887008193373" type="System">
@@ -96,9 +111,31 @@
                     </actions>
                 </event-block>
                 <comment>connect flowers</comment>
+                <event-block sid="7232490483244657">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="1052132060643043" type="System" />
+                    </conditions>
+                    <actions>
+                        <action behavior="Physics" id="12" name="Set world gravity" sid="1413495250168705" type="Handle">
+                            <param id="0" name="Gravity">20</param>
+                        </action>
+                        <action behavior="Physics" id="27" name="Set enabled" sid="4723768118030324" type="Flower">
+                            <param id="0" name="Mode">1</param>
+                        </action>
+                        <action behavior="Physics" id="23" name="Enable/disable collisions" sid="6527888485940189" type="Flower">
+                            <param id="0" name="Object">Flower</param>
+                            <param id="1" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
                 <event-block sid="8622399581451">
                     <conditions>
-                        <condition id="-2" name="On start of layout" sid="5550696016615338" type="System" />
+                        <condition disabled="1" id="-2" name="On start of layout" sid="5550696016615338" type="System" />
+                        <condition id="-8" name="Compare two values" sid="3823353476787741" type="System">
+                            <param id="0" name="First value">tickcount</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">1</param>
+                        </condition>
                         <condition id="-11" name="For Each" sid="5852725855907303" type="System">
                             <param id="0" name="Object">Flower</param>
                         </condition>
