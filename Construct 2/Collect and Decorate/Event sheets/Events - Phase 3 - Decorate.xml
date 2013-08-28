@@ -7,6 +7,8 @@
         <variable constant="0" name="StartY" sid="9516740109418225" static="0" type="number">160</variable>
         <variable constant="0" name="FlowersCount" sid="7299355969258432" static="0" type="number">12</variable>
         <variable constant="0" name="OverlapPercent" sid="2236137402117079" static="0" type="number">0.15</variable>
+        <variable constant="0" name="MinScale" sid="7179635873072381" static="0" type="number">0.5</variable>
+        <variable constant="0" name="MaxScale" sid="9818304363819659" static="0" type="number">0.6</variable>
         <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="0" type="number">0</variable>
         <include>Events - Common</include>
         <event-block sid="9809400649618648">
@@ -39,11 +41,15 @@
                         <action id="5" name="Set frame" sid="9436128099243996" type="Flower">
                             <param id="0" name="Frame number">floor(random(Flower.AnimationFrameCount))</param>
                         </action>
-                        <action id="9" name="Set scale" sid="5700140480365566" type="Flower">
+                        <action disabled="1" id="9" name="Set scale" sid="5700140480365566" type="Flower">
                             <param id="0" name="Scale">0.5</param>
                         </action>
-                        <action disabled="1" id="9" name="Set scale" sid="6668201295727792" type="Flower">
-                            <param id="0" name="Scale">random(0.4, 0.8)</param>
+                        <action id="9" name="Set scale" sid="4920803967578114" type="Flower">
+                            <param id="0" name="Scale">MinScale + int(FlowersCount / 2 - abs(loopindex - (FlowersCount + 1) / 2)) / (int(FlowersCount / 2) / (MaxScale - MinScale))</param>
+                        </action>
+                        <action disabled="1" id="-9" name="Set value" sid="7192696251241234" type="System">
+                            <param id="0" name="Variable">debug_line2</param>
+                            <param id="1" name="Value">debug_line2 &amp; &quot;, &quot; &amp; MinScale + int(FlowersCount / 2 - abs(loopindex - (FlowersCount + 1) / 2)) / (int(FlowersCount / 2) / (MaxScale - MinScale))</param>
                         </action>
                     </actions>
                     <sub-events>
