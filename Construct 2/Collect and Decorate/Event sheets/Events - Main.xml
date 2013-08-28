@@ -4,5 +4,62 @@
     <name>Events - Main</name>
     <events>
         <include>Events - Common</include>
+        <event-block sid="6020407378302183">
+            <conditions>
+                <condition id="3" name="On touched object" sid="2332137902485102" type="Touch">
+                    <param id="0" name="Object">UIButton</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="2292220479958731" type="System">
+                    <param id="0" name="Variable">debug_line2</param>
+                    <param id="1" name="Value">UIButton.title</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="5745762568587499">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="4998780381107751" type="System">
+                            <param id="0" name="First value">lowercase(UIButton.title)</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">&quot;collect&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Go to layout" sid="7551809375216111" type="System">
+                            <param id="0" name="Layout">Phase 1 - Collect</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2265262479539189">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="3955034694505146" type="System">
+                            <param id="0" name="First value">lowercase(UIButton.title)</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">&quot;create&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Go to layout" sid="7701207282050601" type="System">
+                            <param id="0" name="Layout">Phase 2 - Create</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2106470211629154">
+                    <conditions>
+                        <condition id="-8" name="Compare two values" sid="4202989972647318" type="System">
+                            <param id="0" name="First value">lowercase(UIButton.title)</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Second value">&quot;decorate&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-2" name="Go to layout" sid="2957273925548076" type="System">
+                            <param id="0" name="Layout">Phase 3 - Decorate</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
     </events>
 </c2eventsheet>

@@ -362,7 +362,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="8345507727811121" title="flowers - create, catch, destroy">
+        <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">
             <sub-events>
                 <comment>create and setup flowers</comment>
                 <event-block sid="1904972802140828">
