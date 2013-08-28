@@ -66,7 +66,7 @@
                                 <action id="-3" name="Create object" sid="7385820670933109" type="System">
                                     <param id="0" name="Object to create">Handle</param>
                                     <param id="1" name="Layer">1</param>
-                                    <param id="2" name="X">Flower.X - Flower.Width / 2 + Flower.Width * OverlapPercent - Handle.Width / 2 + Handle.Width * OverlapPercent</param>
+                                    <param id="2" name="X">StartX</param>
                                     <param id="3" name="Y">StartY</param>
                                 </action>
                             </actions>
