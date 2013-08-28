@@ -163,6 +163,7 @@
                 <comment>connect the handles and flowers</comment>
                 <event-block sid="8622399581451">
                     <conditions>
+                        <condition disabled="1" id="-2" name="On start of layout" sid="9817697532048034" type="System" />
                         <condition id="-8" name="Compare two values" sid="3823353476787741" type="System">
                             <param id="0" name="First value">tickcount</param>
                             <param id="1" name="Comparison">0</param>
