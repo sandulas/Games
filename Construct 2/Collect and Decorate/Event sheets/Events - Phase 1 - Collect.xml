@@ -360,6 +360,22 @@
                         </event-block>
                     </sub-events>
                 </event-block>
+                <event-block sid="4775165821946461">
+                    <conditions>
+                        <condition id="3" name="On touched object" sid="8340769041010615" type="Touch">
+                            <param id="0" name="Object">UIButton</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="4251141660583254" type="System">
+                            <param id="0" name="Variable">debug_line2</param>
+                            <param id="1" name="Value">UIButton.title</param>
+                        </action>
+                        <action id="-2" name="Go to layout" sid="194521837598035" type="System">
+                            <param id="0" name="Layout">Main</param>
+                        </action>
+                    </actions>
+                </event-block>
             </sub-events>
         </event-group>
         <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">

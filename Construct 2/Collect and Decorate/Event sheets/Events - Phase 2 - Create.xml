@@ -186,5 +186,21 @@
                 </action>
             </actions>
         </event-block>
+        <event-block sid="6988080725979433">
+            <conditions>
+                <condition id="3" name="On touched object" sid="8074083497938671" type="Touch">
+                    <param id="0" name="Object">UIButton</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Set value" sid="323402086084005" type="System">
+                    <param id="0" name="Variable">debug_line2</param>
+                    <param id="1" name="Value">UIButton.title</param>
+                </action>
+                <action id="-2" name="Go to layout" sid="8148440326543735" type="System">
+                    <param id="0" name="Layout">Main</param>
+                </action>
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>

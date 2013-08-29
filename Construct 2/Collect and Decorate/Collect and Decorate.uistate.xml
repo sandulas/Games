@@ -9,7 +9,10 @@ you probably do not want to add any .uistate.xml files to the repository.-->
         </active>
         <display name="HTML5" />
     </configurations>
-    <open-tabs />
+    <open-tabs>
+        <layout>Phase 3 - Decorate</layout>
+        <layout active="1">Main</layout>
+    </open-tabs>
     <properties>
         <property expanded="1" name="About" />
         <property expanded="1" name="Project settings" />
