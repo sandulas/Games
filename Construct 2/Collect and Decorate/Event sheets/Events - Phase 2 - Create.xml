@@ -12,6 +12,8 @@
                 <variable constant="1" name="POSITION_Y" sid="7039048524514207" static="1" type="number">200</variable>
                 <variable constant="1" name="VISIBLE_ANGLE" sid="1147343489112532" static="1" type="number">40</variable>
                 <variable constant="1" name="POSITIONING_DISTANCE" sid="2519607737337948" static="1" type="number">120</variable>
+                <variable constant="1" name="OVERLAP_RATIO" sid="1467674208288974" static="1" type="number">0.15</variable>
+                <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
                 <variable constant="0" name="CircleX" sid="5664118315396733" static="1" type="number">0</variable>
                 <variable constant="0" name="CircleY" sid="7679215850877626" static="1" type="number">0</variable>
                 <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
@@ -125,13 +127,13 @@
                                         <condition id="-8" name="Compare two values" sid="5324632533072034" type="System">
                                             <param id="0" name="First value">distance(CENTER_X, CENTER_Y, Flower.X, Flower.Y)</param>
                                             <param id="1" name="Comparison">2</param>
-                                            <param id="2" name="Second value">R</param>
+                                            <param id="2" name="Second value">R + POSITIONING_DISTANCE</param>
                                         </condition>
                                     </conditions>
                                     <actions>
                                         <action id="0" name="Call function" sid="1576234197413269" type="Function">
                                             <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
-                                            <param id="1" name="Parameter {n}">r{###}Flower.Angle+90</param>
+                                            <param id="1" name="Parameter {n}">R{###}Flower.Angle+90</param>
                                         </action>
                                         <action id="-3" name="Set position" sid="7136734303591117" type="Flower">
                                             <param id="0" name="X">CircleX</param>
@@ -141,20 +143,179 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block sid="6108021280259306">
+                    </sub-events>
+                </event-group>
+                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
+                    <sub-events>
+                        <variable constant="0" name="FlowerCount" sid="8522124805697867" static="0" type="number">0</variable>
+                        <variable constant="0" name="Offset" sid="7307237996979332" static="0" type="number">0</variable>
+                        <variable constant="0" name="StartAngle" sid="106807981843684" static="0" type="number">0</variable>
+                        <event-block sid="1141648765907089">
+                            <conditions />
+                            <actions />
+                        </event-block>
+                        <event-block sid="5730033345963447">
                             <conditions>
-                                <condition id="0" name="On function" sid="5059879892503378" type="Function">
-                                    <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
+                                <condition id="-33" name="Pick by comparison" sid="8010180756291331" type="System">
+                                    <param id="0" name="Object">Flower</param>
+                                    <param id="1" name="Expression">distance(Flower.X, Flower.Y, CENTER_X, CENTER_Y)</param>
+                                    <param id="2" name="Comparison">2</param>
+                                    <param id="3" name="Value">R+POSITIONING_DISTANCE</param>
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-9" name="Set value" sid="6369028732026035" type="System">
-                                    <param id="0" name="Variable">CircleX</param>
-                                    <param id="1" name="Value">CENTER_X + Function.Param(0) * cos(Function.Param(1))</param>
+                                <action id="-9" name="Set value" sid="1957199092057562" type="System">
+                                    <param id="0" name="Variable">debug_line2</param>
+                                    <param id="1" name="Value">&quot;&quot;</param>
                                 </action>
-                                <action id="-9" name="Set value" sid="4411156778236766" type="System">
-                                    <param id="0" name="Variable">CircleY</param>
-                                    <param id="1" name="Value">CENTER_Y + Function.Param(0) * sin(Function.Param(1))</param>
+                                <action id="-9" name="Set value" sid="6673491608264741" type="System">
+                                    <param id="0" name="Variable">Length</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="4751851050356559" type="System">
+                                    <param id="0" name="Variable">Offset</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="6328552889923988" type="System">
+                                    <param id="0" name="Variable">FlowerCount</param>
+                                    <param id="1" name="Value">Flower.PickedCount</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="5334520305918551" type="System">
+                                    <param id="0" name="Variable">debug_line3</param>
+                                    <param id="1" name="Value">FlowerCount</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="4412695468845357">
+                                    <conditions>
+                                        <condition id="-24" name="For Each (ordered)" sid="3159815390230754" type="System">
+                                            <param id="0" name="Object">Flower</param>
+                                            <param id="1" name="Expression">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y)</param>
+                                            <param id="2" name="Order">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block any="1" sid="4606712756452626">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="8550545460467115" type="System">
+                                                    <param id="0" name="First value">loopindex</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">0</param>
+                                                </condition>
+                                                <condition id="-8" name="Compare two values" sid="75210037865348" type="System">
+                                                    <param id="0" name="First value">loopindex</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">FlowerCount - 1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="6821985172152969" type="System">
+                                                    <param id="0" name="Variable">Length</param>
+                                                    <param id="1" name="Value">Length + Flower.Width * (0.5 - OVERLAP_RATIO)</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="2780711552556971">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="750778170806318" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="6132666903758566" type="System">
+                                                    <param id="0" name="Variable">Length</param>
+                                                    <param id="1" name="Value">Length + Flower.Width * (1 - OVERLAP_RATIO * 2)</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block any="1" sid="9787548401021362">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="8688630123385861" type="System">
+                                                    <param id="0" name="First value">loopindex</param>
+                                                    <param id="1" name="Comparison">2</param>
+                                                    <param id="2" name="Second value">FlowerCount - 1</param>
+                                                </condition>
+                                                <condition id="-8" name="Compare two values" sid="8443414573086783" type="System">
+                                                    <param id="0" name="First value">loopindex</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">0</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="4819022613238821" type="System">
+                                                    <param id="0" name="Variable">Offset</param>
+                                                    <param id="1" name="Value">Length - Flower.Width * (0.5 - OVERLAP_RATIO)</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="399835719861915">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="6361449711773692" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="2461280118049327" type="System">
+                                                    <param id="0" name="Variable">Offset</param>
+                                                    <param id="1" name="Value">Length</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="2748743070175341">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-10" name="Set value" sid="5104029568722151" type="Flower">
+                                                    <param id="0" name="Instance variable">StartAngleOffset</param>
+                                                    <param id="1" name="Value">180 / pi * Offset / R</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="3436117826431733">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="8378923963451775" type="System">
+                                                    <param id="0" name="First value">loopindex</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">FlowerCount - 1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="2364997931597442" type="System">
+                                                    <param id="0" name="Variable">StartAngle</param>
+                                                    <param id="1" name="Value">90 - Flower.StartAngleOffset / 2</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="3312914440179129" type="System">
+                                                    <param id="0" name="Variable">debug_line2</param>
+                                                    <param id="1" name="Value">StartAngle</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="5601187823617232">
+                            <conditions>
+                                <condition id="-33" name="Pick by comparison" sid="8697102034798613" type="System">
+                                    <param id="0" name="Object">Flower</param>
+                                    <param id="1" name="Expression">distance(Flower.X, Flower.Y, CENTER_X, CENTER_Y)</param>
+                                    <param id="2" name="Comparison">2</param>
+                                    <param id="3" name="Value">R+POSITIONING_DISTANCE</param>
+                                </condition>
+                                <condition behavior="DragDrop" id="0" inverted="1" name="Is dragging" sid="5337946490081192" type="Flower" />
+                                <condition id="-24" name="For Each (ordered)" sid="6277012592704398" type="System">
+                                    <param id="0" name="Object">Flower</param>
+                                    <param id="1" name="Expression">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y)</param>
+                                    <param id="2" name="Order">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="180534156239631" type="Function">
+                                    <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
+                                    <param id="1" name="Parameter {n}">R{###}StartAngle + Flower.StartAngleOffset</param>
+                                </action>
+                                <action id="-3" name="Set position" sid="7275760264946577" type="Flower">
+                                    <param id="0" name="X">CircleX</param>
+                                    <param id="1" name="Y">CircleY</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="6459718034159445" type="Flower">
+                                    <param id="0" name="Angle">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) - 90</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -167,33 +328,25 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Set value" sid="323402086084005" type="System">
-                            <param id="0" name="Variable">debug_line2</param>
-                            <param id="1" name="Value">UIButton.title</param>
-                        </action>
                         <action id="-2" name="Go to layout" sid="8148440326543735" type="System">
                             <param id="0" name="Layout">Main</param>
                         </action>
                     </actions>
                 </event-block>
-                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning" />
-                <event-block sid="5730033345963447">
+                <event-block sid="6108021280259306">
                     <conditions>
-                        <condition id="-33" name="Pick by comparison" sid="8010180756291331" type="System">
-                            <param id="0" name="Object">Flower</param>
-                            <param id="1" name="Expression">distance(Flower.X, Flower.Y, CENTER_X, CENTER_Y)</param>
-                            <param id="2" name="Comparison">2</param>
-                            <param id="3" name="Value">R+POSITIONING_DISTANCE</param>
-                        </condition>
-                        <condition id="-24" name="For Each (ordered)" sid="3159815390230754" type="System">
-                            <param id="0" name="Object">Flower</param>
-                            <param id="1" name="Expression">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y)</param>
-                            <param id="2" name="Order">0</param>
+                        <condition id="0" name="On function" sid="5059879892503378" type="Function">
+                            <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-16" name="Set opacity" sid="6124898038124564" type="Flower">
-                            <param id="0" name="Opacity">10+15*loopindex</param>
+                        <action id="-9" name="Set value" sid="6369028732026035" type="System">
+                            <param id="0" name="Variable">CircleX</param>
+                            <param id="1" name="Value">CENTER_X + Function.Param(0) * cos(Function.Param(1))</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="4411156778236766" type="System">
+                            <param id="0" name="Variable">CircleY</param>
+                            <param id="1" name="Value">CENTER_Y + Function.Param(0) * sin(Function.Param(1))</param>
                         </action>
                     </actions>
                 </event-block>
