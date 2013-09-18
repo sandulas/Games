@@ -246,6 +246,7 @@
                     </properties>
                     <instance-variables>
                         <status>0</status>
+                        <StartAngleOffset>0</StartAngleOffset>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
