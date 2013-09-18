@@ -13,6 +13,7 @@
                 <variable constant="1" name="VISIBLE_ANGLE" sid="1147343489112532" static="1" type="number">40</variable>
                 <variable constant="1" name="POSITIONING_DISTANCE" sid="2519607737337948" static="1" type="number">120</variable>
                 <variable constant="1" name="OVERLAP_RATIO" sid="1467674208288974" static="1" type="number">0.15</variable>
+                <variable constant="1" name="SLIDE_SPEED" sid="6416486524362268" static="1" type="number">10</variable>
                 <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
                 <variable constant="0" name="CircleX" sid="5664118315396733" static="1" type="number">0</variable>
                 <variable constant="0" name="CircleY" sid="7679215850877626" static="1" type="number">0</variable>
@@ -89,10 +90,6 @@
                                         <action id="-8" name="Set angle" sid="7041637424410707" type="Flower">
                                             <param id="0" name="Angle">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y)-90</param>
                                         </action>
-                                        <action id="-9" name="Set value" sid="7835786642350134" type="System">
-                                            <param id="0" name="Variable">debug_line2</param>
-                                            <param id="1" name="Value">Flower.Angle</param>
-                                        </action>
                                     </actions>
                                 </event-block>
                                 <event-block sid="5677188418114897">
@@ -164,10 +161,6 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-9" name="Set value" sid="1957199092057562" type="System">
-                                    <param id="0" name="Variable">debug_line2</param>
-                                    <param id="1" name="Value">&quot;&quot;</param>
-                                </action>
                                 <action id="-9" name="Set value" sid="6673491608264741" type="System">
                                     <param id="0" name="Variable">Length</param>
                                     <param id="1" name="Value">0</param>
@@ -280,15 +273,16 @@
                                                     <param id="0" name="Variable">StartAngle</param>
                                                     <param id="1" name="Value">90 - Flower.StartAngleOffset / 2</param>
                                                 </action>
-                                                <action id="-9" name="Set value" sid="3312914440179129" type="System">
-                                                    <param id="0" name="Variable">debug_line2</param>
-                                                    <param id="1" name="Value">StartAngle</param>
-                                                </action>
                                             </actions>
                                         </event-block>
                                     </sub-events>
                                 </event-block>
                             </sub-events>
+                        </event-block>
+                        <variable constant="0" name="AngleDifference" sid="7751581080352085" static="0" type="number">0</variable>
+                        <event-block sid="2036253489773031">
+                            <conditions />
+                            <actions />
                         </event-block>
                         <event-block sid="5601187823617232">
                             <conditions>
@@ -306,18 +300,76 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="0" name="Call function" sid="180534156239631" type="Function">
-                                    <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
-                                    <param id="1" name="Parameter {n}">R{###}StartAngle + Flower.StartAngleOffset</param>
-                                </action>
-                                <action id="-3" name="Set position" sid="7275760264946577" type="Flower">
-                                    <param id="0" name="X">CircleX</param>
-                                    <param id="1" name="Y">CircleY</param>
-                                </action>
-                                <action id="-8" name="Set angle" sid="6459718034159445" type="Flower">
-                                    <param id="0" name="Angle">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) - 90</param>
+                                <action id="-9" name="Set value" sid="8537647783860167" type="System">
+                                    <param id="0" name="Variable">AngleDifference</param>
+                                    <param id="1" name="Value">(StartAngle + Flower.StartAngleOffset) - angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y)</param>
                                 </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="4517039086659289">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="6124984471103008" type="System">
+                                            <param id="0" name="First value">abs(AngleDifference)</param>
+                                            <param id="1" name="Comparison">2</param>
+                                            <param id="2" name="Second value">SLIDE_SPEED * dt</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="2391576953798707" type="Function">
+                                            <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
+                                            <param id="1" name="Parameter {n}">R{###}StartAngle + Flower.StartAngleOffset</param>
+                                        </action>
+                                        <action id="-3" name="Set position" sid="9478073178807512" type="Flower">
+                                            <param id="0" name="X">CircleX</param>
+                                            <param id="1" name="Y">CircleY</param>
+                                        </action>
+                                        <action id="-8" name="Set angle" sid="5121246746774932" type="Flower">
+                                            <param id="0" name="Angle">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) - 90</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6579805775674016">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="9034088257747038" type="System" />
+                                        <condition id="-8" name="Compare two values" sid="2595643280538478" type="System">
+                                            <param id="0" name="First value">AngleDifference</param>
+                                            <param id="1" name="Comparison">4</param>
+                                            <param id="2" name="Second value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="298045249438673" type="Function">
+                                            <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
+                                            <param id="1" name="Parameter {n}">R{###}angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) + SLIDE_SPEED * dt</param>
+                                        </action>
+                                        <action id="-3" name="Set position" sid="5786857048506356" type="Flower">
+                                            <param id="0" name="X">CircleX</param>
+                                            <param id="1" name="Y">CircleY</param>
+                                        </action>
+                                        <action id="-8" name="Set angle" sid="827365644587536" type="Flower">
+                                            <param id="0" name="Angle">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) - 90</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="9951369969970039">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="3852733984829281" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="3259131439075843" type="Function">
+                                            <param id="0" name="Name">&quot;UpdateCircleXY&quot;</param>
+                                            <param id="1" name="Parameter {n}">R{###}angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) - SLIDE_SPEED * dt</param>
+                                        </action>
+                                        <action id="-3" name="Set position" sid="9816421367945918" type="Flower">
+                                            <param id="0" name="X">CircleX</param>
+                                            <param id="1" name="Y">CircleY</param>
+                                        </action>
+                                        <action id="-8" name="Set angle" sid="2110986027736072" type="Flower">
+                                            <param id="0" name="Angle">angle(CENTER_X, CENTER_Y, Flower.X, Flower.Y) - 90</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                     </sub-events>
                 </event-group>
