@@ -176,7 +176,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning">
+                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
                     <sub-events>
                         <variable constant="0" name="FlowersCount" sid="8522124805697867" static="0" type="number">0</variable>
                         <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
