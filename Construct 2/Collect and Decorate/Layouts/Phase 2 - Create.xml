@@ -132,8 +132,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -210,8 +210,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -288,8 +288,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -366,8 +366,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -444,8 +444,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -522,8 +522,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -636,8 +636,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -714,8 +714,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -792,8 +792,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -870,8 +870,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -948,8 +948,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -1026,8 +1026,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -1104,8 +1104,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <status>0</status>
                         <StartAngleOffset>0</StartAngleOffset>
+                        <CircleAngle>0</CircleAngle>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
