@@ -20,7 +20,7 @@
                     <actions>
                         <action id="-9" name="Set value" sid="2096030895599525" type="System">
                             <param id="0" name="Variable">debug_line1</param>
-                            <param id="1" name="Value">&quot;fps:&quot; &amp; fps</param>
+                            <param id="1" name="Value">&quot;fps: &quot; &amp; fps &amp; &quot; (&quot; &amp; renderer &amp; &quot;)&quot;</param>
                         </action>
                         <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                             <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
