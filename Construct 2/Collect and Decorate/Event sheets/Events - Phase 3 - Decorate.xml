@@ -19,6 +19,9 @@
                         <condition id="-2" name="On start of layout" sid="9736519629033493" type="System" />
                     </conditions>
                     <actions>
+                        <action id="-22" name="Set layout angle" sid="3344406607112043" type="System">
+                            <param id="0" name="Angle">90</param>
+                        </action>
                         <action id="-9" name="Set value" sid="86361725888015" type="System">
                             <param id="0" name="Variable">TickCountAtStartOfLayout</param>
                             <param id="1" name="Value">tickcount</param>
