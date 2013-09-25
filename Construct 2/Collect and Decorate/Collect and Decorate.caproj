@@ -307,6 +307,32 @@
         <object-type name="CocoonJS" sid="6618817292986394">
             <plugin id="CJSAds" />
         </object-type>
+        <object-type name="Phase3_Bg" sid="132726886237989">
+            <plugin id="TiledBg" />
+            <texture />
+        </object-type>
+        <object-type name="Phase_Fence" sid="9371994737407847">
+            <plugin id="TiledBg" />
+            <texture />
+        </object-type>
+        <object-type name="Phase3_Bear" sid="3108101030533189">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="5157857936807299" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.50062">
+                        <collision-poly>
+                            <point x="0.2625" y="0.260223" />
+                            <point x="0.5" y="0.0532838" />
+                            <point x="0.945" y="0.0545229" />
+                            <point x="0.90375" y="0.49938" />
+                            <point x="1" y="1" />
+                            <point x="0" y="1" />
+                            <point x="0.09375" y="0.49938" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
     </object-folder>
     <families>
         <family name="Flowers" plugin-id="Sprite" sid="4350565727633146">
