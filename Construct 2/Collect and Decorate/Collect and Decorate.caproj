@@ -10,8 +10,8 @@
     <unique-id>fjwuowywb9nv</unique-id>
     <saved-with-version>13900</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
         <plugin author="Scirra" id="Button" version="1">Button</plugin>
+        <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
         <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
@@ -21,14 +21,14 @@
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="DragnDrop" version="1">Drag &amp; Drop</behavior>
+        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
+        <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
         <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
         <behavior author="Scirra" id="Physics" version="1">Physics</behavior>
-        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
-        <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
+        <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -59,11 +59,6 @@
         </object-type>
         <object-type name="TextDebug" sid="4642375975697103">
             <plugin id="Text" />
-            <behaviors>
-                <behavior-type name="Anchor" sid="3951593436411567">
-                    <behavior id="Anchor" />
-                </behavior-type>
-            </behaviors>
         </object-type>
         <object-type name="BasketBack" sid="1746142011668736">
             <plugin id="Sprite" />
@@ -307,18 +302,30 @@
         <object-type name="CocoonJS" sid="6618817292986394">
             <plugin id="CJSAds" />
         </object-type>
-        <object-type name="Phase3_Bg" sid="132726886237989">
+        <object-type name="TiledBackground03" sid="132726886237989">
             <plugin id="TiledBg" />
             <texture />
         </object-type>
-        <object-type name="Phase_Fence" sid="9371994737407847">
-            <plugin id="TiledBg" />
-            <texture />
-        </object-type>
-        <object-type name="Phase3_Bear" sid="3108101030533189">
+        <object-type name="WoodFence" sid="9524534288947756">
             <plugin id="Sprite" />
             <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="5157857936807299" speed="5">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="9817995760943149" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.501742">
+                        <collision-poly>
+                            <point x="0.02375" y="0.0662021" />
+                            <point x="0.98375" y="0.0452962" />
+                            <point x="1" y="1" />
+                            <point x="0" y="1" />
+                            <point x="0" y="0.498258" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="Character" sid="2911358649355784">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="214949942383064" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.50062">
                         <collision-poly>
                             <point x="0.2625" y="0.260223" />
