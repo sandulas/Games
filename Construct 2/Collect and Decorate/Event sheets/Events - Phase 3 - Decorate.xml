@@ -14,6 +14,7 @@
                 <variable constant="0" name="MinScale" sid="7179635873072381" static="1" type="number">0.5</variable>
                 <variable constant="0" name="MaxScale" sid="9818304363819659" static="1" type="number">0.7</variable>
                 <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="1" type="number">0</variable>
+                <variable constant="0" name="OffsetX" sid="2970032935541051" static="1" type="number">0</variable>
                 <event-block sid="3279056471687852">
                     <conditions />
                     <actions>
@@ -79,7 +80,7 @@
                             </conditions>
                             <actions />
                             <sub-events>
-                                <event-block sid="7014517622640797">
+                                <event-block collapsed="1" sid="7014517622640797">
                                     <conditions>
                                         <condition id="-10" name="For" sid="3082746535428171" type="System">
                                             <param id="0" name="Name">&quot;&quot;</param>
@@ -123,6 +124,10 @@
                                                 </action>
                                                 <action id="-1" name="Set X" sid="1028696709427027" type="Handle">
                                                     <param id="0" name="X">Flower.X - Flower.Width / 2 + Flower.Width * OverlapPercent - Handle.Width / 2 + Handle.Width * OverlapPercent</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="3324907066213274" type="System">
+                                                    <param id="0" name="Variable">OffsetX</param>
+                                                    <param id="1" name="Value">Handle.X</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -193,12 +198,44 @@
                                         <action id="-1" name="Set X" sid="2911675734485867" type="Handle">
                                             <param id="0" name="X">Flowers.X + Flowers.Width / 2 - Flowers.Width * OverlapPercent + Handle.Width / 2 - Handle.Width * OverlapPercent</param>
                                         </action>
+                                        <action id="-9" name="Set value" sid="1090972488579013" type="System">
+                                            <param id="0" name="Variable">OffsetX</param>
+                                            <param id="1" name="Value">(ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2) - (OffsetX + (Handle.X - OffsetX) / 2)</param>
+                                        </action>
                                     </actions>
                                 </event-block>
-                                <comment>center the necklace on the screen</comment>
+                            </sub-events>
+                        </event-block>
+                        <comment>center the necklace on the screen</comment>
+                        <event-block sid="6784465003512577">
+                            <conditions>
+                                <condition id="-2" name="On start of layout" sid="6079895974385653" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
                                 <event-block sid="7386821725464899">
-                                    <conditions />
-                                    <actions />
+                                    <conditions>
+                                        <condition id="-11" name="For Each" sid="3807265376951332" type="System">
+                                            <param id="0" name="Object">Flower</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-1" name="Set X" sid="8372932295548844" type="Flower">
+                                            <param id="0" name="X">Flower.X + OffsetX</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="5916133201607468">
+                                    <conditions>
+                                        <condition id="-11" name="For Each" sid="1022727390224006" type="System">
+                                            <param id="0" name="Object">Handle</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-1" name="Set X" sid="9576492126463489" type="Handle">
+                                            <param id="0" name="X">Handle.X + OffsetX</param>
+                                        </action>
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
