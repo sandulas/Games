@@ -340,6 +340,14 @@
                 </animation>
             </animation-folder>
         </object-type>
+        <object-type global="1" name="Fader" sid="2286514851491164">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="51609928043261" speed="5">
+                    <frame duration="1" hotspotX="0" hotspotY="0" />
+                </animation>
+            </animation-folder>
+        </object-type>
     </object-folder>
     <families>
         <family name="Flowers" plugin-id="Sprite" sid="4350565727633146">

@@ -11,9 +11,9 @@
                 </condition>
             </conditions>
             <actions>
-                <action id="-9" name="Set value" sid="2292220479958731" type="System">
-                    <param id="0" name="Variable">debug_line2</param>
-                    <param id="1" name="Value">UIButton.title</param>
+                <action id="-12" name="Set group active" sid="7077889662267968" type="System">
+                    <param id="0" name="Group name">&quot;fade-out&quot;</param>
+                    <param id="1" name="State">1</param>
                 </action>
             </actions>
             <sub-events>
@@ -26,8 +26,12 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-2" name="Go to layout" sid="7551809375216111" type="System">
+                        <action disabled="1" id="-2" name="Go to layout" sid="7551809375216111" type="System">
                             <param id="0" name="Layout">Phase 1 - Collect</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="6915866450098859" type="System">
+                            <param id="0" name="Variable">LayoutToGoTo</param>
+                            <param id="1" name="Value">&quot;Phase 1 - Collect&quot;</param>
                         </action>
                     </actions>
                 </event-block>
@@ -40,8 +44,12 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-2" name="Go to layout" sid="7701207282050601" type="System">
+                        <action disabled="1" id="-2" name="Go to layout" sid="7701207282050601" type="System">
                             <param id="0" name="Layout">Phase 2 - Create</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="2362748750559041" type="System">
+                            <param id="0" name="Variable">LayoutToGoTo</param>
+                            <param id="1" name="Value">&quot;Phase 2 - Create&quot;</param>
                         </action>
                     </actions>
                 </event-block>
@@ -54,8 +62,12 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-2" name="Go to layout" sid="2957273925548076" type="System">
+                        <action disabled="1" id="-2" name="Go to layout" sid="2957273925548076" type="System">
                             <param id="0" name="Layout">Phase 3 - Decorate</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="718640446425275" type="System">
+                            <param id="0" name="Variable">LayoutToGoTo</param>
+                            <param id="1" name="Value">&quot;Phase 3 - Decorate&quot;</param>
                         </action>
                     </actions>
                 </event-block>
