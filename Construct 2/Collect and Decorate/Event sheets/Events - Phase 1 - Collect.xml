@@ -217,7 +217,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="8512833754096424" title="user interface">
+                <event-group description="" sid="8512833754096424" title="user interface">
                     <sub-events>
                         <comment>input type</comment>
                         <event-block sid="8420755731706846">
@@ -369,12 +369,13 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-9" name="Set value" sid="4251141660583254" type="System">
-                                    <param id="0" name="Variable">debug_line2</param>
-                                    <param id="1" name="Value">UIButton.title</param>
+                                <action id="-12" name="Set group active" sid="4427350076798359" type="System">
+                                    <param id="0" name="Group name">&quot;fade-out&quot;</param>
+                                    <param id="1" name="State">1</param>
                                 </action>
-                                <action id="-2" name="Go to layout" sid="194521837598035" type="System">
-                                    <param id="0" name="Layout">Main</param>
+                                <action id="-9" name="Set value" sid="6224602951762685" type="System">
+                                    <param id="0" name="Variable">LayoutToGoTo</param>
+                                    <param id="1" name="Value">&quot;Main&quot;</param>
                                 </action>
                             </actions>
                         </event-block>
