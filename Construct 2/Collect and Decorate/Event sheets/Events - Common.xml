@@ -3,6 +3,11 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Events - Common</name>
     <events>
+        <variable constant="1" name="ButtonType_GoTo" sid="242483168193459" static="0" type="number">0</variable>
+        <variable constant="1" name="BUTTONTYPE_DO" sid="8075962687295055" static="0" type="number">1</variable>
+        <variable constant="1" name="level_1" sid="2034760074799284" static="0" type="number">0</variable>
+        <variable constant="1" name="LEVEL_2" sid="344295184131685" static="0" type="number">1</variable>
+        <variable constant="1" name="LEVEL_3" sid="7077963794427238" static="0" type="number">2</variable>
         <variable constant="0" name="Game_FlowerWhite" sid="2029747525464988" static="0" type="number">0</variable>
         <variable constant="0" name="Game_FlowerBlue" sid="7950551552190707" static="0" type="number">1</variable>
         <variable constant="0" name="Game_FlowerRed" sid="9111917904231352" static="0" type="number">2</variable>
@@ -13,6 +18,7 @@
         <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
         <variable constant="0" name="GameState" sid="3811331850985871" static="0" type="text"></variable>
         <variable constant="0" name="LayoutToGoTo" sid="6519656246843248" static="0" type="text"></variable>
+        <variable constant="0" name="Level" sid="8279689323837289" static="0" type="number">0</variable>
         <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
             <sub-events>
                 <event-block sid="8578860188414138">
@@ -29,36 +35,122 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-block sid="6205839759169251">
-            <conditions>
-                <condition id="-2" name="On start of layout" sid="1644173507341256" type="System" />
-            </conditions>
-            <actions>
-                <action id="-12" name="Set group active" sid="7048524621872575" type="System">
-                    <param id="0" name="Group name">&quot;fade-in&quot;</param>
-                    <param id="1" name="State">1</param>
-                </action>
-                <action id="-12" name="Set group active" sid="8737635292661694" type="System">
-                    <param id="0" name="Group name">&quot;fade-out&quot;</param>
-                    <param id="1" name="State">0</param>
-                </action>
-                <action id="-3" name="Set position" sid="7217573985929335" type="Fader">
-                    <param id="0" name="X">ViewportLeft(0)</param>
-                    <param id="1" name="Y">ViewportTop(0)</param>
-                </action>
-                <action id="-5" name="Set width" sid="5079063707983195" type="Fader">
-                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
-                </action>
-                <action id="-6" name="Set height" sid="6503053552148509" type="Fader">
-                    <param id="0" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
-                </action>
-                <action id="-16" name="Set opacity" sid="6048406692317466" type="Fader">
-                    <param id="0" name="Opacity">100</param>
-                </action>
-                <action id="-24" name="Move to top" sid="65731187856283" type="Fader" />
-            </actions>
-        </event-block>
-        <event-group description="" sid="7900750895320493" title="fade-in">
+        <event-group collapsed="1" description="" sid="6962915305198459" title="setup">
+            <sub-events>
+                <event-block sid="6205839759169251">
+                    <conditions>
+                        <condition id="-2" name="On start of layout" sid="1644173507341256" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-12" name="Set group active" sid="7048524621872575" type="System">
+                            <param id="0" name="Group name">&quot;fade-in&quot;</param>
+                            <param id="1" name="State">1</param>
+                        </action>
+                        <action id="-12" name="Set group active" sid="8737635292661694" type="System">
+                            <param id="0" name="Group name">&quot;fade-out&quot;</param>
+                            <param id="1" name="State">0</param>
+                        </action>
+                        <action id="-3" name="Set position" sid="7217573985929335" type="Fader">
+                            <param id="0" name="X">ViewportLeft(0)</param>
+                            <param id="1" name="Y">ViewportTop(0)</param>
+                        </action>
+                        <action id="-5" name="Set width" sid="5079063707983195" type="Fader">
+                            <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
+                        </action>
+                        <action id="-6" name="Set height" sid="6503053552148509" type="Fader">
+                            <param id="0" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
+                        </action>
+                        <action id="-16" name="Set opacity" sid="6048406692317466" type="Fader">
+                            <param id="0" name="Opacity">100</param>
+                        </action>
+                        <action id="-24" name="Move to top" sid="65731187856283" type="Fader" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="3520418861413121" title="navigation">
+            <sub-events>
+                <event-block sid="3159905038337372">
+                    <conditions>
+                        <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
+                            <param id="0" name="Object">Button</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="8904028956680106">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="457178851936219" type="System">
+                                    <param id="0" name="First value">Button.type</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">BUTTONTYPE_GOTO</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-12" name="Set group active" sid="1328570029829431" type="System">
+                                    <param id="0" name="Group name">&quot;fade-out&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="3915680637163111" type="System">
+                                    <param id="0" name="Variable">LayoutToGoTo</param>
+                                    <param id="1" name="Value">Button.action</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="4313029524618443">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="4650005756255208" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;saves&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="445687035330294" type="System">
+                                            <param id="0" name="Variable">Level</param>
+                                            <param id="1" name="Value">Button.parameter</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="8239891699564616">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="7972785020179535" type="System">
+                                    <param id="0" name="First value">Button.type</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">BUTTONTYPE_DO</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="109564086056473">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="5166911716428031" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;music&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                </event-block>
+                                <event-block sid="2407930821365834">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="9559879063269646" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;sound&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group collapsed="1" description="" sid="7900750895320493" title="fade-in">
             <sub-events>
                 <event-block sid="7523991367772262">
                     <conditions>
@@ -109,7 +201,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="5376141053122375" title="fade-out">
+        <event-group collapsed="1" description="" sid="5376141053122375" title="fade-out">
             <sub-events>
                 <event-block sid="2880881997034783">
                     <conditions>

@@ -412,23 +412,6 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-block sid="6988080725979433">
-                    <conditions>
-                        <condition id="3" name="On touched object" sid="8074083497938671" type="Touch">
-                            <param id="0" name="Object">UIButton</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-12" name="Set group active" sid="1142736069705236" type="System">
-                            <param id="0" name="Group name">&quot;fade-out&quot;</param>
-                            <param id="1" name="State">1</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="5052861471145861" type="System">
-                            <param id="0" name="Variable">LayoutToGoTo</param>
-                            <param id="1" name="Value">&quot;Main&quot;</param>
-                        </action>
-                    </actions>
-                </event-block>
                 <event-block sid="6108021280259306">
                     <conditions>
                         <condition id="0" name="On function" sid="5059879892503378" type="Function">

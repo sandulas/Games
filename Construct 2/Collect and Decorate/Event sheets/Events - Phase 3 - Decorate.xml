@@ -27,6 +27,11 @@
                             <param id="1" name="Y">ViewportTop(0) + 20</param>
                         </action>
                         <action id="-24" name="Move to top" sid="4876683180549559" type="TextDebug" />
+                        <action id="-3" name="Set position" sid="9548684514088731" type="Button">
+                            <param id="0" name="X">ViewportLeft(0) + 55</param>
+                            <param id="1" name="Y">ViewportTop(0) + 55</param>
+                        </action>
+                        <action id="-24" name="Move to top" sid="9457882631241481" type="Button" />
                     </actions>
                 </event-block>
                 <event-group description="" sid="3469279951967914" title="setup the layout">
@@ -72,7 +77,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
+                <event-group collapsed="1" description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
                     <sub-events>
                         <event-block sid="409180012291982">
                             <conditions>
@@ -245,7 +250,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="3376336338478309" title="setup the physics joints">
+                <event-group collapsed="1" description="" sid="3376336338478309" title="setup the physics joints">
                     <sub-events>
                         <comment>setup physics</comment>
                         <event-block sid="7232490483244657">
@@ -367,23 +372,6 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-block sid="4268447355844512">
-                    <conditions>
-                        <condition id="3" name="On touched object" sid="9032641195739861" type="Touch">
-                            <param id="0" name="Object">UIButton</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-12" name="Set group active" sid="4586055826375022" type="System">
-                            <param id="0" name="Group name">&quot;fade-out&quot;</param>
-                            <param id="1" name="State">1</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="780603387453799" type="System">
-                            <param id="0" name="Variable">LayoutToGoTo</param>
-                            <param id="1" name="Value">&quot;Main&quot;</param>
-                        </action>
-                    </actions>
-                </event-block>
             </sub-events>
         </event-group>
     </events>

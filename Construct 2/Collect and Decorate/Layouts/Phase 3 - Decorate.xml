@@ -102,7 +102,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>11</x>
-                        <y>11</y>
+                        <y>553</y>
                         <z>0</z>
                         <width>672</width>
                         <height>119</height>
@@ -135,38 +135,29 @@
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="UIButton" uid="27">
+                <instance type="Button" uid="28">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
+                        <initial-frame>9</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <title>main</title>
+                        <type>0</type>
+                        <action>saves</action>
+                        <parameter>0</parameter>
                     </instance-variables>
-                    <behavior-instances>
-                        <behavior-instance type="Anchor">
-                            <properties>
-                                <left-edge>Window left</left-edge>
-                                <top-edge>Window bottom</top-edge>
-                                <right-edge>None</right-edge>
-                                <bottom-edge>None</bottom-edge>
-                                <initial-state>Enabled</initial-state>
-                            </properties>
-                        </behavior-instance>
-                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>74</x>
-                        <y>752</y>
+                        <x>55</x>
+                        <y>55</y>
                         <z>0</z>
-                        <width>131</width>
-                        <height>49</height>
+                        <width>94</width>
+                        <height>94</height>
                         <depth>0</depth>
-                        <hotspotX>0.467741936</hotspotX>
-                        <hotspotY>0.447761208</hotspotY>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.5</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>

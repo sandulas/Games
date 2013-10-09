@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2layout>
-    <name>Main</name>
-    <sid>1014813501000418</sid>
-    <event-sheet>Events - Main</event-sheet>
+    <name>Saves</name>
+    <sid>335703775158381</sid>
+    <event-sheet>Events - Saves</event-sheet>
     <size>
         <width>1280</width>
         <height>800</height>
@@ -13,7 +13,7 @@
     </margins>
     <unbounded-scrolling>1</unbounded-scrolling>
     <layers>
-        <layer name="background" sid="2774119635813765">
+        <layer name="background" sid="2716360639800899">
             <initially-visible>1</initially-visible>
             <background-color>255,255,255</background-color>
             <transparent>0</transparent>
@@ -27,7 +27,7 @@
             <blend-mode>0</blend-mode>
             <effect-fallback>0</effect-fallback>
             <instances>
-                <instance type="Bg_Home" uid="41">
+                <instance type="Bg_Menu" uid="56">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <hotspot>Top-left</hotspot>
@@ -50,7 +50,7 @@
             </instances>
             <effects />
         </layer>
-        <layer name="foreground" sid="8255440789017194">
+        <layer name="foreground" sid="5667718690420955">
             <initially-visible>1</initially-visible>
             <background-color>255,255,255</background-color>
             <transparent>1</transparent>
@@ -64,78 +64,29 @@
             <blend-mode>0</blend-mode>
             <effect-fallback>0</effect-fallback>
             <instances>
-                <instance type="TextDebug" uid="24">
-                    <properties>
-                        <text>Text</text>
-                        <initial-visibility>Visible</initial-visibility>
-                        <font>Arial,-19,400,0</font>
-                        <color>255,255,255</color>
-                        <horizontal-alignment>Left</horizontal-alignment>
-                        <vertical-alignment>Top</vertical-alignment>
-                        <hotspot>Top-left</hotspot>
-                        <wrapping>Word</wrapping>
-                        <line-height>0</line-height>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>10</x>
-                        <y>10</y>
-                        <z>0</z>
-                        <width>672</width>
-                        <height>119</height>
-                        <depth>0</depth>
-                        <hotspotX>0</hotspotX>
-                        <hotspotY>0</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="Handle" uid="10">
+                <instance type="UI_NecklaceEmpty" uid="62">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
                         <initial-frame>0</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
-                    <behavior-instances>
-                        <behavior-instance type="Physics">
-                            <properties>
-                                <immovable>Yes</immovable>
-                                <collision-mask>Use collision polygon</collision-mask>
-                                <prevent-rotation>No</prevent-rotation>
-                                <density>1</density>
-                                <friction>0.5</friction>
-                                <elasticity>0.2</elasticity>
-                                <linear-damping>0</linear-damping>
-                                <angular-damping>0.01</angular-damping>
-                                <bullet>No</bullet>
-                                <initial-state>Enabled</initial-state>
-                            </properties>
-                        </behavior-instance>
-                        <behavior-instance type="DragDrop">
-                            <properties>
-                                <axes>Both</axes>
-                                <initial-state>Enabled</initial-state>
-                            </properties>
-                        </behavior-instance>
-                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>168</x>
-                        <y>-116</y>
+                        <x>365</x>
+                        <y>305</y>
                         <z>0</z>
-                        <width>100</width>
-                        <height>100</height>
+                        <width>526</width>
+                        <height>57</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
+                        <hotspotY>0.508771956</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="Fader" uid="40">
+                <instance type="UI_NecklaceEmpty" uid="57">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
@@ -145,23 +96,23 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>-239</x>
-                        <y>-305</y>
+                        <x>359</x>
+                        <y>535</y>
                         <z>0</z>
-                        <width>250</width>
-                        <height>250</height>
+                        <width>526</width>
+                        <height>57</height>
                         <depth>0</depth>
-                        <hotspotX>0</hotspotX>
-                        <hotspotY>0</hotspotY>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.508771956</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="Button" uid="22">
+                <instance type="Button" uid="54">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
+                        <initial-frame>5</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
@@ -172,11 +123,65 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>640</x>
-                        <y>627</y>
+                        <x>55</x>
+                        <y>55</y>
                         <z>0</z>
-                        <width>233</width>
-                        <height>233</height>
+                        <width>94</width>
+                        <height>94</height>
+                        <depth>0</depth>
+                        <hotspotX>0.504273534</hotspotX>
+                        <hotspotY>0.5</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="Button" uid="55">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>7</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <instance-variables>
+                        <type>0</type>
+                        <action>Phase 1 - Collect</action>
+                        <parameter>0</parameter>
+                    </instance-variables>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>350</x>
+                        <y>328</y>
+                        <z>0</z>
+                        <width>116</width>
+                        <height>116</height>
+                        <depth>0</depth>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.5</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="Button" uid="58">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>0</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <instance-variables>
+                        <type>0</type>
+                        <action>Phase 2 - Create</action>
+                        <parameter>0</parameter>
+                    </instance-variables>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>287</x>
+                        <y>536</y>
+                        <z>0</z>
+                        <width>116</width>
+                        <height>116</height>
                         <depth>0</depth>
                         <hotspotX>0.502145946</hotspotX>
                         <hotspotY>0.502145946</hotspotY>
@@ -184,110 +189,29 @@
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="Button" uid="42">
+                <instance type="Button" uid="59">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
-                        <initial-frame>2</initial-frame>
+                        <initial-frame>8</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
                         <type>1</type>
-                        <action>sound</action>
+                        <action>delete</action>
                         <parameter>0</parameter>
                     </instance-variables>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>830</x>
-                        <y>672</y>
+                        <x>408</x>
+                        <y>539</y>
                         <z>0</z>
-                        <width>138</width>
-                        <height>138</height>
+                        <width>116</width>
+                        <height>116</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="Button" uid="43">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>1</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <instance-variables>
-                        <type>1</type>
-                        <action>music</action>
-                        <parameter>0</parameter>
-                    </instance-variables>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>450</x>
-                        <y>672</y>
-                        <z>0</z>
-                        <width>138</width>
-                        <height>138</height>
-                        <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="Button" uid="44">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>3</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <instance-variables>
-                        <type>1</type>
-                        <action></action>
-                        <parameter>0</parameter>
-                    </instance-variables>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>450</x>
-                        <y>672</y>
-                        <z>0</z>
-                        <width>83</width>
-                        <height>75</height>
-                        <depth>0</depth>
-                        <hotspotX>0.506024122</hotspotX>
-                        <hotspotY>0.50666666</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="Button" uid="45">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>3</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <instance-variables>
-                        <type>1</type>
-                        <action></action>
-                        <parameter>0</parameter>
-                    </instance-variables>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>830</x>
-                        <y>672</y>
-                        <z>0</z>
-                        <width>83</width>
-                        <height>75</height>
-                        <depth>0</depth>
-                        <hotspotX>0.506024122</hotspotX>
-                        <hotspotY>0.50666666</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
