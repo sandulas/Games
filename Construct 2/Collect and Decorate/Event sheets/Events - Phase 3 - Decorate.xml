@@ -54,18 +54,18 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-3" name="Set position" sid="7315557834670735" type="TiledBackground03">
-                                    <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2 - TiledBackground03.Width / 2</param>
-                                    <param id="1" name="Y">ViewportBottom(0) + (ViewportTop(0) - ViewportBottom(0)) / 2 - TiledBackground03.Height / 2</param>
+                                <action id="-3" name="Set position" sid="7315557834670735" type="Bg_Phase3">
+                                    <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2 - Bg_Phase3.Width / 2</param>
+                                    <param id="1" name="Y">ViewportBottom(0) + (ViewportTop(0) - ViewportBottom(0)) / 2 - Bg_Phase3.Height / 2</param>
                                 </action>
-                                <action id="-3" name="Set position" sid="5370653259484316" type="WoodFence">
+                                <action id="-3" name="Set position" sid="5370653259484316" type="UI_WoodFence">
                                     <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2</param>
-                                    <param id="1" name="Y">ViewportBottom(0) - WoodFence.Height / 2</param>
+                                    <param id="1" name="Y">ViewportBottom(0) - UI_WoodFence.Height / 2</param>
                                 </action>
-                                <action id="-25" name="Move to bottom" sid="7927766903011257" type="WoodFence" />
+                                <action id="-25" name="Move to bottom" sid="7927766903011257" type="UI_WoodFence" />
                                 <action id="-3" name="Set position" sid="210243054585385" type="Character">
                                     <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2</param>
-                                    <param id="1" name="Y">ViewportBottom(0) - Character.Height / 2 - WoodFence.Height + 20</param>
+                                    <param id="1" name="Y">ViewportBottom(0) - Character.Height / 2 - UI_WoodFence.Height + 20</param>
                                 </action>
                                 <action id="-25" name="Move to bottom" sid="134233793773651" type="Character" />
                             </actions>
