@@ -16,7 +16,7 @@
                 <variable constant="1" name="SLIDE_SPEED" sid="6416486524362268" static="1" type="number">10</variable>
                 <variable constant="0" name="CircleX" sid="5664118315396733" static="1" type="number">0</variable>
                 <variable constant="0" name="CircleY" sid="7679215850877626" static="1" type="number">0</variable>
-                <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
+                <event-group collapsed="1" description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
                     <sub-events>
                         <event-block sid="6814207576628957">
                             <conditions>
@@ -176,7 +176,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
+                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning">
                     <sub-events>
                         <variable constant="0" name="FlowersCount" sid="8522124805697867" static="0" type="number">0</variable>
                         <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
