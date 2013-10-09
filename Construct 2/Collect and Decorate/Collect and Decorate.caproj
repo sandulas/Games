@@ -10,9 +10,9 @@
     <unique-id>fjwuowywb9nv</unique-id>
     <saved-with-version>14600</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="Function" version="1">Function</plugin>
-        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
         <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
+        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
+        <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
@@ -20,14 +20,14 @@
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
     </used-plugins>
     <used-behaviors>
-        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
-        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
-        <behavior author="Scirra" id="DragnDrop" version="1">Drag &amp; Drop</behavior>
         <behavior author="Scirra" id="Sin" version="1">Sine</behavior>
         <behavior author="Scirra" id="Physics" version="1">Physics</behavior>
-        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
         <behavior author="Scirra" id="Rotate" version="1">Rotate</behavior>
+        <behavior author="Scirra" id="Bullet" version="1">Bullet</behavior>
+        <behavior author="Scirra" id="EightDir" version="1">8 Direction</behavior>
+        <behavior author="Scirra" id="DragnDrop" version="1">Drag &amp; Drop</behavior>
+        <behavior author="Scirra" id="Pin" version="1">Pin</behavior>
     </used-behaviors>
     <used-effects />
     <configurations>
@@ -273,22 +273,6 @@
                 </animation>
             </animation-folder>
         </object-type>
-        <object-type name="UIButton" sid="8042368854953033">
-            <plugin id="Sprite" />
-            <instance-variables>
-                <instance-variable name="title" sid="1717083938228542" type="string" />
-            </instance-variables>
-            <behaviors>
-                <behavior-type name="Anchor" sid="2210713681859287">
-                    <behavior id="Anchor" />
-                </behavior-type>
-            </behaviors>
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8381485890237733" speed="5">
-                    <frame duration="1" hotspotX="0.467742" hotspotY="0.447761" />
-                </animation>
-            </animation-folder>
-        </object-type>
         <object-type name="TextBox" sid="1675672505199625">
             <plugin id="TextBox" />
         </object-type>
@@ -348,8 +332,13 @@
             <plugin id="TiledBg" />
             <texture />
         </object-type>
-        <object-type name="Buttons" sid="3680491441613556">
+        <object-type name="Button" sid="3680491441613556">
             <plugin id="Sprite" />
+            <instance-variables>
+                <instance-variable name="type" sid="2450041971583784" type="number" />
+                <instance-variable name="action" sid="7459953420006855" type="string" />
+                <instance-variable name="parameter" sid="8440046491897602" type="number" />
+            </instance-variables>
             <animation-folder expanded="1">
                 <animation framecount="10" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="5816092953131648" speed="0">
                     <frame duration="1" hotspotX="0.502146" hotspotY="0.502146">
@@ -552,6 +541,7 @@
         <layout>Phase 1 - Collect.xml</layout>
         <layout>Phase 2 - Create.xml</layout>
         <layout>Level.xml</layout>
+        <layout>Saves.xml</layout>
         <layout>Phase 3 - Decorate.xml</layout>
     </layout-folder>
     <event-folder expanded="1">
@@ -561,6 +551,7 @@
         <event-sheet>Events - Phase 3 - Decorate.xml</event-sheet>
         <event-sheet>Events - Main.xml</event-sheet>
         <event-sheet>Events - Level.xml</event-sheet>
+        <event-sheet>Events - Saves.xml</event-sheet>
     </event-folder>
     <global-instances>
         <global-instance type="Touch" uid="7">
