@@ -4,6 +4,36 @@
     <name>Events - Saves</name>
     <events>
         <include>Events - Common</include>
-        <event-group description="" sid="5333523073844858" title="LAYOUT ROOT" />
+        <event-group description="" sid="5333523073844858" title="LAYOUT ROOT">
+            <sub-events>
+                <event-group description="" sid="1971853317039826" title="setup UI">
+                    <sub-events>
+                        <event-block sid="3917797050924338">
+                            <conditions>
+                                <condition id="-2" name="On start of layout" sid="9662328296223472" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="1693538387784473">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="2796916653144619" type="Button">
+                                            <param id="0" name="Instance variable">action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;level&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="2782120035202988" type="Button">
+                                            <param id="0" name="X">ViewportLeft(0) + 55</param>
+                                            <param id="1" name="Y">ViewportTop(0) + 55</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>

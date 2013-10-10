@@ -120,6 +120,9 @@
                         <action>level</action>
                         <parameter>0</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -147,6 +150,9 @@
                         <action>Phase 1 - Collect</action>
                         <parameter>0</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -174,6 +180,9 @@
                         <action>Phase 2 - Create</action>
                         <parameter>0</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -201,6 +210,9 @@
                         <action>delete</action>
                         <parameter>0</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>

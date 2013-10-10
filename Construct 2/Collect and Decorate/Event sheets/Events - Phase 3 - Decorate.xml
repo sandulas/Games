@@ -18,23 +18,17 @@
                 <event-block sid="3279056471687852">
                     <conditions />
                     <actions>
-                        <action id="-9" name="Set value" sid="975660523051308" type="System">
+                        <action id="-9" name="Set value" sid="5043608733313885" type="System">
                             <param id="0" name="Variable">debug_line2</param>
                             <param id="1" name="Value">&quot;viewport (L:R, T:B): &quot; &amp; floor(ViewportLeft(0)) &amp; &quot;:&quot;  &amp; floor(ViewportRight(0)) &amp; &quot;, &quot; &amp; floor(ViewportTop(0)) &amp; &quot;:&quot;&amp; floor(ViewportBottom(0))</param>
                         </action>
-                        <action id="-3" name="Set position" sid="3546851764519171" type="TextDebug">
-                            <param id="0" name="X">ViewportLeft(0) + 20</param>
-                            <param id="1" name="Y">ViewportTop(0) + 20</param>
+                        <action id="-9" name="Set value" sid="7439481296731195" type="System">
+                            <param id="0" name="Variable">debug_line3</param>
+                            <param id="1" name="Value">&quot;window (w:h): &quot; &amp; floor(WindowWidth) &amp; &quot;:&quot;  &amp; floor(WindowHeight)</param>
                         </action>
-                        <action id="-24" name="Move to top" sid="4876683180549559" type="TextDebug" />
-                        <action id="-3" name="Set position" sid="9548684514088731" type="Button">
-                            <param id="0" name="X">ViewportLeft(0) + 55</param>
-                            <param id="1" name="Y">ViewportTop(0) + 55</param>
-                        </action>
-                        <action id="-24" name="Move to top" sid="9457882631241481" type="Button" />
                     </actions>
                 </event-block>
-                <event-group description="" sid="3469279951967914" title="setup the layout">
+                <event-group collapsed="1" description="" sid="3469279951967914" title="setup the layout">
                     <sub-events>
                         <event-block sid="9809400649618648">
                             <conditions>
@@ -48,17 +42,37 @@
                                     <param id="0" name="Variable">TickCountAtStartOfLayout</param>
                                     <param id="1" name="Value">tickcount</param>
                                 </action>
+                                <action id="-3" name="Set position" sid="3315353643049802" type="Fader">
+                                    <param id="0" name="X">-1000</param>
+                                    <param id="1" name="Y">-1000</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="9304454489538159" type="Fader">
+                                    <param id="0" name="Width">3000</param>
+                                    <param id="1" name="Height">3000</param>
+                                </action>
+                                <action id="-16" name="Set opacity" sid="7021647584817029" type="Fader">
+                                    <param id="0" name="Opacity">100</param>
+                                </action>
+                                <action id="-26" name="Move to layer" sid="8186146733219269" type="Fader">
+                                    <param id="0" name="Layer">100</param>
+                                </action>
+                                <action id="-24" name="Move to top" sid="4183019660494142" type="Fader" />
                             </actions>
                         </event-block>
-                        <event-block sid="6637685918350186">
+                        <event-block sid="5766139971758115">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="7039292422864937" type="System">
                                     <param id="0" name="First value">tickcount</param>
                                     <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">TickCountAtStartOfLayout+2</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+1</param>
                                 </condition>
                             </conditions>
                             <actions>
+                                <action id="-3" name="Set position" sid="9548684514088731" type="Button">
+                                    <param id="0" name="X">ViewportLeft(0) + 55</param>
+                                    <param id="1" name="Y">ViewportTop(0) + 55</param>
+                                </action>
+                                <action id="-24" name="Move to top" sid="9457882631241481" type="Button" />
                                 <action id="-3" name="Set position" sid="7315557834670735" type="Bg_Phase3">
                                     <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2 - Bg_Phase3.Width / 2</param>
                                     <param id="1" name="Y">ViewportBottom(0) + (ViewportTop(0) - ViewportBottom(0)) / 2 - Bg_Phase3.Height / 2</param>
@@ -73,19 +87,23 @@
                                     <param id="1" name="Y">ViewportBottom(0) - Character.Height / 2 - UI_WoodFence.Height + 20</param>
                                 </action>
                                 <action id="-25" name="Move to bottom" sid="134233793773651" type="Character" />
+                                <action id="0" name="Call function" sid="8170140340169924" type="Function">
+                                    <param id="0" name="Name">&quot;FadeIn&quot;</param>
+                                    <param id="1" name="Parameter {n}"></param>
+                                </action>
                             </actions>
                         </event-block>
                     </sub-events>
                 </event-group>
                 <event-group collapsed="1" description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
                     <sub-events>
-                        <event-block sid="409180012291982">
+                        <event-block collapsed="1" sid="409180012291982">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="3618506777173733" type="System" />
                             </conditions>
                             <actions />
                             <sub-events>
-                                <event-block collapsed="1" sid="7014517622640797">
+                                <event-block sid="7014517622640797">
                                     <conditions>
                                         <condition id="-10" name="For" sid="3082746535428171" type="System">
                                             <param id="0" name="Name">&quot;&quot;</param>
@@ -207,16 +225,12 @@
                                             <param id="0" name="Variable">OffsetX</param>
                                             <param id="1" name="Value">(ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2) - (OffsetX + (Handle.X - OffsetX) / 2)</param>
                                         </action>
-                                        <action id="-9" name="Set value" sid="5740598761606315" type="System">
-                                            <param id="0" name="Variable">debug_line4</param>
-                                            <param id="1" name="Value">OffsetX</param>
-                                        </action>
                                     </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
                         <comment>center the necklace on the screen</comment>
-                        <event-block sid="6784465003512577">
+                        <event-block collapsed="1" sid="6784465003512577">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="6079895974385653" type="System" />
                             </conditions>

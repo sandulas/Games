@@ -2,7 +2,7 @@
 <c2layout>
     <name>Level</name>
     <sid>5978454621084526</sid>
-    <event-sheet>Events - Main</event-sheet>
+    <event-sheet>Events - Level</event-sheet>
     <size>
         <width>1280</width>
         <height>800</height>
@@ -142,6 +142,9 @@
                         <action>main</action>
                         <parameter>0</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -169,6 +172,9 @@
                         <action>saves</action>
                         <parameter>0</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -196,6 +202,9 @@
                         <action>saves</action>
                         <parameter>1</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
@@ -223,6 +232,9 @@
                         <action>saves</action>
                         <parameter>2</parameter>
                     </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
