@@ -4,5 +4,62 @@
     <name>Events - Main</name>
     <events>
         <include>Events - Common</include>
+        <event-group description="" sid="1267623363092653" title="LAYOUT ROOT">
+            <sub-events>
+                <event-group description="" sid="4574294575101284" title="setup UI">
+                    <sub-events>
+                        <event-block sid="3917797050924338">
+                            <conditions>
+                                <condition id="-2" name="On start of layout" sid="9662328296223472" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="411851576767361">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="3198736864124994" type="Button">
+                                            <param id="0" name="Comparison">1</param>
+                                            <param id="1" name="Number">3</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-2" name="Set Y" sid="536909451215228" type="Button">
+                                            <param id="0" name="Y">ViewportBottom(0) - 33 - Button.Height / 2</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1693538387784473">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="2796916653144619" type="Button">
+                                            <param id="0" name="Instance variable">action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;musicoff&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-2" name="Set Y" sid="2782120035202988" type="Button">
+                                            <param id="0" name="Y">Button(1).Y</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="3090371049466137">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="100635974850745" type="Button">
+                                            <param id="0" name="Instance variable">action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;soundoff&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-2" name="Set Y" sid="4333316923558772" type="Button">
+                                            <param id="0" name="Y">Button(2).Y</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>
