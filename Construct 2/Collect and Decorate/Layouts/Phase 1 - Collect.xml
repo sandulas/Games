@@ -309,7 +309,7 @@
                 </instance>
                 <instance type="UI_Panel" uid="12">
                     <properties>
-                        <initial-visibility>Visible</initial-visibility>
+                        <initial-visibility>Invisible</initial-visibility>
                         <initial-animation>Default</initial-animation>
                         <initial-frame>0</initial-frame>
                         <collisions>Enabled</collisions>
@@ -320,8 +320,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>616</x>
-                        <y>276</y>
+                        <x>627</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>636</width>
                         <height>244</height>
@@ -350,8 +350,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>416</x>
-                        <y>276</y>
+                        <x>427</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>100</width>
                         <height>100</height>
@@ -380,8 +380,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>816</x>
-                        <y>276</y>
+                        <x>827</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>100</width>
                         <height>100</height>
@@ -410,8 +410,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>551</x>
-                        <y>276</y>
+                        <x>562</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>118</width>
                         <height>118</height>
@@ -440,8 +440,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>681</x>
-                        <y>276</y>
+                        <x>692</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>118</width>
                         <height>118</height>
@@ -470,8 +470,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>416</x>
-                        <y>276</y>
+                        <x>427</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>60</width>
                         <height>54</height>
@@ -500,8 +500,8 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>816</x>
-                        <y>276</y>
+                        <x>827</x>
+                        <y>-170</y>
                         <z>0</z>
                         <width>60</width>
                         <height>54</height>

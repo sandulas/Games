@@ -28,7 +28,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-group collapsed="1" description="" sid="3469279951967914" title="setup the layout">
+                <event-group description="" sid="3469279951967914" title="setup the layout">
                     <sub-events>
                         <event-block sid="9809400649618648">
                             <conditions>
@@ -68,11 +68,6 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-3" name="Set position" sid="9548684514088731" type="Button">
-                                    <param id="0" name="X">ViewportLeft(0) + 55</param>
-                                    <param id="1" name="Y">ViewportTop(0) + 55</param>
-                                </action>
-                                <action id="-24" name="Move to top" sid="9457882631241481" type="Button" />
                                 <action id="-3" name="Set position" sid="7315557834670735" type="Bg_Phase3">
                                     <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2 - Bg_Phase3.Width / 2</param>
                                     <param id="1" name="Y">ViewportBottom(0) + (ViewportTop(0) - ViewportBottom(0)) / 2 - Bg_Phase3.Height / 2</param>
@@ -92,6 +87,24 @@
                                     <param id="1" name="Parameter {n}"></param>
                                 </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="8385416434876928">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="4262395555220686" type="Button">
+                                            <param id="0" name="Instance variable">action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;pause&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="9548684514088731" type="Button">
+                                            <param id="0" name="X">ViewportLeft(0) + 55</param>
+                                            <param id="1" name="Y">ViewportTop(0) + 55</param>
+                                        </action>
+                                        <action id="-24" name="Move to top" sid="9457882631241481" type="Button" />
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                     </sub-events>
                 </event-group>
