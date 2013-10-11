@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>Event sheet 1</name>
+    <events>
+        <variable constant="0" name="PlaybackRate" sid="6980668322725069" static="0" type="number">0.8</variable>
+        <variable constant="0" name="Volume" sid="3941581872286998" static="0" type="number">-5</variable>
+        <event-block sid="5400912063734953">
+            <conditions>
+                <condition id="3" name="On touched object" sid="746095482192404" type="Touch">
+                    <param id="0" name="Object">Sprite</param>
+                </condition>
+                <condition id="-7" name="Compare instance variable" sid="2222223138101652" type="Sprite">
+                    <param id="0" name="Instance variable">action</param>
+                    <param id="1" name="Comparison">0</param>
+                    <param id="2" name="Value">2</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="8732948852900265">
+                    <conditions>
+                        <condition id="5" name="Is tag playing" sid="6250526455672251" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="6" name="Stop" sid="1664714057747346" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="3388603720510603">
+                    <conditions>
+                        <condition id="-22" name="Else" sid="5011918036387207" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Play" sid="2070854139203031" type="Audio">
+                            <param id="0" name="Audio file">Monster Truck - motor mers - loop</param>
+                            <param id="2" name="Loop">1</param>
+                            <param id="3" name="Volume">Volume</param>
+                            <param id="1" name="Tag (optional)">&quot;motor&quot;</param>
+                        </action>
+                        <action id="-12" name="Set group active" sid="7917982445529776" type="System">
+                            <param id="0" name="Group name">&quot;set initial speed and volume&quot;</param>
+                            <param id="1" name="State">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-group description="" inactive="1" sid="2761085633488649" title="set initial speed and volume">
+            <sub-events>
+                <event-block sid="6636253053888925">
+                    <conditions>
+                        <condition id="5" name="Is tag playing" sid="6768206386981751" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="5" name="Set playback rate" sid="6002023765941424" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                            <param id="1" name="Playback rate">PlaybackRate</param>
+                        </action>
+                        <action id="3" name="Set volume" sid="6468355143956902" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                            <param id="1" name="dB">Volume</param>
+                        </action>
+                        <action id="-12" name="Set group active" sid="2370764870011045" type="System">
+                            <param id="0" name="Group name">&quot;set initial speed and volume&quot;</param>
+                            <param id="1" name="State">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-block sid="771247667147984">
+            <conditions>
+                <condition id="4" name="Is touching object" sid="5374522248810719" type="Touch">
+                    <param id="0" name="Object">Sprite</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="6090526835166023">
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" sid="1333164641928819" type="Sprite">
+                            <param id="0" name="Instance variable">action</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">0</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="3842866658919714" type="System">
+                            <param id="0" name="Variable">PlaybackRate</param>
+                            <param id="1" name="Value">lerp(PlaybackRate, 0.5, dt)</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="1657862024370715" type="System">
+                            <param id="0" name="Variable">Volume</param>
+                            <param id="1" name="Value">lerp(Volume, -10, dt)</param>
+                        </action>
+                        <action id="5" name="Set playback rate" sid="3300644927807142" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                            <param id="1" name="Playback rate">PlaybackRate</param>
+                        </action>
+                        <action id="3" name="Set volume" sid="1298560168023126" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                            <param id="1" name="dB">Volume</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="3519095843001493">
+                    <conditions>
+                        <condition id="-7" name="Compare instance variable" sid="2178600807583854" type="Sprite">
+                            <param id="0" name="Instance variable">action</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">1</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="576646058632049" type="System">
+                            <param id="0" name="Variable">PlaybackRate</param>
+                            <param id="1" name="Value">lerp(PlaybackRate, 1, dt*1.5)</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="4364465363966163" type="System">
+                            <param id="0" name="Variable">Volume</param>
+                            <param id="1" name="Value">lerp(Volume, 0, dt*1.5)</param>
+                        </action>
+                        <action id="5" name="Set playback rate" sid="7038621040108582" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                            <param id="1" name="Playback rate">PlaybackRate</param>
+                        </action>
+                        <action id="3" name="Set volume" sid="9276471165519448" type="Audio">
+                            <param id="0" name="Tag">&quot;motor&quot;</param>
+                            <param id="1" name="dB">Volume</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+    </events>
+</c2eventsheet>
