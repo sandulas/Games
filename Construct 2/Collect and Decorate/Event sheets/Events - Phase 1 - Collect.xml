@@ -398,7 +398,7 @@
                                         <condition id="-8" name="Compare two values" sid="551765756875239" type="System">
                                             <param id="0" name="First value">Flower.AnimationFrame</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">Game_FlowerWhite</param>
+                                            <param id="2" name="Second value">flower_white</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -412,7 +412,7 @@
                                         <condition id="-8" name="Compare two values" sid="5452867321040712" type="System">
                                             <param id="0" name="First value">Flower.AnimationFrame</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">Game_FlowerBlue</param>
+                                            <param id="2" name="Second value">Flower_Blue</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -433,7 +433,7 @@
                                         <condition id="-8" name="Compare two values" sid="1685220233661335" type="System">
                                             <param id="0" name="First value">Flower.AnimationFrame</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">Game_FlowerRed</param>
+                                            <param id="2" name="Second value">Flower_Red</param>
                                         </condition>
                                     </conditions>
                                     <actions>
