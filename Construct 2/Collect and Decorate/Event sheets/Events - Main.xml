@@ -55,79 +55,121 @@
                                         </action>
                                     </actions>
                                 </event-block>
+                                <event-block collapsed="1" sid="6449067484309164">
+                                    <conditions>
+                                        <condition id="7" name="Compare key value (as number)" sid="3306185631903736" type="WebStorage">
+                                            <param id="0" name="Key">&quot;music&quot;</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="4047911960137271">
+                                            <conditions>
+                                                <condition id="-7" name="Compare instance variable" sid="7920128100969608" type="Button">
+                                                    <param id="0" name="Instance variable">action</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;musicoff&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-15" name="Set visible" sid="7231454093549353" type="Button">
+                                                    <param id="0" name="Visibility">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block collapsed="1" sid="4543508033855845">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="654485658384199" type="System" />
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="8218155657078012">
+                                            <conditions>
+                                                <condition id="-7" name="Compare instance variable" sid="6816220886857821" type="Button">
+                                                    <param id="0" name="Instance variable">action</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;musicoff&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-15" name="Set visible" sid="3640407746590979" type="Button">
+                                                    <param id="0" name="Visibility">0</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block collapsed="1" sid="2635619468193831">
+                                    <conditions>
+                                        <condition id="4" inverted="1" name="Session key exists" sid="3126529136676889" type="WebStorage">
+                                            <param id="0" name="Key">&quot;ApplicationStartup&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="1" name="Set session value" sid="9006992002361777" type="WebStorage">
+                                            <param id="0" name="Key">&quot;ApplicationStartup&quot;</param>
+                                            <param id="1" name="Value">&quot;0&quot;</param>
+                                        </action>
+                                    </actions>
+                                    <sub-events>
+                                        <event-block sid="9861745730323896">
+                                            <conditions>
+                                                <condition id="3" inverted="1" name="Local key exists" sid="4537737689613908" type="WebStorage">
+                                                    <param id="0" name="Key">&quot;music&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="4768431147153811" type="Function">
+                                                    <param id="0" name="Name">&quot;MusicOn&quot;</param>
+                                                    <param id="1" name="Parameter {n}"></param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="8880063288441678">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="2403776002108344" type="System" />
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="8568698197048952">
+                                                    <conditions>
+                                                        <condition id="7" name="Compare key value (as number)" sid="837214873216579" type="WebStorage">
+                                                            <param id="0" name="Key">&quot;music&quot;</param>
+                                                            <param id="1" name="Comparison">0</param>
+                                                            <param id="2" name="Value">0</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="7566190997192722" type="Function">
+                                                            <param id="0" name="Name">&quot;MusicOff&quot;</param>
+                                                            <param id="1" name="Parameter {n}"></param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="1787172630127745">
+                                                    <conditions>
+                                                        <condition id="-22" name="Else" sid="5124234477974534" type="System" />
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="3848250722524954" type="Function">
+                                                            <param id="0" name="Name">&quot;MusicOn&quot;</param>
+                                                            <param id="1" name="Parameter {n}"></param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
                             </sub-events>
                         </event-block>
                     </sub-events>
                 </event-group>
             </sub-events>
         </event-group>
-        <event-block sid="410541667599559">
-            <conditions>
-                <condition id="0" name="On function" sid="3084036815445466" type="Function">
-                    <param id="0" name="Name">&quot;ToggleMusic&quot;</param>
-                </condition>
-            </conditions>
-            <actions />
-            <sub-events>
-                <event-block sid="2905956501069904">
-                    <conditions>
-                        <condition id="7" name="Compare key value (as number)" sid="956133179985301" type="WebStorage">
-                            <param id="0" name="Key">&quot;music&quot;</param>
-                            <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">0</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="0" name="Set local value" sid="621041980676064" type="WebStorage">
-                            <param id="0" name="Key">&quot;music&quot;</param>
-                            <param id="1" name="Value">1</param>
-                        </action>
-                    </actions>
-                    <sub-events>
-                        <event-block sid="9772028474697962">
-                            <conditions>
-                                <condition id="-7" name="Compare instance variable" sid="5561335062746137" type="Button">
-                                    <param id="0" name="Instance variable">action</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Value">&quot;musicoff&quot;</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-15" name="Set visible" sid="1842086880982263" type="Button">
-                                    <param id="0" name="Visibility">1</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
-                </event-block>
-                <event-block sid="8627540153075478">
-                    <conditions>
-                        <condition id="-22" name="Else" sid="6750911766281841" type="System" />
-                    </conditions>
-                    <actions>
-                        <action id="0" name="Set local value" sid="6850270764161784" type="WebStorage">
-                            <param id="0" name="Key">&quot;music&quot;</param>
-                            <param id="1" name="Value">0</param>
-                        </action>
-                    </actions>
-                    <sub-events>
-                        <event-block sid="3293861376359648">
-                            <conditions>
-                                <condition id="-7" name="Compare instance variable" sid="2369817395030681" type="Button">
-                                    <param id="0" name="Instance variable">action</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Value">&quot;musicoff&quot;</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-15" name="Set visible" sid="1143733886677111" type="Button">
-                                    <param id="0" name="Visibility">0</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
-                </event-block>
-            </sub-events>
-        </event-block>
     </events>
 </c2eventsheet>
