@@ -3,24 +3,21 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Events - Common</name>
     <events>
-        <variable constant="1" name="ButtonType_GoTo" sid="242483168193459" static="0" type="number">0</variable>
-        <variable constant="1" name="BUTTONTYPE_DO" sid="8075962687295055" static="0" type="number">1</variable>
-        <variable constant="1" name="level_1" sid="2034760074799284" static="0" type="number">0</variable>
-        <variable constant="1" name="LEVEL_2" sid="344295184131685" static="0" type="number">1</variable>
-        <variable constant="1" name="LEVEL_3" sid="7077963794427238" static="0" type="number">2</variable>
         <variable constant="1" name="LAYOUTSTATE_FADING" sid="3811331850985871" static="0" type="number">0</variable>
         <variable constant="1" name="LAYOUTSTATE_READY" sid="6377042340875564" static="0" type="number">1</variable>
-        <variable constant="0" name="Game_FlowerWhite" sid="2029747525464988" static="0" type="number">0</variable>
-        <variable constant="0" name="Game_FlowerBlue" sid="7950551552190707" static="0" type="number">1</variable>
-        <variable constant="0" name="Game_FlowerRed" sid="9111917904231352" static="0" type="number">2</variable>
+        <variable constant="0" name="LayoutState" sid="6467831460052899" static="0" type="number">0</variable>
+        <variable constant="0" name="LayoutToGoTo" sid="6519656246843248" static="0" type="text"></variable>
+        <variable constant="1" name="ButtonType_GoTo" sid="242483168193459" static="0" type="number">0</variable>
+        <variable constant="1" name="BUTTONTYPE_DO" sid="8075962687295055" static="0" type="number">1</variable>
+        <variable constant="0" name="Level" sid="8279689323837289" static="0" type="number">0</variable>
+        <variable constant="1" name="flower_white" sid="2029747525464988" static="0" type="number">0</variable>
+        <variable constant="1" name="Flower_Blue" sid="7950551552190707" static="0" type="number">1</variable>
+        <variable constant="1" name="Flower_Red" sid="9111917904231352" static="0" type="number">2</variable>
         <variable constant="0" name="debug_line1" sid="4177495052590903" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line2" sid="8516279301245715" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
-        <variable constant="0" name="LayoutToGoTo" sid="6519656246843248" static="0" type="text"></variable>
-        <variable constant="0" name="Level" sid="8279689323837289" static="0" type="number">0</variable>
-        <variable constant="0" name="LayoutState" sid="6467831460052899" static="0" type="number">0</variable>
         <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
             <sub-events>
                 <event-block sid="8578860188414138">
@@ -283,7 +280,7 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <event-block sid="2576718531359653">
+                <event-block collapsed="1" sid="2576718531359653">
                     <conditions>
                         <condition id="0" name="On function" sid="6044583687722048" type="Function">
                             <param id="0" name="Name">&quot;TogglePause&quot;</param>
