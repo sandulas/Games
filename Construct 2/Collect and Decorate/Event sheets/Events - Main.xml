@@ -7,7 +7,7 @@
         <variable constant="0" name="ApplicationStartup" sid="9523317782647918" static="0" type="number">1</variable>
         <event-group description="" sid="1267623363092653" title="LAYOUT ROOT">
             <sub-events>
-                <event-group description="" sid="4574294575101284" title="setup UI">
+                <event-group collapsed="1" description="" sid="4574294575101284" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
                             <conditions>
@@ -152,33 +152,81 @@
                                         </event-block>
                                     </sub-events>
                                 </event-block>
-                                <event-block sid="2635619468193831">
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+                <event-group collapsed="1" description="" sid="3876133516902916" title="setup settings">
+                    <sub-events>
+                        <event-block sid="2635619468193831">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="2691276414458497" type="System">
+                                    <param id="0" name="First value">ApplicationStartup</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="2797247902922376" type="System">
+                                    <param id="0" name="Variable">ApplicationStartup</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="8568698197048952">
                                     <conditions>
-                                        <condition id="-8" name="Compare two values" sid="2691276414458497" type="System">
-                                            <param id="0" name="First value">ApplicationStartup</param>
+                                        <condition id="7" inverted="1" name="Compare key value (as number)" sid="837214873216579" type="WebStorage">
+                                            <param id="0" name="Key">&quot;music&quot;</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">1</param>
+                                            <param id="2" name="Value">0</param>
                                         </condition>
                                     </conditions>
                                     <actions>
-                                        <action id="-9" name="Set value" sid="2797247902922376" type="System">
-                                            <param id="0" name="Variable">ApplicationStartup</param>
-                                            <param id="1" name="Value">0</param>
+                                        <action id="0" name="Call function" sid="3848250722524954" type="Function">
+                                            <param id="0" name="Name">&quot;MusicOn&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
                                         </action>
                                     </actions>
+                                </event-block>
+                                <event-block sid="4770843053991516">
+                                    <conditions>
+                                        <condition id="3" name="Local key exists" sid="2416367866534987" type="WebStorage">
+                                            <param id="0" name="Key">&quot;necklaces&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="11" name="Load" sid="9945730618444613" type="NecklacesArray">
+                                            <param id="0" name="JSON">WebStorage.LocalValue(&quot;necklaces&quot;)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="5214707663244585">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="4804461167994991" type="System" />
+                                    </conditions>
+                                    <actions />
                                     <sub-events>
-                                        <event-block sid="8568698197048952">
+                                        <event-block sid="3423571172664085">
                                             <conditions>
-                                                <condition id="7" inverted="1" name="Compare key value (as number)" sid="837214873216579" type="WebStorage">
-                                                    <param id="0" name="Key">&quot;music&quot;</param>
-                                                    <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Value">0</param>
+                                                <condition id="3" name="For each element" sid="7788957369225337" type="NecklacesArray">
+                                                    <param id="0" name="Axes">0</param>
                                                 </condition>
                                             </conditions>
                                             <actions>
-                                                <action id="0" name="Call function" sid="3848250722524954" type="Function">
-                                                    <param id="0" name="Name">&quot;MusicOn&quot;</param>
-                                                    <param id="1" name="Parameter {n}"></param>
+                                                <action id="4" name="Set at XYZ" sid="5177453046781517" type="NecklacesArray">
+                                                    <param id="0" name="X">NecklacesArray.CurX</param>
+                                                    <param id="1" name="Y">NecklacesArray.CurY</param>
+                                                    <param id="2" name="Z">NecklacesArray.CurZ</param>
+                                                    <param id="3" name="Value">-1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="5321954480635546">
+                                            <conditions />
+                                            <actions>
+                                                <action id="0" name="Set local value" sid="7483366064531791" type="WebStorage">
+                                                    <param id="0" name="Key">&quot;necklaces&quot;</param>
+                                                    <param id="1" name="Value">NecklacesArray.AsJSON</param>
                                                 </action>
                                             </actions>
                                         </event-block>

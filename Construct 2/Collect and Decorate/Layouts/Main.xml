@@ -278,6 +278,14 @@
             <effects />
         </layer>
     </layers>
-    <nonworld-instances />
+    <nonworld-instances>
+        <instance type="NecklacesArray" uid="79">
+            <properties>
+                <width>15</width>
+                <height>10</height>
+                <depth>4</depth>
+            </properties>
+        </instance>
+    </nonworld-instances>
     <effects />
 </c2layout>
