@@ -156,7 +156,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="3876133516902916" title="setup settings">
+                <event-group description="" sid="3876133516902916" title="setup settings">
                     <sub-events>
                         <event-block sid="2635619468193831">
                             <conditions>

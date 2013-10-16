@@ -16,7 +16,7 @@
                 <variable constant="1" name="SLIDE_SPEED" sid="6416486524362268" static="1" type="number">10</variable>
                 <variable constant="0" name="CircleX" sid="5664118315396733" static="1" type="number">0</variable>
                 <variable constant="0" name="CircleY" sid="7679215850877626" static="1" type="number">0</variable>
-                <event-group collapsed="1" description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
+                <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
                     <sub-events>
                         <event-block sid="6814207576628957">
                             <conditions>
@@ -34,6 +34,9 @@
                                 <action id="-9" name="Set value" sid="6233656270218546" type="System">
                                     <param id="0" name="Variable">CENTER_Y</param>
                                     <param id="1" name="Value">ViewportTop(0) - R + POSITION_Y</param>
+                                </action>
+                                <action behavior="DragDrop" id="0" name="Set enabled" sid="330451230319382" type="Flower">
+                                    <param id="0" name="State">1</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -176,16 +179,12 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning">
+                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
                     <sub-events>
                         <variable constant="0" name="FlowersCount" sid="8522124805697867" static="0" type="number">0</variable>
                         <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
                         <variable constant="0" name="Offset" sid="7307237996979332" static="0" type="number">0</variable>
                         <variable constant="0" name="StartAngle" sid="106807981843684" static="0" type="number">0</variable>
-                        <event-block sid="1141648765907089">
-                            <conditions />
-                            <actions />
-                        </event-block>
                         <event-block sid="5730033345963447">
                             <conditions>
                                 <condition id="-33" name="Pick by comparison" sid="8010180756291331" type="System">

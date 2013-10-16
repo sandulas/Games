@@ -28,7 +28,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-group description="" sid="3469279951967914" title="setup the layout">
+                <event-group collapsed="1" description="" sid="3469279951967914" title="setup the layout">
                     <sub-events>
                         <event-block sid="9809400649618648">
                             <conditions>
@@ -108,15 +108,15 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
+                <event-group description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
                     <sub-events>
-                        <event-block collapsed="1" sid="409180012291982">
+                        <event-block sid="409180012291982">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="3618506777173733" type="System" />
                             </conditions>
                             <actions />
                             <sub-events>
-                                <event-block sid="7014517622640797">
+                                <event-block collapsed="1" sid="7014517622640797">
                                     <conditions>
                                         <condition id="-10" name="For" sid="3082746535428171" type="System">
                                             <param id="0" name="Name">&quot;&quot;</param>
@@ -243,7 +243,7 @@
                             </sub-events>
                         </event-block>
                         <comment>center the necklace on the screen</comment>
-                        <event-block collapsed="1" sid="6784465003512577">
+                        <event-block sid="6784465003512577">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="6079895974385653" type="System" />
                             </conditions>
@@ -302,7 +302,7 @@
                             </actions>
                         </event-block>
                         <comment>connect the handles and flowers</comment>
-                        <event-block sid="9429585468775893">
+                        <event-block collapsed="1" sid="9429585468775893">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="5663863042718579" type="System">
                                     <param id="0" name="First value">tickcount</param>
