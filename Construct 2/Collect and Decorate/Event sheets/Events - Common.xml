@@ -3,6 +3,7 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>Events - Common</name>
     <events>
+        <comment>navigation</comment>
         <variable constant="1" name="LAYOUTSTATE_FADING" sid="3811331850985871" static="0" type="number">0</variable>
         <variable constant="1" name="LAYOUTSTATE_READY" sid="6377042340875564" static="0" type="number">1</variable>
         <variable constant="0" name="LayoutState" sid="6467831460052899" static="0" type="number">0</variable>
@@ -10,13 +11,19 @@
         <variable constant="1" name="ButtonType_GoTo" sid="242483168193459" static="0" type="number">0</variable>
         <variable constant="1" name="BUTTONTYPE_DO" sid="8075962687295055" static="0" type="number">1</variable>
         <variable constant="0" name="Level" sid="8279689323837289" static="0" type="number">0</variable>
+        <comment>gameplay</comment>
         <variable constant="1" name="flower_white" sid="2029747525464988" static="0" type="number">0</variable>
         <variable constant="1" name="Flower_Blue" sid="7950551552190707" static="0" type="number">1</variable>
         <variable constant="1" name="Flower_Red" sid="9111917904231352" static="0" type="number">2</variable>
+        <comment>circle layout</comment>
+        <variable constant="0" name="CircleCenterX" sid="7060604505282117" static="0" type="number">0</variable>
+        <variable constant="0" name="CircleCenterY" sid="3264049315965937" static="0" type="number">0</variable>
+        <variable constant="0" name="CircleR" sid="2834705066140496" static="0" type="number">0</variable>
+        <variable constant="0" name="OnCircleX" sid="519572378025657" static="0" type="number">0</variable>
+        <variable constant="0" name="OnCircleY" sid="9624862011215612" static="0" type="number">0</variable>
+        <variable constant="0" name="CircleOverlapRatio" sid="9732983559119901" static="0" type="number">0.15</variable>
+        <comment>debugging</comment>
         <variable constant="0" name="debug_line1" sid="4177495052590903" static="0" type="text">-</variable>
-        <variable constant="0" name="CENTER_X2" sid="6984022154178276" static="0" type="number">0</variable>
-        <variable constant="0" name="CENTER_Y2" sid="4005958087311203" static="0" type="number">0</variable>
-        <variable constant="0" name="R2" sid="6811214600594611" static="0" type="number">0</variable>
         <variable constant="0" name="debug_line2" sid="8516279301245715" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
@@ -29,10 +36,6 @@
                         <action id="-9" name="Set value" sid="2096030895599525" type="System">
                             <param id="0" name="Variable">debug_line1</param>
                             <param id="1" name="Value">&quot;fps: &quot; &amp; fps &amp; &quot; (&quot; &amp; renderer &amp; &quot;)&quot;</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="9467275179944835" type="System">
-                            <param id="0" name="Variable">debug_line2</param>
-                            <param id="1" name="Value">NecklacesArray.At(0,0,0)</param>
                         </action>
                         <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                             <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
@@ -938,6 +941,186 @@
                 </event-group>
             </sub-events>
         </event-group>
-        <event-group description="" sid="5937710575149263" title="necklace layout" />
+        <event-group description="" sid="5937710575149263" title="circle layout">
+            <sub-events>
+                <variable constant="0" name="StartAngle" sid="9240355131868762" static="0" type="number">0</variable>
+                <event-block sid="6680344508636169">
+                    <conditions>
+                        <condition id="0" name="On function" sid="6585227647143501" type="Function">
+                            <param id="0" name="Name">&quot;SetOnCircleXY&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="4135080675945826" type="System">
+                            <param id="0" name="Variable">OnCircleX</param>
+                            <param id="1" name="Value">CircleR * cos(Function.Param(0))</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="5621249082689134" type="System">
+                            <param id="0" name="Variable">OnCircleY</param>
+                            <param id="1" name="Value">CircleR * sin(Function.Param(0))</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="6284820817890447">
+                    <conditions>
+                        <condition id="0" name="On function" sid="4475586624123933" type="Function">
+                            <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <variable constant="0" name="NecklacePieces" sid="3127188578683428" static="0" type="number">8</variable>
+                        <variable constant="0" name="NecklaceLength" sid="365907277991538" static="0" type="number">0</variable>
+                        <event-block sid="3738774619714514">
+                            <conditions>
+                                <condition id="-10" name="For" sid="8344924229192918" type="System">
+                                    <param id="0" name="Name">&quot;i&quot;</param>
+                                    <param id="1" name="Start index">0</param>
+                                    <param id="2" name="End index">NecklacePieces - 1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="2114829470293057" type="System">
+                                    <param id="0" name="Object to create">Flower</param>
+                                    <param id="1" name="Layer">1</param>
+                                    <param id="2" name="X">0</param>
+                                    <param id="3" name="Y">0</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="9361216164012089" type="Flower">
+                                    <param id="0" name="Instance variable">Tag</param>
+                                    <param id="1" name="Value">&quot;test&quot;</param>
+                                </action>
+                                <action disabled="1" id="5" name="Set frame" sid="8268501631911179" type="Flower">
+                                    <param id="0" name="Frame number">NecklacesArray.At(loopindex, Function.Param(0), Function.Param(1))</param>
+                                </action>
+                                <action id="5" name="Set frame" sid="8649078325153199" type="Flower">
+                                    <param id="0" name="Frame number">int(random(Flower.AnimationFrameCount))</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block any="1" sid="2935901534699899">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="3474063210488905" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">0</param>
+                                        </condition>
+                                        <condition id="-8" name="Compare two values" sid="1610362106278887" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">NecklacePieces - 1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="8695421567807535" type="System">
+                                            <param id="0" name="Variable">NecklaceLength</param>
+                                            <param id="1" name="Value">NecklaceLength + Flower.Width * (0.5 - CircleOverlapRatio)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1597099422126138">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="7011681737936444" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="768720882271102" type="System">
+                                            <param id="0" name="Variable">NecklaceLength</param>
+                                            <param id="1" name="Value">NecklaceLength + Flower.Width * (1 - CircleOverlapRatio * 2)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="5643717188946993">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="3762983905124489" type="System">
+                                            <param id="0" name="First value">loopindex</param>
+                                            <param id="1" name="Comparison">2</param>
+                                            <param id="2" name="Second value">NecklacePieces - 1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-10" name="Set value" sid="9088674256833959" type="Flower">
+                                            <param id="0" name="Instance variable">StartAngleOffset</param>
+                                            <param id="1" name="Value">180 / pi * (NecklaceLength - Flower.Width * (0.5 - CircleOverlapRatio)) / CircleR</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1626064823031088">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="9039439165478787" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-10" name="Set value" sid="2586066731849044" type="Flower">
+                                            <param id="0" name="Instance variable">StartAngleOffset</param>
+                                            <param id="1" name="Value">180 / pi * NecklaceLength / CircleR</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="7267922720175144" type="System">
+                                            <param id="0" name="Variable">StartAngle</param>
+                                            <param id="1" name="Value">90 + Flower.StartAngleOffset / 2</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6823128588336888">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="9188719135128828" type="System">
+                                            <param id="0" name="First value">loopindex % 2</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-24" name="Move to top" sid="3866616121825527" type="Flower" />
+                                    </actions>
+                                </event-block>
+                                <event-block sid="8225122879611255">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="6338522790927144" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-25" name="Move to bottom" sid="9391553022845045" type="Flower" />
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="2265183938697862">
+                    <conditions>
+                        <condition id="0" name="On function" sid="2349664975254494" type="Function">
+                            <param id="0" name="Name">&quot;ArrangePiecesOnCircle&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="8232545806986179">
+                            <conditions>
+                                <condition id="-7" name="Compare instance variable" sid="5659160756386667" type="Flower">
+                                    <param id="0" name="Instance variable">Tag</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">&quot;test&quot;</param>
+                                </condition>
+                                <condition id="-24" name="For Each (ordered)" sid="6599607124113802" type="System">
+                                    <param id="0" name="Object">Flower</param>
+                                    <param id="1" name="Expression">Flower.StartAngleOffset</param>
+                                    <param id="2" name="Order">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="4239257859570902" type="Function">
+                                    <param id="0" name="Name">&quot;SetOnCircleXY&quot;</param>
+                                    <param id="1" name="Parameter {n}">StartAngle - Flower.StartAngleOffset</param>
+                                </action>
+                                <action id="-3" name="Set position" sid="7231474769272116" type="Flower">
+                                    <param id="0" name="X">CircleCenterX + OnCircleX</param>
+                                    <param id="1" name="Y">CircleCenterY + OnCircleY</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="3118370647292906" type="Flower">
+                                    <param id="0" name="Angle">(StartAngle - Flower.StartAngleOffset)-90</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>

@@ -364,7 +364,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">
+                <event-group description="" sid="8345507727811121" title="flowers - create, catch, destroy">
                     <sub-events>
                         <comment>create and setup flowers</comment>
                         <event-block sid="1904972802140828">
@@ -387,6 +387,9 @@
                                 <action id="-3" name="Set position" sid="4824074386778173" type="Flower">
                                     <param id="0" name="X">random(ViewportLeft(0) + Flower.Width / 2, ViewportRight(0) - Flower.Width / 2)</param>
                                     <param id="1" name="Y">ViewportTop(0) - Flower.Height / 2 - 10</param>
+                                </action>
+                                <action behavior="Bullet" id="5" name="Set enabled" sid="922111766686347" type="Flower">
+                                    <param id="0" name="State">1</param>
                                 </action>
                                 <action behavior="Bullet" id="3" name="Set angle of motion" sid="8570581057874184" type="Flower">
                                     <param id="0" name="Angle">90</param>

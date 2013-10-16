@@ -209,6 +209,7 @@
                     <instance-variables>
                         <StartAngleOffset>0</StartAngleOffset>
                         <CircleAngle>0</CircleAngle>
+                        <Tag></Tag>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Bullet">
@@ -218,7 +219,7 @@
                                 <gravity>0</gravity>
                                 <bounce-off-solids>No</bounce-off-solids>
                                 <set-angle>No</set-angle>
-                                <initial-state>Enabled</initial-state>
+                                <initial-state>Disabled</initial-state>
                             </properties>
                         </behavior-instance>
                         <behavior-instance type="Sine">
