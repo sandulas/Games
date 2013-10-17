@@ -281,9 +281,9 @@
     <nonworld-instances>
         <instance type="NecklacesArray" uid="79">
             <properties>
-                <width>15</width>
+                <width>4</width>
                 <height>10</height>
-                <depth>4</depth>
+                <depth>15</depth>
             </properties>
         </instance>
     </nonworld-instances>

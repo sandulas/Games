@@ -71,14 +71,17 @@
                         <initial-frame>0</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
+                    <instance-variables>
+                        <tag>0</tag>
+                    </instance-variables>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>239</x>
-                        <y>379</y>
+                        <x>230</x>
+                        <y>350</y>
                         <z>0</z>
-                        <width>372</width>
-                        <height>428</height>
+                        <width>320</width>
+                        <height>368</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
@@ -93,14 +96,17 @@
                         <initial-frame>0</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
+                    <instance-variables>
+                        <tag>1</tag>
+                    </instance-variables>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>650</x>
-                        <y>378</y>
+                        <x>640</x>
+                        <y>350</y>
                         <z>0</z>
-                        <width>372</width>
-                        <height>428</height>
+                        <width>320</width>
+                        <height>368</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
@@ -115,14 +121,17 @@
                         <initial-frame>0</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
+                    <instance-variables>
+                        <tag>2</tag>
+                    </instance-variables>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>1078</x>
-                        <y>368</y>
+                        <x>1050</x>
+                        <y>350</y>
                         <z>0</z>
-                        <width>372</width>
-                        <height>428</height>
+                        <width>320</width>
+                        <height>368</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
@@ -170,7 +179,7 @@
                     <instance-variables>
                         <type>0</type>
                         <action>saves</action>
-                        <parameter>0</parameter>
+                        <parameter>1</parameter>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pin" />
@@ -178,11 +187,11 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>212</x>
-                        <y>685</y>
+                        <x>230</x>
+                        <y>350</y>
                         <z>0</z>
-                        <width>150</width>
-                        <height>150</height>
+                        <width>120</width>
+                        <height>120</height>
                         <depth>0</depth>
                         <hotspotX>0.502145946</hotspotX>
                         <hotspotY>0.502145946</hotspotY>
@@ -200,7 +209,7 @@
                     <instance-variables>
                         <type>0</type>
                         <action>saves</action>
-                        <parameter>1</parameter>
+                        <parameter>2</parameter>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pin" />
@@ -208,11 +217,11 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>642</x>
-                        <y>687</y>
+                        <x>640</x>
+                        <y>350</y>
                         <z>0</z>
-                        <width>150</width>
-                        <height>150</height>
+                        <width>120</width>
+                        <height>120</height>
                         <depth>0</depth>
                         <hotspotX>0.502145946</hotspotX>
                         <hotspotY>0.502145946</hotspotY>
@@ -230,7 +239,7 @@
                     <instance-variables>
                         <type>0</type>
                         <action>saves</action>
-                        <parameter>2</parameter>
+                        <parameter>3</parameter>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Pin" />
@@ -238,11 +247,11 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>1082</x>
-                        <y>682</y>
+                        <x>1050</x>
+                        <y>350</y>
                         <z>0</z>
-                        <width>150</width>
-                        <height>150</height>
+                        <width>120</width>
+                        <height>120</height>
                         <depth>0</depth>
                         <hotspotX>0.502145946</hotspotX>
                         <hotspotY>0.502145946</hotspotY>
@@ -251,6 +260,22 @@
                     </world>
                 </instance>
             </instances>
+            <effects />
+        </layer>
+        <layer name="action" sid="5569600579811095">
+            <initially-visible>1</initially-visible>
+            <background-color>255,255,255</background-color>
+            <transparent>1</transparent>
+            <parallax>
+                <x>1</x>
+                <y>1</y>
+            </parallax>
+            <zoom-rate>1</zoom-rate>
+            <opacity>1</opacity>
+            <force-own-texture>0</force-own-texture>
+            <blend-mode>0</blend-mode>
+            <effect-fallback>0</effect-fallback>
+            <instances />
             <effects />
         </layer>
     </layers>
