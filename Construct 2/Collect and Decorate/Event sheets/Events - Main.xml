@@ -5,6 +5,9 @@
     <events>
         <include>Events - Common</include>
         <variable constant="0" name="ApplicationStartup" sid="9523317782647918" static="0" type="number">1</variable>
+        <variable constant="1" name="LEVEL1_NECKLACE" sid="7737280262423845" static="0" type="text">2,0,2,0,2,0,2,0,2</variable>
+        <variable constant="1" name="LEVEL2_NECKLACE" sid="9885718861682347" static="0" type="text">2,0,1,2,0,1,0,2,1,0,2</variable>
+        <variable constant="1" name="LEVEL3_NECKLACE" sid="3223704895404303" static="0" type="text">1,1,1,0,1,2,0,1,0,2,1,0,1,1,1</variable>
         <event-group description="" sid="1267623363092653" title="LAYOUT ROOT">
             <sub-events>
                 <event-group collapsed="1" description="" sid="4574294575101284" title="setup UI">
@@ -231,6 +234,57 @@
                                             </actions>
                                         </event-block>
                                     </sub-events>
+                                </event-block>
+                                <event-block sid="1308864571720195">
+                                    <conditions>
+                                        <condition id="-10" name="For" sid="3851146496543116" type="System">
+                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                            <param id="1" name="Start index">0</param>
+                                            <param id="2" name="End index">8</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set at XYZ" sid="583066745887212" type="NecklacesArray">
+                                            <param id="0" name="X">0</param>
+                                            <param id="1" name="Y">0</param>
+                                            <param id="2" name="Z">loopindex</param>
+                                            <param id="3" name="Value">tokenat(LEVEL1_NECKLACE, loopindex, &quot;,&quot;)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="4994486981963207">
+                                    <conditions>
+                                        <condition id="-10" name="For" sid="812185055836538" type="System">
+                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                            <param id="1" name="Start index">0</param>
+                                            <param id="2" name="End index">10</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set at XYZ" sid="3771431261998773" type="NecklacesArray">
+                                            <param id="0" name="X">0</param>
+                                            <param id="1" name="Y">1</param>
+                                            <param id="2" name="Z">loopindex</param>
+                                            <param id="3" name="Value">tokenat(LEVEL2_NECKLACE, loopindex, &quot;,&quot;)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="965540249247323">
+                                    <conditions>
+                                        <condition id="-10" name="For" sid="9397064900064768" type="System">
+                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                            <param id="1" name="Start index">0</param>
+                                            <param id="2" name="End index">14</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set at XYZ" sid="7323311396559832" type="NecklacesArray">
+                                            <param id="0" name="X">0</param>
+                                            <param id="1" name="Y">2</param>
+                                            <param id="2" name="Z">loopindex</param>
+                                            <param id="3" name="Value">tokenat(LEVEL3_NECKLACE, loopindex, &quot;,&quot;)</param>
+                                        </action>
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>

@@ -9,7 +9,7 @@
                 <variable constant="0" name="TickCountAtStartOfLayout" sid="6319678039979318" static="1" type="number">0</variable>
                 <variable constant="0" name="StartX" sid="3880459603791739" static="1" type="number">350</variable>
                 <variable constant="0" name="StartY" sid="9516740109418225" static="1" type="number">160</variable>
-                <variable constant="0" name="FlowersCount" sid="7299355969258432" static="1" type="number">9</variable>
+                <variable constant="0" name="FlowersCount" sid="7299355969258432" static="1" type="number">7</variable>
                 <variable constant="0" name="OverlapPercent" sid="2236137402117079" static="1" type="number">0.15</variable>
                 <variable constant="0" name="MinScale" sid="7179635873072381" static="1" type="number">0.5</variable>
                 <variable constant="0" name="MaxScale" sid="9818304363819659" static="1" type="number">0.7</variable>
@@ -116,7 +116,7 @@
                             </conditions>
                             <actions />
                             <sub-events>
-                                <event-block collapsed="1" sid="7014517622640797">
+                                <event-block sid="7014517622640797">
                                     <conditions>
                                         <condition id="-10" name="For" sid="3082746535428171" type="System">
                                             <param id="0" name="Name">&quot;&quot;</param>
@@ -127,7 +127,7 @@
                                     <actions>
                                         <action id="-3" name="Create object" sid="834650229187708" type="System">
                                             <param id="0" name="Object to create">Flower</param>
-                                            <param id="1" name="Layer">1</param>
+                                            <param id="1" name="Layer">2</param>
                                             <param id="2" name="X">StartX</param>
                                             <param id="3" name="Y">StartY</param>
                                         </action>
@@ -195,25 +195,65 @@
                                             </actions>
                                         </event-block>
                                         <comment>alternate flower z-index</comment>
-                                        <event-block sid="5593692342965862">
+                                        <event-block sid="2814104990791404">
                                             <conditions>
-                                                <condition id="-8" name="Compare two values" sid="5868887008193373" type="System">
-                                                    <param id="0" name="First value">loopindex % 2</param>
+                                                <condition id="-8" name="Compare two values" sid="4438010711701454" type="System">
+                                                    <param id="0" name="First value">(FlowersCount + 1) % 4</param>
                                                     <param id="1" name="Comparison">0</param>
                                                     <param id="2" name="Second value">0</param>
                                                 </condition>
                                             </conditions>
-                                            <actions>
-                                                <action id="-24" name="Move to top" sid="3203867173999908" type="Flower" />
-                                            </actions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="1312330601167638">
+                                                    <conditions>
+                                                        <condition id="-8" name="Compare two values" sid="897902183936467" type="System">
+                                                            <param id="0" name="First value">loopindex % 2</param>
+                                                            <param id="1" name="Comparison">0</param>
+                                                            <param id="2" name="Second value">0</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="-24" name="Move to top" sid="3855630747203119" type="Flower" />
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="8024224589392926">
+                                                    <conditions>
+                                                        <condition id="-22" name="Else" sid="266320081429374" type="System" />
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="-25" name="Move to bottom" sid="5267155223865456" type="Flower" />
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
                                         </event-block>
-                                        <event-block sid="5495084192163887">
+                                        <event-block sid="4522936833668648">
                                             <conditions>
-                                                <condition id="-22" name="Else" sid="3494304268220528" type="System" />
+                                                <condition id="-22" name="Else" sid="5252866452181103" type="System" />
                                             </conditions>
-                                            <actions>
-                                                <action id="-25" name="Move to bottom" sid="6583249729721025" type="Flower" />
-                                            </actions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="5593692342965862">
+                                                    <conditions>
+                                                        <condition id="-8" name="Compare two values" sid="5868887008193373" type="System">
+                                                            <param id="0" name="First value">loopindex % 2</param>
+                                                            <param id="1" name="Comparison">1</param>
+                                                            <param id="2" name="Second value">0</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="-24" name="Move to top" sid="3203867173999908" type="Flower" />
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="5495084192163887">
+                                                    <conditions>
+                                                        <condition id="-22" name="Else" sid="3494304268220528" type="System" />
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="-25" name="Move to bottom" sid="6583249729721025" type="Flower" />
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
                                         </event-block>
                                     </sub-events>
                                 </event-block>
