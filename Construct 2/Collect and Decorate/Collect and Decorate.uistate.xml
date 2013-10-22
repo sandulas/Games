@@ -13,8 +13,7 @@ you probably do not want to add any .uistate.xml files to the repository.-->
         <layout>Main</layout>
         <layout>Saves</layout>
         <event-sheet>Events - Level</event-sheet>
-        <event-sheet>Events - Saves</event-sheet>
-        <event-sheet active="1">Events - Common</event-sheet>
+        <event-sheet active="1">Events - Saves</event-sheet>
     </open-tabs>
     <properties>
         <property expanded="1" name="About" />
