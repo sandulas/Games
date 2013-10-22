@@ -517,8 +517,6 @@
             <effects />
         </layer>
     </layers>
-    <nonworld-instances>
-        <instance type="Dictionary" uid="2" />
-    </nonworld-instances>
+    <nonworld-instances />
     <effects />
 </c2layout>

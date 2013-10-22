@@ -33,6 +33,45 @@
                         </event-block>
                     </sub-events>
                 </event-group>
+                <event-group description="" sid="8278052119153538" title="setup saves">
+                    <sub-events>
+                        <event-block sid="4229432467058265">
+                            <conditions>
+                                <condition id="-2" name="On start of layout" sid="4733701311911234" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <variable constant="0" name="x" sid="2705020268440865" static="0" type="number">0</variable>
+                                <variable constant="0" name="y" sid="4234604210114364" static="0" type="number">0</variable>
+                                <event-block sid="4861875547079327">
+                                    <conditions>
+                                        <condition id="-10" name="For" sid="5412355468306639" type="System">
+                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                            <param id="1" name="Start index">0</param>
+                                            <param id="2" name="End index">9</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="6563252773245774" type="System">
+                                            <param id="0" name="Variable">x</param>
+                                            <param id="1" name="Value">(loopindex &lt;= 4) ? ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 4 : ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 4 * 3</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="954994840953802" type="System">
+                                            <param id="0" name="Variable">y</param>
+                                            <param id="1" name="Value">ViewportTop(0) + (ViewportBottom(0) - ViewportTop(0)) / 6 * (loopindex % 5 + 1) + 30</param>
+                                        </action>
+                                        <action id="-3" name="Create object" sid="59608806269112" type="System">
+                                            <param id="0" name="Object to create">UI_NecklaceEmpty</param>
+                                            <param id="1" name="Layer">2</param>
+                                            <param id="2" name="X">x</param>
+                                            <param id="3" name="Y">y</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
             </sub-events>
         </event-group>
     </events>

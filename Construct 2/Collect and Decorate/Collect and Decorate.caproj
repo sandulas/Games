@@ -11,15 +11,14 @@
     <saved-with-version>14600</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
-        <plugin author="Scirra" id="Dictionary" version="1">Dictionary</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Audio" version="1">Audio</plugin>
+        <plugin author="Scirra" id="Arr" version="1">Array</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
-        <plugin author="Scirra" id="Arr" version="1">Array</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Anchor" version="1">Anchor</behavior>
@@ -53,7 +52,7 @@
         <prop name="Sampling">Linear</prop>
         <prop name="Use iOS retina display">All devices</prop>
     </configuration-settings>
-    <object-folder expanded="0">
+    <object-folder expanded="1">
         <object-type name="Bg_Phase1" sid="2122073493812775">
             <plugin id="TiledBg" />
             <texture format="jpeg" quality="100" />
@@ -249,9 +248,6 @@
                     </frame>
                 </animation>
             </animation-folder>
-        </object-type>
-        <object-type global="1" name="Dictionary" sid="6625491750495325">
-            <plugin id="Dictionary" />
         </object-type>
         <object-type name="Bg_Menu" sid="7771932771749148">
             <plugin id="TiledBg" />
@@ -564,12 +560,12 @@
         </family>
     </families>
     <layout-folder expanded="1">
+        <layout>Level.xml</layout>
         <layout>Main.xml</layout>
         <layout>Phase 1 - Collect.xml</layout>
         <layout>Phase 2 - Create.xml</layout>
-        <layout>Level.xml</layout>
-        <layout>Saves.xml</layout>
         <layout>Phase 3 - Decorate.xml</layout>
+        <layout>Saves.xml</layout>
     </layout-folder>
     <event-folder expanded="1">
         <event-sheet>Events - Phase 1 - Collect.xml</event-sheet>
