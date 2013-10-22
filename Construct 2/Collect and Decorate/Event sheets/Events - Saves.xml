@@ -33,14 +33,68 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="8278052119153538" title="setup saves">
+                <event-group description="" sid="8278052119153538" title="setup saves UI">
                     <sub-events>
                         <event-block sid="4229432467058265">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="4733701311911234" type="System" />
                             </conditions>
-                            <actions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="2076491560259494" type="System">
+                                    <param id="0" name="Variable">StartAngleIndex</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="117525084255473" type="System">
+                                    <param id="0" name="Variable">CircleR</param>
+                                    <param id="1" name="Value">900</param>
+                                </action>
+                            </actions>
                             <sub-events>
+                                <event-block sid="4191274987380267">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="2886899757076598" type="System">
+                                            <param id="0" name="Variable">Level</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="1070699529356426" type="System">
+                                            <param id="0" name="Variable">CirclePieceScale</param>
+                                            <param id="1" name="Value">0.42</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1945815343018742">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="36770280545645" type="System">
+                                            <param id="0" name="Variable">Level</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">2</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="751482788527638" type="System">
+                                            <param id="0" name="Variable">CirclePieceScale</param>
+                                            <param id="1" name="Value">0.36</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="575578906105469">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="8139436112286879" type="System">
+                                            <param id="0" name="Variable">Level</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">3</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="6083127352230155" type="System">
+                                            <param id="0" name="Variable">CirclePieceScale</param>
+                                            <param id="1" name="Value">0.26</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
                                 <variable constant="0" name="x" sid="2705020268440865" static="0" type="number">0</variable>
                                 <variable constant="0" name="y" sid="4234604210114364" static="0" type="number">0</variable>
                                 <event-block sid="4861875547079327">
@@ -62,9 +116,59 @@
                                         </action>
                                         <action id="-3" name="Create object" sid="59608806269112" type="System">
                                             <param id="0" name="Object to create">UI_NecklaceEmpty</param>
-                                            <param id="1" name="Layer">2</param>
+                                            <param id="1" name="Layer">1</param>
                                             <param id="2" name="X">x</param>
                                             <param id="3" name="Y">y</param>
+                                        </action>
+                                        <action id="0" name="Call function" sid="3234286884356274" type="Function">
+                                            <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
+                                            <param id="1" name="Parameter {n}">Level{###}loopindex</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="9904147581319284">
+                            <conditions>
+                                <condition id="-2" name="On start of layout" sid="4627701928456154" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="6431015627678413" type="System">
+                                    <param id="0" name="Variable">StartAngleIndex</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <variable constant="0" name="x" sid="9443179142688097" static="0" type="number">0</variable>
+                                <variable constant="0" name="y" sid="4065540593592523" static="0" type="number">0</variable>
+                                <event-block sid="3450562140427024">
+                                    <conditions>
+                                        <condition id="-10" name="For" sid="2953575625107136" type="System">
+                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                            <param id="1" name="Start index">0</param>
+                                            <param id="2" name="End index">9</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="2121220668759281" type="System">
+                                            <param id="0" name="Variable">x</param>
+                                            <param id="1" name="Value">(loopindex &lt;= 4) ? ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 4 : ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 4 * 3</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="5936189186437787" type="System">
+                                            <param id="0" name="Variable">y</param>
+                                            <param id="1" name="Value">ViewportTop(0) + (ViewportBottom(0) - ViewportTop(0)) / 6 * (loopindex % 5 + 1) + 30</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="4816386196840921" type="System">
+                                            <param id="0" name="Variable">CircleCenterX</param>
+                                            <param id="1" name="Value">x</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="1685394234435745" type="System">
+                                            <param id="0" name="Variable">CircleCenterY</param>
+                                            <param id="1" name="Value">y - CircleR + 15</param>
+                                        </action>
+                                        <action id="0" name="Call function" sid="5224325179162252" type="Function">
+                                            <param id="0" name="Name">&quot;ArrangeNecklacePieces&quot;</param>
+                                            <param id="1" name="Parameter {n}">Level{###}loopindex</param>
                                         </action>
                                     </actions>
                                 </event-block>
