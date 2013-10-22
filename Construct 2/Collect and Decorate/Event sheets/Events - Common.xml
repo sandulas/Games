@@ -24,6 +24,7 @@
         <variable constant="0" name="CirclePieceScale" sid="6351273634331202" static="0" type="number">1</variable>
         <variable constant="0" name="OnCircleX" sid="519572378025657" static="0" type="number">0</variable>
         <variable constant="0" name="OnCircleY" sid="9624862011215612" static="0" type="number">0</variable>
+        <variable constant="0" name="StartAngleIndex" sid="6914688898678168" static="0" type="number">0</variable>
         <comment>debugging</comment>
         <variable constant="0" name="debug_line1" sid="4177495052590903" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line2" sid="8516279301245715" static="0" type="text">-</variable>
@@ -943,11 +944,10 @@
                 </event-group>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="5937710575149263" title="circle layout">
+        <event-group description="" sid="5937710575149263" title="circle layout">
             <sub-events>
-                <variable constant="0" name="StartAngle" sid="9240355131868762" static="0" type="number">0</variable>
                 <comment>create the necklace pieces and set their parameters</comment>
-                <event-block collapsed="1" sid="6284820817890447">
+                <event-block sid="6284820817890447">
                     <conditions>
                         <condition id="0" name="On function" sid="4475586624123933" type="Function">
                             <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
@@ -1160,9 +1160,15 @@
                                             <param id="0" name="Instance variable">StartAngleOffset</param>
                                             <param id="1" name="Value">180 / pi * NecklaceLength / CircleR</param>
                                         </action>
-                                        <action id="-9" name="Set value" sid="2695231589570011" type="System">
-                                            <param id="0" name="Variable">StartAngle</param>
-                                            <param id="1" name="Value">90 + Flower.StartAngleOffset / 2</param>
+                                        <action id="4" name="Set at XYZ" sid="4056093517947811" type="NecklacesArray">
+                                            <param id="0" name="X">0</param>
+                                            <param id="1" name="Y">9</param>
+                                            <param id="2" name="Z">StartAngleIndex</param>
+                                            <param id="3" name="Value">90 + Flower.StartAngleOffset / 2</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="7517566565294733" type="System">
+                                            <param id="0" name="Variable">StartAngleIndex</param>
+                                            <param id="1" name="Value">StartAngleIndex + 1</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -1234,7 +1240,7 @@
                     </sub-events>
                 </event-block>
                 <comment>arrange the necklace pieces on the circle</comment>
-                <event-block collapsed="1" sid="2265183938697862">
+                <event-block sid="2265183938697862">
                     <conditions>
                         <condition id="0" name="On function" sid="2349664975254494" type="Function">
                             <param id="0" name="Name">&quot;ArrangeNecklacePieces&quot;</param>
@@ -1258,10 +1264,10 @@
                             <actions>
                                 <action id="0" name="Call function" sid="4239257859570902" type="Function">
                                     <param id="0" name="Name">&quot;SetOnCircleXY&quot;</param>
-                                    <param id="1" name="Parameter {n}">StartAngle - Flower.StartAngleOffset</param>
+                                    <param id="1" name="Parameter {n}">NecklacesArray.At(0, 9, StartAngleIndex) - Flower.StartAngleOffset</param>
                                 </action>
                                 <action id="-8" name="Set angle" sid="3118370647292906" type="Flower">
-                                    <param id="0" name="Angle">(StartAngle - Flower.StartAngleOffset)-90</param>
+                                    <param id="0" name="Angle">(NecklacesArray.At(0, 9, StartAngleIndex) - Flower.StartAngleOffset)-90</param>
                                 </action>
                             </actions>
                             <sub-events>
@@ -1292,6 +1298,15 @@
                                     </actions>
                                 </event-block>
                             </sub-events>
+                        </event-block>
+                        <event-block sid="4402263702905587">
+                            <conditions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="734174075110026" type="System">
+                                    <param id="0" name="Variable">StartAngleIndex</param>
+                                    <param id="1" name="Value">StartAngleIndex + 1</param>
+                                </action>
+                            </actions>
                         </event-block>
                     </sub-events>
                 </event-block>
