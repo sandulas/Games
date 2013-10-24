@@ -10,7 +10,7 @@
                 <variable constant="0" name="x1" sid="9526709159780026" static="0" type="number">0</variable>
                 <variable constant="0" name="x2" sid="2956397311246528" static="0" type="number">0</variable>
                 <variable constant="0" name="y" sid="2827532336842429" static="0" type="number">0</variable>
-                <event-group description="" sid="8536508389869713" title="setup UI">
+                <event-group collapsed="1" description="" sid="8536508389869713" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
                             <conditions>
@@ -72,7 +72,7 @@
                                             <actions>
                                                 <action id="-3" name="Set position" sid="5276017909740364" type="Button">
                                                     <param id="0" name="X">x0</param>
-                                                    <param id="1" name="Y">y</param>
+                                                    <param id="1" name="Y">y + 330</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -117,7 +117,7 @@
                                             <actions>
                                                 <action id="-3" name="Set position" sid="1968320447886844" type="Button">
                                                     <param id="0" name="X">x1</param>
-                                                    <param id="1" name="Y">y</param>
+                                                    <param id="1" name="Y">y + 330</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -158,7 +158,7 @@
                                             <actions>
                                                 <action id="-3" name="Set position" sid="8576066915579746" type="Button">
                                                     <param id="0" name="X">x2</param>
-                                                    <param id="1" name="Y">y</param>
+                                                    <param id="1" name="Y">y + 330</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -222,6 +222,7 @@
                                 <condition id="-2" name="On start of layout" sid="3455463189996422" type="System" />
                             </conditions>
                             <actions>
+                                <action id="-24" name="Move to top" sid="7366331656964281" type="Fader" />
                                 <action id="-9" name="Set value" sid="4295907657396054" type="System">
                                     <param id="0" name="Variable">StartAngleIndex</param>
                                     <param id="1" name="Value">0</param>

@@ -28,7 +28,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-group collapsed="1" description="" sid="3469279951967914" title="setup the layout">
+                <event-group description="" sid="3469279951967914" title="setup the layout">
                     <sub-events>
                         <event-block sid="9809400649618648">
                             <conditions>
@@ -287,7 +287,9 @@
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="6079895974385653" type="System" />
                             </conditions>
-                            <actions />
+                            <actions>
+                                <action id="-24" name="Move to top" sid="7253577220754205" type="Fader" />
+                            </actions>
                             <sub-events>
                                 <event-block sid="7386821725464899">
                                     <conditions>
@@ -342,7 +344,7 @@
                             </actions>
                         </event-block>
                         <comment>connect the handles and flowers</comment>
-                        <event-block collapsed="1" sid="9429585468775893">
+                        <event-block sid="9429585468775893">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="5663863042718579" type="System">
                                     <param id="0" name="First value">tickcount</param>
