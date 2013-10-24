@@ -33,7 +33,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="8278052119153538" title="setup saves UI">
+                <event-group description="" sid="8278052119153538" title="setup saves slots layout">
                     <sub-events>
                         <event-block sid="4229432467058265">
                             <conditions>
@@ -48,53 +48,12 @@
                                     <param id="0" name="Variable">CircleR</param>
                                     <param id="1" name="Value">900</param>
                                 </action>
+                                <action id="-9" name="Set value" sid="7877173649544844" type="System">
+                                    <param id="0" name="Variable">CirclePieceScale</param>
+                                    <param id="1" name="Value">Level = 1 ? 0.42 : Level = 2 ? 0.36 : 0.26</param>
+                                </action>
                             </actions>
                             <sub-events>
-                                <event-block sid="4191274987380267">
-                                    <conditions>
-                                        <condition id="-14" name="Compare variable" sid="2886899757076598" type="System">
-                                            <param id="0" name="Variable">Level</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">1</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="1070699529356426" type="System">
-                                            <param id="0" name="Variable">CirclePieceScale</param>
-                                            <param id="1" name="Value">0.42</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                                <event-block sid="1945815343018742">
-                                    <conditions>
-                                        <condition id="-14" name="Compare variable" sid="36770280545645" type="System">
-                                            <param id="0" name="Variable">Level</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">2</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="751482788527638" type="System">
-                                            <param id="0" name="Variable">CirclePieceScale</param>
-                                            <param id="1" name="Value">0.36</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                                <event-block sid="575578906105469">
-                                    <conditions>
-                                        <condition id="-14" name="Compare variable" sid="8139436112286879" type="System">
-                                            <param id="0" name="Variable">Level</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">3</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="6083127352230155" type="System">
-                                            <param id="0" name="Variable">CirclePieceScale</param>
-                                            <param id="1" name="Value">0.26</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
                                 <variable constant="0" name="x" sid="2705020268440865" static="0" type="number">0</variable>
                                 <variable constant="0" name="y" sid="4234604210114364" static="0" type="number">0</variable>
                                 <event-block sid="4861875547079327">
@@ -120,11 +79,54 @@
                                             <param id="2" name="X">x</param>
                                             <param id="3" name="Y">y</param>
                                         </action>
-                                        <action id="0" name="Call function" sid="3234286884356274" type="Function">
-                                            <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
-                                            <param id="1" name="Parameter {n}">Level{###}loopindex</param>
-                                        </action>
                                     </actions>
+                                    <sub-events>
+                                        <event-block sid="5904552897644426">
+                                            <conditions>
+                                                <condition id="2" name="Compare at XYZ" sid="1443590102822036" type="NecklacesArray">
+                                                    <param id="0" name="X">Level</param>
+                                                    <param id="1" name="Y">loopindex</param>
+                                                    <param id="2" name="Z">0</param>
+                                                    <param id="3" name="Comparison">1</param>
+                                                    <param id="4" name="Value">-1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="3234286884356274" type="Function">
+                                                    <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
+                                                    <param id="1" name="Parameter {n}">Level{###}loopindex</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="2790897486206486">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="3227460236087221" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="-3" name="Create object" sid="7294357607033673" type="System">
+                                                    <param id="0" name="Object to create">Button</param>
+                                                    <param id="1" name="Layer">1</param>
+                                                    <param id="2" name="X">x</param>
+                                                    <param id="3" name="Y">y+10</param>
+                                                </action>
+                                                <action id="5" name="Set frame" sid="5149749369743923" type="Button">
+                                                    <param id="0" name="Frame number">7</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="2223099972784759" type="Button">
+                                                    <param id="0" name="Width">110</param>
+                                                    <param id="1" name="Height">110</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="4231323680903763" type="Button">
+                                                    <param id="0" name="Instance variable">type</param>
+                                                    <param id="1" name="Value">0</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="5156419006950188" type="Button">
+                                                    <param id="0" name="Instance variable">action</param>
+                                                    <param id="1" name="Value">&quot;Phase 1 - Collect&quot;</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
                                 </event-block>
                             </sub-events>
                         </event-block>
@@ -133,6 +135,7 @@
                                 <condition id="-2" name="On start of layout" sid="4627701928456154" type="System" />
                             </conditions>
                             <actions>
+                                <action id="-24" name="Move to top" sid="6731601827589592" type="Fader" />
                                 <action id="-9" name="Set value" sid="6431015627678413" type="System">
                                     <param id="0" name="Variable">StartAngleIndex</param>
                                     <param id="1" name="Value">0</param>
@@ -166,11 +169,32 @@
                                             <param id="0" name="Variable">CircleCenterY</param>
                                             <param id="1" name="Value">y - CircleR + 15</param>
                                         </action>
-                                        <action id="0" name="Call function" sid="5224325179162252" type="Function">
-                                            <param id="0" name="Name">&quot;ArrangeNecklacePieces&quot;</param>
-                                            <param id="1" name="Parameter {n}">Level{###}loopindex</param>
-                                        </action>
                                     </actions>
+                                    <sub-events>
+                                        <event-block sid="9348701955614938">
+                                            <conditions>
+                                                <condition id="2" name="Compare at XYZ" sid="1115146455598832" type="NecklacesArray">
+                                                    <param id="0" name="X">Level</param>
+                                                    <param id="1" name="Y">loopindex</param>
+                                                    <param id="2" name="Z">0</param>
+                                                    <param id="3" name="Comparison">1</param>
+                                                    <param id="4" name="Value">-1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="5224325179162252" type="Function">
+                                                    <param id="0" name="Name">&quot;ArrangeNecklacePieces&quot;</param>
+                                                    <param id="1" name="Parameter {n}">Level{###}loopindex</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="6878358927527891">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="5736305582053959" type="System" />
+                                            </conditions>
+                                            <actions />
+                                        </event-block>
+                                    </sub-events>
                                 </event-block>
                             </sub-events>
                         </event-block>

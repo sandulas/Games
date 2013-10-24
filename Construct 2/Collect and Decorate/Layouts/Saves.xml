@@ -112,44 +112,14 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>294</x>
-                        <y>-344</y>
+                        <x>476</x>
+                        <y>-289</y>
                         <z>0</z>
                         <width>116</width>
                         <height>116</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="Button" uid="58">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <instance-variables>
-                        <type>0</type>
-                        <action>Phase 2 - Create</action>
-                        <parameter>0</parameter>
-                    </instance-variables>
-                    <behavior-instances>
-                        <behavior-instance type="Pin" />
-                    </behavior-instances>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>550</x>
-                        <y>-292</y>
-                        <z>0</z>
-                        <width>116</width>
-                        <height>116</height>
-                        <depth>0</depth>
-                        <hotspotX>0.502145946</hotspotX>
-                        <hotspotY>0.502145946</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
@@ -219,6 +189,36 @@
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="Button" uid="2">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>0</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <instance-variables>
+                        <type>0</type>
+                        <action>Phase 2 - Create</action>
+                        <parameter>0</parameter>
+                    </instance-variables>
+                    <behavior-instances>
+                        <behavior-instance type="Pin" />
+                    </behavior-instances>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>182</x>
+                        <y>-300</y>
+                        <z>0</z>
+                        <width>116</width>
+                        <height>116</height>
+                        <depth>0</depth>
+                        <hotspotX>0.502145946</hotspotX>
+                        <hotspotY>0.502145946</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
