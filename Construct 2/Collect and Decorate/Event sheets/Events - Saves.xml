@@ -122,7 +122,11 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="5156419006950188" type="Button">
                                                     <param id="0" name="Instance variable">action</param>
-                                                    <param id="1" name="Value">&quot;Phase 1 - Collect&quot;</param>
+                                                    <param id="1" name="Value">&quot;phase 1 - collect&quot;</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="2403563911242932" type="Button">
+                                                    <param id="0" name="Instance variable">parameter</param>
+                                                    <param id="1" name="Value">loopindex</param>
                                                 </action>
                                             </actions>
                                         </event-block>

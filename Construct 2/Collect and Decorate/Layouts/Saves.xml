@@ -103,7 +103,7 @@
                     </properties>
                     <instance-variables>
                         <type>0</type>
-                        <action>Phase 1 - Collect</action>
+                        <action>phase 1 - collect</action>
                         <parameter>0</parameter>
                     </instance-variables>
                     <behavior-instances>

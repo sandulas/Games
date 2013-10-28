@@ -72,7 +72,7 @@
                                             <actions>
                                                 <action id="-3" name="Set position" sid="5276017909740364" type="Button">
                                                     <param id="0" name="X">x0</param>
-                                                    <param id="1" name="Y">y + 330</param>
+                                                    <param id="1" name="Y">y + 300</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -117,7 +117,7 @@
                                             <actions>
                                                 <action id="-3" name="Set position" sid="1968320447886844" type="Button">
                                                     <param id="0" name="X">x1</param>
-                                                    <param id="1" name="Y">y + 330</param>
+                                                    <param id="1" name="Y">y + 300</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -158,7 +158,7 @@
                                             <actions>
                                                 <action id="-3" name="Set position" sid="8576066915579746" type="Button">
                                                     <param id="0" name="X">x2</param>
-                                                    <param id="1" name="Y">y + 330</param>
+                                                    <param id="1" name="Y">y + 300</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -168,7 +168,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="4946173882751354" title="setup level necklaces">
+                <event-group collapsed="1" description="" sid="4946173882751354" title="setup level necklaces">
                     <sub-events>
                         <event-block sid="5608396421228386">
                             <conditions>

@@ -11,6 +11,7 @@
         <variable constant="1" name="ButtonType_GoTo" sid="242483168193459" static="0" type="number">0</variable>
         <variable constant="1" name="BUTTONTYPE_DO" sid="8075962687295055" static="0" type="number">1</variable>
         <variable constant="0" name="Level" sid="8279689323837289" static="0" type="number">0</variable>
+        <variable constant="0" name="SaveSlot" sid="3901819503324132" static="0" type="number">0</variable>
         <comment>gameplay</comment>
         <variable constant="1" name="flower_white" sid="2029747525464988" static="0" type="number">0</variable>
         <variable constant="1" name="Flower_Blue" sid="7950551552190707" static="0" type="number">1</variable>
@@ -283,7 +284,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3520418861413121" title="navigation">
+        <event-group description="" sid="3520418861413121" title="navigation">
             <sub-events>
                 <event-block sid="3159905038337372">
                     <conditions>
@@ -349,6 +350,21 @@
                                     <actions>
                                         <action id="-9" name="Set value" sid="445687035330294" type="System">
                                             <param id="0" name="Variable">Level</param>
+                                            <param id="1" name="Value">Button.parameter</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="7608056410723168">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="6030615235968403" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;phase 1 - collect&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="3754429093714048" type="System">
+                                            <param id="0" name="Variable">SaveSlot</param>
                                             <param id="1" name="Value">Button.parameter</param>
                                         </action>
                                     </actions>
