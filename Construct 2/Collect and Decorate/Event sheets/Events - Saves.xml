@@ -6,7 +6,7 @@
         <include>Events - Common</include>
         <event-group description="" sid="5333523073844858" title="LAYOUT ROOT">
             <sub-events>
-                <event-group description="" sid="1971853317039826" title="setup UI">
+                <event-group collapsed="1" description="" sid="1971853317039826" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
                             <conditions>
@@ -35,6 +35,7 @@
                 </event-group>
                 <event-group description="" sid="8278052119153538" title="setup saves slots layout">
                     <sub-events>
+                        <comment>create the necklaces</comment>
                         <event-block sid="4229432467058265">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="4733701311911234" type="System" />
@@ -134,6 +135,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
+                        <comment>arrange the necklaces</comment>
                         <event-block sid="9904147581319284">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="4627701928456154" type="System" />

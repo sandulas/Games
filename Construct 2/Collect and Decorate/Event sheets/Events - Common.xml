@@ -284,7 +284,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3520418861413121" title="navigation">
+        <event-group collapsed="1" description="" sid="3520418861413121" title="navigation">
             <sub-events>
                 <event-block sid="3159905038337372">
                     <conditions>
@@ -976,118 +976,14 @@
                                     <param id="0" name="Variable">CirclePieceMinScale</param>
                                     <param id="1" name="Value">CirclePieceScale * 0.66</param>
                                 </action>
-                            </actions>
-                        </event-block>
-                        <comment>set necklace piece count</comment>
-                        <event-block sid="9443138400841047">
-                            <conditions>
-                                <condition id="-8" name="Compare two values" sid="2999606575927424" type="System">
-                                    <param id="0" name="First value">Function.Param(0)</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">0</param>
-                                </condition>
-                            </conditions>
-                            <actions>
                                 <action id="-9" name="Set value" sid="6410672189841407" type="System">
                                     <param id="0" name="Variable">NecklacePieceCount</param>
-                                    <param id="1" name="Value">9</param>
-                                </action>
-                            </actions>
-                            <sub-events>
-                                <event-block sid="6869515433798219">
-                                    <conditions>
-                                        <condition id="-8" name="Compare two values" sid="8440074281968936" type="System">
-                                            <param id="0" name="First value">Function.Param(1)</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">0</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="9869266663478937" type="System">
-                                            <param id="0" name="Variable">NecklacePieceCount</param>
-                                            <param id="1" name="Value">9</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                                <event-block sid="2485422941010028">
-                                    <conditions>
-                                        <condition id="-8" name="Compare two values" sid="193806468860922" type="System">
-                                            <param id="0" name="First value">Function.Param(1)</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">1</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="9480875736300427" type="System">
-                                            <param id="0" name="Variable">NecklacePieceCount</param>
-                                            <param id="1" name="Value">11</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                                <event-block sid="5265869527198585">
-                                    <conditions>
-                                        <condition id="-8" name="Compare two values" sid="4653656112125232" type="System">
-                                            <param id="0" name="First value">Function.Param(1)</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">2</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="7026189555423334" type="System">
-                                            <param id="0" name="Variable">NecklacePieceCount</param>
-                                            <param id="1" name="Value">15</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                            </sub-events>
-                        </event-block>
-                        <event-block sid="8704696101465557">
-                            <conditions>
-                                <condition id="-8" name="Compare two values" sid="490538134430253" type="System">
-                                    <param id="0" name="First value">Function.Param(0)</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">1</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="1730911894037986" type="System">
-                                    <param id="0" name="Variable">NecklacePieceCount</param>
-                                    <param id="1" name="Value">9</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="7851302076407283">
-                            <conditions>
-                                <condition id="-8" name="Compare two values" sid="9114757029253285" type="System">
-                                    <param id="0" name="First value">Function.Param(0)</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">2</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="185675836127284" type="System">
-                                    <param id="0" name="Variable">NecklacePieceCount</param>
-                                    <param id="1" name="Value">11</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="9244420059066432">
-                            <conditions>
-                                <condition id="-8" name="Compare two values" sid="3066531740724373" type="System">
-                                    <param id="0" name="First value">Function.Param(0)</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">3</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="7479521106806255" type="System">
-                                    <param id="0" name="Variable">NecklacePieceCount</param>
-                                    <param id="1" name="Value">15</param>
+                                    <param id="1" name="Value">Function.Call(&quot;NecklacePieceCount&quot;, Function.Param(0), Function.Param(1))</param>
                                 </action>
                             </actions>
                         </event-block>
                         <comment>create necklace pieces</comment>
-                        <event-block sid="8500017551664166">
+                        <event-block collapsed="1" sid="8500017551664166">
                             <conditions>
                                 <condition id="-10" name="For" sid="8298695366032348" type="System">
                                     <param id="0" name="Name">&quot;i&quot;</param>
@@ -1250,8 +1146,119 @@
                         </event-block>
                     </sub-events>
                 </event-block>
+                <comment>return the number of pieces for a given level and saveslot</comment>
+                <event-block collapsed="1" sid="6026276268387957">
+                    <conditions>
+                        <condition id="0" name="On function" sid="7328004091398628" type="Function">
+                            <param id="0" name="Name">&quot;NecklacePieceCount&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="1941633823483567">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="3513496812485189" type="System">
+                                    <param id="0" name="First value">Function.Param(0)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="1" name="Set return value" sid="8462229579823307" type="Function">
+                                    <param id="0" name="Value">9</param>
+                                </action>
+                            </actions>
+                            <sub-events>
+                                <event-block sid="2660619209223406">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="5542560197284691" type="System">
+                                            <param id="0" name="First value">Function.Param(1)</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="1" name="Set return value" sid="2663537857024682" type="Function">
+                                            <param id="0" name="Value">9</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6727524047289156">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="6734998355256747" type="System">
+                                            <param id="0" name="First value">Function.Param(1)</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="1" name="Set return value" sid="1885185154268198" type="Function">
+                                            <param id="0" name="Value">11</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="8830936512012914">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="7139336918334578" type="System">
+                                            <param id="0" name="First value">Function.Param(1)</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">2</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="1" name="Set return value" sid="8403977879780449" type="Function">
+                                            <param id="0" name="Value">15</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="3255057455484087">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="6166783918153072" type="System">
+                                    <param id="0" name="First value">Function.Param(0)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="1" name="Set return value" sid="4074959467531646" type="Function">
+                                    <param id="0" name="Value">9</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="3145413184056337">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="4231615807047674" type="System">
+                                    <param id="0" name="First value">Function.Param(0)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">2</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="1" name="Set return value" sid="6543606781836774" type="Function">
+                                    <param id="0" name="Value">11</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="7566869949645879">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="5918225734346677" type="System">
+                                    <param id="0" name="First value">Function.Param(0)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">3</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="1" name="Set return value" sid="9991868072540655" type="Function">
+                                    <param id="0" name="Value">15</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
                 <comment>arrange the necklace pieces on the circle</comment>
-                <event-block sid="2265183938697862">
+                <event-block collapsed="1" sid="2265183938697862">
                     <conditions>
                         <condition id="0" name="On function" sid="2349664975254494" type="Function">
                             <param id="0" name="Name">&quot;ArrangeNecklacePieces&quot;</param>
