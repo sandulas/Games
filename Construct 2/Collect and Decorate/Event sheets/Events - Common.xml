@@ -547,7 +547,7 @@
                 </event-block>
                 <event-group collapsed="1" description="" sid="9500297620498624" title="music">
                     <sub-events>
-                        <event-block collapsed="1" sid="2069240964979544">
+                        <event-block sid="2069240964979544">
                             <conditions>
                                 <condition id="0" name="On function" sid="5439537438971296" type="Function">
                                     <param id="0" name="Name">&quot;ToggleMusic&quot;</param>
