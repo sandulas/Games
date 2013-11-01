@@ -48,7 +48,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6593110864510716" title="setup pause UI">
+        <event-group description="" sid="6593110864510716" title="setup pause UI">
             <sub-events>
                 <event-block sid="3917797050924338">
                     <conditions>
