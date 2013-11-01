@@ -27,7 +27,29 @@
             <blend-mode>0</blend-mode>
             <effect-fallback>0</effect-fallback>
             <instances>
-                <instance type="Bg_Menu" uid="18">
+                <instance type="RedDot" uid="3">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>0</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>341</x>
+                        <y>-116</y>
+                        <z>0</z>
+                        <width>8</width>
+                        <height>32</height>
+                        <depth>0</depth>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.5</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="Bg_Phase1" uid="18">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <hotspot>Top-left</hotspot>
@@ -47,7 +69,7 @@
                         <opacity>1</opacity>
                     </world>
                 </instance>
-                <instance type="RedDot" uid="3">
+                <instance type="UI_NecklaceEmptyBig" uid="80">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
                         <initial-animation>Default</initial-animation>
@@ -57,11 +79,11 @@
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
-                        <x>341</x>
-                        <y>-116</y>
+                        <x>640</x>
+                        <y>200</y>
                         <z>0</z>
-                        <width>8</width>
-                        <height>32</height>
+                        <width>1280</width>
+                        <height>160</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
