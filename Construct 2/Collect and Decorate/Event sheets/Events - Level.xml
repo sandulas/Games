@@ -168,7 +168,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="4946173882751354" title="setup level necklaces">
+                <event-group description="" sid="4946173882751354" title="setup level necklaces">
                     <sub-events>
                         <event-block sid="5608396421228386">
                             <conditions>

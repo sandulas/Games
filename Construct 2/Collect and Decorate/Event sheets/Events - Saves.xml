@@ -33,7 +33,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="8278052119153538" title="setup saves slots layout">
+                <event-group collapsed="1" description="" sid="8278052119153538" title="setup saves slots layout">
                     <sub-events>
                         <comment>create the necklaces</comment>
                         <event-block sid="4229432467058265">
