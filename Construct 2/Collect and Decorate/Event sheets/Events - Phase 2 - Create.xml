@@ -56,7 +56,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
+                <event-group collapsed="1" description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
                     <sub-events>
                         <event-block sid="6814207576628957">
                             <conditions>
@@ -230,7 +230,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
+                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning">
                     <sub-events>
                         <variable constant="0" name="FlowersCount" sid="8522124805697867" static="0" type="number">0</variable>
                         <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
@@ -261,7 +261,7 @@
                             </actions>
                             <sub-events>
                                 <comment>calculate the start angle of the necklace and the angle offset for the end position of each flower on the necklace</comment>
-                                <event-block sid="4412695468845357">
+                                <event-block collapsed="1" sid="4412695468845357">
                                     <conditions>
                                         <condition id="-24" name="For Each (ordered)" sid="3159815390230754" type="System">
                                             <param id="0" name="Object">Flower</param>
@@ -361,7 +361,7 @@
                                 </event-block>
                                 <comment>slide each flower towards its end position</comment>
                                 <variable constant="0" name="AngleDifference" sid="7751581080352085" static="0" type="number">0</variable>
-                                <event-block sid="5601187823617232">
+                                <event-block collapsed="1" sid="5601187823617232">
                                     <conditions>
                                         <condition id="-24" name="For Each (ordered)" sid="6277012592704398" type="System">
                                             <param id="0" name="Object">Flower</param>
