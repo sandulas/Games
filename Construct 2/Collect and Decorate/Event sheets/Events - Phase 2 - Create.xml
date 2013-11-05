@@ -7,7 +7,7 @@
         <event-group description="" sid="4137865588677511" title="LAYOUT ROOT">
             <sub-events>
                 <variable constant="0" name="StringY" sid="7039048524514207" static="1" type="number">180</variable>
-                <variable constant="0" name="PositioningDistance" sid="2519607737337948" static="1" type="number">220</variable>
+                <variable constant="0" name="PositioningDistance" sid="2519607737337948" static="1" type="number">0</variable>
                 <variable constant="0" name="SlideSpeed" sid="6416486524362268" static="1" type="number">10</variable>
                 <variable constant="0" name="PieceCount" sid="7006133053701937" static="1" type="number">0</variable>
                 <variable constant="0" name="VisibleAngle" sid="8574276399323928" static="1" type="number">0</variable>
