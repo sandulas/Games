@@ -68,8 +68,8 @@
                     <properties>
                         <text>Text</text>
                         <initial-visibility>Visible</initial-visibility>
-                        <font>Arial,-19,400,0</font>
-                        <color>255,255,255</color>
+                        <font>Arial Narrow,-29,400,0</font>
+                        <color>255,0,0</color>
                         <horizontal-alignment>Left</horizontal-alignment>
                         <vertical-alignment>Top</vertical-alignment>
                         <hotspot>Top-left</hotspot>
@@ -93,8 +93,8 @@
                         <x>6</x>
                         <y>252</y>
                         <z>0</z>
-                        <width>1061</width>
-                        <height>165</height>
+                        <width>1168</width>
+                        <height>330</height>
                         <depth>0</depth>
                         <hotspotX>0</hotspotX>
                         <hotspotY>0</hotspotY>
