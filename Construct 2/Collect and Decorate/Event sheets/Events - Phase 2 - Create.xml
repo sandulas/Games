@@ -11,7 +11,7 @@
                 <variable constant="0" name="PositioningDistance" sid="2519607737337948" static="1" type="number">220</variable>
                 <variable constant="0" name="SlideSpeed" sid="6416486524362268" static="1" type="number">10</variable>
                 <variable constant="0" name="PieceCount" sid="7006133053701937" static="1" type="number">0</variable>
-                <event-group description="" sid="7957432436885679" title="setup UI">
+                <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
                         <event-block sid="8114446928733638">
                             <conditions>
@@ -56,7 +56,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
+                <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
                     <sub-events>
                         <event-block sid="6814207576628957">
                             <conditions>
@@ -162,6 +162,9 @@
                                         <action id="-8" name="Set angle" sid="7041637424410707" type="Flower">
                                             <param id="0" name="Angle">Flower.CircleAngle-90</param>
                                         </action>
+                                        <action id="9" name="Set scale" sid="5725162656610602" type="Flower">
+                                            <param id="0" name="Scale">1 - abs(90 - Flower.CircleAngle) / 100 * 1.5</param>
+                                        </action>
                                     </actions>
                                 </event-block>
                                 <event-block sid="7954925149452342">
@@ -171,6 +174,9 @@
                                     <actions>
                                         <action id="-8" name="Set angle" sid="1261330315150073" type="Flower">
                                             <param id="0" name="Angle">0</param>
+                                        </action>
+                                        <action id="9" name="Set scale" sid="8911201745838618" type="Flower">
+                                            <param id="0" name="Scale">1</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -224,7 +230,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning">
+                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
                     <sub-events>
                         <variable constant="0" name="FlowersCount" sid="8522124805697867" static="0" type="number">0</variable>
                         <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>
@@ -395,6 +401,9 @@
                                                 <action id="-8" name="Set angle" sid="2935528487068181" type="Flower">
                                                     <param id="0" name="Angle">Flower.CircleAngle - 90</param>
                                                 </action>
+                                                <action id="9" name="Set scale" sid="4268912218034283" type="Flower">
+                                                    <param id="0" name="Scale">1 - abs(90 - Flower.CircleAngle) / 100 * 1.5</param>
+                                                </action>
                                             </actions>
                                         </event-block>
                                         <event-block sid="6579805775674016">
@@ -422,6 +431,9 @@
                                                 <action id="-8" name="Set angle" sid="9902229300592356" type="Flower">
                                                     <param id="0" name="Angle">Flower.CircleAngle - 90</param>
                                                 </action>
+                                                <action id="9" name="Set scale" sid="2979005364798524" type="Flower">
+                                                    <param id="0" name="Scale">1 - abs(90 - Flower.CircleAngle) / 100 * 1.5</param>
+                                                </action>
                                             </actions>
                                         </event-block>
                                         <event-block sid="9951369969970039">
@@ -443,6 +455,9 @@
                                                 </action>
                                                 <action id="-8" name="Set angle" sid="5121246746774932" type="Flower">
                                                     <param id="0" name="Angle">Flower.CircleAngle - 90</param>
+                                                </action>
+                                                <action id="9" name="Set scale" sid="6103043865773392" type="Flower">
+                                                    <param id="0" name="Scale">1 - abs(90 - Flower.CircleAngle) / 100 * 1.5</param>
                                                 </action>
                                             </actions>
                                         </event-block>
