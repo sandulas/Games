@@ -14,7 +14,7 @@
                 <variable constant="0" name="PieceScaleCenter" sid="4550261588179904" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleEnd" sid="8445817006450812" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleAttenuationPerDegree" sid="2360829174042939" static="1" type="number">0</variable>
-                <event-group description="" sid="7957432436885679" title="setup UI">
+                <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
                         <variable constant="0" name="FlowerDistance" sid="9168820167331815" static="0" type="number">0</variable>
                         <event-block sid="8114446928733638">
@@ -38,6 +38,25 @@
                                     <param id="1" name="Value">Level = 1 ? 1.1 : Level = 2 ? 0.9 : 0.7</param>
                                 </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="5549015629467374">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="3305996834841112" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">6</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="1133068019008419" type="Button">
+                                            <param id="0" name="X">ViewportRight(0) - 70</param>
+                                            <param id="1" name="Y">450</param>
+                                        </action>
+                                        <action id="-15" name="Set visible" sid="1546542327533115" type="Button">
+                                            <param id="0" name="Visibility">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="3911541784983441">
                             <conditions>
@@ -121,7 +140,7 @@
                                 </action>
                             </actions>
                         </event-block>
-                        <event-block sid="6944167719422723">
+                        <event-block disabled="1" sid="6944167719422723">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="2451817903902349" type="System" />
                                 <condition id="-10" name="For" sid="2852441251628923" type="System">
@@ -270,11 +289,73 @@
                                         </action>
                                     </actions>
                                 </event-block>
+                                <event-block sid="6151229530191085">
+                                    <conditions>
+                                        <condition id="-19" name="Pick all" sid="7010312159890282" type="System">
+                                            <param id="0" name="Object">Flower</param>
+                                        </condition>
+                                        <condition id="-33" name="Pick by comparison" sid="8012159532994325" type="System">
+                                            <param id="0" name="Object">Flower</param>
+                                            <param id="1" name="Expression">distance(Flower.X, Flower.Y, CircleCenterX, CircleCenterY)</param>
+                                            <param id="2" name="Comparison">2</param>
+                                            <param id="3" name="Value">CircleR +PositioningDistance</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="9574657804643069">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="2386535758249028" type="System">
+                                                    <param id="0" name="First value">Flower.PickedCount</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Second value">PieceCount</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="8720405304287456">
+                                                    <conditions>
+                                                        <condition id="3" name="Compare frame" sid="1613484121033864" type="Button">
+                                                            <param id="0" name="Comparison">0</param>
+                                                            <param id="1" name="Number">6</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="-15" name="Set visible" sid="9570078235300435" type="Button">
+                                                            <param id="0" name="Visibility">1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                        <event-block sid="7907582749224188">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="1961005378185069" type="System" />
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="9558410773632453">
+                                                    <conditions>
+                                                        <condition id="3" name="Compare frame" sid="9895585158180448" type="Button">
+                                                            <param id="0" name="Comparison">0</param>
+                                                            <param id="1" name="Number">6</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="-15" name="Set visible" sid="5012101022325061" type="Button">
+                                                            <param id="0" name="Visibility">0</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
                             </sub-events>
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="373608831914356" title="dynamic flower positioning">
+                <event-group collapsed="1" description="" sid="373608831914356" title="dynamic flower positioning">
                     <sub-events>
                         <variable constant="0" name="FlowersCount" sid="8522124805697867" static="0" type="number">0</variable>
                         <variable constant="0" name="Length" sid="726844605342866" static="1" type="number">0</variable>

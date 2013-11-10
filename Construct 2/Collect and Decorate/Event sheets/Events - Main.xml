@@ -10,15 +10,6 @@
         <variable constant="1" name="LEVEL3_NECKLACE" sid="3223704895404303" static="0" type="text">1,1,1,0,1,2,0,1,0,2,1,0,1,1,1</variable>
         <event-group description="" sid="1267623363092653" title="LAYOUT ROOT">
             <sub-events>
-                <event-block sid="2632313241900765">
-                    <conditions />
-                    <actions>
-                        <action id="-9" name="Set value" sid="9023209220333697" type="System">
-                            <param id="0" name="Variable">debug_line2</param>
-                            <param id="1" name="Value">&quot;window: &quot; &amp; WindowWidth &amp; &quot;, &quot; &amp; WindowHeight </param>
-                        </action>
-                    </actions>
-                </event-block>
                 <event-group collapsed="1" description="" sid="4574294575101284" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
