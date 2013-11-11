@@ -473,7 +473,7 @@
                         </event-group>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">
+                <event-group description="" sid="8345507727811121" title="flowers - create, catch, destroy">
                     <sub-events>
                         <comment>create and setup flowers</comment>
                         <event-block sid="1904972802140828">
@@ -570,6 +570,7 @@
                             </conditions>
                             <actions />
                             <sub-events>
+                                <comment>if flower is catched, save it in an unused slot of the necklaces array (level 0, slot 8)</comment>
                                 <event-block sid="6949403889612219">
                                     <conditions>
                                         <condition id="-8" name="Compare two values" sid="7254878276007077" type="System">
@@ -593,9 +594,11 @@
                                             <param id="0" name="Pin to">BasketBack</param>
                                             <param id="1" name="Mode">0</param>
                                         </action>
-                                        <action id="2" name="Set at X" sid="9456663907184277" type="CollectedArray">
-                                            <param id="0" name="X">Progress</param>
-                                            <param id="1" name="Value">Flower.AnimationFrame</param>
+                                        <action id="4" name="Set at XYZ" sid="9456663907184277" type="NecklacesArray">
+                                            <param id="0" name="X">0</param>
+                                            <param id="1" name="Y">8</param>
+                                            <param id="2" name="Z">Progress</param>
+                                            <param id="3" name="Value">Flower.AnimationFrame</param>
                                         </action>
                                         <action id="-9" name="Set value" sid="661991673874301" type="System">
                                             <param id="0" name="Variable">Progress</param>
@@ -621,18 +624,18 @@
                                                     <param id="0" name="Scale">0.35</param>
                                                 </action>
                                                 <action id="5" name="Set frame" sid="3927038571287535" type="Flower">
-                                                    <param id="0" name="Frame number">CollectedArray.At(Progress - 1)</param>
+                                                    <param id="0" name="Frame number">NecklacesArray.At(0, 8, Progress - 1)</param>
                                                 </action>
                                             </actions>
                                         </event-block>
                                         <event-block sid="8249321410820821">
                                             <conditions>
-                                                <condition disabled="1" id="-8" name="Compare two values" sid="9536475045994048" type="System">
+                                                <condition id="-8" name="Compare two values" sid="9536475045994048" type="System">
                                                     <param id="0" name="First value">Progress</param>
                                                     <param id="1" name="Comparison">0</param>
                                                     <param id="2" name="Second value">PieceCount</param>
                                                 </condition>
-                                                <condition id="-8" name="Compare two values" sid="2144270699969007" type="System">
+                                                <condition disabled="1" id="-8" name="Compare two values" sid="2144270699969007" type="System">
                                                     <param id="0" name="First value">Progress</param>
                                                     <param id="1" name="Comparison">0</param>
                                                     <param id="2" name="Second value">1</param>

@@ -17,7 +17,7 @@
                 <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
                         <variable constant="0" name="FlowerDistance" sid="9168820167331815" static="0" type="number">0</variable>
-                        <event-block sid="8114446928733638">
+                        <event-block collapsed="1" sid="8114446928733638">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="4848461302335254" type="System" />
                             </conditions>
@@ -58,7 +58,8 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block sid="3911541784983441">
+                        <comment>load the collected flowers from the necklaces array (level 0, slot 8)</comment>
+                        <event-block collapsed="1" sid="3911541784983441">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="3950557489266894" type="System" />
                                 <condition id="-10" name="For" sid="7274203368199563" type="System">
@@ -81,7 +82,7 @@
                                     <param id="0" name="Y">ViewportBottom(0) - Flower.Height / 2 - (loopindex %2) * Flower.Height / 2</param>
                                 </action>
                                 <action id="5" name="Set frame" sid="3428049239321407" type="Flower">
-                                    <param id="0" name="Frame number">CollectedArray.At(loopindex)</param>
+                                    <param id="0" name="Frame number">NecklacesArray.At(0, 8, loopindex)</param>
                                 </action>
                                 <action behavior="DragDrop" id="0" name="Set enabled" sid="330451230319382" type="Flower">
                                     <param id="0" name="State">1</param>
@@ -270,6 +271,7 @@
                             </conditions>
                             <actions />
                             <sub-events>
+                                <comment>snap the flower on the circle if it&apos;s dropped close enough</comment>
                                 <event-block sid="142306823703036">
                                     <conditions>
                                         <condition id="-8" name="Compare two values" sid="5324632533072034" type="System">
@@ -289,6 +291,7 @@
                                         </action>
                                     </actions>
                                 </event-block>
+                                <comment>if all the flowers are on the circle, show the next button</comment>
                                 <event-block sid="6151229530191085">
                                     <conditions>
                                         <condition id="-19" name="Pick all" sid="7010312159890282" type="System">

@@ -279,14 +279,6 @@
             <effects />
         </layer>
     </layers>
-    <nonworld-instances>
-        <instance type="CollectedArray" uid="62">
-            <properties>
-                <width>15</width>
-                <height>1</height>
-                <depth>1</depth>
-            </properties>
-        </instance>
-    </nonworld-instances>
+    <nonworld-instances />
     <effects />
 </c2layout>
