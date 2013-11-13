@@ -12,7 +12,12 @@
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="9662328296223472" type="System" />
                             </conditions>
-                            <actions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="2794416032110588" type="System">
+                                    <param id="0" name="Variable">SaveSlot</param>
+                                    <param id="1" name="Value">-1</param>
+                                </action>
+                            </actions>
                             <sub-events>
                                 <event-block sid="1693538387784473">
                                     <conditions>
@@ -26,6 +31,80 @@
                                         <action id="-3" name="Set position" sid="2782120035202988" type="Button">
                                             <param id="0" name="X">ViewportLeft(0) + 55</param>
                                             <param id="1" name="Y">ViewportTop(0) + 55</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="840182845597543">
+                            <conditions>
+                                <condition id="3" name="On touched object" sid="8047595227006982" type="Touch">
+                                    <param id="0" name="Object">Button</param>
+                                </condition>
+                                <condition id="3" name="Compare frame" sid="4375134123792619" type="Button">
+                                    <param id="0" name="Comparison">0</param>
+                                    <param id="1" name="Number">8</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="6123506514512965" type="Function">
+                                    <param id="0" name="Name">&quot;DeleteNecklace&quot;</param>
+                                    <param id="1" name="Parameter {n}">Level{###}SaveSlot</param>
+                                </action>
+                                <action id="-2" name="Go to layout" sid="1768650236421268" type="System">
+                                    <param id="0" name="Layout">Saves</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="5554412861077135">
+                            <conditions>
+                                <condition id="3" name="On touched object" sid="3273139150942785" type="Touch">
+                                    <param id="0" name="Object">InvisibleButton</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="3858042167916983">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="5547635188763454" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="7106085011276118" type="Button">
+                                            <param id="0" name="X">InvisibleButton.X - 60</param>
+                                            <param id="1" name="Y">InvisibleButton.Y + 5</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="6855818855984544">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="3265878170595674" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">8</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="2540311408552883" type="Button">
+                                            <param id="0" name="X">InvisibleButton.X + 60</param>
+                                            <param id="1" name="Y">InvisibleButton.Y + 5</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1036750057667031">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="3988813350258747" type="System">
+                                            <param id="0" name="Variable">SaveSlot</param>
+                                            <param id="1" name="Comparison">1</param>
+                                            <param id="2" name="Value">InvisibleButton.parameter</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-24" name="Move to top" sid="6822162681071152" type="Button" />
+                                        <action id="-9" name="Set value" sid="7736975368729267" type="System">
+                                            <param id="0" name="Variable">SaveSlot</param>
+                                            <param id="1" name="Value">InvisibleButton.parameter</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -97,6 +176,23 @@
                                                     <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
                                                     <param id="1" name="Parameter {n}">Level{###}loopindex</param>
                                                 </action>
+                                                <action id="-3" name="Create object" sid="67946024128758" type="System">
+                                                    <param id="0" name="Object to create">InvisibleButton</param>
+                                                    <param id="1" name="Layer">1</param>
+                                                    <param id="2" name="X">x</param>
+                                                    <param id="3" name="Y">y</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="4932722870477711" type="InvisibleButton">
+                                                    <param id="0" name="Instance variable">parameter</param>
+                                                    <param id="1" name="Value">loopindex</param>
+                                                </action>
+                                                <action id="-7" name="Set size" sid="6520694998815696" type="InvisibleButton">
+                                                    <param id="0" name="Width">550</param>
+                                                    <param id="1" name="Height">110</param>
+                                                </action>
+                                                <action id="-16" name="Set opacity" sid="315515235057484" type="InvisibleButton">
+                                                    <param id="0" name="Opacity">0</param>
+                                                </action>
                                             </actions>
                                         </event-block>
                                         <event-block sid="2790897486206486">
@@ -123,11 +219,7 @@
                                                 </action>
                                                 <action id="-10" name="Set value" sid="5156419006950188" type="Button">
                                                     <param id="0" name="Instance variable">action</param>
-                                                    <param id="1" name="Value">&quot;phase 1 - collect&quot;</param>
-                                                </action>
-                                                <action disabled="1" id="-10" name="Set value" sid="2213671191030156" type="Button">
-                                                    <param id="0" name="Instance variable">action</param>
-                                                    <param id="1" name="Value">&quot;Phase 2 - Create&quot;</param>
+                                                    <param id="1" name="Value">&quot;Phase 1 - Collect&quot;</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="2403563911242932" type="Button">
                                                     <param id="0" name="Instance variable">parameter</param>
@@ -140,7 +232,7 @@
                             </sub-events>
                         </event-block>
                         <comment>arrange the necklaces</comment>
-                        <event-block collapsed="1" sid="9904147581319284">
+                        <event-block sid="9904147581319284">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="4627701928456154" type="System" />
                             </conditions>

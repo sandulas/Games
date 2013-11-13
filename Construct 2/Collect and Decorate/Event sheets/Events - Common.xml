@@ -301,9 +301,9 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
+        <event-group description="" sid="3520418861413121" title="general navigation">
             <sub-events>
-                <event-block collapsed="1" sid="3159905038337372">
+                <event-block sid="3159905038337372">
                     <conditions>
                         <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
                             <param id="0" name="Object">Button</param>
@@ -363,6 +363,21 @@
                                     <actions>
                                         <action id="-9" name="Set value" sid="7484271584324202" type="System">
                                             <param id="0" name="Variable">Level</param>
+                                            <param id="1" name="Value">Button.parameter</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="3980326265256996">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="2479770232388328" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;Phase 1 - Collect&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="4763950261042955" type="System">
+                                            <param id="0" name="Variable">SaveSlot</param>
                                             <param id="1" name="Value">Button.parameter</param>
                                         </action>
                                     </actions>
@@ -1385,6 +1400,42 @@
                             <param id="1" name="Value">NecklacesArray.AsJSON</param>
                         </action>
                     </actions>
+                </event-block>
+                <event-block sid="5936836211641196">
+                    <conditions>
+                        <condition id="0" name="On function" sid="9312513896335767" type="Function">
+                            <param id="0" name="Name">&quot;DeleteNecklace&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set local value" sid="7256500802693182" type="WebStorage">
+                            <param id="0" name="Key">&quot;necklaces&quot;</param>
+                            <param id="1" name="Value">NecklacesArray.AsJSON</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="5116120358504983">
+                            <conditions>
+                                <condition id="-10" name="For" sid="8978662984275768" type="System">
+                                    <param id="0" name="Name">&quot;i&quot;</param>
+                                    <param id="1" name="Start index">0</param>
+                                    <param id="2" name="End index">NecklacesArray.Depth - 1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="4" name="Set at XYZ" sid="4546005027115136" type="NecklacesArray">
+                                    <param id="0" name="X">Function.Param(0)</param>
+                                    <param id="1" name="Y">Function.Param(1)</param>
+                                    <param id="2" name="Z">loopindex</param>
+                                    <param id="3" name="Value">-1</param>
+                                </action>
+                                <action id="0" name="Call function" sid="1475712695019872" type="Function">
+                                    <param id="0" name="Name">&quot;SaveNecklacesArray&quot;</param>
+                                    <param id="1" name="Parameter {n}"></param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>
