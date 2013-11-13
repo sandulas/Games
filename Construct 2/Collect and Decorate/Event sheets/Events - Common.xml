@@ -8,8 +8,8 @@
         <variable constant="1" name="LAYOUTSTATE_READY" sid="6377042340875564" static="0" type="number">1</variable>
         <variable constant="0" name="LayoutState" sid="6467831460052899" static="0" type="number">0</variable>
         <variable constant="0" name="LayoutToGoTo" sid="6519656246843248" static="0" type="text"></variable>
-        <variable constant="1" name="ButtonType_GoTo" sid="242483168193459" static="0" type="number">0</variable>
-        <variable constant="1" name="BUTTONTYPE_DO" sid="8075962687295055" static="0" type="number">1</variable>
+        <variable constant="1" name="BUTTONTYPE_LINK" sid="242483168193459" static="0" type="number">0</variable>
+        <variable constant="1" name="BUTTONTYPE_ACTION" sid="8075962687295055" static="0" type="number">1</variable>
         <variable constant="0" name="Level" sid="8279689323837289" static="0" type="number">0</variable>
         <variable constant="0" name="SaveSlot" sid="3901819503324132" static="0" type="number">0</variable>
         <comment>gameplay</comment>
@@ -42,13 +42,17 @@
                             <param id="0" name="Variable">debug_line1</param>
                             <param id="1" name="Value">&quot;fps: &quot; &amp; fps &amp; &quot; (&quot; &amp; renderer &amp; &quot;)&quot;</param>
                         </action>
-                        <action id="-9" name="Set value" sid="1625636658627008" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="1625636658627008" type="System">
                             <param id="0" name="Variable">debug_line2</param>
                             <param id="1" name="Value">&quot;window:&quot; &amp; WindowWidth &amp; &quot;:&quot; &amp; WindowHeight</param>
                         </action>
-                        <action id="-9" name="Set value" sid="7299106433875413" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="7299106433875413" type="System">
                             <param id="0" name="Variable">debug_line3</param>
                             <param id="1" name="Value">&quot;viewport: &quot; &amp; round(ViewportLeft(0)) &amp; &quot;, &quot; &amp; round(ViewportRight(0)) &amp; &quot; | &quot; &amp; round(ViewportTop(0)) &amp; &quot;, &quot; &amp; round(ViewportBottom(0))</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="1285853282035418" type="System">
+                            <param id="0" name="Variable">debug_line2</param>
+                            <param id="1" name="Value">&quot;level: &quot; &amp; Level &amp; &quot;, save slot: &quot; &amp; SaveSlot</param>
                         </action>
                         <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                             <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
@@ -181,7 +185,7 @@
                                         <condition id="-7" name="Compare instance variable" sid="5436272670635065" type="Button">
                                             <param id="0" name="Instance variable">action</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;play&quot;</param>
+                                            <param id="2" name="Value">&quot;resume&quot;</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -297,9 +301,9 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3520418861413121" title="navigation">
+        <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
             <sub-events>
-                <event-block sid="3159905038337372">
+                <event-block collapsed="1" sid="3159905038337372">
                     <conditions>
                         <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
                             <param id="0" name="Object">Button</param>
@@ -327,17 +331,13 @@
                                 <condition id="-8" name="Compare two values" sid="457178851936219" type="System">
                                     <param id="0" name="First value">Button.type</param>
                                     <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">BUTTONTYPE_GOTO</param>
+                                    <param id="2" name="Second value">BUTTONTYPE_LINK</param>
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-9" name="Set value" sid="3915680637163111" type="System">
-                                    <param id="0" name="Variable">LayoutToGoTo</param>
-                                    <param id="1" name="Value">Button.action</param>
-                                </action>
-                                <action id="0" name="Call function" sid="1328570029829431" type="Function">
-                                    <param id="0" name="Name">&quot;FadeOut&quot;</param>
-                                    <param id="1" name="Parameter {n}"></param>
+                                <action id="0" name="Call function" sid="1887419396274817" type="Function">
+                                    <param id="0" name="Name">&quot;GoToLayout&quot;</param>
+                                    <param id="1" name="Parameter {n}">Button.action</param>
                                 </action>
                             </actions>
                             <sub-events>
@@ -352,32 +352,17 @@
                                         </action>
                                     </actions>
                                 </event-block>
-                                <event-block sid="4313029524618443">
+                                <event-block sid="1526648242983314">
                                     <conditions>
-                                        <condition id="-8" name="Compare two values" sid="4650005756255208" type="System">
+                                        <condition id="-8" name="Compare two values" sid="7666537827605919" type="System">
                                             <param id="0" name="First value">Button.action</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">&quot;saves&quot;</param>
+                                            <param id="2" name="Second value">&quot;Saves&quot;</param>
                                         </condition>
                                     </conditions>
                                     <actions>
-                                        <action id="-9" name="Set value" sid="445687035330294" type="System">
+                                        <action id="-9" name="Set value" sid="7484271584324202" type="System">
                                             <param id="0" name="Variable">Level</param>
-                                            <param id="1" name="Value">Button.parameter</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                                <event-block sid="7608056410723168">
-                                    <conditions>
-                                        <condition id="-8" name="Compare two values" sid="6030615235968403" type="System">
-                                            <param id="0" name="First value">Button.action</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">&quot;phase 1 - collect&quot;</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-9" name="Set value" sid="3754429093714048" type="System">
-                                            <param id="0" name="Variable">SaveSlot</param>
                                             <param id="1" name="Value">Button.parameter</param>
                                         </action>
                                     </actions>
@@ -389,7 +374,7 @@
                                 <condition id="-8" name="Compare two values" sid="7972785020179535" type="System">
                                     <param id="0" name="First value">Button.type</param>
                                     <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">BUTTONTYPE_DO</param>
+                                    <param id="2" name="Second value">BUTTONTYPE_ACTION</param>
                                 </condition>
                             </conditions>
                             <actions />
@@ -444,7 +429,7 @@
                                         <condition id="-8" name="Compare two values" sid="845059857978662" type="System">
                                             <param id="0" name="First value">Button.action</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">&quot;play&quot;</param>
+                                            <param id="2" name="Second value">&quot;resume&quot;</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -536,15 +521,10 @@
                                             <param id="1" name="Comparison">0</param>
                                             <param id="2" name="Value">&quot;saves&quot;</param>
                                         </condition>
-                                        <condition id="-7" name="Compare instance variable" sid="5645820854842182" type="Button">
-                                            <param id="0" name="Instance variable">action</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;Phase 2 - Create&quot;</param>
-                                        </condition>
                                         <condition id="-7" name="Compare instance variable" sid="4419407298310291" type="Button">
                                             <param id="0" name="Instance variable">action</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;play&quot;</param>
+                                            <param id="2" name="Value">&quot;resume&quot;</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -558,9 +538,197 @@
                         </event-block>
                     </sub-events>
                 </event-block>
+                <event-block sid="6115460322791397">
+                    <conditions>
+                        <condition id="0" name="On function" sid="7218708749134293" type="Function">
+                            <param id="0" name="Name">&quot;GoToLayout&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="6466522760983356" type="System">
+                            <param id="0" name="Variable">LayoutToGoTo</param>
+                            <param id="1" name="Value">Function.Param(0)</param>
+                        </action>
+                        <action id="0" name="Call function" sid="5418117185287518" type="Function">
+                            <param id="0" name="Name">&quot;FadeOut&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-group collapsed="1" description="" sid="7809342416552527" title="layout transitions">
+                    <sub-events>
+                        <event-block sid="6205839759169251">
+                            <conditions>
+                                <condition id="-2" name="On start of layout" sid="1644173507341256" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="8183262553794789" type="Function">
+                                    <param id="0" name="Name">&quot;FadeIn&quot;</param>
+                                    <param id="1" name="Parameter {n}"></param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="93670597437751">
+                            <conditions>
+                                <condition id="0" name="On function" sid="3239769494062195" type="Function">
+                                    <param id="0" name="Name">&quot;FadeIn&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Set position" sid="7217573985929335" type="Fader">
+                                    <param id="0" name="X">ViewportLeft(0)</param>
+                                    <param id="1" name="Y">ViewportTop(0)</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="6175665399527435" type="Fader">
+                                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
+                                    <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
+                                </action>
+                                <action id="-16" name="Set opacity" sid="6048406692317466" type="Fader">
+                                    <param id="0" name="Opacity">100</param>
+                                </action>
+                                <action id="-26" name="Move to layer" sid="6348244688474702" type="Fader">
+                                    <param id="0" name="Layer">100</param>
+                                </action>
+                                <action id="-24" name="Move to top" sid="65731187856283" type="Fader" />
+                                <action id="-12" name="Set group active" sid="7839205530437798" type="System">
+                                    <param id="0" name="Group name">&quot;fade-in&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="7761034553330298">
+                            <conditions>
+                                <condition id="0" name="On function" sid="1725780578084966" type="Function">
+                                    <param id="0" name="Name">&quot;FadeOut&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Set position" sid="7045234215246333" type="Fader">
+                                    <param id="0" name="X">ViewportLeft(0)</param>
+                                    <param id="1" name="Y">ViewportTop(0)</param>
+                                </action>
+                                <action id="-7" name="Set size" sid="1518011191583659" type="Fader">
+                                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
+                                    <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
+                                </action>
+                                <action id="-16" name="Set opacity" sid="6876061156271533" type="Fader">
+                                    <param id="0" name="Opacity">0</param>
+                                </action>
+                                <action id="-26" name="Move to layer" sid="3897581563210993" type="Fader">
+                                    <param id="0" name="Layer">100</param>
+                                </action>
+                                <action id="-24" name="Move to top" sid="4866318525031711" type="Fader" />
+                                <action id="-12" name="Set group active" sid="7920790618858629" type="System">
+                                    <param id="0" name="Group name">&quot;fade-out&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-group collapsed="1" description="" inactive="1" sid="7900750895320493" title="fade-in">
+                            <sub-events>
+                                <event-block sid="7523991367772262">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="4670702607246086" type="System">
+                                            <param id="0" name="Variable">LayoutState</param>
+                                            <param id="1" name="Comparison">1</param>
+                                            <param id="2" name="Value">LAYOUTSTATE_FADING</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="2680066846377742" type="System">
+                                            <param id="0" name="Variable">LayoutState</param>
+                                            <param id="1" name="Value">LAYOUTSTATE_FADING</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="519549006767383">
+                                    <conditions>
+                                        <condition id="-10" name="Compare opacity" sid="4511110507963057" type="Fader">
+                                            <param id="0" name="Comparison">4</param>
+                                            <param id="1" name="Opacity">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-16" name="Set opacity" sid="5539433236267412" type="Fader">
+                                            <param id="0" name="Opacity">fader.Opacity - 200 * dt</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1742452195571392">
+                                    <conditions>
+                                        <condition id="-10" name="Compare opacity" sid="7310293168370744" type="Fader">
+                                            <param id="0" name="Comparison">3</param>
+                                            <param id="1" name="Opacity">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-12" name="Set group active" sid="2851773977109941" type="System">
+                                            <param id="0" name="Group name">&quot;fade-in&quot;</param>
+                                            <param id="1" name="State">0</param>
+                                        </action>
+                                        <action id="-25" name="Move to bottom" sid="2841710302551909" type="Fader" />
+                                        <action id="-9" name="Set value" sid="2959675667837346" type="System">
+                                            <param id="0" name="Variable">LayoutState</param>
+                                            <param id="1" name="Value">LAYOUTSTATE_READY</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-group>
+                        <event-group collapsed="1" description="" inactive="1" sid="5376141053122375" title="fade-out">
+                            <sub-events>
+                                <event-block sid="2880881997034783">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="707136128436742" type="System">
+                                            <param id="0" name="Variable">LayoutState</param>
+                                            <param id="1" name="Comparison">1</param>
+                                            <param id="2" name="Value">LAYOUTSTATE_FADING</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="2022455003137649" type="System">
+                                            <param id="0" name="Variable">LayoutState</param>
+                                            <param id="1" name="Value">LAYOUTSTATE_FADING</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="8509032713465741">
+                                    <conditions>
+                                        <condition id="-10" name="Compare opacity" sid="167150580326971" type="Fader">
+                                            <param id="0" name="Comparison">2</param>
+                                            <param id="1" name="Opacity">100</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-16" name="Set opacity" sid="3006012291776487" type="Fader">
+                                            <param id="0" name="Opacity">fader.Opacity + 300 * dt</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="3131945405344073">
+                                    <conditions>
+                                        <condition id="-10" name="Compare opacity" sid="3099071230893416" type="Fader">
+                                            <param id="0" name="Comparison">5</param>
+                                            <param id="1" name="Opacity">100</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-12" name="Set group active" sid="2252738615464381" type="System">
+                                            <param id="0" name="Group name">&quot;fade-out&quot;</param>
+                                            <param id="1" name="State">0</param>
+                                        </action>
+                                        <action id="-25" name="Go to layout (by name)" sid="5655008142845988" type="System">
+                                            <param id="0" name="Layout">LayoutToGoTo</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-group>
+                    </sub-events>
+                </event-group>
                 <event-group collapsed="1" description="" sid="9500297620498624" title="music">
                     <sub-events>
-                        <event-block sid="2069240964979544">
+                        <event-block collapsed="1" sid="2069240964979544">
                             <conditions>
                                 <condition id="0" name="On function" sid="5439537438971296" type="Function">
                                     <param id="0" name="Name">&quot;ToggleMusic&quot;</param>
@@ -792,177 +960,6 @@
                                     </actions>
                                 </event-block>
                             </sub-events>
-                        </event-block>
-                    </sub-events>
-                </event-group>
-            </sub-events>
-        </event-group>
-        <event-group collapsed="1" description="" sid="7809342416552527" title="navigation transitions">
-            <sub-events>
-                <event-block sid="6205839759169251">
-                    <conditions>
-                        <condition id="-2" name="On start of layout" sid="1644173507341256" type="System" />
-                    </conditions>
-                    <actions>
-                        <action id="0" name="Call function" sid="8183262553794789" type="Function">
-                            <param id="0" name="Name">&quot;FadeIn&quot;</param>
-                            <param id="1" name="Parameter {n}"></param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="93670597437751">
-                    <conditions>
-                        <condition id="0" name="On function" sid="3239769494062195" type="Function">
-                            <param id="0" name="Name">&quot;FadeIn&quot;</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-3" name="Set position" sid="7217573985929335" type="Fader">
-                            <param id="0" name="X">ViewportLeft(0)</param>
-                            <param id="1" name="Y">ViewportTop(0)</param>
-                        </action>
-                        <action id="-7" name="Set size" sid="6175665399527435" type="Fader">
-                            <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
-                            <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
-                        </action>
-                        <action id="-16" name="Set opacity" sid="6048406692317466" type="Fader">
-                            <param id="0" name="Opacity">100</param>
-                        </action>
-                        <action id="-26" name="Move to layer" sid="6348244688474702" type="Fader">
-                            <param id="0" name="Layer">100</param>
-                        </action>
-                        <action id="-24" name="Move to top" sid="65731187856283" type="Fader" />
-                        <action id="-12" name="Set group active" sid="7839205530437798" type="System">
-                            <param id="0" name="Group name">&quot;fade-in&quot;</param>
-                            <param id="1" name="State">1</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-block sid="7761034553330298">
-                    <conditions>
-                        <condition id="0" name="On function" sid="1725780578084966" type="Function">
-                            <param id="0" name="Name">&quot;FadeOut&quot;</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-3" name="Set position" sid="7045234215246333" type="Fader">
-                            <param id="0" name="X">ViewportLeft(0)</param>
-                            <param id="1" name="Y">ViewportTop(0)</param>
-                        </action>
-                        <action id="-7" name="Set size" sid="1518011191583659" type="Fader">
-                            <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
-                            <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
-                        </action>
-                        <action id="-16" name="Set opacity" sid="6876061156271533" type="Fader">
-                            <param id="0" name="Opacity">0</param>
-                        </action>
-                        <action id="-26" name="Move to layer" sid="3897581563210993" type="Fader">
-                            <param id="0" name="Layer">100</param>
-                        </action>
-                        <action id="-24" name="Move to top" sid="4866318525031711" type="Fader" />
-                        <action id="-12" name="Set group active" sid="7920790618858629" type="System">
-                            <param id="0" name="Group name">&quot;fade-out&quot;</param>
-                            <param id="1" name="State">1</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <event-group collapsed="1" description="" inactive="1" sid="7900750895320493" title="fade-in">
-                    <sub-events>
-                        <event-block sid="7523991367772262">
-                            <conditions>
-                                <condition id="-14" name="Compare variable" sid="4670702607246086" type="System">
-                                    <param id="0" name="Variable">LayoutState</param>
-                                    <param id="1" name="Comparison">1</param>
-                                    <param id="2" name="Value">LAYOUTSTATE_FADING</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="2680066846377742" type="System">
-                                    <param id="0" name="Variable">LayoutState</param>
-                                    <param id="1" name="Value">LAYOUTSTATE_FADING</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="519549006767383">
-                            <conditions>
-                                <condition id="-10" name="Compare opacity" sid="4511110507963057" type="Fader">
-                                    <param id="0" name="Comparison">4</param>
-                                    <param id="1" name="Opacity">0</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-16" name="Set opacity" sid="5539433236267412" type="Fader">
-                                    <param id="0" name="Opacity">fader.Opacity - 200 * dt</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="1742452195571392">
-                            <conditions>
-                                <condition id="-10" name="Compare opacity" sid="7310293168370744" type="Fader">
-                                    <param id="0" name="Comparison">3</param>
-                                    <param id="1" name="Opacity">0</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-12" name="Set group active" sid="2851773977109941" type="System">
-                                    <param id="0" name="Group name">&quot;fade-in&quot;</param>
-                                    <param id="1" name="State">0</param>
-                                </action>
-                                <action id="-25" name="Move to bottom" sid="2841710302551909" type="Fader" />
-                                <action id="-9" name="Set value" sid="2959675667837346" type="System">
-                                    <param id="0" name="Variable">LayoutState</param>
-                                    <param id="1" name="Value">LAYOUTSTATE_READY</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
-                </event-group>
-                <event-group collapsed="1" description="" inactive="1" sid="5376141053122375" title="fade-out">
-                    <sub-events>
-                        <event-block sid="2880881997034783">
-                            <conditions>
-                                <condition id="-14" name="Compare variable" sid="707136128436742" type="System">
-                                    <param id="0" name="Variable">LayoutState</param>
-                                    <param id="1" name="Comparison">1</param>
-                                    <param id="2" name="Value">LAYOUTSTATE_FADING</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="2022455003137649" type="System">
-                                    <param id="0" name="Variable">LayoutState</param>
-                                    <param id="1" name="Value">LAYOUTSTATE_FADING</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="8509032713465741">
-                            <conditions>
-                                <condition id="-10" name="Compare opacity" sid="167150580326971" type="Fader">
-                                    <param id="0" name="Comparison">2</param>
-                                    <param id="1" name="Opacity">100</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-16" name="Set opacity" sid="3006012291776487" type="Fader">
-                                    <param id="0" name="Opacity">fader.Opacity + 300 * dt</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                        <event-block sid="3131945405344073">
-                            <conditions>
-                                <condition id="-10" name="Compare opacity" sid="3099071230893416" type="Fader">
-                                    <param id="0" name="Comparison">5</param>
-                                    <param id="1" name="Opacity">100</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-12" name="Set group active" sid="2252738615464381" type="System">
-                                    <param id="0" name="Group name">&quot;fade-out&quot;</param>
-                                    <param id="1" name="State">0</param>
-                                </action>
-                                <action id="-25" name="Go to layout (by name)" sid="5655008142845988" type="System">
-                                    <param id="0" name="Layout">LayoutToGoTo</param>
-                                </action>
-                            </actions>
                         </event-block>
                     </sub-events>
                 </event-group>
@@ -1357,6 +1354,35 @@
                         <action id="-9" name="Set value" sid="5621249082689134" type="System">
                             <param id="0" name="Variable">OnCircleY</param>
                             <param id="1" name="Value">CircleR * sin(Function.Param(0))</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="9400384860461762" title="necklace load / save">
+            <sub-events>
+                <event-block sid="7662978348566204">
+                    <conditions>
+                        <condition id="0" name="On function" sid="8811374812466242" type="Function">
+                            <param id="0" name="Name">&quot;LoadNecklacesArray&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="11" name="Load" sid="2263380038172837" type="NecklacesArray">
+                            <param id="0" name="JSON">WebStorage.LocalValue(&quot;necklaces&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="1825300127002754">
+                    <conditions>
+                        <condition id="0" name="On function" sid="2897393120282113" type="Function">
+                            <param id="0" name="Name">&quot;SaveNecklacesArray&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set local value" sid="8033221632105721" type="WebStorage">
+                            <param id="0" name="Key">&quot;necklaces&quot;</param>
+                            <param id="1" name="Value">NecklacesArray.AsJSON</param>
                         </action>
                     </actions>
                 </event-block>

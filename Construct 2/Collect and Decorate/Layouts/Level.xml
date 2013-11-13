@@ -178,7 +178,7 @@
                     </properties>
                     <instance-variables>
                         <type>0</type>
-                        <action>saves</action>
+                        <action>Saves</action>
                         <parameter>1</parameter>
                     </instance-variables>
                     <behavior-instances>
@@ -208,7 +208,7 @@
                     </properties>
                     <instance-variables>
                         <type>0</type>
-                        <action>saves</action>
+                        <action>Saves</action>
                         <parameter>2</parameter>
                     </instance-variables>
                     <behavior-instances>
@@ -238,7 +238,7 @@
                     </properties>
                     <instance-variables>
                         <type>0</type>
-                        <action>saves</action>
+                        <action>Saves</action>
                         <parameter>3</parameter>
                     </instance-variables>
                     <behavior-instances>
