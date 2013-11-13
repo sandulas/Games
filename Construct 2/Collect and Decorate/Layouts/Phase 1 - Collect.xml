@@ -471,7 +471,7 @@
                     </properties>
                     <instance-variables>
                         <type>1</type>
-                        <action>play</action>
+                        <action>resume</action>
                         <parameter>0</parameter>
                     </instance-variables>
                     <behavior-instances>

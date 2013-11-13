@@ -159,7 +159,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="3876133516902916" title="setup settings">
+                <event-group description="" sid="3876133516902916" title="setup settings">
                     <sub-events>
                         <event-block sid="2635619468193831">
                             <conditions>
@@ -198,8 +198,9 @@
                                         </condition>
                                     </conditions>
                                     <actions>
-                                        <action id="11" name="Load" sid="9945730618444613" type="NecklacesArray">
-                                            <param id="0" name="JSON">WebStorage.LocalValue(&quot;necklaces&quot;)</param>
+                                        <action id="0" name="Call function" sid="5335210972863014" type="Function">
+                                            <param id="0" name="Name">&quot;LoadNecklacesArray&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -227,9 +228,9 @@
                                         <event-block sid="5321954480635546">
                                             <conditions />
                                             <actions>
-                                                <action id="0" name="Set local value" sid="7483366064531791" type="WebStorage">
-                                                    <param id="0" name="Key">&quot;necklaces&quot;</param>
-                                                    <param id="1" name="Value">NecklacesArray.AsJSON</param>
+                                                <action id="0" name="Call function" sid="9806991395951018" type="Function">
+                                                    <param id="0" name="Name">&quot;SaveNecklacesArray&quot;</param>
+                                                    <param id="1" name="Parameter {n}"></param>
                                                 </action>
                                             </actions>
                                         </event-block>
