@@ -7,6 +7,7 @@
         <variable constant="1" name="LAYOUTSTATE_FADING" sid="3811331850985871" static="0" type="number">0</variable>
         <variable constant="1" name="LAYOUTSTATE_READY" sid="6377042340875564" static="0" type="number">1</variable>
         <variable constant="0" name="LayoutState" sid="6467831460052899" static="0" type="number">0</variable>
+        <variable constant="0" name="LayoutTransition" sid="3978773668254454" static="0" type="number">1</variable>
         <variable constant="0" name="LayoutToGoTo" sid="6519656246843248" static="0" type="text"></variable>
         <variable constant="1" name="BUTTONTYPE_LINK" sid="242483168193459" static="0" type="number">0</variable>
         <variable constant="1" name="BUTTONTYPE_ACTION" sid="8075962687295055" static="0" type="number">1</variable>
@@ -65,7 +66,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6593110864510716" title="setup pause UI">
+        <event-group description="" sid="6593110864510716" title="setup pause UI">
             <sub-events>
                 <event-block sid="3917797050924338">
                     <conditions>
@@ -158,15 +159,9 @@
                                 </event-block>
                                 <event-block any="1" sid="353684956036796">
                                     <conditions>
-                                        <condition id="-7" name="Compare instance variable" sid="26608846622981" type="Button">
-                                            <param id="0" name="Instance variable">action</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;saves&quot;</param>
-                                        </condition>
-                                        <condition id="-7" name="Compare instance variable" sid="9104160296078966" type="Button">
-                                            <param id="0" name="Instance variable">action</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;Phase 2 - Create&quot;</param>
+                                        <condition id="3" name="Compare frame" sid="26608846622981" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">5</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -303,7 +298,7 @@
         </event-group>
         <event-group description="" sid="3520418861413121" title="general navigation">
             <sub-events>
-                <event-block sid="3159905038337372">
+                <event-block collapsed="1" sid="3159905038337372">
                     <conditions>
                         <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
                             <param id="0" name="Object">Button</param>
@@ -458,7 +453,7 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <event-block collapsed="1" sid="2576718531359653">
+                <event-block sid="2576718531359653">
                     <conditions>
                         <condition id="0" name="On function" sid="6044583687722048" type="Function">
                             <param id="0" name="Name">&quot;TogglePause&quot;</param>
@@ -531,10 +526,9 @@
                                             <param id="1" name="Comparison">0</param>
                                             <param id="2" name="Value">&quot;soundoff&quot;</param>
                                         </condition>
-                                        <condition id="-7" name="Compare instance variable" sid="4957443045507959" type="Button">
-                                            <param id="0" name="Instance variable">action</param>
-                                            <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;saves&quot;</param>
+                                        <condition id="3" name="Compare frame" sid="4957443045507959" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">5</param>
                                         </condition>
                                         <condition id="-7" name="Compare instance variable" sid="4419407298310291" type="Button">
                                             <param id="0" name="Instance variable">action</param>
@@ -576,12 +570,35 @@
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="1644173507341256" type="System" />
                             </conditions>
-                            <actions>
-                                <action id="0" name="Call function" sid="8183262553794789" type="Function">
-                                    <param id="0" name="Name">&quot;FadeIn&quot;</param>
-                                    <param id="1" name="Parameter {n}"></param>
-                                </action>
-                            </actions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="6596469172956283">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="6397194792046849" type="System">
+                                            <param id="0" name="Variable">LayoutTransition</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="8183262553794789" type="Function">
+                                            <param id="0" name="Name">&quot;FadeIn&quot;</param>
+                                            <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="2218702929841302">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="764535064484108" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="8045654349131998" type="System">
+                                            <param id="0" name="Variable">LayoutTransition</param>
+                                            <param id="1" name="Value">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="93670597437751">
                             <conditions>
@@ -1374,7 +1391,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9400384860461762" title="necklace load / save">
+        <event-group collapsed="1" description="" sid="9400384860461762" title="necklace load / save">
             <sub-events>
                 <event-block sid="7662978348566204">
                     <conditions>
