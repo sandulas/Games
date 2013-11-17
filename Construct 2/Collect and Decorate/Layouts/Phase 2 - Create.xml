@@ -146,8 +146,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <type>1</type>
-                        <action>next</action>
+                        <type>0</type>
+                        <action>Phase 3 - Decorate</action>
                         <parameter>0</parameter>
                     </instance-variables>
                     <behavior-instances>
@@ -261,8 +261,8 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <type>0</type>
-                        <action>saves</action>
+                        <type>1</type>
+                        <action></action>
                         <parameter>0</parameter>
                     </instance-variables>
                     <behavior-instances>

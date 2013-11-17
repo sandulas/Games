@@ -6,7 +6,7 @@
         <include>Events - Common</include>
         <event-group description="" sid="5333523073844858" title="LAYOUT ROOT">
             <sub-events>
-                <event-group description="" sid="1971853317039826" title="setup UI">
+                <event-group collapsed="1" description="" sid="1971853317039826" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
                             <conditions>
@@ -41,20 +41,48 @@
                                 <condition id="3" name="On touched object" sid="8047595227006982" type="Touch">
                                     <param id="0" name="Object">Button</param>
                                 </condition>
-                                <condition id="3" name="Compare frame" sid="4375134123792619" type="Button">
-                                    <param id="0" name="Comparison">0</param>
-                                    <param id="1" name="Number">8</param>
-                                </condition>
                             </conditions>
-                            <actions>
-                                <action id="0" name="Call function" sid="6123506514512965" type="Function">
-                                    <param id="0" name="Name">&quot;DeleteNecklace&quot;</param>
-                                    <param id="1" name="Parameter {n}">Level{###}SaveSlot</param>
-                                </action>
-                                <action id="-2" name="Go to layout" sid="1768650236421268" type="System">
-                                    <param id="0" name="Layout">Saves</param>
-                                </action>
-                            </actions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="174129623917062">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="4375134123792619" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">8</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="6123506514512965" type="Function">
+                                            <param id="0" name="Name">&quot;DeleteNecklace&quot;</param>
+                                            <param id="1" name="Parameter {n}">Level{###}SaveSlot</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="6587265152294511" type="System">
+                                            <param id="0" name="Variable">LayoutTransition</param>
+                                            <param id="1" name="Value">0</param>
+                                        </action>
+                                        <action id="-2" name="Go to layout" sid="1768650236421268" type="System">
+                                            <param id="0" name="Layout">Saves</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <comment>mark the collected slot of the necklaces array (level 0, slot 8) empty (value -1); this is to inform the Create layout that we&apos;re loading a saved necklace, not a new one that was just collected</comment>
+                                <event-block sid="8857800974206633">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="8771971978261426" type="Button">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="4" name="Set at XYZ" sid="6374389147680196" type="NecklacesArray">
+                                            <param id="0" name="X">0</param>
+                                            <param id="1" name="Y">8</param>
+                                            <param id="2" name="Z">0</param>
+                                            <param id="3" name="Value">-1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="5554412861077135">
                             <conditions>

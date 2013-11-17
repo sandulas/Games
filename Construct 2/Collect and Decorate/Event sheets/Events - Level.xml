@@ -61,7 +61,7 @@
                                                 <condition id="-7" name="Compare instance variable" sid="5741357807832212" type="Button">
                                                     <param id="0" name="Instance variable">action</param>
                                                     <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Value">&quot;saves&quot;</param>
+                                                    <param id="2" name="Value">&quot;Saves&quot;</param>
                                                 </condition>
                                                 <condition id="-7" name="Compare instance variable" sid="1375842903662013" type="Button">
                                                     <param id="0" name="Instance variable">parameter</param>
@@ -106,7 +106,7 @@
                                                 <condition id="-7" name="Compare instance variable" sid="3681802751536922" type="Button">
                                                     <param id="0" name="Instance variable">action</param>
                                                     <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Value">&quot;saves&quot;</param>
+                                                    <param id="2" name="Value">&quot;Saves&quot;</param>
                                                 </condition>
                                                 <condition id="-7" name="Compare instance variable" sid="4246478925786077" type="Button">
                                                     <param id="0" name="Instance variable">parameter</param>
@@ -147,7 +147,7 @@
                                                 <condition id="-7" name="Compare instance variable" sid="5257107148971067" type="Button">
                                                     <param id="0" name="Instance variable">action</param>
                                                     <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Value">&quot;saves&quot;</param>
+                                                    <param id="2" name="Value">&quot;Saves&quot;</param>
                                                 </condition>
                                                 <condition id="-7" name="Compare instance variable" sid="8917667644518458" type="Button">
                                                     <param id="0" name="Instance variable">parameter</param>
@@ -168,7 +168,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="4946173882751354" title="setup level necklaces">
+                <event-group collapsed="1" description="" sid="4946173882751354" title="setup level necklaces">
                     <sub-events>
                         <event-block sid="5608396421228386">
                             <conditions>
@@ -209,7 +209,7 @@
                                 </action>
                                 <action id="-9" name="Set value" sid="8742945953775566" type="System">
                                     <param id="0" name="Variable">CirclePieceScale</param>
-                                    <param id="1" name="Value">0.45</param>
+                                    <param id="1" name="Value">0.47</param>
                                 </action>
                                 <action id="0" name="Call function" sid="3251783403830751" type="Function">
                                     <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
@@ -233,7 +233,7 @@
                                 </action>
                                 <action id="-9" name="Set value" sid="3117499815322169" type="System">
                                     <param id="0" name="Variable">CircleCenterY</param>
-                                    <param id="1" name="Value">y-10</param>
+                                    <param id="1" name="Value">y-20</param>
                                 </action>
                                 <action id="-9" name="Set value" sid="2354530045592677" type="System">
                                     <param id="0" name="Variable">CircleXScale</param>
