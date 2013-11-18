@@ -133,11 +133,15 @@
                                                     <param id="0" name="Instance variable">action</param>
                                                     <param id="1" name="Value">&quot;Phase 1 - Collect&quot;</param>
                                                 </action>
+                                                <action id="-10" name="Set value" sid="4501121796368889" type="Button">
+                                                    <param id="0" name="Instance variable">parameter</param>
+                                                    <param id="1" name="Value">SaveSlot</param>
+                                                </action>
                                             </actions>
                                         </event-block>
                                     </sub-events>
                                 </event-block>
-                                <comment>if coming from the saves layout, create the selected necklace pieces on the string</comment>
+                                <comment>if coming from the saves layout, create the pieces of the selected necklace on the string</comment>
                                 <event-block sid="4301057509489492">
                                     <conditions>
                                         <condition id="-22" name="Else" sid="258477700492467" type="System" />
@@ -169,13 +173,17 @@
                                                     <param id="0" name="Instance variable">action</param>
                                                     <param id="1" name="Value">&quot;Saves&quot;</param>
                                                 </action>
+                                                <action id="-10" name="Set value" sid="4875589421095302" type="Button">
+                                                    <param id="0" name="Instance variable">parameter</param>
+                                                    <param id="1" name="Value">Level</param>
+                                                </action>
                                             </actions>
                                         </event-block>
                                     </sub-events>
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <comment>arrange the selected necklace pieces on the string</comment>
+                        <comment>arrange the pieces of the selected necklace on the string</comment>
                         <event-block sid="4655173225565693">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="5590726737270561" type="System" />
@@ -494,10 +502,6 @@
                                 <action id="-9" name="Set value" sid="6328552889923988" type="System">
                                     <param id="0" name="Variable">FlowersCount</param>
                                     <param id="1" name="Value">Flower.PickedCount</param>
-                                </action>
-                                <action id="-9" name="Set value" sid="5355044972688932" type="System">
-                                    <param id="0" name="Variable">debug_line3</param>
-                                    <param id="1" name="Value">FlowersCount</param>
                                 </action>
                             </actions>
                             <sub-events>
