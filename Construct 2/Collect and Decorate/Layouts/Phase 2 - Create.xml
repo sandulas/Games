@@ -261,7 +261,7 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <type>1</type>
+                        <type>0</type>
                         <action></action>
                         <parameter>0</parameter>
                     </instance-variables>
