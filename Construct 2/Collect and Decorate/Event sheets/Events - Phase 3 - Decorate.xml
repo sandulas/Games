@@ -9,10 +9,10 @@
                 <variable constant="0" name="TickCountAtStartOfLayout" sid="6319678039979318" static="1" type="number">0</variable>
                 <variable constant="0" name="StartX" sid="3880459603791739" static="1" type="number">350</variable>
                 <variable constant="0" name="StartY" sid="9516740109418225" static="1" type="number">160</variable>
-                <variable constant="0" name="FlowersCount" sid="7299355969258432" static="1" type="number">7</variable>
+                <variable constant="0" name="FlowersCount" sid="7299355969258432" static="1" type="number">9</variable>
                 <variable constant="0" name="OverlapPercent" sid="2236137402117079" static="1" type="number">0.15</variable>
-                <variable constant="0" name="MinScale" sid="7179635873072381" static="1" type="number">0.5</variable>
-                <variable constant="0" name="MaxScale" sid="9818304363819659" static="1" type="number">0.7</variable>
+                <variable constant="0" name="MinScale" sid="7179635873072381" static="1" type="number">0.66</variable>
+                <variable constant="0" name="MaxScale" sid="9818304363819659" static="1" type="number">1.1</variable>
                 <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="1" type="number">0</variable>
                 <variable constant="0" name="OffsetX" sid="2970032935541051" static="1" type="number">0</variable>
                 <event-block sid="3279056471687852">
@@ -108,13 +108,34 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
+                <event-group collapsed="1" description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
                     <sub-events>
                         <event-block sid="409180012291982">
                             <conditions>
-                                <condition id="-2" name="On start of layout" sid="3618506777173733" type="System" />
+                                <condition id="-8" name="Compare two values" sid="6553645331185703" type="System">
+                                    <param id="0" name="First value">tickcount</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+1</param>
+                                </condition>
                             </conditions>
-                            <actions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="5643307687763573" type="System">
+                                    <param id="0" name="Variable">CirclePieceScale</param>
+                                    <param id="1" name="Value">Level = 1 ? 1.1 : Level = 2 ? 0.9 : 0.7</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="258584316398847" type="System">
+                                    <param id="0" name="Variable">MaxScale</param>
+                                    <param id="1" name="Value">CirclePieceScale</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="7965816166284464" type="System">
+                                    <param id="0" name="Variable">MinScale</param>
+                                    <param id="1" name="Value">CirclePieceScale * CirclePieceScaleAttenuation</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="6229561213177158" type="System">
+                                    <param id="0" name="Variable">FlowersCount</param>
+                                    <param id="1" name="Value">Function.Call(&quot;NecklacePieceCount&quot;, Level, SaveSlot)</param>
+                                </action>
+                            </actions>
                             <sub-events>
                                 <event-block sid="7014517622640797">
                                     <conditions>
@@ -135,7 +156,7 @@
                                             <param id="0" name="State">0</param>
                                         </action>
                                         <action id="5" name="Set frame" sid="9436128099243996" type="Flower">
-                                            <param id="0" name="Frame number">floor(random(Flower.AnimationFrameCount))</param>
+                                            <param id="0" name="Frame number">NecklacesArray.At(Level, SaveSlot, loopindex - 1)</param>
                                         </action>
                                         <action id="9" name="Set scale" sid="4920803967578114" type="Flower">
                                             <param id="0" name="Scale">MinScale + int(FlowersCount / 2 - abs(loopindex - (FlowersCount + 1) / 2)) / (int(FlowersCount / 2) / (MaxScale - MinScale))</param>
@@ -285,7 +306,11 @@
                         <comment>center the necklace on the screen</comment>
                         <event-block sid="6784465003512577">
                             <conditions>
-                                <condition id="-2" name="On start of layout" sid="6079895974385653" type="System" />
+                                <condition id="-8" name="Compare two values" sid="911188075995719" type="System">
+                                    <param id="0" name="First value">tickcount</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+1</param>
+                                </condition>
                             </conditions>
                             <actions>
                                 <action id="-24" name="Move to top" sid="7253577220754205" type="Fader" />
@@ -319,12 +344,99 @@
                         </event-block>
                     </sub-events>
                 </event-group>
+                <event-group collapsed="1" description="" disabled="1" sid="3046289762290443" title="create and arrange the necklace">
+                    <sub-events>
+                        <event-block sid="2977828189292429">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="5385552805865859" type="System">
+                                    <param id="0" name="First value">tickcount</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="353823167467365" type="System">
+                                    <param id="0" name="Variable">StartAngleIndex</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="5014146240334026" type="System">
+                                    <param id="0" name="Variable">CirclePieceScale</param>
+                                    <param id="1" name="Value">Level = 1 ? 1.1 : Level = 2 ? 0.9 : 0.7</param>
+                                </action>
+                                <action disabled="1" id="-9" name="Set value" sid="3632487208521671" type="System">
+                                    <param id="0" name="Variable">CirclePieceScale</param>
+                                    <param id="1" name="Value">Level = 1 ? 0.55 : Level = 2 ? 0.45 : 0.35</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="5805636307489523" type="System">
+                                    <param id="0" name="Variable">CircleR</param>
+                                    <param id="1" name="Value">1560</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="7603072738384066" type="System">
+                                    <param id="0" name="Variable">CircleCenterX</param>
+                                    <param id="1" name="Value">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="6025068159584992" type="System">
+                                    <param id="0" name="Variable">CircleCenterY</param>
+                                    <param id="1" name="Value">ViewportBottom(0) - UI_WoodFence.Height - CircleR</param>
+                                </action>
+                                <action id="0" name="Call function" sid="6722795394317091" type="Function">
+                                    <param id="0" name="Name">&quot;CreateNecklacePieces&quot;</param>
+                                    <param id="1" name="Parameter {n}">Level{###}SaveSlot</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="3689596173090578">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="8059015265281249" type="System">
+                                    <param id="0" name="First value">tickcount</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="3225214729626252" type="System">
+                                    <param id="0" name="Variable">StartAngleIndex</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="0" name="Call function" sid="5716588025492088" type="Function">
+                                    <param id="0" name="Name">&quot;ArrangeNecklacePieces&quot;</param>
+                                    <param id="1" name="Parameter {n}">Level{###}SaveSlot</param>
+                                </action>
+                                <action id="0" name="Call function" sid="16251271042161" type="Function">
+                                    <param id="0" name="Name">&quot;SetOnCircleXY&quot;</param>
+                                    <param id="1" name="Parameter {n}">NecklacesArray.At(0, 9, 0) + 2</param>
+                                </action>
+                                <action id="-3" name="Create object" sid="4582087858696832" type="System">
+                                    <param id="0" name="Object to create">Handle</param>
+                                    <param id="1" name="Layer">1</param>
+                                    <param id="2" name="X">OnCircleX + CircleCenterX</param>
+                                    <param id="3" name="Y">OnCircleY + CircleCenterY</param>
+                                </action>
+                                <action id="0" name="Call function" sid="6013110595340707" type="Function">
+                                    <param id="0" name="Name">&quot;SetOnCircleXY&quot;</param>
+                                    <param id="1" name="Parameter {n}">90 - (NecklacesArray.At(0, 9, 0) - 90) - 2</param>
+                                </action>
+                                <action id="-3" name="Create object" sid="9836552959032265" type="System">
+                                    <param id="0" name="Object to create">Handle</param>
+                                    <param id="1" name="Layer">1</param>
+                                    <param id="2" name="X">OnCircleX + CircleCenterX</param>
+                                    <param id="3" name="Y">OnCircleY + CircleCenterY</param>
+                                </action>
+                                <action id="-24" name="Move to top" sid="6430435438964531" type="Fader" />
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-group>
                 <event-group collapsed="1" description="" sid="3376336338478309" title="setup the physics joints">
                     <sub-events>
                         <comment>setup physics</comment>
                         <event-block sid="7232490483244657">
                             <conditions>
-                                <condition id="-2" name="On start of layout" sid="1052132060643043" type="System" />
+                                <condition id="-8" name="Compare two values" sid="2315265833842511" type="System">
+                                    <param id="0" name="First value">tickcount</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+1</param>
+                                </condition>
                             </conditions>
                             <actions>
                                 <action behavior="Physics" id="12" name="Set world gravity" sid="1413495250168705" type="Handle">
@@ -349,7 +461,7 @@
                                 <condition id="-8" name="Compare two values" sid="5663863042718579" type="System">
                                     <param id="0" name="First value">tickcount</param>
                                     <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">TickCountAtStartOfLayout+2</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+3</param>
                                 </condition>
                             </conditions>
                             <actions>
