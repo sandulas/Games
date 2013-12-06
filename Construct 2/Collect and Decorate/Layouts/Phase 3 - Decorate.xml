@@ -163,7 +163,7 @@
                         <collisions>Enabled</collisions>
                     </properties>
                     <instance-variables>
-                        <IsLeft>false</IsLeft>
+                        <Side></Side>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Physics">

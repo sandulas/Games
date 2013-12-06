@@ -10,10 +10,10 @@
     <unique-id>fjwuowywb9nv</unique-id>
     <saved-with-version>15200</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="Function" version="1">Function</plugin>
-        <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
         <plugin author="Scirra" id="Arr" version="1">Array</plugin>
         <plugin author="Scirra" id="Audio" version="1">Audio</plugin>
+        <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
+        <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
@@ -264,7 +264,7 @@
         <object-type name="Handle" sid="7949163575984347">
             <plugin id="Sprite" />
             <instance-variables>
-                <instance-variable name="IsLeft" sid="5258117514102662" type="boolean" />
+                <instance-variable name="Side" sid="6120362675069489" type="string" />
             </instance-variables>
             <behaviors>
                 <behavior-type name="Physics" sid="4787645861430033">
