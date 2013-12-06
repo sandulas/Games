@@ -56,6 +56,10 @@
                                     <param id="0" name="Layer">100</param>
                                 </action>
                                 <action id="-24" name="Move to top" sid="4183019660494142" type="Fader" />
+                                <action id="-12" name="Set group active" sid="7649605177375683" type="System">
+                                    <param id="0" name="Group name">&quot;move the handles into position&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
                             </actions>
                         </event-block>
                         <event-block sid="5766139971758115">
@@ -108,7 +112,7 @@
                     </sub-events>
                 </event-group>
                 <comment>for some reason, the physics joints don&apos;t work well when the pieces are arranged on a circle, so we arrange them in a straight line</comment>
-                <event-group description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
+                <event-group collapsed="1" description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
                     <sub-events>
                         <event-block sid="409180012291982">
                             <conditions>
@@ -126,6 +130,10 @@
                                 <action id="-9" name="Set value" sid="5643307687763573" type="System">
                                     <param id="0" name="Variable">CirclePieceScale</param>
                                     <param id="1" name="Value">Level = 1 ? 1.1 : Level = 2 ? 0.9 : 0.7</param>
+                                </action>
+                                <action disabled="1" id="-9" name="Set value" sid="8820585122520377" type="System">
+                                    <param id="0" name="Variable">CirclePieceScale</param>
+                                    <param id="1" name="Value">Level = 1 ? 0.9 : Level = 2 ? 0.45 : 0.35</param>
                                 </action>
                                 <action id="-9" name="Set value" sid="258584316398847" type="System">
                                     <param id="0" name="Variable">MaxScale</param>
@@ -190,9 +198,9 @@
                                                     <param id="0" name="Variable">OffsetX</param>
                                                     <param id="1" name="Value">Handle.X</param>
                                                 </action>
-                                                <action id="-13" name="Set boolean" sid="5679410162602916" type="Handle">
-                                                    <param id="0" name="Instance variable">IsLeft</param>
-                                                    <param id="1" name="Value">1</param>
+                                                <action id="-10" name="Set value" sid="5679410162602916" type="Handle">
+                                                    <param id="0" name="Instance variable">Side</param>
+                                                    <param id="1" name="Value">&quot;left&quot;</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -306,6 +314,10 @@
                                         <action id="-9" name="Set value" sid="1090972488579013" type="System">
                                             <param id="0" name="Variable">OffsetX</param>
                                             <param id="1" name="Value">(ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2) - (OffsetX + (Handle.X - OffsetX) / 2)</param>
+                                        </action>
+                                        <action id="-10" name="Set value" sid="2689093459048546" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Value">&quot;right&quot;</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -435,7 +447,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="3376336338478309" title="setup the physics joints">
+                <event-group collapsed="1" description="" sid="3376336338478309" title="setup the physics joints">
                     <sub-events>
                         <comment>setup physics</comment>
                         <event-block sid="7232490483244657">
@@ -493,10 +505,10 @@
                                                     <param id="1" name="Comparison">0</param>
                                                     <param id="2" name="Second value">0</param>
                                                 </condition>
-                                                <condition id="-15" name="Pick nearest/furthest" sid="4709562870545281" type="Handle">
-                                                    <param id="0" name="Which">0</param>
-                                                    <param id="1" name="X">Flower.X</param>
-                                                    <param id="2" name="Y">Flower.Y</param>
+                                                <condition id="-7" name="Compare instance variable" sid="4709562870545281" type="Handle">
+                                                    <param id="0" name="Instance variable">Side</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;left&quot;</param>
                                                 </condition>
                                             </conditions>
                                             <actions>
@@ -533,10 +545,10 @@
                                                     <param id="1" name="Comparison">0</param>
                                                     <param id="2" name="Second value">FlowersCount-1</param>
                                                 </condition>
-                                                <condition id="-15" name="Pick nearest/furthest" sid="4084691612697352" type="Handle">
-                                                    <param id="0" name="Which">0</param>
-                                                    <param id="1" name="X">Flower.X</param>
-                                                    <param id="2" name="Y">Flower.Y</param>
+                                                <condition id="-7" name="Compare instance variable" sid="5228405110971578" type="Handle">
+                                                    <param id="0" name="Instance variable">Side</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;right&quot;</param>
                                                 </condition>
                                             </conditions>
                                             <actions>
@@ -561,7 +573,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="6533379670995727" title="move the handles into position">
+                <event-group collapsed="1" description="" sid="6533379670995727" title="move the handles into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
@@ -573,68 +585,39 @@
                             </conditions>
                             <actions />
                             <sub-events>
-                                <event-block sid="5283358520247657">
+                                <event-block sid="9986930557282657">
                                     <conditions>
-                                        <condition id="-11" name="For Each" sid="1048772851344758" type="System">
-                                            <param id="0" name="Object">Flower</param>
+                                        <condition id="-7" name="Compare instance variable" sid="1193877700082118" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;left&quot;</param>
                                         </condition>
                                     </conditions>
-                                    <actions />
-                                    <sub-events>
-                                        <event-block sid="9986930557282657">
-                                            <conditions>
-                                                <condition id="-8" name="Compare two values" sid="9388699523367711" type="System">
-                                                    <param id="0" name="First value">loopindex</param>
-                                                    <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Second value">0</param>
-                                                </condition>
-                                                <condition id="-15" name="Pick nearest/furthest" sid="539695026146341" type="Handle">
-                                                    <param id="0" name="Which">0</param>
-                                                    <param id="1" name="X">Flower.X</param>
-                                                    <param id="2" name="Y">Flower.Y</param>
-                                                </condition>
-                                            </conditions>
-                                            <actions>
-                                                <action behavior="Bullet" id="3" name="Set angle of motion" sid="321108423479926" type="Handle">
-                                                    <param id="0" name="Angle">0</param>
-                                                </action>
-                                                <action behavior="Bullet" id="5" name="Set enabled" sid="8589340630156767" type="Handle">
-                                                    <param id="0" name="State">1</param>
-                                                </action>
-                                            </actions>
-                                        </event-block>
-                                        <event-block sid="9510480526932673">
-                                            <conditions>
-                                                <condition id="-8" name="Compare two values" sid="7165975881329331" type="System">
-                                                    <param id="0" name="First value">loopindex</param>
-                                                    <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Second value">FlowersCount-1</param>
-                                                </condition>
-                                                <condition id="-15" name="Pick nearest/furthest" sid="9733086326992003" type="Handle">
-                                                    <param id="0" name="Which">0</param>
-                                                    <param id="1" name="X">Flower.X</param>
-                                                    <param id="2" name="Y">Flower.Y</param>
-                                                </condition>
-                                            </conditions>
-                                            <actions>
-                                                <action behavior="Bullet" id="3" name="Set angle of motion" sid="2969944980477153" type="Handle">
-                                                    <param id="0" name="Angle">180</param>
-                                                </action>
-                                                <action behavior="Bullet" id="5" name="Set enabled" sid="5482239200784036" type="Handle">
-                                                    <param id="0" name="State">1</param>
-                                                </action>
-                                            </actions>
-                                        </event-block>
-                                        <event-block sid="2276643951922782">
-                                            <conditions />
-                                            <actions>
-                                                <action id="-9" name="Set value" sid="528842860822665" type="System">
-                                                    <param id="0" name="Variable">PrevFlowerId</param>
-                                                    <param id="1" name="Value">Flower.UID</param>
-                                                </action>
-                                            </actions>
-                                        </event-block>
-                                    </sub-events>
+                                    <actions>
+                                        <action behavior="Bullet" id="3" name="Set angle of motion" sid="321108423479926" type="Handle">
+                                            <param id="0" name="Angle">0</param>
+                                        </action>
+                                        <action behavior="Bullet" id="5" name="Set enabled" sid="8589340630156767" type="Handle">
+                                            <param id="0" name="State">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="9510480526932673">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="9317944053384341" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;right&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Bullet" id="3" name="Set angle of motion" sid="2969944980477153" type="Handle">
+                                            <param id="0" name="Angle">180</param>
+                                        </action>
+                                        <action behavior="Bullet" id="5" name="Set enabled" sid="5482239200784036" type="Handle">
+                                            <param id="0" name="State">1</param>
+                                        </action>
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
@@ -643,6 +626,40 @@
                                 <condition id="-1" name="Every tick" sid="2763513256235143" type="System" />
                             </conditions>
                             <actions />
+                            <sub-events>
+                                <event-block sid="7851822679210855">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="1552441856188867" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;left&quot;</param>
+                                        </condition>
+                                        <condition id="-1" name="Compare X" sid="4941463480309568" type="Handle">
+                                            <param id="0" name="Comparison">5</param>
+                                            <param id="1" name="X co-ordinate">ViewportLeft(0) + Handle.Width</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="9036395722968131">
+                                            <conditions>
+                                                <condition id="-19" name="Pick all" sid="2187729304200129" type="System">
+                                                    <param id="0" name="Object">Handle</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action behavior="Bullet" id="5" name="Set enabled" sid="8607268036208123" type="Handle">
+                                                    <param id="0" name="State">0</param>
+                                                </action>
+                                                <action id="-12" name="Set group active" sid="8270480291037247" type="System">
+                                                    <param id="0" name="Group name">&quot;move the handles into position&quot;</param>
+                                                    <param id="1" name="State">0</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                     </sub-events>
                 </event-group>
