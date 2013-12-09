@@ -7,12 +7,7 @@
         <event-group description="" sid="2988744877479891" title="LAYOUT ROOT">
             <sub-events>
                 <variable constant="0" name="TickCountAtStartOfLayout" sid="6319678039979318" static="1" type="number">0</variable>
-                <variable constant="0" name="StartX" sid="3880459603791739" static="1" type="number">0</variable>
-                <variable constant="0" name="StartY" sid="9516740109418225" static="1" type="number">0</variable>
                 <variable constant="0" name="FlowersCount" sid="7299355969258432" static="1" type="number">0</variable>
-                <variable constant="0" name="OffsetX" sid="2970032935541051" static="1" type="number">0</variable>
-                <variable constant="0" name="MinScale" sid="7179635873072381" static="1" type="number">0</variable>
-                <variable constant="0" name="MaxScale" sid="9818304363819659" static="1" type="number">0</variable>
                 <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="1" type="number">0</variable>
                 <variable constant="0" name="TimeAtHandleFadeIn" sid="8563462258632146" static="1" type="number">0</variable>
                 <event-block sid="3279056471687852">
@@ -115,6 +110,11 @@
                 <comment>for some reason, the physics joints don&apos;t work well when the pieces are arranged on a circle, so we arrange them in a straight line</comment>
                 <event-group collapsed="1" description="" sid="4400270356835207" title="arrange the flowers in the neckalce">
                     <sub-events>
+                        <variable constant="0" name="StartX" sid="3880459603791739" static="1" type="number">0</variable>
+                        <variable constant="0" name="StartY" sid="9516740109418225" static="1" type="number">0</variable>
+                        <variable constant="0" name="OffsetX" sid="2970032935541051" static="1" type="number">0</variable>
+                        <variable constant="0" name="MinScale" sid="7179635873072381" static="1" type="number">0</variable>
+                        <variable constant="0" name="MaxScale" sid="9818304363819659" static="1" type="number">0</variable>
                         <event-block sid="409180012291982">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="6553645331185703" type="System">
@@ -570,7 +570,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="6533379670995727" title="move the handles into position">
+                <event-group collapsed="1" description="" sid="6533379670995727" title="move the handles into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
@@ -694,6 +694,7 @@
                 </event-group>
                 <event-group description="" sid="6927901513503552" title="fade in / fade out handles">
                     <sub-events>
+                        <variable constant="0" name="Opacity" sid="7987407839090799" static="1" type="number">100</variable>
                         <event-block sid="1587002995731614">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="8437649748045722" type="System" />
@@ -714,8 +715,13 @@
                                 </condition>
                             </conditions>
                             <actions>
-                                <action id="-16" name="Set opacity" sid="9439216335243922" type="Handle">
-                                    <param id="0" name="Opacity">0</param>
+                                <action id="-12" name="Set group active" sid="903965047226954" type="System">
+                                    <param id="0" name="Group name">&quot;handle fade-out&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                                <action id="-12" name="Set group active" sid="123590839592741" type="System">
+                                    <param id="0" name="Group name">&quot;handle fade-in&quot;</param>
+                                    <param id="1" name="State">0</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -724,8 +730,13 @@
                                 <condition id="2" name="Is in touch" sid="1731057605736911" type="Touch" />
                             </conditions>
                             <actions>
-                                <action id="-16" name="Set opacity" sid="9355536699104557" type="Handle">
-                                    <param id="0" name="Opacity">100</param>
+                                <action id="-12" name="Set group active" sid="9401302161415244" type="System">
+                                    <param id="0" name="Group name">&quot;handle fade-in&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                                <action id="-12" name="Set group active" sid="3205242717822072" type="System">
+                                    <param id="0" name="Group name">&quot;handle fade-out&quot;</param>
+                                    <param id="1" name="State">0</param>
                                 </action>
                                 <action id="-9" name="Set value" sid="4723108266007003" type="System">
                                     <param id="0" name="Variable">TimeAtHandleFadeIn</param>
@@ -733,18 +744,23 @@
                                 </action>
                             </actions>
                         </event-block>
-                        <event-group description="" disabled="1" sid="2398582026417991" title="handle fade-in">
+                        <event-group description="" inactive="1" sid="2398582026417991" title="handle fade-in">
                             <sub-events>
                                 <event-block sid="9183690711023468">
                                     <conditions>
-                                        <condition id="-10" name="Compare opacity" sid="4840329476904699" type="Handle">
-                                            <param id="0" name="Comparison">2</param>
-                                            <param id="1" name="Opacity">100</param>
+                                        <condition id="-14" name="Compare variable" sid="4840329476904699" type="System">
+                                            <param id="0" name="Variable">Opacity</param>
+                                            <param id="1" name="Comparison">2</param>
+                                            <param id="2" name="Value">100</param>
                                         </condition>
                                     </conditions>
                                     <actions>
+                                        <action id="-9" name="Set value" sid="5411782769634303" type="System">
+                                            <param id="0" name="Variable">Opacity</param>
+                                            <param id="1" name="Value">Opacity + 500 * dt</param>
+                                        </action>
                                         <action id="-16" name="Set opacity" sid="9486835571929861" type="Handle">
-                                            <param id="0" name="Opacity">Handle.Opacity + 100 * dt</param>
+                                            <param id="0" name="Opacity">Opacity</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -753,8 +769,49 @@
                                         <condition id="-22" name="Else" sid="6753594219989205" type="System" />
                                     </conditions>
                                     <actions>
+                                        <action id="-9" name="Set value" sid="7425604450834878" type="System">
+                                            <param id="0" name="Variable">Opacity</param>
+                                            <param id="1" name="Value">100</param>
+                                        </action>
                                         <action id="-12" name="Set group active" sid="5586247380816756" type="System">
                                             <param id="0" name="Group name">&quot;handle fade-in&quot;</param>
+                                            <param id="1" name="State">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-group>
+                        <event-group description="" inactive="1" sid="4789961066587523" title="handle fade-out">
+                            <sub-events>
+                                <event-block sid="9183690711023468">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="8774889065877296" type="System">
+                                            <param id="0" name="Variable">Opacity</param>
+                                            <param id="1" name="Comparison">4</param>
+                                            <param id="2" name="Value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="3683648782151154" type="System">
+                                            <param id="0" name="Variable">Opacity</param>
+                                            <param id="1" name="Value">Opacity - 100 * dt</param>
+                                        </action>
+                                        <action id="-16" name="Set opacity" sid="9486835571929861" type="Handle">
+                                            <param id="0" name="Opacity">Opacity</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="8838734372124194">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="6753594219989205" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="494725056586089" type="System">
+                                            <param id="0" name="Variable">Opacity</param>
+                                            <param id="1" name="Value">0</param>
+                                        </action>
+                                        <action id="-12" name="Set group active" sid="5586247380816756" type="System">
+                                            <param id="0" name="Group name">&quot;handle fade-out&quot;</param>
                                             <param id="1" name="State">0</param>
                                         </action>
                                     </actions>
