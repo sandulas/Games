@@ -13,7 +13,7 @@
                 <variable constant="0" name="VisibleAngle" sid="8574276399323928" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleEnd" sid="8445817006450812" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleAttenuationPerDegree" sid="2360829174042939" static="1" type="number">0</variable>
-                <event-group description="" sid="7957432436885679" title="setup UI">
+                <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
                         <variable constant="0" name="FlowerDistance" sid="9168820167331815" static="0" type="number">0</variable>
                         <event-block collapsed="1" sid="8114446928733638">
@@ -32,13 +32,13 @@
                                     <param id="0" name="Variable">FlowerDistance</param>
                                     <param id="1" name="Value">(ViewportRight(0) - ViewportLeft(0)) / PieceCount</param>
                                 </action>
-                                <action id="-9" name="Set value" sid="4527520391827752" type="System">
-                                    <param id="0" name="Variable">PositioningDistance</param>
-                                    <param id="1" name="Value">CirclePieceScale * 188 * 0.8</param>
-                                </action>
                                 <action id="-9" name="Set value" sid="1255659915947986" type="System">
                                     <param id="0" name="Variable">CirclePieceScale</param>
                                     <param id="1" name="Value">Level = 1 ? 1.1 : Level = 2 ? 0.9 : 0.7</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="4527520391827752" type="System">
+                                    <param id="0" name="Variable">PositioningDistance</param>
+                                    <param id="1" name="Value">CirclePieceScale * 188 * 0.8</param>
                                 </action>
                                 <action id="-9" name="Set value" sid="5372211446550101" type="System">
                                     <param id="0" name="Variable">CircleR</param>
