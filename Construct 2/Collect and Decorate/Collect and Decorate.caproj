@@ -53,7 +53,7 @@
         <prop name="Sampling">Linear</prop>
         <prop name="Use iOS retina display">All devices</prop>
     </configuration-settings>
-    <object-folder expanded="1">
+    <object-folder expanded="0">
         <object-type name="Bg_Phase1" sid="2122073493812775">
             <plugin id="TiledBg" />
             <texture format="jpeg" quality="100" />
@@ -652,15 +652,14 @@
             </properties>
         </global-instance>
     </global-instances>
-    <sounds-folder expanded="0">
+    <sounds-folder expanded="1">
         <file name="ButtonClick.m4a" />
         <file name="ButtonClick.ogg" />
         <file name="ButtonClick.wav" />
-    </sounds-folder>
-    <music-folder expanded="0">
         <file name="Music.m4a" />
         <file name="Music.ogg" />
-    </music-folder>
+    </sounds-folder>
+    <music-folder expanded="1" />
     <files-folder expanded="0">
         <file-folder expanded="1" name="Icons">
             <file name="icon-16.png" />
