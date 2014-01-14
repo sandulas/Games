@@ -66,7 +66,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="6593110864510716" title="setup pause UI">
+        <event-group collapsed="1" description="" sid="6593110864510716" title="setup pause UI">
             <sub-events>
                 <event-block sid="3917797050924338">
                     <conditions>
@@ -298,7 +298,7 @@
         </event-group>
         <event-group description="" sid="3520418861413121" title="general navigation">
             <sub-events>
-                <event-block collapsed="1" sid="3159905038337372">
+                <event-block sid="3159905038337372">
                     <conditions>
                         <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
                             <param id="0" name="Object">Button</param>
@@ -453,7 +453,7 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <event-block sid="2576718531359653">
+                <event-block collapsed="1" sid="2576718531359653">
                     <conditions>
                         <condition id="0" name="On function" sid="6044583687722048" type="Function">
                             <param id="0" name="Name">&quot;TogglePause&quot;</param>
@@ -758,9 +758,9 @@
                         </event-group>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="9500297620498624" title="music">
+                <event-group description="" sid="9500297620498624" title="music">
                     <sub-events>
-                        <event-block collapsed="1" sid="2069240964979544">
+                        <event-block sid="2069240964979544">
                             <conditions>
                                 <condition id="0" name="On function" sid="5439537438971296" type="Function">
                                     <param id="0" name="Name">&quot;ToggleMusic&quot;</param>
@@ -781,6 +781,10 @@
                                             <param id="0" name="Name">&quot;MusicOn&quot;</param>
                                             <param id="1" name="Parameter {n}"></param>
                                         </action>
+                                        <action id="2" name="Custom Statistic" sid="4784797543348558" type="Clayio">
+                                            <param id="0" name="Metric Name">&quot;music started&quot;</param>
+                                            <param id="1" name="Increment Amount">1</param>
+                                        </action>
                                     </actions>
                                 </event-block>
                                 <event-block sid="7024336025690685">
@@ -791,6 +795,10 @@
                                         <action id="0" name="Call function" sid="2600987488485347" type="Function">
                                             <param id="0" name="Name">&quot;MusicOff&quot;</param>
                                             <param id="1" name="Parameter {n}"></param>
+                                        </action>
+                                        <action id="2" name="Custom Statistic" sid="446100229910125" type="Clayio">
+                                            <param id="0" name="Metric Name">&quot;music stopped&quot;</param>
+                                            <param id="1" name="Increment Amount">1</param>
                                         </action>
                                     </actions>
                                 </event-block>
