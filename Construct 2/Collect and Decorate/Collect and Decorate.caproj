@@ -8,11 +8,11 @@
     <author-website>http://</author-website>
     <app-id>com.mycompany.myapp</app-id>
     <unique-id>fjwuowywb9nv</unique-id>
-    <saved-with-version>15200</saved-with-version>
+    <saved-with-version>15802</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
         <plugin author="Scirra" id="Arr" version="1">Array</plugin>
         <plugin author="Scirra" id="Audio" version="1">Audio</plugin>
+        <plugin author="Scirra" id="CJSAds" version="1">CocoonJS</plugin>
         <plugin author="Clay.io" id="Clay" version="1">Clay.io</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
@@ -53,7 +53,7 @@
         <prop name="Sampling">Linear</prop>
         <prop name="Use iOS retina display">All devices</prop>
     </configuration-settings>
-    <object-folder expanded="0">
+    <object-folder expanded="1">
         <object-type name="Bg_Phase1" sid="2122073493812775">
             <plugin id="TiledBg" />
             <texture format="jpeg" quality="100" />
@@ -280,7 +280,18 @@
             </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="409073243273411" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.123077" y="0.161538" />
+                            <point x="0.476923" y="0" />
+                            <point x="0.815385" y="0.1" />
+                            <point x="0.976923" y="0.484615" />
+                            <point x="0.876923" y="0.823077" />
+                            <point x="0.523077" y="0.992308" />
+                            <point x="0.161538" y="0.876923" />
+                            <point x="0.00769231" y="0.507692" />
+                        </collision-poly>
+                    </frame>
                 </animation>
             </animation-folder>
         </object-type>
@@ -309,17 +320,23 @@
         </object-type>
         <object-type name="Character" sid="2911358649355784">
             <plugin id="Sprite" />
+            <behaviors>
+                <behavior-type name="Bullet" sid="3989542818019287">
+                    <behavior id="Bullet" />
+                </behavior-type>
+            </behaviors>
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="214949942383064" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.50062">
+                    <frame duration="1" hotspotX="0.500711" hotspotY="0.50104">
                         <collision-poly>
-                            <point x="0.2625" y="0.260223" />
-                            <point x="0.5" y="0.0532838" />
-                            <point x="0.945" y="0.0545229" />
-                            <point x="0.90375" y="0.49938" />
-                            <point x="1" y="1" />
-                            <point x="0" y="1" />
-                            <point x="0.09375" y="0.49938" />
+                            <point x="0.197724" y="0.144491" />
+                            <point x="0.499289" y="0.00727651" />
+                            <point x="0.810811" y="0.138254" />
+                            <point x="0.987198" y="0.5" />
+                            <point x="0.847795" y="0.888773" />
+                            <point x="0.499289" y="0.930353" />
+                            <point x="0.16074" y="0.882536" />
+                            <point x="0.0184922" y="0.5" />
                         </collision-poly>
                     </frame>
                 </animation>
@@ -622,7 +639,6 @@
         <global-instance type="Function" uid="9" />
         <global-instance type="CocoonJS" uid="37">
             <properties>
-                <physics-engine>Standard web-based</physics-engine>
                 <store-mode>Unmanaged</store-mode>
                 <store-sandbox>Enabled</store-sandbox>
             </properties>
@@ -652,7 +668,7 @@
             </properties>
         </global-instance>
     </global-instances>
-    <sounds-folder expanded="1">
+    <sounds-folder expanded="0">
         <file name="ButtonClick.m4a" />
         <file name="ButtonClick.ogg" />
         <file name="ButtonClick.wav" />

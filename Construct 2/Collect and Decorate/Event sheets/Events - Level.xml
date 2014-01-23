@@ -33,7 +33,7 @@
                                         </action>
                                     </actions>
                                 </event-block>
-                                <event-block sid="8977408919847001">
+                                <event-block collapsed="1" sid="8977408919847001">
                                     <conditions>
                                         <condition id="-7" name="Compare instance variable" sid="5391249901724646" type="UI_Frame">
                                             <param id="0" name="Instance variable">tag</param>
@@ -82,7 +82,7 @@
                                         </event-block>
                                     </sub-events>
                                 </event-block>
-                                <event-block sid="4885231129867103">
+                                <event-block collapsed="1" sid="4885231129867103">
                                     <conditions>
                                         <condition id="-7" name="Compare instance variable" sid="2237757706387252" type="UI_Frame">
                                             <param id="0" name="Instance variable">tag</param>
@@ -123,7 +123,7 @@
                                         </event-block>
                                     </sub-events>
                                 </event-block>
-                                <event-block sid="7612220713621538">
+                                <event-block collapsed="1" sid="7612220713621538">
                                     <conditions>
                                         <condition id="-7" name="Compare instance variable" sid="1704879679219617" type="UI_Frame">
                                             <param id="0" name="Instance variable">tag</param>
@@ -164,7 +164,84 @@
                                         </event-block>
                                     </sub-events>
                                 </event-block>
+                                <event-block sid="6820333678121838">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="6232938837109945" type="InvisibleButton">
+                                            <param id="0" name="Instance variable">parameter</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="8805211356149827" type="InvisibleButton">
+                                            <param id="0" name="X">x0</param>
+                                            <param id="1" name="Y">y</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="3036036790688538">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="7803916946353059" type="InvisibleButton">
+                                            <param id="0" name="Instance variable">parameter</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="744905613552816" type="InvisibleButton">
+                                            <param id="0" name="X">x1</param>
+                                            <param id="1" name="Y">y</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="2879613903582156">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="5215015906377891" type="InvisibleButton">
+                                            <param id="0" name="Instance variable">parameter</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">2</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="7074476568147459" type="InvisibleButton">
+                                            <param id="0" name="X">x2</param>
+                                            <param id="1" name="Y">y</param>
+                                        </action>
+                                    </actions>
+                                    <sub-events>
+                                        <event-block sid="8079408013697632">
+                                            <conditions />
+                                            <actions />
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
                             </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+                <event-group description="" sid="4061889411143028" title="invisible button navigation">
+                    <sub-events>
+                        <event-block sid="3257919709915218">
+                            <conditions>
+                                <condition id="3" name="On touched object" sid="6972988131438574" type="Touch">
+                                    <param id="0" name="Object">InvisibleButton</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="4957483546779325" type="System">
+                                    <param id="0" name="Variable">LayoutState</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">LAYOUTSTATE_READY</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="6090237918277215" type="Function">
+                                    <param id="0" name="Name">&quot;GoToLayout&quot;</param>
+                                    <param id="1" name="Parameter {n}">&quot;Saves&quot;</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="8993909236407357" type="System">
+                                    <param id="0" name="Variable">Level</param>
+                                    <param id="1" name="Value">InvisibleButton.parameter + 1</param>
+                                </action>
+                            </actions>
                         </event-block>
                     </sub-events>
                 </event-group>

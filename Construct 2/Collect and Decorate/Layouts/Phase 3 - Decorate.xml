@@ -71,17 +71,29 @@
                         <initial-frame>0</initial-frame>
                         <collisions>Enabled</collisions>
                     </properties>
+                    <behavior-instances>
+                        <behavior-instance type="Bullet">
+                            <properties>
+                                <speed>800</speed>
+                                <acceleration>0</acceleration>
+                                <gravity>0</gravity>
+                                <bounce-off-solids>No</bounce-off-solids>
+                                <set-angle>No</set-angle>
+                                <initial-state>Disabled</initial-state>
+                            </properties>
+                        </behavior-instance>
+                    </behavior-instances>
                     <blend-mode>0</blend-mode>
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>400</x>
                         <y>609</y>
                         <z>0</z>
-                        <width>800</width>
-                        <height>807</height>
+                        <width>703</width>
+                        <height>962</height>
                         <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.50061959</hotspotY>
+                        <hotspotX>0.500711262</hotspotX>
+                        <hotspotY>0.501039505</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
@@ -203,8 +215,8 @@
                         <x>154</x>
                         <y>-610</y>
                         <z>0</z>
-                        <width>100</width>
-                        <height>100</height>
+                        <width>130</width>
+                        <height>130</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
