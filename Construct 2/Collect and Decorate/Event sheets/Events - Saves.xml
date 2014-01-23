@@ -6,7 +6,7 @@
         <include>Events - Common</include>
         <event-group description="" sid="5333523073844858" title="LAYOUT ROOT">
             <sub-events>
-                <event-group collapsed="1" description="" sid="1971853317039826" title="setup UI">
+                <event-group description="" sid="1971853317039826" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
                             <conditions>
@@ -88,6 +88,11 @@
                             <conditions>
                                 <condition id="3" name="On touched object" sid="3273139150942785" type="Touch">
                                     <param id="0" name="Object">InvisibleButton</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="9205648048571283" type="System">
+                                    <param id="0" name="Variable">LayoutState</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">LAYOUTSTATE_READY</param>
                                 </condition>
                             </conditions>
                             <actions />
