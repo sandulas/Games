@@ -17,6 +17,8 @@
         <variable constant="1" name="flower_white" sid="2029747525464988" static="0" type="number">0</variable>
         <variable constant="1" name="Flower_Blue" sid="7950551552190707" static="0" type="number">1</variable>
         <variable constant="1" name="Flower_Red" sid="9111917904231352" static="0" type="number">2</variable>
+        <variable constant="1" name="FLOWER_GREEN" sid="1770602410959507" static="0" type="number">3</variable>
+        <variable constant="1" name="FLOWER_PINK" sid="4331268925376623" static="0" type="number">4</variable>
         <comment>circle layout</comment>
         <variable constant="0" name="CircleCenterX" sid="7060604505282117" static="0" type="number">0</variable>
         <variable constant="0" name="CircleCenterY" sid="3264049315965937" static="0" type="number">0</variable>
