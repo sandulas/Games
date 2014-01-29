@@ -11,6 +11,7 @@
                 <variable constant="0" name="Game_SpawnInterval" sid="9815157490617659" static="1" type="number">3</variable>
                 <variable constant="0" name="PieceCount" sid="872156277482604" static="1" type="number">0</variable>
                 <variable constant="0" name="Progress" sid="3371309856334641" static="1" type="number">0</variable>
+                <variable constant="0" name="SpawnCount" sid="8643518233199155" static="1" type="number">0</variable>
                 <event-group collapsed="1" description="" sid="4977919394299346" title="debugging">
                     <sub-events>
                         <event-block disabled="1" sid="723856547017191">
@@ -490,8 +491,15 @@
                                     <param id="3" name="Y">-1000</param>
                                 </action>
                                 <action id="2" name="Stop" sid="9380442372010357" type="Flower" />
-                                <action id="5" name="Set frame" sid="3683812335015272" type="Flower">
+                                <action disabled="1" id="5" name="Set frame" sid="3683812335015272" type="Flower">
                                     <param id="0" name="Frame number">int(random(Flower.AnimationFrameCount))</param>
+                                </action>
+                                <action id="5" name="Set frame" sid="6565402474414719" type="Flower">
+                                    <param id="0" name="Frame number">SpawnCount % Flower.AnimationFrameCount</param>
+                                </action>
+                                <action id="-10" name="Add to" sid="4895140679813445" type="System">
+                                    <param id="0" name="Variable">SpawnCount</param>
+                                    <param id="1" name="Value">1</param>
                                 </action>
                                 <action id="-3" name="Set position" sid="4824074386778173" type="Flower">
                                     <param id="0" name="X">random(ViewportLeft(0) + Flower.Width / 2, ViewportRight(0) - Flower.Width / 2)</param>
@@ -510,12 +518,15 @@
                                         <condition id="-8" name="Compare two values" sid="551765756875239" type="System">
                                             <param id="0" name="First value">Flower.AnimationFrame</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">flower_white</param>
+                                            <param id="2" name="Second value">FLOWER_WHITE</param>
                                         </condition>
                                     </conditions>
                                     <actions>
                                         <action behavior="Bullet" id="0" name="Set speed" sid="2127289242404745" type="Flower">
-                                            <param id="0" name="Speed">80 + random(-15, 15)</param>
+                                            <param id="0" name="Speed">120 + random(-20, 20)</param>
+                                        </action>
+                                        <action behavior="Rotate" id="0" name="Set speed" sid="9552338664806025" type="Flower">
+                                            <param id="0" name="Speed">60</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -524,7 +535,7 @@
                                         <condition id="-8" name="Compare two values" sid="5452867321040712" type="System">
                                             <param id="0" name="First value">Flower.AnimationFrame</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">Flower_Blue</param>
+                                            <param id="2" name="Second value">FLOWER_BLUE</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -545,7 +556,7 @@
                                         <condition id="-8" name="Compare two values" sid="1685220233661335" type="System">
                                             <param id="0" name="First value">Flower.AnimationFrame</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Second value">Flower_Red</param>
+                                            <param id="2" name="Second value">FLOWER_RED</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -554,10 +565,54 @@
                                         </action>
                                     </actions>
                                 </event-block>
+                                <event-block sid="6343392967879349">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="9714397972531091" type="System">
+                                            <param id="0" name="First value">Flower.AnimationFrame</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">FLOWER_GREEN</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Bullet" id="0" name="Set speed" sid="8042329803606255" type="Flower">
+                                            <param id="0" name="Speed">80 + random(-15, 15)</param>
+                                        </action>
+                                        <action behavior="Sine" id="1" name="Set period" sid="8678914427310727" type="Flower">
+                                            <param id="0" name="Period">5</param>
+                                        </action>
+                                        <action behavior="Sine" id="2" name="Set magnitude" sid="3274237979212497" type="Flower">
+                                            <param id="0" name="Magnitude">150</param>
+                                        </action>
+                                        <action id="-3" name="Set position" sid="5304634574063526" type="Flower">
+                                            <param id="0" name="X">random(ViewportLeft(0) + Flower.Width / 2 + Flower.Sine.Magnitude, ViewportRight(0) - Flower.Width / 2 -  Flower.Sine.Magnitude)</param>
+                                            <param id="1" name="Y">ViewportTop(0) - Flower.Height / 2 - 10</param>
+                                        </action>
+                                        <action behavior="Sine" id="0" name="Set active" sid="4839953255763123" type="Flower">
+                                            <param id="0" name="State">1</param>
+                                        </action>
+                                        <action behavior="Rotate" id="0" name="Set speed" sid="5568375152217585" type="Flower">
+                                            <param id="0" name="Speed">30</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="747639084605494">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="2718857836000562" type="System">
+                                            <param id="0" name="First value">Flower.AnimationFrame</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">FLOWER_PINK</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Bullet" id="0" name="Set speed" sid="4369634592661298" type="Flower">
+                                            <param id="0" name="Speed">150 + random(-25, 25)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
                             </sub-events>
                         </event-block>
                         <comment>catch flowers</comment>
-                        <event-block collapsed="1" sid="6567737682065136">
+                        <event-block sid="6567737682065136">
                             <conditions>
                                 <condition id="0" name="On collision with another object" sid="3142564128756325" type="Flower">
                                     <param id="0" name="Object">BasketFront</param>
@@ -593,6 +648,9 @@
                                         <action behavior="Pin" id="0" name="Pin to object" sid="6376125181635972" type="Flower">
                                             <param id="0" name="Pin to">BasketBack</param>
                                             <param id="1" name="Mode">0</param>
+                                        </action>
+                                        <action behavior="Rotate" id="0" name="Set speed" sid="6951424632505102" type="Flower">
+                                            <param id="0" name="Speed">0</param>
                                         </action>
                                         <action id="4" name="Set at XYZ" sid="9456663907184277" type="NecklacesArray">
                                             <param id="0" name="X">0</param>
