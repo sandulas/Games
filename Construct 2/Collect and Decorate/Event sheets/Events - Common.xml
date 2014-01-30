@@ -298,7 +298,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3520418861413121" title="general navigation">
+        <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
             <sub-events>
                 <event-block sid="3159905038337372">
                     <conditions>

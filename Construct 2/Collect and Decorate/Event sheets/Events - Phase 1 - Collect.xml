@@ -12,6 +12,8 @@
                 <variable constant="0" name="PieceCount" sid="872156277482604" static="1" type="number">0</variable>
                 <variable constant="0" name="Progress" sid="3371309856334641" static="1" type="number">0</variable>
                 <variable constant="0" name="SpawnCount" sid="8643518233199155" static="1" type="number">0</variable>
+                <variable constant="0" name="FlowerCollisionRadius_Original" sid="5359704912641046" static="1" type="text">88, 91, 87, 101, 90</variable>
+                <variable constant="0" name="FlowerCollisionRadius" sid="3034781859225299" static="1" type="text">103, 100, 104, 122, 105</variable>
                 <event-group collapsed="1" description="" sid="4977919394299346" title="debugging">
                     <sub-events>
                         <event-block disabled="1" sid="723856547017191">
@@ -220,17 +222,126 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="8512833754096424" title="user interface">
+                <event-group description="" sid="8512833754096424" title="user interface">
                     <sub-events>
+                        <event-group description="" sid="8623328556251148" title="progress bar">
+                            <sub-events>
+                                <event-block sid="2339838633296741">
+                                    <conditions>
+                                        <condition id="-2" name="On start of layout" sid="4203210953520856" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="9458368871661653" type="System">
+                                            <param id="0" name="Variable">PieceCount</param>
+                                            <param id="1" name="Value">Function.Call(&quot;NecklacePieceCount&quot;, Level, SaveSlot)</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="1252796638470954" type="System">
+                                            <param id="0" name="Variable">Progress</param>
+                                            <param id="1" name="Value">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="9522580145069878">
+                                    <conditions>
+                                        <condition id="-2" name="On start of layout" sid="1318327062330494" type="System" />
+                                        <condition id="-10" name="For" sid="2850077069130605" type="System">
+                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                            <param id="1" name="Start index">1</param>
+                                            <param id="2" name="End index">PieceCount</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Create object" sid="9718947948277284" type="System">
+                                            <param id="0" name="Object to create">GenericFlower</param>
+                                            <param id="1" name="Layer">3</param>
+                                            <param id="2" name="X">Function.Call(&quot;ProgressBarX&quot;, loopindex, PieceCount)</param>
+                                            <param id="3" name="Y">ViewportTop(0) + 40</param>
+                                        </action>
+                                        <action id="9" name="Set scale" sid="1495663650453957" type="GenericFlower">
+                                            <param id="0" name="Scale">0.9</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="1519439408513878">
+                                    <conditions>
+                                        <condition id="0" name="On function" sid="2470901304504277" type="Function">
+                                            <param id="0" name="Name">&quot;ProgressBarX&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <variable constant="0" name="x" sid="6053436270797426" static="0" type="number">0</variable>
+                                        <variable constant="0" name="FlowerDistance" sid="6434088893526085" static="0" type="number">55</variable>
+                                        <variable constant="0" name="GroupDistance" sid="1350609491226985" static="0" type="number">50</variable>
+                                        <event-block sid="897232515243576">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="5774543447048112" type="System">
+                                                    <param id="0" name="Variable">x</param>
+                                                    <param id="1" name="Value">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2 - (Function.Param(1) * FlowerDistance + 2 * GroupDistance) / 2 - FlowerDistance / 2 + 45</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="9254111225496525" type="System">
+                                                    <param id="0" name="Variable">x</param>
+                                                    <param id="1" name="Value">x + Function.Param(0) * FlowerDistance</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="6656219127202829">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="6928245808658682" type="System">
+                                                    <param id="0" name="First value">Function.Param(0)</param>
+                                                    <param id="1" name="Comparison">4</param>
+                                                    <param id="2" name="Second value">round(Function.Param(1) / 3)</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="8609949921359411" type="System">
+                                                    <param id="0" name="Variable">x</param>
+                                                    <param id="1" name="Value">x + GroupDistance</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="989808129086321">
+                                            <conditions>
+                                                <condition id="-8" name="Compare two values" sid="1340816365864191" type="System">
+                                                    <param id="0" name="First value">Function.Param(0)</param>
+                                                    <param id="1" name="Comparison">4</param>
+                                                    <param id="2" name="Second value">round(Function.Param(1) / 1.5)</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="-9" name="Set value" sid="2179208738971325" type="System">
+                                                    <param id="0" name="Variable">x</param>
+                                                    <param id="1" name="Value">x + GroupDistance</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="2113529014212568">
+                                            <conditions />
+                                            <actions>
+                                                <action id="1" name="Set return value" sid="8995441617476503" type="Function">
+                                                    <param id="0" name="Value">x</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-group>
                         <event-group collapsed="1" description="" sid="5988832354479198" title="input type">
                             <sub-events>
                                 <event-block sid="8420755731706846">
                                     <conditions>
                                         <condition id="-25" name="On loader layout complete" sid="7107420640686744" type="System" />
                                     </conditions>
-                                    <actions />
+                                    <actions>
+                                        <action id="0" name="Call function" sid="9096057658545904" type="Function">
+                                            <param id="0" name="Name">&quot;SetInputType&quot;</param>
+                                            <param id="1" name="Parameter {n}">Input_Touch</param>
+                                        </action>
+                                    </actions>
                                     <sub-events>
-                                        <event-block sid="3133302074226297">
+                                        <event-block disabled="1" sid="3133302074226297">
                                             <conditions>
                                                 <condition id="-8" name="Compare two values" sid="8065505712611534" type="System">
                                                     <param id="0" name="First value">Touch.Alpha</param>
@@ -255,7 +366,7 @@
                                                 </action>
                                             </actions>
                                         </event-block>
-                                        <event-block sid="7563565071344882">
+                                        <event-block disabled="1" sid="7563565071344882">
                                             <conditions>
                                                 <condition id="-22" name="Else" sid="8776070447210566" type="System" />
                                             </conditions>
@@ -268,7 +379,7 @@
                                         </event-block>
                                     </sub-events>
                                 </event-block>
-                                <event-block sid="243061426647839">
+                                <event-block disabled="1" sid="243061426647839">
                                     <conditions>
                                         <condition id="3" name="On touched object" sid="1608985526189473" type="Touch">
                                             <param id="0" name="Object">ButtonTiltTouch</param>
@@ -368,103 +479,43 @@
                                 </event-block>
                             </sub-events>
                         </event-group>
-                        <event-group collapsed="1" description="" sid="8623328556251148" title="progress bar">
+                        <event-group collapsed="1" description="" sid="8466287970512342" title="left / right hints">
                             <sub-events>
-                                <event-block sid="2339838633296741">
+                                <event-block sid="9942995305667787">
                                     <conditions>
-                                        <condition id="-2" name="On start of layout" sid="4203210953520856" type="System" />
+                                        <condition id="-2" name="On start of layout" sid="6602048172009588" type="System" />
                                     </conditions>
                                     <actions>
-                                        <action id="-9" name="Set value" sid="9458368871661653" type="System">
-                                            <param id="0" name="Variable">PieceCount</param>
-                                            <param id="1" name="Value">Function.Call(&quot;NecklacePieceCount&quot;, Level, SaveSlot)</param>
-                                        </action>
-                                        <action id="-9" name="Set value" sid="1252796638470954" type="System">
-                                            <param id="0" name="Variable">Progress</param>
-                                            <param id="1" name="Value">0</param>
+                                        <action id="-2" name="Set Y" sid="7147468990564404" type="ArrowHint">
+                                            <param id="0" name="Y">ViewportBottom(0) - 120</param>
                                         </action>
                                     </actions>
-                                </event-block>
-                                <event-block sid="9522580145069878">
-                                    <conditions>
-                                        <condition id="-2" name="On start of layout" sid="1318327062330494" type="System" />
-                                        <condition id="-10" name="For" sid="2850077069130605" type="System">
-                                            <param id="0" name="Name">&quot;i&quot;</param>
-                                            <param id="1" name="Start index">1</param>
-                                            <param id="2" name="End index">PieceCount</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions>
-                                        <action id="-3" name="Create object" sid="9718947948277284" type="System">
-                                            <param id="0" name="Object to create">GenericFlower</param>
-                                            <param id="1" name="Layer">3</param>
-                                            <param id="2" name="X">Function.Call(&quot;ProgressBarX&quot;, loopindex, PieceCount)</param>
-                                            <param id="3" name="Y">ViewportTop(0) + 40</param>
-                                        </action>
-                                        <action id="9" name="Set scale" sid="1495663650453957" type="GenericFlower">
-                                            <param id="0" name="Scale">0.9</param>
-                                        </action>
-                                    </actions>
-                                </event-block>
-                                <event-block sid="1519439408513878">
-                                    <conditions>
-                                        <condition id="0" name="On function" sid="2470901304504277" type="Function">
-                                            <param id="0" name="Name">&quot;ProgressBarX&quot;</param>
-                                        </condition>
-                                    </conditions>
-                                    <actions />
                                     <sub-events>
-                                        <variable constant="0" name="x" sid="6053436270797426" static="0" type="number">0</variable>
-                                        <variable constant="0" name="FlowerDistance" sid="6434088893526085" static="0" type="number">55</variable>
-                                        <variable constant="0" name="GroupDistance" sid="1350609491226985" static="0" type="number">50</variable>
-                                        <event-block sid="897232515243576">
-                                            <conditions />
-                                            <actions>
-                                                <action id="-9" name="Set value" sid="5774543447048112" type="System">
-                                                    <param id="0" name="Variable">x</param>
-                                                    <param id="1" name="Value">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2 - (Function.Param(1) * FlowerDistance + 2 * GroupDistance) / 2 - FlowerDistance / 2</param>
-                                                </action>
-                                                <action id="-9" name="Set value" sid="9254111225496525" type="System">
-                                                    <param id="0" name="Variable">x</param>
-                                                    <param id="1" name="Value">x + Function.Param(0) * FlowerDistance</param>
-                                                </action>
-                                            </actions>
-                                        </event-block>
-                                        <event-block sid="6656219127202829">
+                                        <event-block sid="6849391771708975">
                                             <conditions>
-                                                <condition id="-8" name="Compare two values" sid="6928245808658682" type="System">
-                                                    <param id="0" name="First value">Function.Param(0)</param>
-                                                    <param id="1" name="Comparison">4</param>
-                                                    <param id="2" name="Second value">round(Function.Param(1) / 3)</param>
+                                                <condition id="-7" name="Compare instance variable" sid="6480997945015239" type="ArrowHint">
+                                                    <param id="0" name="Instance variable">tag</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;left&quot;</param>
                                                 </condition>
                                             </conditions>
                                             <actions>
-                                                <action id="-9" name="Set value" sid="8609949921359411" type="System">
-                                                    <param id="0" name="Variable">x</param>
-                                                    <param id="1" name="Value">x + GroupDistance</param>
+                                                <action id="-1" name="Set X" sid="7367622219129262" type="ArrowHint">
+                                                    <param id="0" name="X">ViewportLeft(0) + 100</param>
                                                 </action>
                                             </actions>
                                         </event-block>
-                                        <event-block sid="989808129086321">
+                                        <event-block sid="335973086773524">
                                             <conditions>
-                                                <condition id="-8" name="Compare two values" sid="1340816365864191" type="System">
-                                                    <param id="0" name="First value">Function.Param(0)</param>
-                                                    <param id="1" name="Comparison">4</param>
-                                                    <param id="2" name="Second value">round(Function.Param(1) / 1.5)</param>
+                                                <condition id="-7" name="Compare instance variable" sid="8596253586075063" type="ArrowHint">
+                                                    <param id="0" name="Instance variable">tag</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;right&quot;</param>
                                                 </condition>
                                             </conditions>
                                             <actions>
-                                                <action id="-9" name="Set value" sid="2179208738971325" type="System">
-                                                    <param id="0" name="Variable">x</param>
-                                                    <param id="1" name="Value">x + GroupDistance</param>
-                                                </action>
-                                            </actions>
-                                        </event-block>
-                                        <event-block sid="2113529014212568">
-                                            <conditions />
-                                            <actions>
-                                                <action id="1" name="Set return value" sid="8995441617476503" type="Function">
-                                                    <param id="0" name="Value">x</param>
+                                                <action id="-1" name="Set X" sid="5520320891261971" type="ArrowHint">
+                                                    <param id="0" name="X">ViewportRight(0) - 100</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -474,7 +525,7 @@
                         </event-group>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="8345507727811121" title="flowers - create, catch, destroy">
+                <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">
                     <sub-events>
                         <comment>create and setup flowers</comment>
                         <event-block sid="1904972802140828">
@@ -505,6 +556,10 @@
                                     <param id="0" name="X">random(ViewportLeft(0) + Flower.Width / 2, ViewportRight(0) - Flower.Width / 2)</param>
                                     <param id="1" name="Y">ViewportTop(0) - Flower.Height / 2 - 10</param>
                                 </action>
+                                <action id="-3" name="Set position" sid="7068333464215216" type="Flower">
+                                    <param id="0" name="X">WindowWidth / 2</param>
+                                    <param id="1" name="Y">ViewportTop(0) - Flower.Height / 2 - 10</param>
+                                </action>
                                 <action behavior="Bullet" id="5" name="Set enabled" sid="922111766686347" type="Flower">
                                     <param id="0" name="State">1</param>
                                 </action>
@@ -525,8 +580,8 @@
                                         <action behavior="Bullet" id="0" name="Set speed" sid="2127289242404745" type="Flower">
                                             <param id="0" name="Speed">120 + random(-20, 20)</param>
                                         </action>
-                                        <action behavior="Rotate" id="0" name="Set speed" sid="9552338664806025" type="Flower">
-                                            <param id="0" name="Speed">60</param>
+                                        <action behavior="Rotate" id="0" name="Set speed" sid="7053323551678309" type="Flower">
+                                            <param id="0" name="Speed">random(30, 50)</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -591,7 +646,7 @@
                                             <param id="0" name="State">1</param>
                                         </action>
                                         <action behavior="Rotate" id="0" name="Set speed" sid="5568375152217585" type="Flower">
-                                            <param id="0" name="Speed">30</param>
+                                            <param id="0" name="Speed">random(20, 30)</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -612,7 +667,7 @@
                             </sub-events>
                         </event-block>
                         <comment>catch flowers</comment>
-                        <event-block sid="6567737682065136">
+                        <event-block collapsed="1" sid="6567737682065136">
                             <conditions>
                                 <condition id="0" name="On collision with another object" sid="3142564128756325" type="Flower">
                                     <param id="0" name="Object">BasketFront</param>
@@ -628,8 +683,13 @@
                                 <comment>if flower is catched, save it in an unused slot of the necklaces array (level 0, slot 8)</comment>
                                 <event-block sid="6949403889612219">
                                     <conditions>
-                                        <condition id="-8" name="Compare two values" sid="7254878276007077" type="System">
+                                        <condition disabled="1" id="-8" name="Compare two values" sid="7254878276007077" type="System">
                                             <param id="0" name="First value">(Flower.BBoxLeft &gt; BasketFront.BBoxLeft) &amp; (Flower.BBoxRight &lt; BasketFront.BBoxRight)</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">1</param>
+                                        </condition>
+                                        <condition id="-8" name="Compare two values" sid="3948555271469227" type="System">
+                                            <param id="0" name="First value">(Flower.X - int(tokenat(FlowerCollisionRadius, Flower.AnimationFrame,&quot;,&quot;)) &gt; BasketFront.BBoxLeft) &amp; (Flower.X + int(tokenat(FlowerCollisionRadius, Flower.AnimationFrame,&quot;,&quot;)) &lt; BasketFront.BBoxRight)</param>
                                             <param id="1" name="Comparison">0</param>
                                             <param id="2" name="Second value">1</param>
                                         </condition>
