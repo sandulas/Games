@@ -224,7 +224,7 @@
                 </event-group>
                 <event-group description="" sid="8512833754096424" title="user interface">
                     <sub-events>
-                        <event-group description="" sid="8623328556251148" title="progress bar">
+                        <event-group collapsed="1" description="" sid="8623328556251148" title="progress bar">
                             <sub-events>
                                 <event-block sid="2339838633296741">
                                     <conditions>
@@ -330,7 +330,7 @@
                         </event-group>
                         <event-group collapsed="1" description="" sid="5988832354479198" title="input type">
                             <sub-events>
-                                <event-block sid="8420755731706846">
+                                <event-block collapsed="1" sid="8420755731706846">
                                     <conditions>
                                         <condition id="-25" name="On loader layout complete" sid="7107420640686744" type="System" />
                                     </conditions>
