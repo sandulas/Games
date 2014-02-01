@@ -222,7 +222,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="8512833754096424" title="user interface">
+                <event-group collapsed="1" description="" sid="8512833754096424" title="user interface">
                     <sub-events>
                         <event-group collapsed="1" description="" sid="8623328556251148" title="progress bar">
                             <sub-events>
@@ -330,9 +330,9 @@
                         </event-group>
                         <event-group collapsed="1" description="" sid="5988832354479198" title="input type">
                             <sub-events>
-                                <event-block collapsed="1" sid="8420755731706846">
+                                <event-block sid="8420755731706846">
                                     <conditions>
-                                        <condition id="-25" name="On loader layout complete" sid="7107420640686744" type="System" />
+                                        <condition id="-2" name="On start of layout" sid="7107420640686744" type="System" />
                                     </conditions>
                                     <actions>
                                         <action id="0" name="Call function" sid="9096057658545904" type="Function">

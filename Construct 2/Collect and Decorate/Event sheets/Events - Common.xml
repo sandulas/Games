@@ -36,7 +36,7 @@
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
-        <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
+        <event-group collapsed="1" description="" disabled="1" sid="4017667352759457" title="debugging">
             <sub-events>
                 <event-block sid="8578860188414138">
                     <conditions />
@@ -64,6 +64,9 @@
                             <param id="0" name="Layer">100</param>
                         </action>
                         <action id="-24" name="Move to top" sid="3356760159643411" type="TextDebug" />
+                        <action id="-15" name="Set visible" sid="6017511436494325" type="TextDebug">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
                     </actions>
                 </event-block>
             </sub-events>
