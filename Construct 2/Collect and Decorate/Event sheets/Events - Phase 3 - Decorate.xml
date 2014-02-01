@@ -597,7 +597,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="595622332922734" title="move the character into position">
+                <event-group description="" sid="595622332922734" title="move the character into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
@@ -643,7 +643,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="6533379670995727" title="move the handles into position">
+                <event-group description="" sid="6533379670995727" title="move the handles into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
@@ -734,7 +734,7 @@
                                         </condition>
                                         <condition id="-2" name="Compare Y" sid="5119458268960172" type="Handle">
                                             <param id="0" name="Comparison">3</param>
-                                            <param id="1" name="Y co-ordinate">ViewportBottom(0) - 190</param>
+                                            <param id="1" name="Y co-ordinate">ViewportBottom(0) - 250</param>
                                         </condition>
                                     </conditions>
                                     <actions />

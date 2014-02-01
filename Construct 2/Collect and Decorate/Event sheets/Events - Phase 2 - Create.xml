@@ -13,7 +13,7 @@
                 <variable constant="0" name="VisibleAngle" sid="8574276399323928" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleEnd" sid="8445817006450812" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleAttenuationPerDegree" sid="2360829174042939" static="1" type="number">0</variable>
-                <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
+                <event-group description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
                         <variable constant="0" name="FlowerDistance" sid="9168820167331815" static="0" type="number">0</variable>
                         <event-block collapsed="1" sid="8114446928733638">
@@ -139,6 +139,12 @@
                                                 </action>
                                             </actions>
                                         </event-block>
+                                        <event-block sid="1764487867399816">
+                                            <conditions />
+                                            <actions>
+                                                <action id="-24" name="Move to top" sid="2625659440097802" type="Fader" />
+                                            </actions>
+                                        </event-block>
                                     </sub-events>
                                 </event-block>
                                 <comment>if coming from the saves layout, create the pieces of the selected necklace on the string</comment>
@@ -183,7 +189,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <comment>arrange the pieces of the selected necklace on the string</comment>
+                        <comment>arrange the pieces of the selected necklace on the string (this has to be done on a different top-level event becuase you cannot manipulate sprites created in the same event)</comment>
                         <event-block sid="4655173225565693">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="5590726737270561" type="System" />
@@ -228,12 +234,6 @@
                                     </actions>
                                 </event-block>
                             </sub-events>
-                        </event-block>
-                        <event-block sid="5373576019617005">
-                            <conditions>
-                                <condition id="-2" name="On start of layout" sid="192837987113559" type="System" />
-                            </conditions>
-                            <actions />
                         </event-block>
                     </sub-events>
                 </event-group>
