@@ -71,7 +71,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6593110864510716" title="setup pause UI">
+        <event-group description="" sid="6593110864510716" title="setup pause UI">
             <sub-events>
                 <event-block sid="3917797050924338">
                     <conditions>
@@ -90,11 +90,6 @@
                                     <param id="0" name="First value">LayoutName</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Second value">&quot;Phase 2 - Create&quot;</param>
-                                </condition>
-                                <condition id="-8" name="Compare two values" sid="6618347516923342" type="System">
-                                    <param id="0" name="First value">LayoutName</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">&quot;Phase 3 - Decorate&quot;</param>
                                 </condition>
                             </conditions>
                             <actions />
@@ -301,7 +296,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
+        <event-group description="" sid="3520418861413121" title="general navigation">
             <sub-events>
                 <event-block sid="3159905038337372">
                     <conditions>

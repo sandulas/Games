@@ -11,9 +11,7 @@ you probably do not want to add any .uistate.xml files to the repository.-->
     </configurations>
     <open-tabs>
         <layout>Main</layout>
-        <layout>Phase 3 - Decorate</layout>
-        <event-sheet>Events - Phase 2 - Create</event-sheet>
-        <event-sheet active="1">Events - Phase 3 - Decorate</event-sheet>
+        <event-sheet active="1">Events - Phase 1 - Collect</event-sheet>
     </open-tabs>
     <properties>
         <property expanded="1" name="About" />
