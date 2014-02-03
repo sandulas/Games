@@ -129,13 +129,21 @@
                                                 </condition>
                                             </conditions>
                                             <actions>
-                                                <action id="-10" name="Set value" sid="3362290228747269" type="Button">
+                                                <action disabled="1" id="-10" name="Set value" sid="3362290228747269" type="Button">
                                                     <param id="0" name="Instance variable">action</param>
                                                     <param id="1" name="Value">&quot;Phase 1 - Collect&quot;</param>
                                                 </action>
-                                                <action id="-10" name="Set value" sid="4501121796368889" type="Button">
+                                                <action disabled="1" id="-10" name="Set value" sid="4501121796368889" type="Button">
                                                     <param id="0" name="Instance variable">parameter</param>
                                                     <param id="1" name="Value">SaveSlot</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="7076032378221078" type="Button">
+                                                    <param id="0" name="Instance variable">action</param>
+                                                    <param id="1" name="Value">&quot;Saves&quot;</param>
+                                                </action>
+                                                <action id="-10" name="Set value" sid="5099414100956017" type="Button">
+                                                    <param id="0" name="Instance variable">parameter</param>
+                                                    <param id="1" name="Value">Level</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -237,7 +245,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
+                <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
                     <sub-events>
                         <event-block sid="6814207576628957">
                             <conditions>
@@ -712,9 +720,9 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="3226562301188418" title="save necklace">
+                <event-group description="" sid="3226562301188418" title="save necklace">
                     <sub-events>
-                        <event-block sid="8305976236237976">
+                        <event-block collapsed="1" sid="8305976236237976">
                             <conditions>
                                 <condition id="0" name="On function" sid="8918132678405419" type="Function">
                                     <param id="0" name="Name">&quot;SaveNecklace&quot;</param>
@@ -759,7 +767,7 @@
                             <actions />
                             <sub-events>
                                 <comment>save the necklace and delete the collected flowers slot</comment>
-                                <event-block sid="9457359414735733">
+                                <event-block any="1" sid="9457359414735733">
                                     <conditions>
                                         <condition id="-8" name="Compare two values" sid="7221993594680059" type="System">
                                             <param id="0" name="First value">Button.action</param>
@@ -779,6 +787,42 @@
                                             <param id="3" name="Value">-1</param>
                                         </action>
                                     </actions>
+                                </event-block>
+                                <event-block sid="5931628521325798">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="5424289776528841" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;Saves&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="273254166009484">
+                                            <conditions>
+                                                <condition id="-19" name="Pick all" sid="9573136458662167" type="System">
+                                                    <param id="0" name="Object">Button</param>
+                                                </condition>
+                                                <condition id="3" name="Compare frame" sid="8010439520626021" type="Button">
+                                                    <param id="0" name="Comparison">0</param>
+                                                    <param id="1" name="Number">6</param>
+                                                </condition>
+                                                <condition id="-9" name="Is visible" sid="6898940080312074" type="Button" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="6737491114814494" type="Function">
+                                                    <param id="0" name="Name">&quot;SaveNecklace&quot;</param>
+                                                    <param id="1" name="Parameter {n}"></param>
+                                                </action>
+                                                <action id="4" name="Set at XYZ" sid="2773067903992372" type="NecklacesArray">
+                                                    <param id="0" name="X">0</param>
+                                                    <param id="1" name="Y">8</param>
+                                                    <param id="2" name="Z">0</param>
+                                                    <param id="3" name="Value">-1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
                                 </event-block>
                             </sub-events>
                         </event-block>

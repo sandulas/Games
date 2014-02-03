@@ -24,7 +24,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-group collapsed="1" description="" sid="3469279951967914" title="setup the layout">
+                <event-group description="" sid="3469279951967914" title="setup the layout">
                     <sub-events>
                         <event-block sid="9809400649618648">
                             <conditions>
@@ -119,15 +119,35 @@
                                         <condition id="-7" name="Compare instance variable" sid="4262395555220686" type="Button">
                                             <param id="0" name="Instance variable">action</param>
                                             <param id="1" name="Comparison">0</param>
-                                            <param id="2" name="Value">&quot;pause&quot;</param>
+                                            <param id="2" name="Value">&quot;Phase 2 - Create&quot;</param>
                                         </condition>
                                     </conditions>
                                     <actions>
                                         <action id="-3" name="Set position" sid="9548684514088731" type="Button">
-                                            <param id="0" name="X">ViewportLeft(0) + 55</param>
-                                            <param id="1" name="Y">ViewportTop(0) + 55</param>
+                                            <param id="0" name="X">ViewportLeft(0) + 70</param>
+                                            <param id="1" name="Y">ViewportTop(0) + 70</param>
                                         </action>
                                         <action id="-24" name="Move to top" sid="9457882631241481" type="Button" />
+                                    </actions>
+                                </event-block>
+                                <event-block sid="2912216819268154">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="4747216734786209" type="Button">
+                                            <param id="0" name="Instance variable">action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;Saves&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="5380311198070051" type="Button">
+                                            <param id="0" name="X">ViewportRight(0) - 70</param>
+                                            <param id="1" name="Y">ViewportTop(0) + 70</param>
+                                        </action>
+                                        <action id="-10" name="Set value" sid="7328892116239223" type="Button">
+                                            <param id="0" name="Instance variable">parameter</param>
+                                            <param id="1" name="Value">Level</param>
+                                        </action>
+                                        <action id="-24" name="Move to top" sid="9514309116097915" type="Button" />
                                     </actions>
                                 </event-block>
                             </sub-events>
@@ -597,7 +617,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="595622332922734" title="move the character into position">
+                <event-group collapsed="1" description="" sid="595622332922734" title="move the character into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
@@ -643,7 +663,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="6533379670995727" title="move the handles into position">
+                <event-group collapsed="1" description="" sid="6533379670995727" title="move the handles into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
