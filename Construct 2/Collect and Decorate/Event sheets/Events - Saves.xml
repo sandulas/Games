@@ -121,7 +121,7 @@
                                     <actions>
                                         <action id="-3" name="Set position" sid="2540311408552883" type="Button">
                                             <param id="0" name="X">InvisibleButton.X + 60</param>
-                                            <param id="1" name="Y">InvisibleButton.Y + 5</param>
+                                            <param id="1" name="Y">InvisibleButton.Y + 7</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -145,7 +145,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="8278052119153538" title="setup saves slots layout">
+                <event-group description="" sid="8278052119153538" title="setup saves slots layout">
                     <sub-events>
                         <comment>create the necklaces</comment>
                         <event-block sid="4229432467058265">
@@ -243,8 +243,8 @@
                                                     <param id="0" name="Frame number">7</param>
                                                 </action>
                                                 <action id="-7" name="Set size" sid="2223099972784759" type="Button">
-                                                    <param id="0" name="Width">110</param>
-                                                    <param id="1" name="Height">110</param>
+                                                    <param id="0" name="Width">100</param>
+                                                    <param id="1" name="Height">100</param>
                                                 </action>
                                                 <action id="-10" name="Set value" sid="4231323680903763" type="Button">
                                                     <param id="0" name="Instance variable">type</param>
