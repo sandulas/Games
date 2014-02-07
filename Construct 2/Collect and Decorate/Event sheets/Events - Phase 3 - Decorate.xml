@@ -78,7 +78,7 @@
                                 </action>
                                 <action id="-3" name="Set position" sid="5370653259484316" type="UI_WoodFence">
                                     <param id="0" name="X">ViewportLeft(0) + (ViewportRight(0) - ViewportLeft(0)) / 2</param>
-                                    <param id="1" name="Y">ViewportBottom(0) - UI_WoodFence.Height / 2</param>
+                                    <param id="1" name="Y">ViewportBottom(0) - UI_WoodFence.Height / 2 + 30</param>
                                 </action>
                                 <action id="-25" name="Move to bottom" sid="7927766903011257" type="UI_WoodFence" />
                                 <action id="-9" name="Set value" sid="2933371732894395" type="System">
@@ -111,6 +111,24 @@
                                         <action id="-9" name="Set value" sid="3025298821567813" type="System">
                                             <param id="0" name="Variable">CharacterY</param>
                                             <param id="1" name="Value">CharacterY + 30</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="4316331318109791">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="2298268283834146" type="System">
+                                            <param id="0" name="First value">WindowWidth / WindowHeight</param>
+                                            <param id="1" name="Comparison">4</param>
+                                            <param id="2" name="Second value">1.6</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="9" name="Set scale" sid="3110537626139199" type="Character">
+                                            <param id="0" name="Scale">0.95</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="4290604690317281" type="System">
+                                            <param id="0" name="Variable">CharacterY</param>
+                                            <param id="1" name="Value">CharacterY + 20</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -491,7 +509,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="3376336338478309" title="setup the physics joints">
+                <event-group description="" sid="3376336338478309" title="setup the physics joints">
                     <sub-events>
                         <comment>setup physics</comment>
                         <event-block sid="7232490483244657">
@@ -754,7 +772,7 @@
                                         </condition>
                                         <condition id="-2" name="Compare Y" sid="5119458268960172" type="Handle">
                                             <param id="0" name="Comparison">3</param>
-                                            <param id="1" name="Y co-ordinate">ViewportBottom(0) - 250</param>
+                                            <param id="1" name="Y co-ordinate">ViewportBottom(0) - 220</param>
                                         </condition>
                                     </conditions>
                                     <actions />
@@ -771,7 +789,7 @@
                                                 </action>
                                                 <action id="-9" name="Set value" sid="8181100972104321" type="System">
                                                     <param id="0" name="Variable">TimeAtHandleFadeIn</param>
-                                                    <param id="1" name="Value">wallclocktime</param>
+                                                    <param id="1" name="Value">wallclocktime + 2</param>
                                                 </action>
                                                 <action id="-12" name="Set group active" sid="2701790196499014" type="System">
                                                     <param id="0" name="Group name">&quot;move the handles into position&quot;</param>
@@ -802,9 +820,9 @@
                         <event-block sid="7983755140944156">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="549656113840888" type="System">
-                                    <param id="0" name="First value">wallclocktime - 1.5</param>
+                                    <param id="0" name="First value">wallclocktime</param>
                                     <param id="1" name="Comparison">4</param>
-                                    <param id="2" name="Second value">TimeAtHandleFadeIn</param>
+                                    <param id="2" name="Second value">TimeAtHandleFadeIn + 1.5</param>
                                 </condition>
                             </conditions>
                             <actions>

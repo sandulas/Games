@@ -328,7 +328,7 @@
                                 </event-block>
                             </sub-events>
                         </event-group>
-                        <event-group collapsed="1" description="" sid="5988832354479198" title="input type">
+                        <event-group description="" sid="5988832354479198" title="input type">
                             <sub-events>
                                 <event-block sid="8420755731706846">
                                     <conditions>
@@ -414,7 +414,10 @@
                                             </conditions>
                                             <actions>
                                                 <action behavior="8Direction" id="5" name="Set acceleration" sid="5649772451227905" type="BasketBack">
-                                                    <param id="0" name="Acceleration">1000</param>
+                                                    <param id="0" name="Acceleration">1500</param>
+                                                </action>
+                                                <action behavior="8Direction" id="6" name="Set deceleration" sid="2863102374886843" type="BasketBack">
+                                                    <param id="0" name="Deceleration">1500</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -525,7 +528,7 @@
                         </event-group>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="8345507727811121" title="flowers - create, catch, destroy">
+                <event-group collapsed="1" description="" sid="8345507727811121" title="flowers - create, catch, destroy">
                     <sub-events>
                         <comment>create and setup flowers</comment>
                         <event-block sid="1904972802140828">
