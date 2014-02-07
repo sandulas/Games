@@ -5,9 +5,9 @@
     <events>
         <include>Events - Common</include>
         <variable constant="0" name="ApplicationStartup" sid="9523317782647918" static="0" type="number">1</variable>
-        <variable constant="1" name="LEVEL1_NECKLACE" sid="7737280262423845" static="0" type="text">2,0,2,0,2,0,2,0,2</variable>
-        <variable constant="1" name="LEVEL2_NECKLACE" sid="9885718861682347" static="0" type="text">2,0,1,2,0,1,0,2,1,0,2</variable>
-        <variable constant="1" name="LEVEL3_NECKLACE" sid="3223704895404303" static="0" type="text">1,1,1,0,1,2,0,1,0,2,1,0,1,1,1</variable>
+        <variable constant="1" name="LEVEL1_NECKLACE" sid="7737280262423845" static="0" type="text">0,2,0,2,0,2,0,2,0</variable>
+        <variable constant="1" name="LEVEL2_NECKLACE" sid="9885718861682347" static="0" type="text">1,1,1,0,0,4,0,0,1,1,1</variable>
+        <variable constant="1" name="LEVEL3_NECKLACE" sid="3223704895404303" static="0" type="text">0,0,0,1,4,3,4,1,4,3,4,1,0,0,0</variable>
         <event-group description="" sid="1267623363092653" title="LAYOUT ROOT">
             <sub-events>
                 <event-group collapsed="1" description="" sid="4574294575101284" title="setup UI">
