@@ -10,7 +10,7 @@
                 <variable constant="0" name="x1" sid="9526709159780026" static="0" type="number">0</variable>
                 <variable constant="0" name="x2" sid="2956397311246528" static="0" type="number">0</variable>
                 <variable constant="0" name="y" sid="2827532336842429" static="0" type="number">0</variable>
-                <event-group collapsed="1" description="" sid="8536508389869713" title="setup UI">
+                <event-group description="" sid="8536508389869713" title="setup UI">
                     <sub-events>
                         <event-block sid="3917797050924338">
                             <conditions>
@@ -208,18 +208,54 @@
                                             <param id="1" name="Y">y</param>
                                         </action>
                                     </actions>
-                                    <sub-events>
-                                        <event-block sid="8079408013697632">
-                                            <conditions />
-                                            <actions />
-                                        </event-block>
-                                    </sub-events>
+                                </event-block>
+                                <event-block sid="5141013909443963">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="346142865896051" type="FlowersCount">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">0</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="5984262729613895" type="FlowersCount">
+                                            <param id="0" name="X">x0</param>
+                                            <param id="1" name="Y"> y-225</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="8703884142775685">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="7330235611650322" type="FlowersCount">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="2519902807893287" type="FlowersCount">
+                                            <param id="0" name="X">x1</param>
+                                            <param id="1" name="Y"> y-225</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="9072247674851213">
+                                    <conditions>
+                                        <condition id="3" name="Compare frame" sid="7949697128641281" type="FlowersCount">
+                                            <param id="0" name="Comparison">0</param>
+                                            <param id="1" name="Number">2</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-3" name="Set position" sid="1365061090922298" type="FlowersCount">
+                                            <param id="0" name="X">x2</param>
+                                            <param id="1" name="Y"> y-225</param>
+                                        </action>
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="4061889411143028" title="invisible button navigation">
+                <event-group collapsed="1" description="" sid="4061889411143028" title="invisible button navigation">
                     <sub-events>
                         <event-block sid="3257919709915218">
                             <conditions>
