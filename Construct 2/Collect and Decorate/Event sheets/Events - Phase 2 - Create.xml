@@ -13,7 +13,7 @@
                 <variable constant="0" name="VisibleAngle" sid="8574276399323928" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleEnd" sid="8445817006450812" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleAttenuationPerDegree" sid="2360829174042939" static="1" type="number">0</variable>
-                <event-group description="" sid="7957432436885679" title="setup UI">
+                <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
                         <variable constant="0" name="FlowerDistance" sid="9168820167331815" static="0" type="number">0</variable>
                         <event-block collapsed="1" sid="8114446928733638">
@@ -245,7 +245,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
+                <event-group collapsed="1" description="" sid="7794063342821028" title="necklace setup, flower drag and drop">
                     <sub-events>
                         <event-block sid="6814207576628957">
                             <conditions>

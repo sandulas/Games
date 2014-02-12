@@ -296,7 +296,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
+        <event-group description="" sid="3520418861413121" title="general navigation">
             <sub-events>
                 <event-block sid="3159905038337372">
                     <conditions>
@@ -307,6 +307,10 @@
                             <param id="0" name="Variable">LayoutState</param>
                             <param id="1" name="Comparison">0</param>
                             <param id="2" name="Value">LAYOUTSTATE_READY</param>
+                        </condition>
+                        <condition id="-9" name="Is visible" sid="1746966576605968" type="Button" />
+                        <condition id="12" inverted="1" name="Has Nth touch" sid="209960379976827" type="Touch">
+                            <param id="0" name="Touch number">1</param>
                         </condition>
                     </conditions>
                     <actions />
