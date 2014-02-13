@@ -68,8 +68,8 @@
                     <properties>
                         <text>Text</text>
                         <initial-visibility>Invisible</initial-visibility>
-                        <font>Arial Narrow,-29,400,0</font>
-                        <color>255,0,0</color>
+                        <font>Arial Narrow,-29,700,0</font>
+                        <color>0,0,0</color>
                         <horizontal-alignment>Left</horizontal-alignment>
                         <vertical-alignment>Top</vertical-alignment>
                         <hotspot>Top-left</hotspot>
@@ -91,10 +91,10 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>6</x>
-                        <y>252</y>
+                        <y>134</y>
                         <z>0</z>
-                        <width>1168</width>
-                        <height>330</height>
+                        <width>1155</width>
+                        <height>639</height>
                         <depth>0</depth>
                         <hotspotX>0</hotspotX>
                         <hotspotY>0</hotspotY>

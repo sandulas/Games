@@ -12,6 +12,7 @@
                 <variable constant="0" name="PieceCount" sid="7006133053701937" static="1" type="number">0</variable>
                 <variable constant="0" name="VisibleAngle" sid="8574276399323928" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleEnd" sid="8445817006450812" static="1" type="number">0</variable>
+                <variable constant="0" name="IsNewNecklace" sid="7660287928391378" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleAttenuationPerDegree" sid="2360829174042939" static="1" type="number">0</variable>
                 <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
@@ -90,7 +91,12 @@
                                             <param id="4" name="Value">-1</param>
                                         </condition>
                                     </conditions>
-                                    <actions />
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="8987523410203984" type="System">
+                                            <param id="0" name="Variable">IsNewNecklace</param>
+                                            <param id="1" name="Value">1</param>
+                                        </action>
+                                    </actions>
                                     <sub-events>
                                         <event-block sid="5987469337399385">
                                             <conditions>
@@ -787,6 +793,34 @@
                                             <param id="3" name="Value">-1</param>
                                         </action>
                                     </actions>
+                                    <sub-events>
+                                        <event-block sid="1431939279904406">
+                                            <conditions>
+                                                <condition id="-14" name="Compare variable" sid="1343176242236144" type="System">
+                                                    <param id="0" name="Variable">IsNewNecklace</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="2650621058058251" type="Function">
+                                                    <param id="0" name="Name">&quot;LogFinishedLevel&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Create - Level &quot; &amp; Level</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="523351894494592">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="2236808568512606" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="2159808623209191" type="Function">
+                                                    <param id="0" name="Name">&quot;LogStat&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Decorate - Level  &quot; &amp; Level{###}1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
                                 </event-block>
                                 <event-block sid="5931628521325798">
                                     <conditions>
@@ -821,6 +855,34 @@
                                                     <param id="3" name="Value">-1</param>
                                                 </action>
                                             </actions>
+                                            <sub-events>
+                                                <event-block sid="8334488813367972">
+                                                    <conditions>
+                                                        <condition id="-14" name="Compare variable" sid="668156957235544" type="System">
+                                                            <param id="0" name="Variable">IsNewNecklace</param>
+                                                            <param id="1" name="Comparison">0</param>
+                                                            <param id="2" name="Value">1</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="704094510148918" type="Function">
+                                                            <param id="0" name="Name">&quot;LogFinishedLevel&quot;</param>
+                                                            <param id="1" name="Parameter {n}">&quot;Create - Level &quot; &amp; Level</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="2135957721509553">
+                                                    <conditions>
+                                                        <condition id="-22" name="Else" sid="2413421997303296" type="System" />
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="8580735079542094" type="Function">
+                                                            <param id="0" name="Name">&quot;LogStat&quot;</param>
+                                                            <param id="1" name="Parameter {n}">&quot;Saves from Decorate - Level  &quot; &amp; Level{###}1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
                                         </event-block>
                                     </sub-events>
                                 </event-block>
