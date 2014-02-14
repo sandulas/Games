@@ -41,6 +41,9 @@
                                 <condition id="3" name="On touched object" sid="8047595227006982" type="Touch">
                                     <param id="0" name="Object">Button</param>
                                 </condition>
+                                <condition id="12" inverted="1" name="Has Nth touch" sid="5972293339587609" type="Touch">
+                                    <param id="0" name="Touch number">1</param>
+                                </condition>
                             </conditions>
                             <actions />
                             <sub-events>
@@ -97,6 +100,9 @@
                                     <param id="0" name="Variable">LayoutState</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Value">LAYOUTSTATE_READY</param>
+                                </condition>
+                                <condition id="12" inverted="1" name="Has Nth touch" sid="5317315489102776" type="Touch">
+                                    <param id="0" name="Touch number">1</param>
                                 </condition>
                             </conditions>
                             <actions />

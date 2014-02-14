@@ -36,9 +36,9 @@
         <variable constant="0" name="debug_line3" sid="7484838944284516" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line4" sid="2329770658484356" static="0" type="text">-</variable>
         <variable constant="0" name="debug_line5" sid="1517399540468326" static="0" type="text">-</variable>
-        <event-group collapsed="1" description="" sid="4017667352759457" title="debugging">
+        <event-group collapsed="1" description="" disabled="1" sid="4017667352759457" title="debugging">
             <sub-events>
-                <event-block sid="8578860188414138">
+                <event-block disabled="1" sid="8578860188414138">
                     <conditions />
                     <actions>
                         <action disabled="1" id="-9" name="Set value" sid="2096030895599525" type="System">
@@ -69,7 +69,7 @@
                         </action>
                     </actions>
                     <sub-events>
-                        <event-block sid="7479773251213979">
+                        <event-block disabled="1" sid="7479773251213979">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="3120606136297253" type="System">
                                     <param id="0" name="First value">tickcount</param>
@@ -312,9 +312,9 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3520418861413121" title="general navigation">
+        <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
             <sub-events>
-                <event-block sid="3159905038337372">
+                <event-block collapsed="1" sid="3159905038337372">
                     <conditions>
                         <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
                             <param id="0" name="Object">Button</param>
@@ -346,7 +346,7 @@
                                 </action>
                             </actions>
                         </event-block>
-                        <event-block sid="8904028956680106">
+                        <event-block collapsed="1" sid="8904028956680106">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="457178851936219" type="System">
                                     <param id="0" name="First value">Button.type</param>
@@ -402,21 +402,6 @@
                                                 </action>
                                             </actions>
                                         </event-block>
-                                        <event-block sid="4248428040173665">
-                                            <conditions>
-                                                <condition id="-8" name="Compare two values" sid="1405060797015181" type="System">
-                                                    <param id="0" name="First value">lowercase(LayoutName)</param>
-                                                    <param id="1" name="Comparison">0</param>
-                                                    <param id="2" name="Second value">&quot;phase 3 - decorate&quot;</param>
-                                                </condition>
-                                            </conditions>
-                                            <actions>
-                                                <action id="0" name="Call function" sid="416101375245656" type="Function">
-                                                    <param id="0" name="Name">&quot;LogStat&quot;</param>
-                                                    <param id="1" name="Parameter {n}">&quot;Saves from Decorate - Level  &quot; &amp; Level{###}1</param>
-                                                </action>
-                                            </actions>
-                                        </event-block>
                                     </sub-events>
                                 </event-block>
                                 <event-block sid="3980326265256996">
@@ -440,7 +425,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block sid="8239891699564616">
+                        <event-block collapsed="1" sid="8239891699564616">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="7972785020179535" type="System">
                                     <param id="0" name="First value">Button.type</param>
@@ -608,7 +593,7 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <event-block sid="6115460322791397">
+                <event-block collapsed="1" sid="6115460322791397">
                     <conditions>
                         <condition id="0" name="On function" sid="7218708749134293" type="Function">
                             <param id="0" name="Name">&quot;GoToLayout&quot;</param>
@@ -658,15 +643,15 @@
                         </event-block>
                         <event-block sid="1614785012622332">
                             <conditions>
-                                <condition id="-8" name="Compare two values" sid="5836033032035854" type="System">
-                                    <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">&quot;level&quot;</param>
-                                </condition>
                                 <condition id="-8" name="Compare two values" sid="4419950709563253" type="System">
                                     <param id="0" name="First value">lowercase(LayoutName)</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Second value">&quot;saves&quot;</param>
+                                </condition>
+                                <condition id="-8" name="Compare two values" sid="5836033032035854" type="System">
+                                    <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">&quot;level&quot;</param>
                                 </condition>
                             </conditions>
                             <actions>
@@ -676,25 +661,133 @@
                                 </action>
                             </actions>
                         </event-block>
-                        <event-block sid="9244047057934513">
+                        <event-block sid="8982884578175852">
                             <conditions>
-                                <condition id="-8" name="Compare two values" sid="7686981686589263" type="System">
-                                    <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
-                                    <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Second value">&quot;saves&quot;</param>
-                                </condition>
-                                <condition id="-8" name="Compare two values" sid="6328344327891758" type="System">
+                                <condition id="-8" name="Compare two values" sid="4476516222842256" type="System">
                                     <param id="0" name="First value">lowercase(LayoutName)</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Second value">&quot;phase 1 - collect&quot;</param>
                                 </condition>
+                                <condition id="-8" name="Compare two values" sid="617697898974358" type="System">
+                                    <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">&quot;saves&quot;</param>
+                                </condition>
                             </conditions>
                             <actions>
-                                <action id="0" name="Call function" sid="2913722196108697" type="Function">
+                                <action id="0" name="Call function" sid="6408655886835682" type="Function">
                                     <param id="0" name="Name">&quot;LogFailedLevel&quot;</param>
                                     <param id="1" name="Parameter {n}">&quot;Collect - Level &quot; &amp; Level</param>
                                 </action>
                             </actions>
+                        </event-block>
+                        <event-block sid="518362023979217">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="4137835096481616" type="System">
+                                    <param id="0" name="First value">lowercase(LayoutName)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">&quot;saves&quot;</param>
+                                </condition>
+                                <condition id="-8" name="Compare two values" sid="1729797247223871" type="System">
+                                    <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">&quot;phase 2 - create&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="9965710941108634" type="Function">
+                                    <param id="0" name="Name">&quot;LogStat&quot;</param>
+                                    <param id="1" name="Parameter {n}">&quot;Load - Level &quot; &amp; Level{###}1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block collapsed="1" sid="8935312807852661">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="9587820989931382" type="System">
+                                    <param id="0" name="First value">lowercase(LayoutName)</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">&quot;phase 3 - decorate&quot;</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="4949855248222155">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="8569202696984756" type="System">
+                                            <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;saves&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="5789947467555389">
+                                            <conditions>
+                                                <condition id="-14" name="Compare variable" sid="119018609444705" type="System">
+                                                    <param id="0" name="Variable">IsNewNecklace</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="3369902690111424" type="Function">
+                                                    <param id="0" name="Name">&quot;LogFinishedLevel&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Decorate - Level &quot; &amp; Level</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="8812735697522361">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="9382961863540682" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="2394658357682804" type="Function">
+                                                    <param id="0" name="Name">&quot;LogStat&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Saves from Preview - Level &quot; &amp; Level{###}1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="2228840846879057">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="8715493675443935" type="System">
+                                            <param id="0" name="First value">lowercase(LayoutToGoTo)</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;phase 2 - create&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="2860958452104973">
+                                            <conditions>
+                                                <condition id="-14" name="Compare variable" sid="5427454289868325" type="System">
+                                                    <param id="0" name="Variable">IsNewNecklace</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="1399842782440501" type="Function">
+                                                    <param id="0" name="Name">&quot;LogFailedLevel&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Decorate - Level &quot; &amp; Level</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="2868269741694305">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="775895164828219" type="System" />
+                                            </conditions>
+                                            <actions>
+                                                <action id="0" name="Call function" sid="4543924576206619" type="Function">
+                                                    <param id="0" name="Name">&quot;LogStat&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Load from Preview - Level &quot; &amp; Level{###}1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                     </sub-events>
                 </event-block>
@@ -1619,7 +1712,7 @@
                             <param id="0" name="Metric Name">Function.Param(0)</param>
                             <param id="1" name="Increment Amount">Function.Param(1)</param>
                         </action>
-                        <action id="1" name="Append text" sid="8850244879564451" type="TextDebug">
+                        <action disabled="1" id="1" name="Append text" sid="8850244879564451" type="TextDebug">
                             <param id="0" name="Text">&quot;Log stat: &quot; &amp; Function.Param(0) &amp; &quot;; increase by: &quot; &amp; Function.Param(1) &amp; newline</param>
                         </action>
                     </actions>
@@ -1634,7 +1727,7 @@
                         <action id="34" name="Start Level" sid="2197933512824601" type="Clayio">
                             <param id="0" name="Level Name">Function.Param(0)</param>
                         </action>
-                        <action id="1" name="Append text" sid="1334096210280275" type="TextDebug">
+                        <action disabled="1" id="1" name="Append text" sid="1334096210280275" type="TextDebug">
                             <param id="0" name="Text">&quot;Log start level: &quot; &amp; Function.Param(0) &amp; newline</param>
                         </action>
                     </actions>
@@ -1649,7 +1742,7 @@
                         <action id="35" name="End Level (Fail)" sid="753895481740702" type="Clayio">
                             <param id="0" name="Level Name">Function.Param(0)</param>
                         </action>
-                        <action id="1" name="Append text" sid="9064588140348442" type="TextDebug">
+                        <action disabled="1" id="1" name="Append text" sid="9064588140348442" type="TextDebug">
                             <param id="0" name="Text">&quot;Log failed level: &quot; &amp; Function.Param(0) &amp; newline</param>
                         </action>
                     </actions>
@@ -1664,7 +1757,7 @@
                         <action id="36" name="End Level (Success)" sid="3249342636107557" type="Clayio">
                             <param id="0" name="Level Name">Function.Param(0)</param>
                         </action>
-                        <action id="1" name="Append text" sid="5706996121773638" type="TextDebug">
+                        <action disabled="1" id="1" name="Append text" sid="5706996121773638" type="TextDebug">
                             <param id="0" name="Text">&quot;Log finished level: &quot; &amp; Function.Param(0) &amp; newline</param>
                         </action>
                     </actions>
