@@ -267,6 +267,9 @@
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Value">LAYOUTSTATE_READY</param>
                                 </condition>
+                                <condition id="12" inverted="1" name="Has Nth touch" sid="531472655621408" type="Touch">
+                                    <param id="0" name="Touch number">1</param>
+                                </condition>
                             </conditions>
                             <actions>
                                 <action id="0" name="Call function" sid="7708503569550814" type="Function">

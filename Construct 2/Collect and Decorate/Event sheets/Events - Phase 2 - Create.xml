@@ -4,6 +4,7 @@
     <name>Events - Phase 2 - Create</name>
     <events>
         <include>Events - Common</include>
+        <variable constant="0" name="IsNewNecklace" sid="7660287928391378" static="0" type="number">0</variable>
         <event-group description="" sid="4137865588677511" title="LAYOUT ROOT">
             <sub-events>
                 <variable constant="0" name="StringY" sid="7039048524514207" static="1" type="number">180</variable>
@@ -12,7 +13,7 @@
                 <variable constant="0" name="PieceCount" sid="7006133053701937" static="1" type="number">0</variable>
                 <variable constant="0" name="VisibleAngle" sid="8574276399323928" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleEnd" sid="8445817006450812" static="1" type="number">0</variable>
-                <variable constant="0" name="IsNewNecklace" sid="7660287928391378" static="1" type="number">0</variable>
+                <variable constant="0" name="IsFinished" sid="6464492509322654" static="1" type="number">0</variable>
                 <variable constant="0" name="PieceScaleAttenuationPerDegree" sid="2360829174042939" static="1" type="number">0</variable>
                 <event-group collapsed="1" description="" sid="7957432436885679" title="setup UI">
                     <sub-events>
@@ -74,7 +75,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block sid="3911541784983441">
+                        <event-block collapsed="1" sid="3911541784983441">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="3950557489266894" type="System" />
                             </conditions>
@@ -167,6 +168,10 @@
                                         <condition id="-22" name="Else" sid="258477700492467" type="System" />
                                     </conditions>
                                     <actions>
+                                        <action id="-9" name="Set value" sid="8788690809962956" type="System">
+                                            <param id="0" name="Variable">IsNewNecklace</param>
+                                            <param id="1" name="Value">0</param>
+                                        </action>
                                         <action id="-9" name="Set value" sid="5497133538734201" type="System">
                                             <param id="0" name="Variable">StartAngleIndex</param>
                                             <param id="1" name="Value">0</param>
@@ -204,7 +209,7 @@
                             </sub-events>
                         </event-block>
                         <comment>arrange the pieces of the selected necklace on the string (this has to be done on a different top-level event becuase you cannot manipulate sprites created in the same event)</comment>
-                        <event-block sid="4655173225565693">
+                        <event-block collapsed="1" sid="4655173225565693">
                             <conditions>
                                 <condition id="-2" name="On start of layout" sid="5590726737270561" type="System" />
                                 <condition id="2" name="Compare at XYZ" sid="9040172831799318" type="NecklacesArray">
@@ -244,6 +249,10 @@
                                     <actions>
                                         <action id="-15" name="Set visible" sid="1514070949290973" type="Button">
                                             <param id="0" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="3880124379192509" type="System">
+                                            <param id="0" name="Variable">IsFinished</param>
+                                            <param id="1" name="Value">1</param>
                                         </action>
                                     </actions>
                                 </event-block>
@@ -458,6 +467,10 @@
                                                         <action id="-15" name="Set visible" sid="9570078235300435" type="Button">
                                                             <param id="0" name="Visibility">1</param>
                                                         </action>
+                                                        <action id="-9" name="Set value" sid="9036421607254294" type="System">
+                                                            <param id="0" name="Variable">IsFinished</param>
+                                                            <param id="1" name="Value">1</param>
+                                                        </action>
                                                     </actions>
                                                 </event-block>
                                             </sub-events>
@@ -478,6 +491,10 @@
                                                     <actions>
                                                         <action id="-15" name="Set visible" sid="5012101022325061" type="Button">
                                                             <param id="0" name="Visibility">0</param>
+                                                        </action>
+                                                        <action id="-9" name="Set value" sid="5553448369222847" type="System">
+                                                            <param id="0" name="Variable">IsFinished</param>
+                                                            <param id="1" name="Value">0</param>
                                                         </action>
                                                     </actions>
                                                 </event-block>
@@ -726,7 +743,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="3226562301188418" title="save necklace">
+                <event-group collapsed="1" description="" sid="3226562301188418" title="save necklace">
                     <sub-events>
                         <event-block collapsed="1" sid="8305976236237976">
                             <conditions>
@@ -764,7 +781,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block sid="8085762786691675">
+                        <event-block collapsed="1" sid="8085762786691675">
                             <conditions>
                                 <condition id="3" name="On touched object" sid="3207957600397695" type="Touch">
                                     <param id="0" name="Object">Button</param>
@@ -773,12 +790,16 @@
                             <actions />
                             <sub-events>
                                 <comment>save the necklace and delete the collected flowers slot</comment>
-                                <event-block any="1" sid="9457359414735733">
+                                <event-block sid="9457359414735733">
                                     <conditions>
                                         <condition id="-8" name="Compare two values" sid="7221993594680059" type="System">
                                             <param id="0" name="First value">Button.action</param>
                                             <param id="1" name="Comparison">0</param>
                                             <param id="2" name="Second value">&quot;Phase 3 - Decorate&quot;</param>
+                                        </condition>
+                                        <condition id="-9" name="Is visible" sid="6967773360431327" type="Button" />
+                                        <condition id="12" inverted="1" name="Has Nth touch" sid="3979241894786841" type="Touch">
+                                            <param id="0" name="Touch number">1</param>
                                         </condition>
                                     </conditions>
                                     <actions>
@@ -807,6 +828,10 @@
                                                     <param id="0" name="Name">&quot;LogFinishedLevel&quot;</param>
                                                     <param id="1" name="Parameter {n}">&quot;Create - Level &quot; &amp; Level</param>
                                                 </action>
+                                                <action id="0" name="Call function" sid="8700497725976469" type="Function">
+                                                    <param id="0" name="Name">&quot;LogStartLevel&quot;</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Decorate - Level &quot; &amp; Level</param>
+                                                </action>
                                             </actions>
                                         </event-block>
                                         <event-block sid="523351894494592">
@@ -816,7 +841,7 @@
                                             <actions>
                                                 <action id="0" name="Call function" sid="2159808623209191" type="Function">
                                                     <param id="0" name="Name">&quot;LogStat&quot;</param>
-                                                    <param id="1" name="Parameter {n}">&quot;Decorate - Level  &quot; &amp; Level{###}1</param>
+                                                    <param id="1" name="Parameter {n}">&quot;Preview - Level  &quot; &amp; Level{###}1</param>
                                                 </action>
                                             </actions>
                                         </event-block>
@@ -834,14 +859,11 @@
                                     <sub-events>
                                         <event-block sid="273254166009484">
                                             <conditions>
-                                                <condition id="-19" name="Pick all" sid="9573136458662167" type="System">
-                                                    <param id="0" name="Object">Button</param>
+                                                <condition id="-14" name="Compare variable" sid="3821053938906209" type="System">
+                                                    <param id="0" name="Variable">IsFinished</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">1</param>
                                                 </condition>
-                                                <condition id="3" name="Compare frame" sid="8010439520626021" type="Button">
-                                                    <param id="0" name="Comparison">0</param>
-                                                    <param id="1" name="Number">6</param>
-                                                </condition>
-                                                <condition id="-9" name="Is visible" sid="6898940080312074" type="Button" />
                                             </conditions>
                                             <actions>
                                                 <action id="0" name="Call function" sid="6737491114814494" type="Function">
@@ -878,7 +900,41 @@
                                                     <actions>
                                                         <action id="0" name="Call function" sid="8580735079542094" type="Function">
                                                             <param id="0" name="Name">&quot;LogStat&quot;</param>
-                                                            <param id="1" name="Parameter {n}">&quot;Saves from Decorate - Level  &quot; &amp; Level{###}1</param>
+                                                            <param id="1" name="Parameter {n}">&quot;Saves from Create - Level  &quot; &amp; Level{###}1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                        <event-block sid="9739241888423451">
+                                            <conditions>
+                                                <condition id="-22" name="Else" sid="9584609490266053" type="System" />
+                                            </conditions>
+                                            <actions />
+                                            <sub-events>
+                                                <event-block sid="6328061284881298">
+                                                    <conditions>
+                                                        <condition id="-14" name="Compare variable" sid="2935989430843441" type="System">
+                                                            <param id="0" name="Variable">IsNewNecklace</param>
+                                                            <param id="1" name="Comparison">0</param>
+                                                            <param id="2" name="Value">1</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="5710013191369787" type="Function">
+                                                            <param id="0" name="Name">&quot;LogFailedLevel&quot;</param>
+                                                            <param id="1" name="Parameter {n}">&quot;Create - Level &quot; &amp; Level</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="2565530169708437">
+                                                    <conditions>
+                                                        <condition id="-22" name="Else" sid="5551571234263653" type="System" />
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="2435898175299858" type="Function">
+                                                            <param id="0" name="Name">&quot;LogStat&quot;</param>
+                                                            <param id="1" name="Parameter {n}">&quot;Saves from Create - Level  &quot; &amp; Level{###}1</param>
                                                         </action>
                                                     </actions>
                                                 </event-block>
