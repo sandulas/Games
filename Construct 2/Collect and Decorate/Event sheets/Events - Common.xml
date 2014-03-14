@@ -1699,7 +1699,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="4741077994626264" title="analytics">
+        <event-group collapsed="1" description="" sid="4741077994626264" title="analytics">
             <sub-events>
                 <event-block sid="1776232690298217">
                     <conditions>
