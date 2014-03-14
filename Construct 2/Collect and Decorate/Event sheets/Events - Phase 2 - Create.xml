@@ -339,7 +339,7 @@
                                 <action id="-24" name="Move to top" sid="4831145815730317" type="Flower" />
                             </actions>
                         </event-block>
-                        <event-block sid="4013982847405576">
+                        <event-block collapsed="1" sid="4013982847405576">
                             <conditions>
                                 <condition behavior="DragDrop" id="0" name="Is dragging" sid="4307212809755078" type="Flower" />
                             </conditions>
@@ -405,7 +405,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block sid="7988599145093152">
+                        <event-block collapsed="1" sid="7988599145093152">
                             <conditions>
                                 <condition behavior="DragDrop" id="2" name="On drop" sid="7736769868821621" type="Flower" />
                             </conditions>
@@ -429,10 +429,14 @@
                                             <param id="0" name="X">OnCircleX + CircleCenterX</param>
                                             <param id="1" name="Y">OnCircleY + CircleCenterY</param>
                                         </action>
+                                        <action id="0" name="Call function" sid="577319729415868" type="Function">
+                                            <param id="0" name="Name">&quot;PlaySound&quot;</param>
+                                            <param id="1" name="Parameter {n}">&quot;SnapToString&quot;</param>
+                                        </action>
                                     </actions>
                                 </event-block>
                                 <comment>if all the flowers are on the circle, show the next button</comment>
-                                <event-block sid="6151229530191085">
+                                <event-block collapsed="1" sid="6151229530191085">
                                     <conditions>
                                         <condition id="-19" name="Pick all" sid="7010312159890282" type="System">
                                             <param id="0" name="Object">Flower</param>

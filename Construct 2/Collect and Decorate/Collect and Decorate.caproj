@@ -8,7 +8,7 @@
     <author-website>http://</author-website>
     <app-id>com.mycompany.myapp</app-id>
     <unique-id>fjwuowywb9nv</unique-id>
-    <saved-with-version>15802</saved-with-version>
+    <saved-with-version>16300</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="Arr" version="1">Array</plugin>
         <plugin author="Scirra" id="Audio" version="1">Audio</plugin>
@@ -791,6 +791,12 @@
         <file name="ButtonClick.wav" />
         <file name="Music.m4a" />
         <file name="Music.ogg" />
+        <file name="CatchFlower.m4a" />
+        <file name="CatchFlower.ogg" />
+        <file name="CatchFlower.wav" />
+        <file name="SnapToString.m4a" />
+        <file name="SnapToString.ogg" />
+        <file name="SnapToString.wav" />
     </sounds-folder>
     <music-folder expanded="1" />
     <files-folder expanded="0">
