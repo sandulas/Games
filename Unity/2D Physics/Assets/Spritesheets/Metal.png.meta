@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5ae16fab9e67a12499c43ab3ce365656
+guid: 3c8ea9fc8a14e2d498c0211fa72634e7
 TextureImporter:
   serializedVersion: 2
   mipmaps:
@@ -20,8 +20,8 @@ TextureImporter:
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 1024
+  textureFormat: -3
+  maxTextureSize: 2048
   textureSettings:
     filterMode: -1
     aniso: 1
@@ -38,30 +38,8 @@ TextureImporter:
   spritePixelsToUnits: 100
   alphaIsTransparency: 1
   textureType: 8
-  buildTargetSettings:
-  - buildTarget: iPhone
-    maxTextureSize: 1024
-    textureFormat: -2
-    compressionQuality: 50
+  buildTargetSettings: []
   spriteSheet:
-    sprites:
-    - name: Atlas1_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 2028
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: .5, y: .5}
-    - name: Atlas1_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 2003
-        width: 25
-        height: 25
-      alignment: 0
-      pivot: {x: .5, y: .5}
+    sprites: []
   spritePackingTag: 
   userData: 
