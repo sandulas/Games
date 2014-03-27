@@ -44,6 +44,24 @@ TextureImporter:
     textureFormat: -2
     compressionQuality: 50
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Ice_Rectangle_100x100
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 1793
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: .5, y: .5}
+    - name: Ice_Rectangle_70x70
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 1793
+        width: 80
+        height: 80
+      alignment: 0
+      pivot: {x: .5, y: .5}
   spritePackingTag: 
   userData: 
