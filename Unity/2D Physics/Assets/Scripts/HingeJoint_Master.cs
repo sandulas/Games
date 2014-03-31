@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HingeJoint_Master : MonoBehaviour
+public class _Master : MonoBehaviour
 {
 	public GameObject object1;
 	public GameObject object2;
