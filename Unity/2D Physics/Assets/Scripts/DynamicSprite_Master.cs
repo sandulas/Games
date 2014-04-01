@@ -5,11 +5,13 @@ public class DynamicSprite_Master : MonoBehaviour
 {
 	private Texture2D atlas;
 	private Sprite[] frames;
+	private Sprite[] frames2;
 
 	void Awake()
 	{
 		atlas = (Texture2D)Resources.Load("Atlas2");
 		frames = Resources.LoadAll<Sprite>("Atlas2");
+		frames2 = Resources.LoadAll<Sprite>("Atlas3");
 	}
 
 	void Start()
@@ -19,7 +21,7 @@ public class DynamicSprite_Master : MonoBehaviour
 		Sprite sprite;		
 		GameObject parent = new GameObject("Parent");
 
-		//Texture
+		//Texture Test 1
 		gameObject = new GameObject("Object");
 		renderer = gameObject.AddComponent<SpriteRenderer>();
 		sprite = Sprite.Create(atlas, new Rect(1024, 1524, 100, 100), new Vector2(0.5f, 0.5f), 100f);
@@ -27,6 +29,15 @@ public class DynamicSprite_Master : MonoBehaviour
 		renderer.sortingLayerName = "Elements";
 		renderer.sortingOrder = 1;
 		gameObject.transform.position = new Vector3(0f, 2f, 0);
+		gameObject.transform.parent = parent.transform;
+
+		//Texture Test 1
+		gameObject = new GameObject("Test Wood");
+		renderer = gameObject.AddComponent<SpriteRenderer>();
+		renderer.sprite = frames2[0];
+		renderer.sortingLayerName = "Elements";
+		renderer.sortingOrder = 2;
+		gameObject.transform.position = new Vector3(-0.95f, 0.1f, 0);
 		gameObject.transform.parent = parent.transform;
 
 		//Texture
