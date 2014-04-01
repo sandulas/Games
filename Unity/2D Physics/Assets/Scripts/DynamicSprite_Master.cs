@@ -16,12 +16,23 @@ public class DynamicSprite_Master : MonoBehaviour
 	{
 		SpriteRenderer renderer;
 		GameObject gameObject;
-		
+		Sprite sprite;		
 		GameObject parent = new GameObject("Parent");
 
+		//Texture
 		gameObject = new GameObject("Object");
 		renderer = gameObject.AddComponent<SpriteRenderer>();
-		Sprite sprite = Sprite.Create(atlas, new Rect(0, 1024, 200, 30), new Vector2(0.5f, 0.5f), 100);
+		sprite = Sprite.Create(atlas, new Rect(1024, 1524, 100, 100), new Vector2(0.5f, 0.5f), 100f);
+		renderer.sprite = sprite;
+		renderer.sortingLayerName = "Elements";
+		renderer.sortingOrder = 1;
+		gameObject.transform.position = new Vector3(0f, 2f, 0);
+		gameObject.transform.parent = parent.transform;
+
+		//Texture
+		gameObject = new GameObject("Object");
+		renderer = gameObject.AddComponent<SpriteRenderer>();
+		sprite = Sprite.Create(atlas, new Rect(0, 1024, 200, 30), new Vector2(0.5f, 0.5f), 100);
 		renderer.sprite = sprite;
 		renderer.sortingLayerName = "Elements";
 		renderer.sortingOrder = 1;

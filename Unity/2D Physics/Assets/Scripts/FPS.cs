@@ -26,8 +26,8 @@ public class FPS : MonoBehaviour
 	void Start()
 	{
 		timeleft = updateInterval;
-		QualitySettings.antiAliasing = 0;
-		Application.targetFrameRate = 60;
+		//QualitySettings.antiAliasing = 0;
+		//Application.targetFrameRate = 60;
 	}
 
 	void Update()
