@@ -3,13 +3,13 @@ using System.Collections;
 
 public class DynamicSprite_Master : MonoBehaviour
 {
-	private Texture2D atlas;
-	private Sprite[] frames;
-	private Sprite[] frames2;
+	private Texture2D atlas, atlas2;
+	private Sprite[] frames, frames2;
 
 	void Awake()
 	{
 		atlas = (Texture2D)Resources.Load("Atlas2");
+		atlas2 = (Texture2D)Resources.Load("Atlas3");
 		frames = Resources.LoadAll<Sprite>("Atlas2");
 		frames2 = Resources.LoadAll<Sprite>("Atlas3");
 	}
@@ -29,6 +29,16 @@ public class DynamicSprite_Master : MonoBehaviour
 		renderer.sortingLayerName = "Elements";
 		renderer.sortingOrder = 1;
 		gameObject.transform.position = new Vector3(0f, 2f, 0);
+		gameObject.transform.parent = parent.transform;
+
+		//Texture Test 2
+		gameObject = new GameObject("Object");
+		renderer = gameObject.AddComponent<SpriteRenderer>();
+		sprite = Sprite.Create(atlas2, new Rect(10, 1800, 200, 200), new Vector2(0.5f, 0.5f), 200f);
+		renderer.sprite = sprite;
+		renderer.sortingLayerName = "Elements";
+		renderer.sortingOrder = 1;
+		gameObject.transform.position = new Vector3(2f, 2f, 0);
 		gameObject.transform.parent = parent.transform;
 
 		//Texture Test 1
