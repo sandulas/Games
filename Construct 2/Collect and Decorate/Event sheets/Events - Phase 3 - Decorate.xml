@@ -10,6 +10,12 @@
                 <variable constant="0" name="FlowersCount" sid="7299355969258432" static="1" type="number">0</variable>
                 <variable constant="0" name="PrevFlowerId" sid="9594445174543815" static="1" type="number">0</variable>
                 <variable constant="0" name="CharacterY" sid="7411066512731502" static="1" type="number">0</variable>
+                <variable constant="0" name="X1" sid="2419045926260417" static="1" type="number">0</variable>
+                <variable constant="0" name="Y1" sid="6758413809096835" static="1" type="number">0</variable>
+                <variable constant="0" name="X2" sid="1224730787601142" static="1" type="number">0</variable>
+                <variable constant="0" name="Y2" sid="9252724733801837" static="1" type="number">0</variable>
+                <variable constant="0" name="IsLeftInPosition" sid="1307290799437061" static="1" type="number">0</variable>
+                <variable constant="0" name="IsRightInPosition" sid="4222785077851606" static="1" type="number">0</variable>
                 <variable constant="0" name="TimeAtHandleFadeIn" sid="8563462258632146" static="1" type="number">0</variable>
                 <event-block sid="3279056471687852">
                     <conditions />
@@ -24,7 +30,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-group description="" sid="3469279951967914" title="setup the layout">
+                <event-group collapsed="1" description="" sid="3469279951967914" title="setup the layout">
                     <sub-events>
                         <event-block sid="9809400649618648">
                             <conditions>
@@ -60,6 +66,18 @@
                                 <action id="-12" name="Set group active" sid="5402060670422649" type="System">
                                     <param id="0" name="Group name">&quot;move the character into position&quot;</param>
                                     <param id="1" name="State">1</param>
+                                </action>
+                                <action id="-12" name="Set group active" sid="4943092271570999" type="System">
+                                    <param id="0" name="Group name">&quot;move the handles into position2&quot;</param>
+                                    <param id="1" name="State">1</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="2778966418257837" type="System">
+                                    <param id="0" name="Variable">IsLeftInPosition</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="4200319565574839" type="System">
+                                    <param id="0" name="Variable">IsRightInPosition</param>
+                                    <param id="1" name="Value">0</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -509,7 +527,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group description="" sid="3376336338478309" title="setup the physics joints">
+                <event-group collapsed="1" description="" sid="3376336338478309" title="setup the physics joints">
                     <sub-events>
                         <comment>setup physics</comment>
                         <event-block sid="7232490483244657">
@@ -681,7 +699,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="6533379670995727" title="move the handles into position">
+                <event-group collapsed="1" description="" disabled="1" sid="6533379670995727" title="move the handles into position">
                     <sub-events>
                         <event-block sid="1587002995731614">
                             <conditions>
@@ -691,7 +709,12 @@
                                     <param id="2" name="Second value">TickCountAtStartOfLayout+3</param>
                                 </condition>
                             </conditions>
-                            <actions />
+                            <actions>
+                                <action id="-9" name="Set value" sid="8597674154351067" type="System">
+                                    <param id="0" name="Variable">debug_line1</param>
+                                    <param id="1" name="Value">&quot;Level: &quot; &amp; Level &amp; &quot;; Saveslot: &quot; &amp; SaveSlot</param>
+                                </action>
+                            </actions>
                             <sub-events>
                                 <event-block sid="9986930557282657">
                                     <conditions>
@@ -798,6 +821,218 @@
                                             </actions>
                                         </event-block>
                                     </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                    </sub-events>
+                </event-group>
+                <event-group collapsed="1" description="" sid="1343286685040715" title="move the handles into position2">
+                    <sub-events>
+                        <event-block sid="1587002995731614">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="8938904477224059" type="System">
+                                    <param id="0" name="First value">tickcount</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">TickCountAtStartOfLayout+3</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="1836035592709725">
+                                    <conditions>
+                                        <condition id="2" name="Compare at XYZ" sid="1281454848359809" type="NecklacesArray">
+                                            <param id="0" name="X">Level</param>
+                                            <param id="1" name="Y">SaveSlot</param>
+                                            <param id="2" name="Z">15</param>
+                                            <param id="3" name="Comparison">0</param>
+                                            <param id="4" name="Value">-1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="2016968605808807" type="System">
+                                            <param id="0" name="Variable">X1</param>
+                                            <param id="1" name="Value">ViewportLeft(0) + 100</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="3463619197551732" type="System">
+                                            <param id="0" name="Variable">Y1</param>
+                                            <param id="1" name="Value">ViewportBottom(0) - 220</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="4721294369715658" type="System">
+                                            <param id="0" name="Variable">X2</param>
+                                            <param id="1" name="Value">ViewportRight(0) - 100</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="5482357210681356" type="System">
+                                            <param id="0" name="Variable">Y2</param>
+                                            <param id="1" name="Value">ViewportBottom(0) - 220</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="7329902689109361">
+                                    <conditions>
+                                        <condition id="-22" name="Else" sid="723652627134066" type="System" />
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="8965403684818437" type="System">
+                                            <param id="0" name="Variable">X1</param>
+                                            <param id="1" name="Value">NecklacesArray.At(Level, SaveSlot, 15)</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="9394744605271762" type="System">
+                                            <param id="0" name="Variable">Y1</param>
+                                            <param id="1" name="Value">NecklacesArray.At(Level, SaveSlot, 16)</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="6595289281432407" type="System">
+                                            <param id="0" name="Variable">X2</param>
+                                            <param id="1" name="Value">NecklacesArray.At(Level, SaveSlot, 17)</param>
+                                        </action>
+                                        <action id="-9" name="Set value" sid="1369206230502912" type="System">
+                                            <param id="0" name="Variable">Y2</param>
+                                            <param id="1" name="Value">NecklacesArray.At(Level, SaveSlot, 18)</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="9986930557282657">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="1193877700082118" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;left&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Bullet" id="3" name="Set angle of motion" sid="321108423479926" type="Handle">
+                                            <param id="0" name="Angle">angle(Handle.X, Handle.Y, X1, Y1)</param>
+                                        </action>
+                                        <action behavior="Bullet" id="5" name="Set enabled" sid="8589340630156767" type="Handle">
+                                            <param id="0" name="State">1</param>
+                                        </action>
+                                        <action behavior="DragDrop" id="0" name="Set enabled" sid="4185717518765042" type="Handle">
+                                            <param id="0" name="State">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                                <event-block sid="9510480526932673">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="9317944053384341" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;right&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action behavior="Bullet" id="3" name="Set angle of motion" sid="2669491269509853" type="Handle">
+                                            <param id="0" name="Angle">angle(Handle.X, Handle.Y, X2, Y2)</param>
+                                        </action>
+                                        <action behavior="Bullet" id="5" name="Set enabled" sid="5482239200784036" type="Handle">
+                                            <param id="0" name="State">1</param>
+                                        </action>
+                                        <action behavior="DragDrop" id="0" name="Set enabled" sid="5008730696552844" type="Handle">
+                                            <param id="0" name="State">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="5262310812228384">
+                            <conditions>
+                                <condition id="-1" name="Every tick" sid="2763513256235143" type="System" />
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="7851822679210855">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="1552441856188867" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;left&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="2998170319178734">
+                                            <conditions>
+                                                <condition id="-1" name="Compare X" sid="4941463480309568" type="Handle">
+                                                    <param id="0" name="Comparison">5</param>
+                                                    <param id="1" name="X co-ordinate">X1</param>
+                                                </condition>
+                                                <condition id="-2" name="Compare Y" sid="7230183559446442" type="Handle">
+                                                    <param id="0" name="Comparison">3</param>
+                                                    <param id="1" name="Y co-ordinate">Y1</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action behavior="Bullet" id="5" name="Set enabled" sid="8017594542060132" type="Handle">
+                                                    <param id="0" name="State">0</param>
+                                                </action>
+                                                <action behavior="DragDrop" id="0" name="Set enabled" sid="4979649620523605" type="Handle">
+                                                    <param id="0" name="State">1</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="1611779118001114" type="System">
+                                                    <param id="0" name="Variable">IsLeftInPosition</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="371778102429434">
+                                    <conditions>
+                                        <condition id="-7" name="Compare instance variable" sid="5454012661146353" type="Handle">
+                                            <param id="0" name="Instance variable">Side</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">&quot;right&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="8667306370635578">
+                                            <conditions>
+                                                <condition id="-1" name="Compare X" sid="7772217414693746" type="Handle">
+                                                    <param id="0" name="Comparison">3</param>
+                                                    <param id="1" name="X co-ordinate">X2</param>
+                                                </condition>
+                                                <condition id="-2" name="Compare Y" sid="6171781922116728" type="Handle">
+                                                    <param id="0" name="Comparison">3</param>
+                                                    <param id="1" name="Y co-ordinate">Y2</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action behavior="Bullet" id="5" name="Set enabled" sid="3217825097371004" type="Handle">
+                                                    <param id="0" name="State">0</param>
+                                                </action>
+                                                <action behavior="DragDrop" id="0" name="Set enabled" sid="579220191822626" type="Handle">
+                                                    <param id="0" name="State">1</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="9998810356105514" type="System">
+                                                    <param id="0" name="Variable">IsRightInPosition</param>
+                                                    <param id="1" name="Value">1</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                                <event-block sid="9064528989072857">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="3619071705915126" type="System">
+                                            <param id="0" name="Variable">IsLeftInPosition</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">1</param>
+                                        </condition>
+                                        <condition id="-14" name="Compare variable" sid="12067391814361" type="System">
+                                            <param id="0" name="Variable">IsRightInPosition</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">1</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="8181100972104321" type="System">
+                                            <param id="0" name="Variable">TimeAtHandleFadeIn</param>
+                                            <param id="1" name="Value">wallclocktime - 0</param>
+                                        </action>
+                                        <action id="-12" name="Set group active" sid="2701790196499014" type="System">
+                                            <param id="0" name="Group name">&quot;move the handles into position2&quot;</param>
+                                            <param id="1" name="State">0</param>
+                                        </action>
+                                    </actions>
                                 </event-block>
                             </sub-events>
                         </event-block>
@@ -929,6 +1164,106 @@
                                 </event-block>
                             </sub-events>
                         </event-group>
+                    </sub-events>
+                </event-group>
+                <event-group collapsed="1" description="" sid="9832250702802925" title="save necklace position">
+                    <sub-events>
+                        <event-block sid="5312625129305269">
+                            <conditions>
+                                <condition id="3" name="On touched object" sid="7870446715254294" type="Touch">
+                                    <param id="0" name="Object">Button</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="3817071419424327" type="System">
+                                    <param id="0" name="Variable">LayoutState</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">LAYOUTSTATE_READY</param>
+                                </condition>
+                                <condition id="-9" name="Is visible" sid="8447963101130995" type="Button" />
+                                <condition id="12" inverted="1" name="Has Nth touch" sid="5524092713598744" type="Touch">
+                                    <param id="0" name="Touch number">1</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="1762979953499495" type="System">
+                                    <param id="0" name="Variable">IsLeftInPosition</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="4793955584367456" type="System">
+                                    <param id="0" name="Variable">IsRightInPosition</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">1</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="43313294663408">
+                                    <conditions>
+                                        <condition id="-8" name="Compare two values" sid="2081944539065481" type="System">
+                                            <param id="0" name="First value">Button.action</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Second value">&quot;Saves&quot;</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions />
+                                    <sub-events>
+                                        <event-block sid="423958462287063">
+                                            <conditions>
+                                                <condition id="-7" name="Compare instance variable" sid="4378730654047835" type="Handle">
+                                                    <param id="0" name="Instance variable">Side</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;left&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="4" name="Set at XYZ" sid="4393237121409612" type="NecklacesArray">
+                                                    <param id="0" name="X">Level</param>
+                                                    <param id="1" name="Y">SaveSlot</param>
+                                                    <param id="2" name="Z">15</param>
+                                                    <param id="3" name="Value">Handle.X</param>
+                                                </action>
+                                                <action id="4" name="Set at XYZ" sid="5388669078395102" type="NecklacesArray">
+                                                    <param id="0" name="X">Level</param>
+                                                    <param id="1" name="Y">SaveSlot</param>
+                                                    <param id="2" name="Z">16</param>
+                                                    <param id="3" name="Value">Handle.Y</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="5149747103532889">
+                                            <conditions>
+                                                <condition id="-7" name="Compare instance variable" sid="1312507732362719" type="Handle">
+                                                    <param id="0" name="Instance variable">Side</param>
+                                                    <param id="1" name="Comparison">0</param>
+                                                    <param id="2" name="Value">&quot;right&quot;</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="4" name="Set at XYZ" sid="5760876033180469" type="NecklacesArray">
+                                                    <param id="0" name="X">Level</param>
+                                                    <param id="1" name="Y">SaveSlot</param>
+                                                    <param id="2" name="Z">17</param>
+                                                    <param id="3" name="Value">Handle.X</param>
+                                                </action>
+                                                <action id="4" name="Set at XYZ" sid="6647601199480826" type="NecklacesArray">
+                                                    <param id="0" name="X">Level</param>
+                                                    <param id="1" name="Y">SaveSlot</param>
+                                                    <param id="2" name="Z">18</param>
+                                                    <param id="3" name="Value">Handle.Y</param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                        <event-block sid="8910547230785886">
+                                            <conditions />
+                                            <actions>
+                                                <action id="0" name="Call function" sid="7929747548456837" type="Function">
+                                                    <param id="0" name="Name">&quot;SaveNecklacesArray&quot;</param>
+                                                    <param id="1" name="Parameter {n}"></param>
+                                                </action>
+                                            </actions>
+                                        </event-block>
+                                    </sub-events>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
                     </sub-events>
                 </event-group>
             </sub-events>

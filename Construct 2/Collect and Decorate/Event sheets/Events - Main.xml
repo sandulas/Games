@@ -159,7 +159,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="3876133516902916" title="setup settings">
+                <event-group description="" sid="3876133516902916" title="setup settings">
                     <sub-events>
                         <event-block sid="2635619468193831">
                             <conditions>
@@ -191,7 +191,7 @@
                                         </action>
                                     </actions>
                                 </event-block>
-                                <event-block sid="4770843053991516">
+                                <event-block collapsed="1" sid="4770843053991516">
                                     <conditions>
                                         <condition id="3" name="Local key exists" sid="2416367866534987" type="WebStorage">
                                             <param id="0" name="Key">&quot;necklaces&quot;</param>
@@ -203,8 +203,147 @@
                                             <param id="1" name="Parameter {n}"></param>
                                         </action>
                                     </actions>
+                                    <sub-events>
+                                        <comment>if previous version of necklace saved, resize the necklaces array to the new size</comment>
+                                        <event-block collapsed="1" sid="6510945264869796">
+                                            <conditions>
+                                                <condition id="7" name="Compare size" sid="8288995908683597" type="NecklacesArray">
+                                                    <param id="0" name="Axis">2</param>
+                                                    <param id="1" name="Comparison">3</param>
+                                                    <param id="2" name="Value">15</param>
+                                                </condition>
+                                            </conditions>
+                                            <actions>
+                                                <action id="1" name="Set size" sid="3837145478654534" type="NecklacesArray">
+                                                    <param id="0" name="Width">4</param>
+                                                    <param id="1" name="Height">10</param>
+                                                    <param id="2" name="Depth">19</param>
+                                                </action>
+                                                <action id="-9" name="Set value" sid="2018793079609931" type="System">
+                                                    <param id="0" name="Variable">debug_line1</param>
+                                                    <param id="1" name="Value">&quot;cica e mai mic&quot;</param>
+                                                </action>
+                                            </actions>
+                                            <sub-events>
+                                                <event-block sid="4169144409736304">
+                                                    <conditions>
+                                                        <condition id="-10" name="For" sid="2857643153273422" type="System">
+                                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                                            <param id="1" name="Start index">0</param>
+                                                            <param id="2" name="End index">9</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="4" name="Set at XYZ" sid="337421619390074" type="NecklacesArray">
+                                                            <param id="0" name="X">1</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">15</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="5781185390693318" type="NecklacesArray">
+                                                            <param id="0" name="X">1</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">16</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="1911923381390976" type="NecklacesArray">
+                                                            <param id="0" name="X">1</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">17</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="3395083980198262" type="NecklacesArray">
+                                                            <param id="0" name="X">1</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">18</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="2713257512178675">
+                                                    <conditions>
+                                                        <condition id="-10" name="For" sid="2462336163297348" type="System">
+                                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                                            <param id="1" name="Start index">0</param>
+                                                            <param id="2" name="End index">9</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="4" name="Set at XYZ" sid="3092855441552309" type="NecklacesArray">
+                                                            <param id="0" name="X">2</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">15</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="2206254289350142" type="NecklacesArray">
+                                                            <param id="0" name="X">2</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">16</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="4245666968374706" type="NecklacesArray">
+                                                            <param id="0" name="X">2</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">17</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="9748933387517244" type="NecklacesArray">
+                                                            <param id="0" name="X">2</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">18</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="3594354047111303">
+                                                    <conditions>
+                                                        <condition id="-10" name="For" sid="4409598338490709" type="System">
+                                                            <param id="0" name="Name">&quot;i&quot;</param>
+                                                            <param id="1" name="Start index">0</param>
+                                                            <param id="2" name="End index">9</param>
+                                                        </condition>
+                                                    </conditions>
+                                                    <actions>
+                                                        <action id="4" name="Set at XYZ" sid="5603518751861069" type="NecklacesArray">
+                                                            <param id="0" name="X">3</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">15</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="1193450349955512" type="NecklacesArray">
+                                                            <param id="0" name="X">3</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">16</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="8322772368878943" type="NecklacesArray">
+                                                            <param id="0" name="X">3</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">17</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                        <action id="4" name="Set at XYZ" sid="9342851542799372" type="NecklacesArray">
+                                                            <param id="0" name="X">3</param>
+                                                            <param id="1" name="Y">loopindex</param>
+                                                            <param id="2" name="Z">18</param>
+                                                            <param id="3" name="Value">-1</param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                                <event-block sid="8714186488217121">
+                                                    <conditions />
+                                                    <actions>
+                                                        <action id="0" name="Call function" sid="800498147765339" type="Function">
+                                                            <param id="0" name="Name">&quot;SaveNecklacesArray&quot;</param>
+                                                            <param id="1" name="Parameter {n}"></param>
+                                                        </action>
+                                                    </actions>
+                                                </event-block>
+                                            </sub-events>
+                                        </event-block>
+                                    </sub-events>
                                 </event-block>
-                                <event-block sid="5214707663244585">
+                                <event-block collapsed="1" sid="5214707663244585">
                                     <conditions>
                                         <condition id="-22" name="Else" sid="4804461167994991" type="System" />
                                     </conditions>

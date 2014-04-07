@@ -57,7 +57,7 @@
                             <param id="0" name="Variable">debug_line2</param>
                             <param id="1" name="Value">&quot;level: &quot; &amp; Level &amp; &quot;, save slot: &quot; &amp; SaveSlot</param>
                         </action>
-                        <action disabled="1" id="0" name="Set text" sid="975897938275178" type="TextDebug">
+                        <action id="0" name="Set text" sid="975897938275178" type="TextDebug">
                             <param id="0" name="Text">debug_line1 &amp; newline &amp; debug_line2 &amp; newline &amp; debug_line3 &amp; newline &amp; debug_line4 &amp; newline &amp; debug_line5</param>
                         </action>
                         <action id="-26" name="Move to layer" sid="8417087580802289" type="TextDebug">
@@ -314,7 +314,7 @@
         </event-group>
         <event-group collapsed="1" description="" sid="3520418861413121" title="general navigation">
             <sub-events>
-                <event-block collapsed="1" sid="3159905038337372">
+                <event-block sid="3159905038337372">
                     <conditions>
                         <condition id="3" name="On touched object" sid="1314067386628972" type="Touch">
                             <param id="0" name="Object">Button</param>
@@ -346,7 +346,7 @@
                                 </action>
                             </actions>
                         </event-block>
-                        <event-block collapsed="1" sid="8904028956680106">
+                        <event-block sid="8904028956680106">
                             <conditions>
                                 <condition id="-8" name="Compare two values" sid="457178851936219" type="System">
                                     <param id="0" name="First value">Button.type</param>
@@ -835,12 +835,12 @@
                             </conditions>
                             <actions>
                                 <action id="-3" name="Set position" sid="7217573985929335" type="Fader">
-                                    <param id="0" name="X">ViewportLeft(0)</param>
-                                    <param id="1" name="Y">ViewportTop(0)</param>
+                                    <param id="0" name="X">ViewportLeft(0) - 10</param>
+                                    <param id="1" name="Y">ViewportTop(0) - 10</param>
                                 </action>
                                 <action id="-7" name="Set size" sid="6175665399527435" type="Fader">
-                                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
-                                    <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
+                                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0) + 20</param>
+                                    <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0) + 20</param>
                                 </action>
                                 <action id="-16" name="Set opacity" sid="6048406692317466" type="Fader">
                                     <param id="0" name="Opacity">100</param>
@@ -863,12 +863,12 @@
                             </conditions>
                             <actions>
                                 <action id="-3" name="Set position" sid="7045234215246333" type="Fader">
-                                    <param id="0" name="X">ViewportLeft(0)</param>
-                                    <param id="1" name="Y">ViewportTop(0)</param>
+                                    <param id="0" name="X">ViewportLeft(0) - 10</param>
+                                    <param id="1" name="Y">ViewportTop(0) - 10</param>
                                 </action>
                                 <action id="-7" name="Set size" sid="1518011191583659" type="Fader">
-                                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0)</param>
-                                    <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0)</param>
+                                    <param id="0" name="Width">ViewportRight(0) - ViewportLeft(0) + 20</param>
+                                    <param id="1" name="Height">ViewportBottom(0) - ViewportTop(0) + 20</param>
                                 </action>
                                 <action id="-16" name="Set opacity" sid="6876061156271533" type="Fader">
                                     <param id="0" name="Opacity">0</param>
@@ -1634,7 +1634,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="9400384860461762" title="necklace load / save">
+        <event-group description="" sid="9400384860461762" title="necklace load / save">
             <sub-events>
                 <event-block sid="7662978348566204">
                     <conditions>
@@ -1689,6 +1689,11 @@
                                     <param id="2" name="Z">loopindex</param>
                                     <param id="3" name="Value">-1</param>
                                 </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="4520080798796899">
+                            <conditions />
+                            <actions>
                                 <action id="0" name="Call function" sid="1475712695019872" type="Function">
                                     <param id="0" name="Name">&quot;SaveNecklacesArray&quot;</param>
                                     <param id="1" name="Parameter {n}"></param>
