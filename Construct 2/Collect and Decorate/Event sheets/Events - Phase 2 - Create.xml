@@ -747,7 +747,7 @@
                         </event-block>
                     </sub-events>
                 </event-group>
-                <event-group collapsed="1" description="" sid="3226562301188418" title="save necklace">
+                <event-group description="" sid="3226562301188418" title="save necklace">
                     <sub-events>
                         <event-block collapsed="1" sid="8305976236237976">
                             <conditions>
@@ -785,7 +785,7 @@
                                 </event-block>
                             </sub-events>
                         </event-block>
-                        <event-block collapsed="1" sid="8085762786691675">
+                        <event-block sid="8085762786691675">
                             <conditions>
                                 <condition id="3" name="On touched object" sid="3207957600397695" type="Touch">
                                     <param id="0" name="Object">Button</param>
