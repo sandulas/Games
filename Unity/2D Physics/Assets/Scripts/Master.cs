@@ -6,19 +6,32 @@ public class Master
 	public static GameObject InnerCorner1, InnerEdge1, OuterCorner1, OuterEdge1;
 
 	private static Material spriteMaterial;
-	public static Texture2D atlas1;
+
+	private static Texture2D atlas1;
+	private const float pixelsToUnits = 200f;
+	
+	private static Rect InnerCorner1Rect = new Rect(1, 2, 9, 9);
+	private static Rect InnerEdge1Rect = new Rect(13, 2, 1, 9);
+	private static Rect OuterCorner1Rect = new Rect(1, 13, 19, 19);
+	private static Rect OuterEdge1Rect = new Rect(23, 13, 1, 19);
+	private const float Outer1Offset = 10 / pixelsToUnits;
+
+	private enum EffectType { Inner, Outer }
+	private enum EffectPosition { TopLeft, Top, TopRight, Right, BottomRight, Bottom, BottomLeft, Left }
+	
 
 	static Master()
 	{
 		atlas1 = (Texture2D)Resources.Load("Atlas4");
 		spriteMaterial = Resources.Load<Material>("SpriteMaterial");
-		InnerCorner1 = CreateObject(atlas1, 1, 2, 9, 9, 0f, 1f);
-		InnerEdge1 = CreateObject(atlas1, 13, 2, 1, 9, 0f, 1f);
-		OuterCorner1 = CreateObject(atlas1, 1, 13, 19, 19, 1f, 0f);
-		OuterEdge1 = CreateObject(atlas1, 23, 13, 1, 19, 0f, 0f);
+
+		InnerCorner1 = CreateObject(InnerCorner1Rect, new Vector2(0f, 1f)); InnerCorner1.SetActive(false);
+		InnerEdge1 = CreateObject(InnerEdge1Rect, new Vector2(0.5f, 1f)); InnerEdge1.SetActive(false);
+		OuterCorner1 = CreateObject(OuterCorner1Rect, new Vector2(1f, 0f)); OuterCorner1.SetActive(false);
+		OuterEdge1 = CreateObject(OuterEdge1Rect, new Vector2(0.5f, 0f)); OuterEdge1.SetActive(false);
 	}
 
-	public static GameObject CreateObject(Texture2D atlas, float x1, float y1, float x2, float y2, float pivot_x, float pivot_y)
+	public static GameObject CreateObject(Rect rect, Vector2 pivot)
 	{
 
 		SpriteRenderer renderer;
@@ -26,14 +39,180 @@ public class Master
 
 		gameObject = new GameObject("Object");
 		renderer = gameObject.AddComponent<SpriteRenderer>();
-		renderer.sprite = Sprite.Create(atlas1, new Rect(x1, y1, x2, y2), new Vector2(pivot_x, pivot_y), 200f);
+		renderer.sprite = Sprite.Create(atlas1, rect, pivot, pixelsToUnits);
 		renderer.material = spriteMaterial;
 
 		return gameObject;
 	}
 
-	public static void ApplyBoxEffect1(GameObject gameObject)
+	private static void ApplyEffect(GameObject parentObject, GameObject effectSource, EffectType effectType, EffectPosition effectPosition, Vector2 effectOffset, float edgePadding)
 	{
-		Rect spriteRect = ((SpriteRenderer)gameObject.renderer).sprite.rect;
+		float parentX, parentY, parentWidth, parentHeight;
+		GameObject effect;
+
+		Rect parentRect = ((SpriteRenderer)parentObject.renderer).sprite.rect;
+
+		parentX = parentObject.transform.localPosition.x;
+		parentY = parentObject.transform.localPosition.y;
+		parentWidth = parentRect.width / pixelsToUnits;
+		parentHeight = parentRect.height / pixelsToUnits;
+
+		Vector3 position, rotation, scale;
+
+		switch (effectPosition)
+		{
+			case EffectPosition.TopLeft:
+				position = new Vector3(parentX - parentWidth / 2 + effectOffset.x, parentY + parentHeight / 2 - effectOffset.y, 1);
+				rotation = new Vector3(0, 0, 0);
+				scale = new Vector3(0, 0, 0);
+				break;
+			case EffectPosition.TopRight:
+				break;
+			case EffectPosition.BottomRight:
+				break;
+			case EffectPosition.BottomLeft:
+				break;
+
+			case EffectPosition.Top:
+				break;
+			case EffectPosition.Right:
+				break;
+			case EffectPosition.Bottom:
+				break;
+			case EffectPosition.Left:
+				break;
+		}
+
+		effect = (GameObject)GameObject.Instantiate(
+			OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, 0));
+		
+		effect.name = effectType.ToString() + " " + effectPosition.ToString();
+		effect.transform.parent = parentObject.transform;
+		effect.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		if (effectType == EffectType.Inner)
+			effect.renderer.sortingOrder = parentObject.renderer.sortingOrder + 1;
+		else
+			effect.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+
+		effect.SetActive(true);
+	}
+
+	public static void ApplyBoxEffect1(GameObject parentObject)
+	{
+		float parentX, parentY, parentWidth, parentHeight;
+		GameObject gameObject;
+
+		Rect parentRect = ((SpriteRenderer)parentObject.renderer).sprite.rect;
+
+		parentX = parentObject.transform.localPosition.x;
+		parentY = parentObject.transform.localPosition.y;
+		parentWidth = parentRect.width / pixelsToUnits;
+		parentHeight = parentRect.height / pixelsToUnits;
+
+		#region Inner Effect
+
+		////Inner Top Left Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerCorner1,	new Vector3(parentX - parentWidth / 2, parentY + parentHeight / 2, 1), Quaternion.Euler(0, 0, 0));
+		//gameObject.name = "Inner Top Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Top Right Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerCorner1, new Vector3(parentX + parentWidth / 2, parentY + parentHeight / 2, 1), Quaternion.Euler(0, 0, -90));
+		//gameObject.name = "Inner Top Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Bottom Right Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerCorner1, new Vector3(parentX + parentWidth / 2, parentY - parentHeight / 2, 1), Quaternion.Euler(0, 0, 180));
+		//gameObject.name = "Inner Bottom Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Bottom Left Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerCorner1, new Vector3(parentX - parentWidth / 2, parentY - parentHeight / 2, 1), Quaternion.Euler(0, 0, 90));
+		//gameObject.name = "Inner Bottom Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+
+		////Inner Top Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX, parentY + parentHeight / 2, 1), Quaternion.Euler(0, 0, 0));
+		//gameObject.transform.localScale = new Vector3((parentRect.width - InnerCorner1Rect.width * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Top Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Right Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX + parentWidth / 2, parentY, 1), Quaternion.Euler(0, 0, -90));
+		//gameObject.transform.localScale = new Vector3((parentRect.height - InnerCorner1Rect.height * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Right Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Bottom Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX, parentY - parentHeight / 2, 1), Quaternion.Euler(0, 0, 180));
+		//gameObject.transform.localScale = new Vector3((parentRect.width - InnerCorner1Rect.width * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Bottom Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Left Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX - parentWidth / 2, parentY, 1), Quaternion.Euler(0, 0, 90));
+		//gameObject.transform.localScale = new Vector3((parentRect.height - InnerCorner1Rect.height * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Left Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		#endregion
+
+		#region Outer Effect
+
+		//Outer Top Left Corner
+		gameObject = (GameObject)GameObject.Instantiate(
+			OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, 0));
+		gameObject.name = "Outer Top Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+
+		//Outer Top Right Corner
+		gameObject = (GameObject)GameObject.Instantiate(
+			OuterCorner1, new Vector3(parentX + parentWidth / 2 - Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, -90));
+		gameObject.name = "Outer Top Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+
+		//Outer Bottom Right Corner
+		gameObject = (GameObject)GameObject.Instantiate(
+			OuterCorner1, new Vector3(parentX + parentWidth / 2 - Outer1Offset, parentY - parentHeight / 2 + Outer1Offset, 1), Quaternion.Euler(0, 0, 180));
+		gameObject.name = "Outer Bottom Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+
+		//Outer Bottom Left Corner
+		gameObject = (GameObject)GameObject.Instantiate(
+			OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY - parentHeight / 2 + Outer1Offset, 1), Quaternion.Euler(0, 0, 90));
+		gameObject.name = "Outer Bottom Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+
+
+		////Inner Top Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX, parentY + parentHeight / 2, 1), Quaternion.Euler(0, 0, 0));
+		//gameObject.transform.localScale = new Vector3((parentRect.width - InnerCorner1Rect.width * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Top Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Right Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX + parentWidth / 2, parentY, 1), Quaternion.Euler(0, 0, -90));
+		//gameObject.transform.localScale = new Vector3((parentRect.height - InnerCorner1Rect.height * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Right Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Bottom Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX, parentY - parentHeight / 2, 1), Quaternion.Euler(0, 0, 180));
+		//gameObject.transform.localScale = new Vector3((parentRect.width - InnerCorner1Rect.width * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Bottom Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		////Inner Left Edge
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  InnerEdge1, new Vector3(parentX - parentWidth / 2, parentY, 1), Quaternion.Euler(0, 0, 90));
+		//gameObject.transform.localScale = new Vector3((parentRect.height - InnerCorner1Rect.height * 2) / InnerEdge1Rect.width, 1, 1);
+		//gameObject.name = "Inner Left Edge"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+
+		#endregion
 	}
 }

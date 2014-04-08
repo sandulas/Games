@@ -20,7 +20,7 @@ public class DynamicSprite_Master : MonoBehaviour
 
 		GameObject testObject;
 
-		testObject = Master.CreateObject(Master.atlas1, 1, 511, 150, 30, 0.5f, 0.5f);
+		testObject = Master.CreateObject(new Rect(1, 511, 150, 30), new Vector2(0.5f, 0.5f));
 		testObject.renderer.sortingLayerName = "Elements";
 		testObject.renderer.sortingOrder = 1;
 		testObject.transform.position = new Vector3(0f, 0f, 0f);
