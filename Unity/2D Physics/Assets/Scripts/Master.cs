@@ -58,19 +58,24 @@ public class Master
 		parentHeight = parentRect.height / pixelsToUnits;
 
 		Vector3 position, rotation, scale;
+		position = Vector3.zero; rotation = Vector3.zero; scale = Vector3.one;
 
 		switch (effectPosition)
 		{
 			case EffectPosition.TopLeft:
-				position = new Vector3(parentX - parentWidth / 2 + effectOffset.x, parentY + parentHeight / 2 - effectOffset.y, 1);
-				rotation = new Vector3(0, 0, 0);
-				scale = new Vector3(0, 0, 0);
+				position.Set(parentX - parentWidth / 2 + effectOffset.x, parentY + parentHeight / 2 - effectOffset.y, 1);
 				break;
 			case EffectPosition.TopRight:
+				position.Set(parentX + parentWidth / 2 - effectOffset.x, parentY + parentHeight / 2 - effectOffset.y, 1);
+				rotation.Set(0, 0, -90);
 				break;
 			case EffectPosition.BottomRight:
+				position.Set(parentX + parentWidth / 2 - effectOffset.x, parentY - parentHeight / 2 + effectOffset.y, 1);
+				rotation.Set(0, 0, 180);
 				break;
 			case EffectPosition.BottomLeft:
+				position.Set(parentX - parentWidth / 2 + effectOffset.x, parentY - parentHeight / 2 + effectOffset.y, 1);
+				rotation.Set(0, 0, 90);
 				break;
 
 			case EffectPosition.Top:
@@ -84,7 +89,7 @@ public class Master
 		}
 
 		effect = (GameObject)GameObject.Instantiate(
-			OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, 0));
+			effectSource, position, Quaternion.Euler(rotation));
 		
 		effect.name = effectType.ToString() + " " + effectPosition.ToString();
 		effect.transform.parent = parentObject.transform;
@@ -99,15 +104,25 @@ public class Master
 
 	public static void ApplyBoxEffect1(GameObject parentObject)
 	{
-		float parentX, parentY, parentWidth, parentHeight;
-		GameObject gameObject;
+		ApplyEffect(parentObject, OuterCorner1, EffectType.Outer, EffectPosition.TopLeft, new Vector2(Outer1Offset, Outer1Offset), 0f);
+		ApplyEffect(parentObject, OuterCorner1, EffectType.Outer, EffectPosition.TopRight, new Vector2(Outer1Offset, Outer1Offset), 0f);
+		ApplyEffect(parentObject, OuterCorner1, EffectType.Outer, EffectPosition.BottomRight, new Vector2(Outer1Offset, Outer1Offset), 0f);
+		ApplyEffect(parentObject, OuterCorner1, EffectType.Outer, EffectPosition.BottomLeft, new Vector2(Outer1Offset, Outer1Offset), 0f);
+		
+		ApplyEffect(parentObject, InnerCorner1, EffectType.Inner, EffectPosition.TopLeft, Vector2.zero, 0f);
+		ApplyEffect(parentObject, InnerCorner1, EffectType.Inner, EffectPosition.TopRight, Vector2.zero, 0f);
+		ApplyEffect(parentObject, InnerCorner1, EffectType.Inner, EffectPosition.BottomRight, Vector2.zero, 0f);
+		ApplyEffect(parentObject, InnerCorner1, EffectType.Inner, EffectPosition.BottomLeft, Vector2.zero, 0f);
 
-		Rect parentRect = ((SpriteRenderer)parentObject.renderer).sprite.rect;
+		//float parentX, parentY, parentWidth, parentHeight;
+		//GameObject gameObject;
 
-		parentX = parentObject.transform.localPosition.x;
-		parentY = parentObject.transform.localPosition.y;
-		parentWidth = parentRect.width / pixelsToUnits;
-		parentHeight = parentRect.height / pixelsToUnits;
+		//Rect parentRect = ((SpriteRenderer)parentObject.renderer).sprite.rect;
+
+		//parentX = parentObject.transform.localPosition.x;
+		//parentY = parentObject.transform.localPosition.y;
+		//parentWidth = parentRect.width / pixelsToUnits;
+		//parentHeight = parentRect.height / pixelsToUnits;
 
 		#region Inner Effect
 
@@ -160,33 +175,33 @@ public class Master
 
 		#region Outer Effect
 
-		//Outer Top Left Corner
-		gameObject = (GameObject)GameObject.Instantiate(
-			OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, 0));
-		gameObject.name = "Outer Top Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
-		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
-		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+		////Outer Top Left Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, 0));
+		//gameObject.name = "Outer Top Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		//gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		//gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
 
-		//Outer Top Right Corner
-		gameObject = (GameObject)GameObject.Instantiate(
-			OuterCorner1, new Vector3(parentX + parentWidth / 2 - Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, -90));
-		gameObject.name = "Outer Top Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
-		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
-		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+		////Outer Top Right Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  OuterCorner1, new Vector3(parentX + parentWidth / 2 - Outer1Offset, parentY + parentHeight / 2 - Outer1Offset, 1), Quaternion.Euler(0, 0, -90));
+		//gameObject.name = "Outer Top Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		//gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		//gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
 
-		//Outer Bottom Right Corner
-		gameObject = (GameObject)GameObject.Instantiate(
-			OuterCorner1, new Vector3(parentX + parentWidth / 2 - Outer1Offset, parentY - parentHeight / 2 + Outer1Offset, 1), Quaternion.Euler(0, 0, 180));
-		gameObject.name = "Outer Bottom Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
-		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
-		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+		////Outer Bottom Right Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  OuterCorner1, new Vector3(parentX + parentWidth / 2 - Outer1Offset, parentY - parentHeight / 2 + Outer1Offset, 1), Quaternion.Euler(0, 0, 180));
+		//gameObject.name = "Outer Bottom Right Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		//gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		//gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
 
-		//Outer Bottom Left Corner
-		gameObject = (GameObject)GameObject.Instantiate(
-			OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY - parentHeight / 2 + Outer1Offset, 1), Quaternion.Euler(0, 0, 90));
-		gameObject.name = "Outer Bottom Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
-		gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
-		gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
+		////Outer Bottom Left Corner
+		//gameObject = (GameObject)GameObject.Instantiate(
+		//  OuterCorner1, new Vector3(parentX - parentWidth / 2 + Outer1Offset, parentY - parentHeight / 2 + Outer1Offset, 1), Quaternion.Euler(0, 0, 90));
+		//gameObject.name = "Outer Bottom Left Corner"; gameObject.SetActive(true); gameObject.transform.parent = parentObject.transform;
+		//gameObject.renderer.sortingLayerID = parentObject.renderer.sortingLayerID;
+		//gameObject.renderer.sortingOrder = parentObject.renderer.sortingOrder - 1;
 
 
 		////Inner Top Edge
