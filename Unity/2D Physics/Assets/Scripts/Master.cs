@@ -5,33 +5,41 @@ public enum ObjectMaterial { FixedMetal, Metal, Wood, Rubber, Ice }
 
 public class Master
 {
-	private static GameObject InnerCorner1, InnerEdge1, OuterCorner1, OuterEdge1;
+	private static GameObject InnerCorner1, InnerEdge1, OuterCorner1, OuterEdge1, InnerCorner2, InnerEdge2;
 
 	private static Material spriteMaterial;
 
-	private static Texture2D atlas1;
+	private static int currentElementsSortingOrder = 0;
+
+	private static Texture2D atlas1, atlas2;
 	private const float pixelsToUnits = 200f;
 	
 	private static Rect InnerCorner1Rect = new Rect(1, 2, 9, 9);
 	private static Rect InnerEdge1Rect = new Rect(13, 2, 1, 9);
 	private static Rect OuterCorner1Rect = new Rect(1, 13, 19, 19);
 	private static Rect OuterEdge1Rect = new Rect(23, 13, 1, 19);
+	private static Rect InnerCorner2Rect = new Rect(27, 1, 15, 15);
+	private static Rect InnerEdge2Rect = new Rect(45, 1, 1, 15);
+
 	private const int Outer1Offset = 10;
 
 	private enum EffectType { Inner, Outer }	
 
 	static Master()
 	{
-		atlas1 = (Texture2D)Resources.Load("Atlas4");
+		atlas1 = (Texture2D)Resources.Load("Atlas1");
+		atlas2 = (Texture2D)Resources.Load("Atlas2");
 		spriteMaterial = Resources.Load<Material>("SpriteMaterial");
 
-		InnerCorner1 = CreateObject(InnerCorner1Rect, new Vector2(0f, 1f)); InnerCorner1.SetActive(false);
-		InnerEdge1 = CreateObject(InnerEdge1Rect, new Vector2(0.5f, 1f)); InnerEdge1.SetActive(false);
-		OuterCorner1 = CreateObject(OuterCorner1Rect, new Vector2(1f, 0f)); OuterCorner1.SetActive(false);
-		OuterEdge1 = CreateObject(OuterEdge1Rect, new Vector2(0.5f, 0f)); OuterEdge1.SetActive(false);
+		InnerCorner1 = CreateObject(atlas1, InnerCorner1Rect, new Vector2(0f, 1f)); InnerCorner1.SetActive(false);
+		InnerEdge1 = CreateObject(atlas1, InnerEdge1Rect, new Vector2(0.5f, 1f)); InnerEdge1.SetActive(false);
+		OuterCorner1 = CreateObject(atlas1, OuterCorner1Rect, new Vector2(1f, 0f)); OuterCorner1.SetActive(false);
+		OuterEdge1 = CreateObject(atlas1, OuterEdge1Rect, new Vector2(0.5f, 0f)); OuterEdge1.SetActive(false);
+		InnerCorner2 = CreateObject(atlas1, InnerCorner2Rect, new Vector2(0f, 1f)); InnerCorner2.SetActive(false);
+		InnerEdge2 = CreateObject(atlas1, InnerEdge2Rect, new Vector2(0.5f, 1f)); InnerEdge2.SetActive(false);
 	}
 
-	private static GameObject CreateObject(Rect rect, Vector2 pivot)
+	private static GameObject CreateObject(Texture2D atlas, Rect rect, Vector2 pivot)
 	{
 
 		SpriteRenderer renderer;
@@ -39,7 +47,7 @@ public class Master
 
 		gameObject = new GameObject("Object");
 		renderer = gameObject.AddComponent<SpriteRenderer>();
-		renderer.sprite = Sprite.Create(atlas1, rect, pivot, pixelsToUnits);
+		renderer.sprite = Sprite.Create(atlas, rect, pivot, pixelsToUnits);
 		renderer.material = spriteMaterial;
 
 		return gameObject;
@@ -140,6 +148,12 @@ public class Master
 		createBoxEffect(parentObject, InnerCorner1, InnerEdge1, EffectType.Inner, 0);
 	}
 
+	private static void CreateBoxEffect2(GameObject parentObject)
+	{
+		createBoxEffect(parentObject, OuterCorner1, OuterEdge1, EffectType.Outer, Outer1Offset);
+		createBoxEffect(parentObject, InnerCorner2, InnerEdge2, EffectType.Inner, 0);
+	}
+
 	public static GameObject CreateBox(ObjectMaterial material, Vector2 size)
 	{
 		GameObject gameObject;
@@ -157,15 +171,22 @@ public class Master
 				rect.Set(1, 1544 - size.y + 1, size.x, size.y);
 				break;
 			case ObjectMaterial.Rubber:
-				rect.Set(1, 1042 - size.y + 1, size.x, size.y);
+				rect.Set(1, 2046 - size.y + 1, size.x, size.y);
 				break;
 			case ObjectMaterial.Ice:
 				rect.Set(1, 1042 - size.y + 1, size.x, size.y);
 				break;
 		}
 
-		gameObject = CreateObject(rect, new Vector2(0.5f, 0.5f));
-		CreateBoxEffect1(gameObject);
+		if (material == ObjectMaterial.Rubber) gameObject = CreateObject(atlas2, rect, new Vector2(0.5f, 0.5f));
+		else gameObject = CreateObject(atlas1, rect, new Vector2(0.5f, 0.5f));
+
+		gameObject.renderer.sortingLayerName = "Elements";
+		gameObject.renderer.sortingOrder = currentElementsSortingOrder;
+		currentElementsSortingOrder++;
+
+		if (material == ObjectMaterial.Ice) CreateBoxEffect2(gameObject);
+		else CreateBoxEffect1(gameObject);
 
 		return gameObject;
 	}
