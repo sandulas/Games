@@ -27,6 +27,12 @@ public class DynamicSprite_Master : MonoBehaviour
 		testObject = Master.CreateBox(ObjectMaterial.Wood, new Vector2(500, 500));
 		testObject.transform.position = new Vector3(-2, 2, 0);
 
+		testObject = Master.CreateBox(ObjectMaterial.Wood, new Vector2(50, 20));
+		testObject.transform.position = new Vector3(-2, -3, 0);
+
+		testObject = Master.CreateBox(ObjectMaterial.Ice, new Vector2(20, 50));
+		testObject.transform.position = new Vector3(-2.3f, -3, 0);
+
 		testObject = Master.CreateBox(ObjectMaterial.FixedMetal, new Vector2(820, 200));
 		testObject.transform.position = new Vector3(2, 3, 0);
 
