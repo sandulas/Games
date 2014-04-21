@@ -53,10 +53,6 @@ public class ObjectFactory
 				triangles[i * 3 + 1] = 1;
 
 			triangles[i * 3 + 2] = i + 1;
-
-			//UVs
-			//if (i % 2 == 0) uvs[i + 1] = new Vector2(0.05f, 0.1f);
-			//else uvs[i + 1] = new Vector2(0.1f, 0.1f);
 		}
 
 		mesh.vertices = vertices;
@@ -69,4 +65,75 @@ public class ObjectFactory
 
 		obj.renderer.material = material;
 	}
+
+	public static void CreateTriangleMesh()
+	{
+		Mesh mesh = new Mesh();
+
+		//Vertices
+		Vector3[] vertices = 
+		{
+			new Vector3(0, 0, 0),
+			new Vector3(0.2f, 2, 0),
+			new Vector3(-0.2f, 2, 0)
+		};
+
+		//Triangles
+		int[] triangles = { 0, 2, 1 };
+
+		//UVs
+		Vector2[] uvs = 
+		{
+			new Vector2(1676f / 2048, 313f / 2048),
+			new Vector2(1696f / 2048, 474f / 2048),
+			new Vector2(1656f / 2048, 474f / 2048)
+		};
+
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+		mesh.uv = uvs;
+
+		GameObject obj = new GameObject();
+		obj.AddComponent<MeshRenderer>();
+		obj.AddComponent<MeshFilter>().mesh = mesh;
+
+		obj.renderer.material = material;
+	}
+
+	public static void CreateTriangleMesh2()
+	{
+		Mesh mesh = new Mesh();
+
+		//Vertices
+		Vector3[] vertices = 
+		{
+			new Vector3(0, 0, 0),
+			new Vector3(0.2f, 0.2f, 0),
+			new Vector3(-0.2f, 0.2f, 0)
+		};
+
+		//Triangles
+		int[] triangles = { 0, 2, 1 };
+
+		//UVs
+		Vector2[] uvs = 
+		{
+			new Vector2(1676f / 2048, 454f / 2048),
+			new Vector2(1696f / 2048, 474f / 2048),
+			new Vector2(1656f / 2048, 474f / 2048)
+		};
+
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+		mesh.uv = uvs;
+
+		GameObject obj = new GameObject();
+		obj.AddComponent<MeshRenderer>();
+		obj.AddComponent<MeshFilter>().mesh = mesh;
+
+		obj.renderer.material = material;
+
+		obj.transform.localPosition = new Vector3(2, 0, 0);
+	}
+
 }
