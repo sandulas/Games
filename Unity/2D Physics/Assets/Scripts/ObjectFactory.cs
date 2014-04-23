@@ -64,6 +64,76 @@ public class ObjectFactory
 		obj.AddComponent<MeshFilter>().mesh = mesh;
 
 		obj.renderer.material = material;
+
+		obj.renderer.sortingLayerName = "Elements";
+		obj.renderer.sortingOrder = 1;
+	}
+
+	public static void CreateCircleMesh(int segments, float radius, int pixelInnerOffset, int pixelOuterOffset)
+	{
+		Mesh mesh = new Mesh();
+
+		//Vertices
+		Vector3[] vertices = new Vector3[segments * 2];
+		int[] triangles = new int[segments * 3 * 2];
+		Vector2[] uvs = new Vector2[segments * 2];
+
+		float ppu = 10f / 1536;
+		float innerRadius = radius - pixelInnerOffset * ppu;
+		float outerRadius = radius + pixelOuterOffset * ppu;
+
+		double angle = 2 * Math.PI / segments;
+
+		for (int i = 0; i < segments; i++)
+		{
+			//Vertices
+			vertices[i * 2] = new Vector3((float)(innerRadius * Math.Cos(i * angle)), (float)(innerRadius * Math.Sin(i * angle)), 0);
+			vertices[i * 2 + 1] = new Vector3((float)(outerRadius * Math.Cos(i * angle)), (float)(outerRadius * Math.Sin(i * angle)), 0);
+
+
+			//UVs
+			if (i % 2 == 0)
+			{
+				uvs[i * 2] = TextureXYtoUV(49, 2044);
+				uvs[i * 2 + 1] = TextureXYtoUV(49, 2026);
+			}
+			else
+			{
+				uvs[i * 2] = TextureXYtoUV(66, 2044);
+				uvs[i * 2 + 1] = TextureXYtoUV(66, 2026);
+			}
+
+			//Triangles
+			triangles[i * 6 + 1] = i * 2 + 1;
+			triangles[i * 6 + 2] = i * 2;
+			triangles[i * 6 + 5] = i * 2 + 1;
+
+			if (i < segments - 1)
+			{
+				triangles[i * 6] = i * 2 + 2;
+				triangles[i * 6 + 3] = i * 2 + 2;
+				triangles[i * 6 + 4] = i * 2 + 3;
+			}
+			else
+			{
+				triangles[i * 6] = 0;
+				triangles[i * 6 + 3] = 0;
+				triangles[i * 6 + 4] = 1;
+			}
+		}
+
+		mesh.vertices = vertices;
+		mesh.triangles = triangles;
+		mesh.uv = uvs;
+
+		GameObject obj = new GameObject();
+		obj.AddComponent<MeshRenderer>();
+		obj.AddComponent<MeshFilter>().mesh = mesh;
+
+		obj.renderer.material = material;
+
+		obj.renderer.sortingLayerName = "Elements";
+		obj.renderer.sortingOrder = 2;
 	}
 
 	public static void CreateTriangleMesh()
@@ -136,4 +206,8 @@ public class ObjectFactory
 		obj.transform.localPosition = new Vector3(2, 0, 0);
 	}
 
+	private static Vector2 TextureXYtoUV(int x, int y)
+	{
+		return new Vector2((float) x / 2047, (float)(2047 - y) / 2047);
+	}
 }

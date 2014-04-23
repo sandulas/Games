@@ -13,6 +13,8 @@ public class Test4_3D : MonoBehaviour
 
 		for (int i = 0; i < 3000; i++)
 			ObjectFactory.CreateTriangleMesh2();
+
+		ObjectFactory.CreateCircleMesh(30, 0.5f, 9, 10);
 	}
 
 	void Update()
