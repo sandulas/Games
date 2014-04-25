@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ThisProject;
 
 public class Test4_3D : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class Test4_3D : MonoBehaviour
 
 	void Start()
 	{
-		for (int i = 0; i < 50; i++)
-			ObjectFactory.CreateDiskMesh(30);
+		for (int i = 0; i < 1; i++)
+			ObjectFactory.CreateCircle(1.5f, PhysicsMaterial.Metal);
 
 		//for (int i = 0; i < 1500; i++)
 		//  ObjectFactory.CreateTriangleMesh();
@@ -17,8 +18,11 @@ public class Test4_3D : MonoBehaviour
 		//for (int i = 0; i < 3000; i++)
 		//  ObjectFactory.CreateTriangleMesh2();
 
-		for (int i = 0; i < 50; i++)
-			ObjectFactory.CreateCircleMesh(30, 0.5f, 9, 10);
+		for (int i = 0; i < 1; i++)
+			//ObjectFactory.CreateCircleMesh(0.5f, 9, 10);
+			ObjectFactory.CreateCircleEffect(1.5f, Effects.Ice);
+
+		ObjectFactory.CreateCircleEffect(1.5f, Effects.Solid);
 	}
 
 	void Update()
