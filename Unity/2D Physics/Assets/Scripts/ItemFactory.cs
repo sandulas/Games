@@ -4,17 +4,21 @@ using System;
 
 namespace ThisProject
 {
-	public enum PhysicsMaterial { FixedMetal, Metal, Wood, Rubber, Ice }
-	public enum Effects { Solid, Ice }
+	public enum ItemShape { Rectangle, Circle, Triangle }
+	public enum ItemMaterial { FixedMetal, Metal, Wood, Rubber, Ice }
 
-	public class ObjectFactory
+
+	public class ItemFactory
 	{
-		private static Texture2D atlas1, atlas2;
-		private static Material atlas1Material, atlas2Material;
+		enum ItemEffect { Solid, Ice }
 
-		private static int circleSegments = 50;
+		static Texture2D atlas1, atlas2;
+		static Material atlas1Material, atlas2Material;
+		static int currentLayerPair;
 
-		static ObjectFactory()
+		static int circleSegments = 50;
+
+		static ItemFactory()
 		{
 			atlas1 = (Texture2D)Resources.Load("Atlas1");
 			atlas2 = (Texture2D)Resources.Load("Atlas2");
@@ -24,9 +28,45 @@ namespace ThisProject
 
 			atlas2Material = new Material(Shader.Find("Custom/UnlitTransparent"));
 			atlas2Material.mainTexture = atlas2;
+
+			currentLayerPair = 0;
 		}
 
-		public static void CreateCircle(float radius, PhysicsMaterial physicsMaterial)
+		public static GameObject CreateItem(ItemShape shape, ItemMaterial material)
+		{
+			ItemEffect effect;
+			if (material == ItemMaterial.Ice) effect = ItemEffect.Ice;
+			else effect = ItemEffect.Solid;
+
+			GameObject obj, objEffect;
+
+			switch (shape)
+			{
+				case ItemShape.Circle:
+					obj = CreateCircle(0.5f, material);
+					objEffect = CreateCircleEffect(0.5f, effect);
+					break;
+				default:
+					obj = CreateCircle(0.5f, material);
+					objEffect = CreateCircleEffect(0.5f, effect);
+					break;
+			}
+
+			objEffect.transform.parent = obj.transform;
+
+			obj.renderer.sortingLayerName = "Elements";
+			obj.renderer.sortingOrder = currentLayerPair * 2;
+
+			objEffect.renderer.sortingLayerName = "Elements";
+			objEffect.renderer.sortingOrder = currentLayerPair * 2 + 1;
+
+			currentLayerPair++;
+
+			return obj;
+		}
+
+
+		private static GameObject CreateCircle(float radius, ItemMaterial itemMaterial)
 		{
 			//Vertices
 			Vector3[] vertices = new Vector3[circleSegments + 1];
@@ -37,25 +77,25 @@ namespace ThisProject
 
 			Vector2 uvCenter;
 			Material material;
-			switch (physicsMaterial)
+			switch (itemMaterial)
 			{
-				case PhysicsMaterial.FixedMetal:
+				case ItemMaterial.FixedMetal:
 					uvCenter = TextureXYtoUV(677, 1756);
 					material = atlas1Material;
 					break;
-				case PhysicsMaterial.Ice:
+				case ItemMaterial.Ice:
 					uvCenter = TextureXYtoUV(677, 1254);
 					material = atlas1Material;
 					break;
-				case PhysicsMaterial.Metal:
+				case ItemMaterial.Metal:
 					uvCenter = TextureXYtoUV(677, 250);
 					material = atlas1Material;
 					break;
-				case PhysicsMaterial.Rubber:
+				case ItemMaterial.Rubber:
 					uvCenter = TextureXYtoUV(677, 250);
 					material = atlas2Material;
 					break;
-				case PhysicsMaterial.Wood:
+				case ItemMaterial.Wood:
 					uvCenter = TextureXYtoUV(677, 752);
 					material = atlas1Material;
 					break;
@@ -100,12 +140,11 @@ namespace ThisProject
 			obj.AddComponent<MeshFilter>().mesh = mesh;
 
 			obj.renderer.material = material;
-
-			obj.renderer.sortingLayerName = "Elements";
-			obj.renderer.sortingOrder = 1;
+			
+			return obj;
 		}
 
-		public static void CreateCircleEffect(float radius, Effects effect)
+		private static GameObject CreateCircleEffect(float radius, ItemEffect effect)
 		{
 			//Vertices
 			Vector3[] vertices = new Vector3[circleSegments * 2];
@@ -117,7 +156,7 @@ namespace ThisProject
 
 			switch (effect)
 			{
-				case Effects.Ice:
+				case ItemEffect.Ice:
 					pixelInnerOffset = 9;
 					pixelOuterOffset = 15;
 					uv0 = TextureXYtoUV(70, 2046);
@@ -125,7 +164,7 @@ namespace ThisProject
 					uv2 = TextureXYtoUV(87, 2046);
 					uv3 = TextureXYtoUV(87, 2022);
 					break;
-				case Effects.Solid:
+				case ItemEffect.Solid:
 					pixelInnerOffset = 9;
 					pixelOuterOffset = 10;
 					uv0 = TextureXYtoUV(49, 2044);
@@ -199,8 +238,7 @@ namespace ThisProject
 
 			obj.renderer.material = atlas1Material;
 
-			obj.renderer.sortingLayerName = "Elements";
-			obj.renderer.sortingOrder = 2;
+			return obj;
 		}
 
 		public static void CreateTriangleMesh()

@@ -9,8 +9,10 @@ public class Test4_3D : MonoBehaviour
 
 	void Start()
 	{
-		for (int i = 0; i < 1; i++)
-			ObjectFactory.CreateCircle(1.5f, PhysicsMaterial.Metal);
+		for (int i = 0; i < 50; i++)
+		{
+			ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
+		}
 
 		//for (int i = 0; i < 1500; i++)
 		//  ObjectFactory.CreateTriangleMesh();
@@ -19,10 +21,11 @@ public class Test4_3D : MonoBehaviour
 		//  ObjectFactory.CreateTriangleMesh2();
 
 		for (int i = 0; i < 1; i++)
-			//ObjectFactory.CreateCircleMesh(0.5f, 9, 10);
-			ObjectFactory.CreateCircleEffect(1.5f, Effects.Ice);
+		{
+			GameObject obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
+			obj.transform.position = new Vector3(3, 0, 0);
+		}
 
-		ObjectFactory.CreateCircleEffect(1.5f, Effects.Solid);
 	}
 
 	void Update()
