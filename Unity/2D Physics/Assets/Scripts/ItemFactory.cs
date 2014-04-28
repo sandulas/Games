@@ -65,7 +65,6 @@ namespace ThisProject
 			return obj;
 		}
 
-
 		private static GameObject CreateCircle(float radius, ItemMaterial itemMaterial)
 		{
 			//Vertices
@@ -157,8 +156,8 @@ namespace ThisProject
 			switch (effect)
 			{
 				case ItemEffect.Ice:
-					pixelInnerOffset = 9;
-					pixelOuterOffset = 15;
+					pixelInnerOffset = 15;
+					pixelOuterOffset = 10;
 					uv0 = TextureXYtoUV(70, 2046);
 					uv1 = TextureXYtoUV(70, 2022);
 					uv2 = TextureXYtoUV(87, 2046);
@@ -241,6 +240,11 @@ namespace ThisProject
 			return obj;
 		}
 
+		private static Vector2 TextureXYtoUV(int x, int y)
+		{
+			return new Vector2((float)x / 2047, (float)(2047 - y) / 2047);
+		}
+
 		public static void CreateTriangleMesh()
 		{
 			Mesh mesh = new Mesh();
@@ -309,11 +313,6 @@ namespace ThisProject
 			obj.renderer.material = atlas1Material;
 
 			obj.transform.localPosition = new Vector3(2, 0, 0);
-		}
-
-		private static Vector2 TextureXYtoUV(int x, int y)
-		{
-			return new Vector2((float)x / 2047, (float)(2047 - y) / 2047);
 		}
 	}
 }
