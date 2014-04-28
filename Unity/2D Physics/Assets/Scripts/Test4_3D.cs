@@ -26,6 +26,11 @@ public class Test4_3D : MonoBehaviour
 		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
 		obj.transform.position = new Vector3(3f, 0, 0);
 
+		obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Rubber);
+		obj.transform.position = new Vector3(4f, 0, 0);
+
+
+
 		return;
 	
 		for (int i = 0; i < 50; i++)
