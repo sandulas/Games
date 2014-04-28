@@ -9,20 +9,33 @@ public class Test4_3D : MonoBehaviour
 
 	void Start()
 	{
+		GameObject obj;
+
+		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.FixedMetal);
+		obj.transform.position = new Vector3(-3, 0, 0);
+
+		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
+		obj.transform.position = new Vector3(-1.5f, 0, 0);
+
+		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Metal);
+		obj.transform.position = new Vector3(0, 0, 0);
+
+		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
+		obj.transform.position = new Vector3(1.5f, 0, 0);
+
+		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
+		obj.transform.position = new Vector3(3f, 0, 0);
+
+		return;
+	
 		for (int i = 0; i < 50; i++)
 		{
 			ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
 		}
 
-		//for (int i = 0; i < 1500; i++)
-		//  ObjectFactory.CreateTriangleMesh();
-
-		//for (int i = 0; i < 3000; i++)
-		//  ObjectFactory.CreateTriangleMesh2();
-
 		for (int i = 0; i < 1; i++)
 		{
-			GameObject obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
+			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
 			obj.transform.position = new Vector3(3, 0, 0);
 		}
 
