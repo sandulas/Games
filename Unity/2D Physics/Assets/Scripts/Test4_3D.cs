@@ -11,24 +11,40 @@ public class Test4_3D : MonoBehaviour
 	{
 		GameObject obj;
 
-		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.FixedMetal);
-		obj.transform.position = new Vector3(-3, 0, 0);
+		for (int i = -5; i < 5; i++)
+		{
+			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.FixedMetal);
+			obj.transform.position = new Vector3(-3, i * 0.5f, 0);
 
-		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
-		obj.transform.position = new Vector3(-1.5f, 0, 0);
+			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
+			obj.transform.position = new Vector3(-1.5f, i * 0.5f, 0);
 
-		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Metal);
-		obj.transform.position = new Vector3(0, 0, 0);
+			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Metal);
+			obj.transform.position = new Vector3(0, i * 0.5f, 0);
 
-		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
-		obj.transform.position = new Vector3(1.5f, 0, 0);
+			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
+			obj.transform.position = new Vector3(1.5f, i * 0.5f, 0);
 
-		obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
-		obj.transform.position = new Vector3(3f, 0, 0);
+			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
+			obj.transform.position = new Vector3(3f, i * 0.5f, 0);
 
-		obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Rubber);
-		obj.transform.position = new Vector3(4f, 0, 0);
 
+
+			obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.FixedMetal);
+			obj.transform.position = new Vector3(-3, i * 0.5f + 1.5f, 0);
+
+			obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Ice);
+			obj.transform.position = new Vector3(-1.5f, i * 0.5f + 1.5f, 0);
+
+			obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Metal);
+			obj.transform.position = new Vector3(0f, i * 0.5f + 1.5f, 0);
+
+			obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Rubber);
+			obj.transform.position = new Vector3(1.5f, i * 0.5f + 1.5f, 0);
+
+			obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Wood);
+			obj.transform.position = new Vector3(3, i * 0.5f + 1.5f, 0);
+		}
 
 
 		return;

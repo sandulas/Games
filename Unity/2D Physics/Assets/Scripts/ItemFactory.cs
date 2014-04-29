@@ -96,7 +96,7 @@ namespace ThisProject
 					material = atlas1Material;
 					break;
 				case ItemMaterial.Ice:
-					TextureXYCenter = new IntVector2(677, 1254);
+					TextureXYCenter = new IntVector2(1004, 1254);
 					material = atlas1Material;
 					break;
 				case ItemMaterial.Metal:
@@ -108,7 +108,7 @@ namespace ThisProject
 					material = atlas2Material;
 					break;
 				case ItemMaterial.Wood:
-					TextureXYCenter = new IntVector2(677, 752);
+					TextureXYCenter = new IntVector2(800, 752);
 					material = atlas1Material;
 					break;
 				default:
@@ -341,42 +341,43 @@ namespace ThisProject
 					break;
 			}
 
-			//from top left to bottom right, 4 rows, 4 vertices per row
+			//the mesh looks like 4 trapezoids with the small base inside, forming a rectangle
 			Vector3[] vertices = {
-														 //1st row
+														 //top
 														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
 														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 //2nd row
-														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
 														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 //3rd row
-														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 //right
+														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 //bottom
 														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
 														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
-														 //4th row
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
 														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit)
+														 //left
+														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
 													 };
-			
-			//from top left to bottom right, 3 rows, 6 / 4 / 6 triangles per each row
+
 			int[] triangles = {
-													//1st row
-													4, 0, 5, 0, 1, 5, 5, 1, 6, 1, 2, 6, 6, 2, 7, 2, 3, 7,
-													//2nd row
-													8, 4, 9, 4, 5, 9, 10, 6, 11, 6, 7, 11,
-													//3rd row
-													12, 8, 13, 8, 9, 13, 13, 9, 14, 9, 10, 14, 14, 10, 15, 10, 11, 15
+													0, 1, 3, 3, 1, 2,				//top
+													4, 5, 6, 6, 7, 4,				//right
+													8, 9, 11, 11, 9, 10,		//bottom
+													12, 13, 14, 14, 15, 12	//left
 												};
 
-			//same order as the vertices, of course
-			Vector2[] uvs = { uv1, uv3, uv1, uv3, uv0, uv2, uv0, uv2, uv1, uv3, uv1, uv3, uv0, uv2, uv0, uv2 };
+			Vector2[] uvs = {
+												uv1, uv3, uv2, uv0,	//top
+												uv0, uv1, uv3, uv2,	//right
+												uv2, uv0, uv1, uv3,	//bottom
+												uv3, uv2, uv0, uv1	//left
+											};
 
 
 			Mesh mesh = new Mesh();
@@ -409,6 +410,7 @@ namespace ThisProject
 
 
 		//OLD
+		/*
 		public static void CreateTriangleMesh()
 		{
 			Mesh mesh = new Mesh();
@@ -478,5 +480,92 @@ namespace ThisProject
 
 			obj.transform.localPosition = new Vector3(2, 0, 0);
 		}
+
+		private static GameObject CreateRectangleEffect_Old(float width, float height, ItemEffect effect)
+		{
+			int pixelInnerOffset, pixelOuterOffset;
+			Vector2 uv0, uv1, uv2, uv3;
+
+			switch (effect)
+			{
+				case ItemEffect.Ice:
+					pixelInnerOffset = 15;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(70, 2046);  //bottom left
+					uv1 = TextureXY2UV(70, 2022);  //top left
+					uv2 = TextureXY2UV(87, 2046);  //bottom right
+					uv3 = TextureXY2UV(87, 2022);  //top right
+					break;
+				case ItemEffect.Solid:
+					pixelInnerOffset = 9;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(49, 2044);
+					uv1 = TextureXY2UV(49, 2026);
+					uv2 = TextureXY2UV(66, 2044);
+					uv3 = TextureXY2UV(66, 2026);
+					break;
+				default:
+					pixelInnerOffset = 9;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(49, 2044);
+					uv1 = TextureXY2UV(49, 2026);
+					uv2 = TextureXY2UV(66, 2044);
+					uv3 = TextureXY2UV(66, 2026);
+					break;
+			}
+
+			//from top left to bottom right, 4 rows, 4 vertices per row
+			Vector3[] vertices = {
+														 //1st row
+														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+														 //2nd row
+														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+														 //3rd row
+														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+														 //4th row
+														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit)
+													 };
+
+			//from top left to bottom right, 3 rows, 6 / 4 / 6 triangles per each row
+			int[] triangles = {
+													//1st row
+													4, 0, 5, 0, 1, 5, 5, 1, 6, 1, 2, 6, 6, 2, 7, 2, 3, 7,
+													//2nd row
+													8, 4, 9, 4, 5, 9, 10, 6, 11, 6, 7, 11,
+													//3rd row
+													12, 8, 13, 8, 9, 13, 13, 9, 14, 9, 10, 14, 14, 10, 15, 10, 11, 15
+												};
+
+			//same order as the vertices, of course
+			Vector2[] uvs = { uv1, uv3, uv1, uv3, uv0, uv2, uv0, uv2, uv1, uv3, uv1, uv3, uv0, uv2, uv0, uv2 };
+
+
+			Mesh mesh = new Mesh();
+
+			mesh.vertices = vertices;
+			mesh.triangles = triangles;
+			mesh.uv = uvs;
+
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = mesh;
+
+			obj.renderer.material = atlas1Material;
+
+			return obj;
+		}
+		*/ 
 	}
 }
