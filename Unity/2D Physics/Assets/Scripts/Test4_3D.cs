@@ -47,19 +47,25 @@ public class Test4_3D : MonoBehaviour
 		}
 
 
-		return;
-	
-		for (int i = 0; i < 50; i++)
-		{
-			ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
-		}
+		//for (int i = 0; i < 50; i++)
+		//{
+		//  ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
+		//}
 
-		for (int i = 0; i < 1; i++)
-		{
-			obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
-			obj.transform.position = new Vector3(3, 0, 0);
-		}
 
+		//for (int i = 0; i < 50; i++)
+		//{
+		//  obj = ItemFactory.CreateTriangleMesh();
+		//  obj.renderer.sortingOrder = i;
+		//}
+
+		//for (int i = 0; i < 50; i++)
+		//{
+		//  obj = ItemFactory.CreateTriangleMesh2();
+		//  obj.renderer.sortingOrder = i + 100;
+		//}
+
+		
 	}
 
 	void Update()

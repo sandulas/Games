@@ -410,8 +410,7 @@ namespace ThisProject
 
 
 		//OLD
-		/*
-		public static void CreateTriangleMesh()
+		public static GameObject CreateTriangleMesh()
 		{
 			Mesh mesh = new Mesh();
 
@@ -428,11 +427,11 @@ namespace ThisProject
 
 			//UVs
 			Vector2[] uvs = 
-		{
-			new Vector2(1676f / 2048, 313f / 2048),
-			new Vector2(1696f / 2048, 474f / 2048),
-			new Vector2(1656f / 2048, 474f / 2048)
-		};
+			{
+				new Vector2(1676f / 2048, 313f / 2048),
+				new Vector2(1696f / 2048, 474f / 2048),
+				new Vector2(1656f / 2048, 474f / 2048)
+			};
 
 			mesh.vertices = vertices;
 			mesh.triangles = triangles;
@@ -443,30 +442,32 @@ namespace ThisProject
 			obj.AddComponent<MeshFilter>().mesh = mesh;
 
 			obj.renderer.material = atlas1Material;
+			
+			return obj;
 		}
 
-		public static void CreateTriangleMesh2()
+		public static GameObject CreateTriangleMesh2()
 		{
 			Mesh mesh = new Mesh();
 
 			//Vertices
 			Vector3[] vertices = 
-		{
-			new Vector3(0, 0, 0),
-			new Vector3(0.2f, 0.2f, 0),
-			new Vector3(-0.2f, 0.2f, 0)
-		};
+			{
+				new Vector3(0, 0, 0),
+				new Vector3(0.2f, 0.2f, 0),
+				new Vector3(-0.2f, 0.2f, 0)
+			};
 
 			//Triangles
 			int[] triangles = { 0, 2, 1 };
 
 			//UVs
 			Vector2[] uvs = 
-		{
-			new Vector2(1676f / 2048, 454f / 2048),
-			new Vector2(1696f / 2048, 474f / 2048),
-			new Vector2(1656f / 2048, 474f / 2048)
-		};
+			{
+				TextureXY2UV(200, 200),
+				TextureXY2UV(150, 100),
+				TextureXY2UV(250, 100)
+			};
 
 			mesh.vertices = vertices;
 			mesh.triangles = triangles;
@@ -476,9 +477,11 @@ namespace ThisProject
 			obj.AddComponent<MeshRenderer>();
 			obj.AddComponent<MeshFilter>().mesh = mesh;
 
-			obj.renderer.material = atlas1Material;
+			obj.renderer.material = atlas2Material;
 
 			obj.transform.localPosition = new Vector3(2, 0, 0);
+
+			return obj;
 		}
 
 		private static GameObject CreateRectangleEffect_Old(float width, float height, ItemEffect effect)
@@ -566,6 +569,5 @@ namespace ThisProject
 
 			return obj;
 		}
-		*/ 
 	}
 }
