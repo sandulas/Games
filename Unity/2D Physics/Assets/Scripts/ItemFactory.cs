@@ -40,6 +40,8 @@ namespace ThisProject
 			atlas2Material.mainTexture = atlas2;
 
 			currentLayerPair = 0;
+
+			Application.targetFrameRate = -1;
 		}
 
 		public static GameObject CreateItem(ItemShape shape, ItemMaterial material)
@@ -59,6 +61,10 @@ namespace ThisProject
 				case ItemShape.Rectangle:
 					obj = CreateRectangle(1, 1, material);
 					objEffect = CreateRectangleEffect(1, 1, effect);
+					break;
+				case ItemShape.Triangle:
+					obj = CreateTriangle(1, 1, material);
+					objEffect = CreateTriangleEffect(1, 1, effect);
 					break;
 				default:
 					obj = CreateCircle(0.5f, material);
@@ -385,6 +391,139 @@ namespace ThisProject
 			mesh.vertices = vertices;
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
+
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = mesh;
+
+			obj.renderer.material = atlas1Material;
+
+			return obj;
+		}
+
+
+		private static GameObject CreateTriangle(float width, float height, ItemMaterial itemMaterial)
+		{
+			Vector3[] vertices = {
+														new Vector3(-width / 2, -height / 2, 0),
+														new Vector3(-width / 2, height / 2, 0),
+														new Vector3(width / 2, -height / 2, 0),
+													};
+			int[] triangles = { 0, 1, 2 };
+			Vector2[] uvs = new Vector2[3];
+
+			IntVector2 TextureXYTopLeft;
+			Material material;
+
+			switch (itemMaterial)
+			{
+				case ItemMaterial.FixedMetal:
+					TextureXYTopLeft = new IntVector2(1, 1507);
+					material = atlas1Material;
+					break;
+				case ItemMaterial.Ice:
+					TextureXYTopLeft = new IntVector2(1, 1005);
+					material = atlas1Material;
+					break;
+				case ItemMaterial.Metal:
+					TextureXYTopLeft = new IntVector2(1, 1);
+					material = atlas1Material;
+					break;
+				case ItemMaterial.Rubber:
+					TextureXYTopLeft = new IntVector2(1, 1);
+					material = atlas2Material;
+					break;
+				case ItemMaterial.Wood:
+					TextureXYTopLeft = new IntVector2(1, 503);
+					material = atlas1Material;
+					break;
+				default:
+					TextureXYTopLeft = new IntVector2(1, 1);
+					material = atlas1Material;
+					break;
+			}
+
+			uvs[0] = TextureXY2UV(TextureXYTopLeft.x, (int)(TextureXYTopLeft.y + height * PixelsPerUnit - 1));
+			uvs[1] = TextureXY2UV(TextureXYTopLeft.x, TextureXYTopLeft.y);
+			uvs[2] = TextureXY2UV((int)(TextureXYTopLeft.x + width * PixelsPerUnit - 1), (int)(TextureXYTopLeft.y + height * PixelsPerUnit - 1));
+
+			Mesh mesh = new Mesh();
+
+			mesh.vertices = vertices;
+			mesh.triangles = triangles;
+			mesh.uv = uvs;
+
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = mesh;
+
+			obj.renderer.material = material;
+
+			return obj;
+		}
+
+		private static GameObject CreateTriangleEffect(float width, float height, ItemEffect effect)
+		{
+			int pixelInnerOffset, pixelOuterOffset;
+			Vector2 uv0, uv1, uv2, uv3;
+
+			switch (effect)
+			{
+				case ItemEffect.Ice:
+					pixelInnerOffset = 15;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(70, 2046);  //bottom left
+					uv1 = TextureXY2UV(70, 2022);  //top left
+					uv2 = TextureXY2UV(87, 2046);  //bottom right
+					uv3 = TextureXY2UV(87, 2022);  //top right
+					break;
+				case ItemEffect.Solid:
+					pixelInnerOffset = 9;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(49, 2044);
+					uv1 = TextureXY2UV(49, 2026);
+					uv2 = TextureXY2UV(66, 2044);
+					uv3 = TextureXY2UV(66, 2026);
+					break;
+				default:
+					pixelInnerOffset = 9;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(49, 2044);
+					uv1 = TextureXY2UV(49, 2026);
+					uv2 = TextureXY2UV(66, 2044);
+					uv3 = TextureXY2UV(66, 2026);
+					break;
+			}
+
+			double angle1 = Math.Atan(width / height);
+			double angle2 = Math.Atan(height / width);
+			double innerOffset = pixelInnerOffset / PixelsPerUnit;
+			double outerOffset = pixelOuterOffset / PixelsPerUnit;
+
+			Debug.Log(angle1 + ", " + angle2);
+
+			Vector3[] vertices = {
+														 //inside
+														 new Vector3((float)(-width / 2 + innerOffset), (float)(-height / 2 + innerOffset)),
+														 new Vector3((float)(-width / 2 + innerOffset), (float)(height / 2 - innerOffset / Math.Tan(angle1 / 2))),
+														 new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset))
+														 //right trapezoid
+													 };
+
+			int[] triangles = {
+													0, 1, 2
+												};
+
+			Vector2[] uvs = {
+												uv1, uv3, uv2
+											};
+
+
+			Mesh mesh = new Mesh();
+
+			mesh.vertices = vertices;
+			mesh.triangles = triangles;
+			//mesh.uv = uvs;
 
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
