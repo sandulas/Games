@@ -63,8 +63,8 @@ namespace ThisProject
 					objEffect = CreateRectangleEffect(1, 1, effect);
 					break;
 				case ItemShape.Triangle:
-					obj = CreateTriangle(8, 0.2f, material);
-					objEffect = CreateTriangleEffect(8, 0.2f, effect);
+					obj = CreateTriangle(1, 1f, material);
+					objEffect = CreateTriangleEffect(1, 1f, effect);
 					break;
 				default:
 					obj = CreateCircle(0.5f, material);
@@ -349,41 +349,41 @@ namespace ThisProject
 
 			//the mesh looks like 4 trapezoids with the small base inside, forming a rectangle
 			Vector3[] vertices = {
-														 //top
-														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 //right
-														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
-														 //bottom
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-														 //left
-														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
-														 new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
-													 };
+		                         //top
+		                         new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+		                         new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+		                         //right
+		                         new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+		                         //bottom
+		                         new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 - pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+		                         new Vector3(width / 2 + pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+		                         new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+		                         //left
+		                         new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, height / 2 + pixelOuterOffset / PixelsPerUnit),
+		                         new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, height / 2 - pixelInnerOffset / PixelsPerUnit),
+		                         new Vector3(-width / 2 + pixelInnerOffset / PixelsPerUnit, -height / 2 + pixelInnerOffset / PixelsPerUnit),
+		                         new Vector3(-width / 2 - pixelOuterOffset / PixelsPerUnit, -height / 2 - pixelOuterOffset / PixelsPerUnit),
+		                       };
 
 			int[] triangles = {
-													0, 1, 3, 3, 1, 2,				//top
-													4, 5, 6, 6, 7, 4,				//right
-													8, 9, 11, 11, 9, 10,		//bottom
-													12, 13, 14, 14, 15, 12	//left
-												};
+		                      0, 1, 3, 3, 1, 2,				//top
+		                      4, 5, 6, 6, 7, 4,				//right
+		                      8, 9, 11, 11, 9, 10,		//bottom
+		                      12, 13, 14, 14, 15, 12	//left
+		                    };
 
 			Vector2[] uvs = {
-												uv1, uv3, uv2, uv0,	//top
-												uv0, uv1, uv3, uv2,	//right
-												uv2, uv0, uv1, uv3,	//bottom
-												uv3, uv2, uv0, uv1	//left
-											};
+		                    uv1, uv3, uv2, uv0,	//top
+		                    uv0, uv1, uv3, uv2,	//right
+		                    uv2, uv0, uv1, uv3,	//bottom
+		                    uv3, uv2, uv0, uv1	//left
+		                  };
 
 
 			Mesh mesh = new Mesh();
@@ -465,33 +465,54 @@ namespace ThisProject
 		private static GameObject CreateTriangleEffect(float width, float height, ItemEffect effect)
 		{
 			int pixelInnerOffset, pixelOuterOffset;
-			Vector2 uv0, uv1, uv2, uv3;
+
+			Vector2[,] uv = new Vector2[3, 3];
 
 			switch (effect)
 			{
 				case ItemEffect.Ice:
 					pixelInnerOffset = 15;
 					pixelOuterOffset = 10;
-					uv0 = TextureXY2UV(70, 2046);  //bottom left
-					uv1 = TextureXY2UV(70, 2022);  //top left
-					uv2 = TextureXY2UV(87, 2046);  //bottom right
-					uv3 = TextureXY2UV(87, 2022);  //top right
+										
+					uv[0, 0] = TextureXY2UV(70, 2022);	//top left
+					uv[0, 1] = TextureXY2UV(79, 2022);	//top center
+					uv[0, 2] = TextureXY2UV(87, 2022);	//top right
+					uv[1, 0] = TextureXY2UV(70, 2034);	//middle left
+					uv[1, 1] = TextureXY2UV(79, 2034);	//middle center
+					uv[1, 2] = TextureXY2UV(87, 2034);	//middle right
+					uv[2, 0] = TextureXY2UV(70, 2046);	//bottom left
+					uv[2, 1] = TextureXY2UV(79, 2046);	//bottom center
+					uv[2, 2] = TextureXY2UV(87, 2046);	//bottom right
 					break;
+				
 				case ItemEffect.Solid:
 					pixelInnerOffset = 9;
 					pixelOuterOffset = 10;
-					uv0 = TextureXY2UV(49, 2044);
-					uv1 = TextureXY2UV(49, 2026);
-					uv2 = TextureXY2UV(66, 2044);
-					uv3 = TextureXY2UV(66, 2026);
+										
+					uv[0, 0] = TextureXY2UV(49, 2026);
+					uv[0, 1] = TextureXY2UV(58, 2026);
+					uv[0, 2] = TextureXY2UV(66, 2026);
+					uv[1, 0] = TextureXY2UV(49, 2035);
+					uv[1, 1] = TextureXY2UV(58, 2035);
+					uv[1, 2] = TextureXY2UV(66, 2035);
+					uv[2, 0] = TextureXY2UV(49, 2044);
+					uv[2, 1] = TextureXY2UV(58, 2044);
+					uv[2, 2] = TextureXY2UV(66, 2044);
 					break;
+
 				default:
 					pixelInnerOffset = 9;
 					pixelOuterOffset = 10;
-					uv0 = TextureXY2UV(49, 2044);
-					uv1 = TextureXY2UV(49, 2026);
-					uv2 = TextureXY2UV(66, 2044);
-					uv3 = TextureXY2UV(66, 2026);
+										
+					uv[0, 0] = TextureXY2UV(70, 2022);
+					uv[0, 1] = TextureXY2UV(79, 2022);
+					uv[0, 2] = TextureXY2UV(87, 2022);
+					uv[1, 0] = TextureXY2UV(70, 2034);
+					uv[1, 1] = TextureXY2UV(79, 2034);
+					uv[1, 2] = TextureXY2UV(87, 2034);
+					uv[2, 0] = TextureXY2UV(70, 2046);
+					uv[2, 1] = TextureXY2UV(79, 2046);
+					uv[2, 2] = TextureXY2UV(87, 2046);
 					break;
 			}
 
@@ -505,6 +526,10 @@ namespace ThisProject
 														 new Vector3((float)(-width / 2 + innerOffset), (float)(-height / 2 + innerOffset)),
 														 new Vector3((float)(-width / 2 + innerOffset), (float)(height / 2 - innerOffset / Math.Tan(angle1 / 2))),
 														 new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset)),
+														 //on edge
+														 new Vector3(-width / 2, -height / 2),
+														 new Vector3(-width / 2, height / 2),
+														 new Vector3(width / 2, -height / 2),
 														 //outside 0
 														 new Vector3(-width / 2, (float)(-height / 2 - outerOffset)),
 														 GetVector3(PointOnCircle(-width / 2, - height / 2, outerOffset, Math.PI + Math.PI / 4 )),
@@ -517,17 +542,21 @@ namespace ThisProject
 														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2))),
 														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2) / 2)),
 														 new Vector3(width / 2, (float)(-height / 2 - outerOffset)),
-														 //double last inside vertex and last outside vertex to make texture mapping possible
-														 new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset)),
-														 new Vector3(width / 2, (float)(-height / 2 - outerOffset))
 													 };
 
 			int[] triangles = {
-													0, 12, 13, 0, 13, 3, 0, 3, 4, 0, 4, 5, 1, 0, 5, 1, 5, 6, 1, 6, 7, 1, 7, 8, 2, 1, 8, 2, 8, 9, 2, 9, 10, 2, 10, 11
+													0, 3, 4, 0, 4, 1, 1, 4, 5, 1, 5, 2, 2, 5, 3, 2, 3, 0,
+													3, 6, 7, 3, 7, 8, 3, 8, 9, 3, 9, 4,
+													4, 9, 10, 4, 10, 11, 4, 11, 12, 4, 12, 5,
+													5, 12, 13, 5, 13, 14, 5, 14, 6, 5, 6, 3
 												};
 
 			Vector2[] uvs = {
-												uv0, uv2, uv0, uv1, uv3, uv1, uv1, uv3, uv1, uv1, uv3, uv1, uv2, uv3
+												uv[2, 0], uv[2, 1], uv[2, 2],
+												uv[1, 0], uv[1, 1], uv[1, 2],
+												uv[0, 0], uv[0, 1], uv[0, 0],
+												uv[0, 1], uv[0, 1], uv[0, 1],
+												uv[0, 0], uv[0, 1], uv[0, 2],
 											};
 
 
@@ -546,23 +575,24 @@ namespace ThisProject
 			return obj;
 		}
 
-		
-		public static Vector2 TextureXY2UV(int textureX, int textureY)
+
+		//Misc helper methods
+		private static Vector2 TextureXY2UV(int textureX, int textureY)
 		{
 			return new Vector2((float)textureX / 2047, (float)(2047 - textureY) / 2047);
 		}
 
-		public static Vector2 TextureXY2UV(IntVector2 textureXY)
+		private static Vector2 TextureXY2UV(IntVector2 textureXY)
 		{
 			return TextureXY2UV(textureXY.x, textureXY.y);
 		}
 
-		public static Vector2 PointOnCircle(double circleCenterX, double circleCenterY, double radius, double angle)
+		private static Vector2 PointOnCircle(double circleCenterX, double circleCenterY, double radius, double angle)
 		{
 			return new Vector2((float)(circleCenterX + radius * Math.Cos(angle)), (float)(circleCenterY + radius * Math.Sin(angle)));
 		}
 
-		public static Vector3 GetVector3(Vector2 vector2)
+		private static Vector3 GetVector3(Vector2 vector2)
 		{
 			return new Vector3(vector2.x, vector2.y);
 		}
@@ -714,6 +744,90 @@ namespace ThisProject
 
 			//same order as the vertices, of course
 			Vector2[] uvs = { uv1, uv3, uv1, uv3, uv0, uv2, uv0, uv2, uv1, uv3, uv1, uv3, uv0, uv2, uv0, uv2 };
+
+
+			Mesh mesh = new Mesh();
+
+			mesh.vertices = vertices;
+			mesh.triangles = triangles;
+			mesh.uv = uvs;
+
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = mesh;
+
+			obj.renderer.material = atlas1Material;
+
+			return obj;
+		}
+
+		private static GameObject CreateTriangleEffect_Old(float width, float height, ItemEffect effect)
+		{
+			int pixelInnerOffset, pixelOuterOffset;
+			Vector2 uv0, uv1, uv2, uv3;
+
+			switch (effect)
+			{
+				case ItemEffect.Ice:
+					pixelInnerOffset = 15;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(70, 2046);  //bottom left
+					uv1 = TextureXY2UV(70, 2022);  //top left
+					uv2 = TextureXY2UV(87, 2046);  //bottom right
+					uv3 = TextureXY2UV(87, 2022);  //top right
+					break;
+				case ItemEffect.Solid:
+					pixelInnerOffset = 9;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(49, 2044);
+					uv1 = TextureXY2UV(49, 2026);
+					uv2 = TextureXY2UV(66, 2044);
+					uv3 = TextureXY2UV(66, 2026);
+					break;
+				default:
+					pixelInnerOffset = 9;
+					pixelOuterOffset = 10;
+					uv0 = TextureXY2UV(49, 2044);
+					uv1 = TextureXY2UV(49, 2026);
+					uv2 = TextureXY2UV(66, 2044);
+					uv3 = TextureXY2UV(66, 2026);
+					break;
+			}
+
+			double angle1 = Math.Atan(width / height);
+			double angle2 = Math.Atan(height / width);
+			double innerOffset = pixelInnerOffset / PixelsPerUnit;
+			double outerOffset = pixelOuterOffset / PixelsPerUnit;
+
+			Vector3[] vertices = {
+		                         //inside
+		                         new Vector3((float)(-width / 2 + innerOffset), (float)(-height / 2 + innerOffset)),
+		                         new Vector3((float)(-width / 2 + innerOffset), (float)(height / 2 - innerOffset / Math.Tan(angle1 / 2))),
+		                         new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset)),
+		                         //outside 0
+		                         new Vector3(-width / 2, (float)(-height / 2 - outerOffset)),
+		                         GetVector3(PointOnCircle(-width / 2, - height / 2, outerOffset, Math.PI + Math.PI / 4 )),
+		                         new Vector3((float)(-width / 2 - outerOffset), -height / 2),
+		                         //outside 1
+		                         new Vector3((float)(-width / 2 - outerOffset), height / 2),
+		                         GetVector3(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1) / 2)),
+		                         GetVector3(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1))),
+		                         //outside 3
+		                         GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2))),
+		                         GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2) / 2)),
+		                         new Vector3(width / 2, (float)(-height / 2 - outerOffset)),
+		                         //double last inside vertex and last outside vertex to make texture mapping possible
+		                         new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset)),
+		                         new Vector3(width / 2, (float)(-height / 2 - outerOffset))
+		                       };
+
+			int[] triangles = {
+		                      0, 12, 13, 0, 13, 3, 0, 3, 4, 0, 4, 5, 1, 0, 5, 1, 5, 6, 1, 6, 7, 1, 7, 8, 2, 1, 8, 2, 8, 9, 2, 9, 10, 2, 10, 11
+		                    };
+
+			Vector2[] uvs = {
+		                    uv0, uv2, uv0, uv1, uv3, uv1, uv1, uv3, uv1, uv1, uv3, uv1, uv2, uv3
+		                  };
 
 
 			Mesh mesh = new Mesh();
