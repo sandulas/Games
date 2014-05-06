@@ -506,16 +506,27 @@ namespace ThisProject
 														 //inside
 														 new Vector3((float)(-width / 2 + innerOffset), (float)(-height / 2 + innerOffset)),
 														 new Vector3((float)(-width / 2 + innerOffset), (float)(height / 2 - innerOffset / Math.Tan(angle1 / 2))),
-														 new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset))
-														 //right trapezoid
+														 new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset)),
+														 //outside 0
+														 new Vector3(-width / 2, (float)(-height / 2 - outerOffset)),
+														 GetVector3(PointOnCircle(-width / 2, - height / 2, outerOffset, Math.PI + Math.PI / 4 )),
+														 new Vector3((float)(-width / 2 - outerOffset), -height / 2),
+														 //outside 1
+														 new Vector3((float)(-width / 2 - outerOffset), height / 2),
+														 GetVector3(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1) / 2)),
+														 GetVector3(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1))),
+														 //outside 3
+														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2))),
+														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2) / 2)),
+														 new Vector3(width / 2, (float)(-height / 2 - outerOffset))
 													 };
 
 			int[] triangles = {
-													0, 1, 2
+													0, 1, 2, 0, 3, 4, 0, 4, 5, 1, 6, 7, 1, 7, 8, 2, 9, 10, 2, 10, 11
 												};
 
 			Vector2[] uvs = {
-												uv1, uv3, uv2
+												uv1, uv3, uv2, uv1, uv2, uv3, uv1, uv2, uv3, uv1, uv2, uv3
 											};
 
 
@@ -523,7 +534,7 @@ namespace ThisProject
 
 			mesh.vertices = vertices;
 			mesh.triangles = triangles;
-			//mesh.uv = uvs;
+			mesh.uv = uvs;
 
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
@@ -535,14 +546,24 @@ namespace ThisProject
 		}
 
 		
-		private static Vector2 TextureXY2UV(int x, int y)
+		public static Vector2 TextureXY2UV(int textureX, int textureY)
 		{
-			return new Vector2((float)x / 2047, (float)(2047 - y) / 2047);
+			return new Vector2((float)textureX / 2047, (float)(2047 - textureY) / 2047);
 		}
 
-		private static Vector2 TextureXY2UV(IntVector2 TextureXY)
+		public static Vector2 TextureXY2UV(IntVector2 textureXY)
 		{
-			return new Vector2((float)TextureXY.x / 2047, (float)(2047 - TextureXY.y) / 2047);
+			return TextureXY2UV(textureXY.x, textureXY.y);
+		}
+
+		public static Vector2 PointOnCircle(double circleCenterX, double circleCenterY, double radius, double angle)
+		{
+			return new Vector2((float)(circleCenterX + radius * Math.Cos(angle)), (float)(circleCenterY + radius * Math.Sin(angle)));
+		}
+
+		public static Vector3 GetVector3(Vector2 vector2)
+		{
+			return new Vector3(vector2.x, vector2.y);
 		}
 
 
