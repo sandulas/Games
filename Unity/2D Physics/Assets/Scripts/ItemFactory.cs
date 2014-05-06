@@ -63,8 +63,8 @@ namespace ThisProject
 					objEffect = CreateRectangleEffect(1, 1, effect);
 					break;
 				case ItemShape.Triangle:
-					obj = CreateTriangle(1, 1, material);
-					objEffect = CreateTriangleEffect(1, 1, effect);
+					obj = CreateTriangle(8, 0.2f, material);
+					objEffect = CreateTriangleEffect(8, 0.2f, effect);
 					break;
 				default:
 					obj = CreateCircle(0.5f, material);
@@ -500,8 +500,6 @@ namespace ThisProject
 			double innerOffset = pixelInnerOffset / PixelsPerUnit;
 			double outerOffset = pixelOuterOffset / PixelsPerUnit;
 
-			Debug.Log(angle1 + ", " + angle2);
-
 			Vector3[] vertices = {
 														 //inside
 														 new Vector3((float)(-width / 2 + innerOffset), (float)(-height / 2 + innerOffset)),
@@ -518,15 +516,18 @@ namespace ThisProject
 														 //outside 3
 														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2))),
 														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2) / 2)),
+														 new Vector3(width / 2, (float)(-height / 2 - outerOffset)),
+														 //double last inside vertex and last outside vertex to make texture mapping possible
+														 new Vector3((float)(width / 2 - innerOffset / Math.Tan(angle2 / 2)), (float)(-height / 2 + innerOffset)),
 														 new Vector3(width / 2, (float)(-height / 2 - outerOffset))
 													 };
 
 			int[] triangles = {
-													0, 1, 2, 0, 3, 4, 0, 4, 5, 1, 6, 7, 1, 7, 8, 2, 9, 10, 2, 10, 11
+													0, 12, 13, 0, 13, 3, 0, 3, 4, 0, 4, 5, 1, 0, 5, 1, 5, 6, 1, 6, 7, 1, 7, 8, 2, 1, 8, 2, 8, 9, 2, 9, 10, 2, 10, 11
 												};
 
 			Vector2[] uvs = {
-												uv1, uv3, uv2, uv1, uv2, uv3, uv1, uv2, uv3, uv1, uv2, uv3
+												uv0, uv2, uv0, uv1, uv3, uv1, uv1, uv3, uv1, uv1, uv3, uv1, uv2, uv3
 											};
 
 

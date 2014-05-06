@@ -11,43 +11,17 @@ public class Test4_3D : MonoBehaviour
 	{
 		GameObject obj;
 
-		//for (int i = -5; i < 5; i++)
-		//{
-		//  obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.FixedMetal);
-		//  obj.transform.position = new Vector3(-3, i * 0.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Ice);
-		//  obj.transform.position = new Vector3(-1.5f, i * 0.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Metal);
-		//  obj.transform.position = new Vector3(0, i * 0.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
-		//  obj.transform.position = new Vector3(1.5f, i * 0.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Circle, ItemMaterial.Wood);
-		//  obj.transform.position = new Vector3(3f, i * 0.5f, 0);
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				obj = ItemFactory.CreateItem((ItemShape)j, (ItemMaterial)i);
+				obj.transform.position = new Vector3(i * 1.5f, j * 1.5f);
+			}
+		}
 
 
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.FixedMetal);
-		//  obj.transform.position = new Vector3(-3, i * 0.5f + 1.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Ice);
-		//  obj.transform.position = new Vector3(-1.5f, i * 0.5f + 1.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Metal);
-		//  obj.transform.position = new Vector3(0f, i * 0.5f + 1.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Rubber);
-		//  obj.transform.position = new Vector3(1.5f, i * 0.5f + 1.5f, 0);
-
-		//  obj = ItemFactory.CreateItem(ItemShape.Rectangle, ItemMaterial.Wood);
-		//  obj.transform.position = new Vector3(3, i * 0.5f + 1.5f, 0);
-		//}
-
-
-		ItemFactory.CreateItem(ItemShape.Triangle, ItemMaterial.Rubber);
+		//ItemFactory.CreateItem(ItemShape.Triangle, ItemMaterial.Rubber);
 
 
 		//for (int i = 0; i < 50; i++)
