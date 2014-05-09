@@ -44,10 +44,11 @@ namespace ThisProject
 			Application.targetFrameRate = -1;
 		}
 
-		public static GameObject CreateItem(ItemShape shape, ItemMaterial material)
+		public static GameObject CreateItem(ItemShape shape, ItemMaterial itemMaterial)
 		{
 			ItemEffect effect;
-			if (material == ItemMaterial.Ice) effect = ItemEffect.Ice;
+
+			if (itemMaterial == ItemMaterial.Ice) effect = ItemEffect.Ice;
 			else effect = ItemEffect.Solid;
 
 			GameObject obj, objEffect;
@@ -55,19 +56,19 @@ namespace ThisProject
 			switch (shape)
 			{
 				case ItemShape.Circle:
-					obj = CreateCircle(0.5f, material);
+					obj = CreateCircle(0.5f, itemMaterial);
 					objEffect = CreateCircleEffect(0.5f, effect);
 					break;
 				case ItemShape.Rectangle:
-					obj = CreateRectangle(1, 1, material);
+					obj = CreateRectangle(1, 1, itemMaterial);
 					objEffect = CreateRectangleEffect(1, 1, effect);
 					break;
 				case ItemShape.Triangle:
-					obj = CreateTriangle(1, 1f, material);
+					obj = CreateTriangle(1, 1f, itemMaterial);
 					objEffect = CreateTriangleEffect(1, 1f, effect);
 					break;
 				default:
-					obj = CreateCircle(0.5f, material);
+					obj = CreateCircle(0.5f, itemMaterial);
 					objEffect = CreateCircleEffect(0.5f, effect);
 					break;
 			}
@@ -82,10 +83,71 @@ namespace ThisProject
 
 			currentLayerPair++;
 
+			SetItemPhysics(obj, itemMaterial);
+
 			return obj;
 		}
+		
+		private static void SetItemPhysics(GameObject item, ItemMaterial itemMaterial)
+		{
+			item.AddComponent<Rigidbody2D>();
 
+			switch (itemMaterial)
+			{
+				case ItemMaterial.FixedMetal:
+					item.rigidbody2D.isKinematic = true;
+					break;
+				case ItemMaterial.Ice:
+					item.rigidbody2D.mass = 2f;
+					item.rigidbody2D.drag = 0f;
+					item.rigidbody2D.angularDrag = 0.1f;
+					item.rigidbody2D.isKinematic = false;
+					break;
+				case ItemMaterial.Metal:
+					item.rigidbody2D.mass = 5f;
+					item.rigidbody2D.drag = 0f;
+					item.rigidbody2D.angularDrag = 0.1f;
+					item.rigidbody2D.isKinematic = false;
+					break;
+				case ItemMaterial.Rubber:
+					item.rigidbody2D.mass = 1.5f;
+					item.rigidbody2D.drag = 0f;
+					item.rigidbody2D.angularDrag = 0.1f;
+					item.rigidbody2D.isKinematic = false;
+					break;
+				case ItemMaterial.Wood:
+					item.rigidbody2D.mass = 1f;
+					item.rigidbody2D.drag = 0f;
+					item.rigidbody2D.angularDrag = 0.1f;
+					item.rigidbody2D.isKinematic = false;
+					break;
+				default:
+					item.rigidbody2D.isKinematic = true;
+					break;
+			}
+
+			CircleCollider2D collider = item.AddComponent<CircleCollider2D>();
+			collider.radius = 0.5f;
+
+			item.rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+		}
+
+
+		//	circle
 		private static GameObject CreateCircle(float radius, ItemMaterial itemMaterial)
+		{
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = CreateCircleMesh(radius, itemMaterial);
+
+			if (itemMaterial == ItemMaterial.Rubber)
+				obj.renderer.material = atlas2Material;
+			else
+				obj.renderer.material = atlas1Material;
+			
+			return obj;
+		}
+		private static Mesh CreateCircleMesh(float radius, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = new Vector3[circleSegments + 1];
 			int[] triangles = new int[circleSegments * 3];
@@ -94,32 +156,25 @@ namespace ThisProject
 			vertices[0] = new Vector3(0, 0, 0);
 
 			IntVector2 TextureXYCenter;
-			Material material;
 			switch (itemMaterial)
 			{
 				case ItemMaterial.FixedMetal:
 					TextureXYCenter = new IntVector2(677, 1756);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Ice:
 					TextureXYCenter = new IntVector2(1004, 1254);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Metal:
 					TextureXYCenter = new IntVector2(677, 250);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Rubber:
 					TextureXYCenter = new IntVector2(677, 250);
-					material = atlas2Material;
 					break;
 				case ItemMaterial.Wood:
 					TextureXYCenter = new IntVector2(800, 752);
-					material = atlas1Material;
 					break;
 				default:
 					TextureXYCenter = new IntVector2(677, 1756);
-					material = atlas1Material;
 					break;
 			}
 
@@ -149,16 +204,20 @@ namespace ThisProject
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
 
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = mesh;
-
-			obj.renderer.material = material;
-			
-			return obj;
+			return mesh;
 		}
 
 		private static GameObject CreateCircleEffect(float radius, ItemEffect effect)
+		{
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = CreateCircleEffectMesh(radius, effect);
+
+			obj.renderer.material = atlas1Material;
+
+			return obj;
+		}
+		private static Mesh CreateCircleEffectMesh(float radius, ItemEffect effect)
 		{
 			Vector3[] vertices = new Vector3[circleSegments * 2];
 			int[] triangles = new int[circleSegments * 3 * 2];
@@ -241,17 +300,25 @@ namespace ThisProject
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
 
+			return mesh;
+		}
+
+		//	rectangle
+		private static GameObject CreateRectangle(float width, float height, ItemMaterial itemMaterial)
+		{
+
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = mesh;
+			obj.AddComponent<MeshFilter>().mesh = CreateRectangleMesh(width, height, itemMaterial);
 
-			obj.renderer.material = atlas1Material;
+			if (itemMaterial == ItemMaterial.Rubber)
+				obj.renderer.material = atlas2Material;
+			else
+				obj.renderer.material = atlas1Material;
 
 			return obj;
 		}
-
-
-		private static GameObject CreateRectangle(float width, float height, ItemMaterial itemMaterial)
+		private static Mesh CreateRectangleMesh(float width, float height, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = {
 														new Vector3(-width / 2, -height / 2, 0),
@@ -262,35 +329,27 @@ namespace ThisProject
 			int[] triangles = { 0, 1, 2, 2, 3, 0 };
 			Vector2[] uvs = new Vector2[4];
 
-
 			IntVector2 TextureXYTopLeft;
-			Material material;
-			
+
 			switch (itemMaterial)
 			{
 				case ItemMaterial.FixedMetal:
 					TextureXYTopLeft = new IntVector2(1, 1507);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Ice:
 					TextureXYTopLeft = new IntVector2(1, 1005);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Metal:
 					TextureXYTopLeft = new IntVector2(1, 1);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Rubber:
 					TextureXYTopLeft = new IntVector2(1, 1);
-					material = atlas2Material;
 					break;
 				case ItemMaterial.Wood:
 					TextureXYTopLeft = new IntVector2(1, 503);
-					material = atlas1Material;
 					break;
 				default:
 					TextureXYTopLeft = new IntVector2(1, 1);
-					material = atlas1Material;
 					break;
 			}
 
@@ -305,16 +364,20 @@ namespace ThisProject
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
 
+			return mesh;
+		}
+		
+		private static GameObject CreateRectangleEffect(float width, float height, ItemEffect effect)
+		{
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = mesh;
+			obj.AddComponent<MeshFilter>().mesh = CreateRectangleEffectMesh(width, height, effect);
 
-			obj.renderer.material = material;
+			obj.renderer.material = atlas1Material;
 
 			return obj;
 		}
-
-		private static GameObject CreateRectangleEffect(float width, float height, ItemEffect effect)
+		private static Mesh CreateRectangleEffectMesh(float width, float height, ItemEffect effect)
 		{
 			int pixelInnerOffset, pixelOuterOffset;
 			Vector2 uv0, uv1, uv2, uv3;
@@ -392,17 +455,24 @@ namespace ThisProject
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
 
+			return mesh;
+		}
+
+		//	triangle
+		private static GameObject CreateTriangle(float width, float height, ItemMaterial itemMaterial)
+		{
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = mesh;
+			obj.AddComponent<MeshFilter>().mesh = CreateTriangleMesh(width, height, itemMaterial);
 
-			obj.renderer.material = atlas1Material;
+			if (itemMaterial == ItemMaterial.Rubber)
+				obj.renderer.material = atlas2Material;
+			else
+				obj.renderer.material = atlas1Material;
 
 			return obj;
 		}
-
-
-		private static GameObject CreateTriangle(float width, float height, ItemMaterial itemMaterial)
+		private static Mesh CreateTriangleMesh(float width, float height, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = {
 														new Vector3(-width / 2, -height / 2, 0),
@@ -413,33 +483,26 @@ namespace ThisProject
 			Vector2[] uvs = new Vector2[3];
 
 			IntVector2 TextureXYTopLeft;
-			Material material;
 
 			switch (itemMaterial)
 			{
 				case ItemMaterial.FixedMetal:
 					TextureXYTopLeft = new IntVector2(1, 1507);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Ice:
 					TextureXYTopLeft = new IntVector2(1, 1005);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Metal:
 					TextureXYTopLeft = new IntVector2(1, 1);
-					material = atlas1Material;
 					break;
 				case ItemMaterial.Rubber:
 					TextureXYTopLeft = new IntVector2(1, 1);
-					material = atlas2Material;
 					break;
 				case ItemMaterial.Wood:
 					TextureXYTopLeft = new IntVector2(1, 503);
-					material = atlas1Material;
 					break;
 				default:
 					TextureXYTopLeft = new IntVector2(1, 1);
-					material = atlas1Material;
 					break;
 			}
 
@@ -453,16 +516,20 @@ namespace ThisProject
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
 
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = mesh;
-
-			obj.renderer.material = material;
-
-			return obj;
+			return mesh;
 		}
 
 		private static GameObject CreateTriangleEffect(float width, float height, ItemEffect effect)
+		{
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = CreateTriangleEffectMesh(width, height, effect);
+
+			obj.renderer.material = atlas1Material;
+
+			return obj;
+		}
+		private static Mesh CreateTriangleEffectMesh(float width, float height, ItemEffect effect)
 		{
 			int pixelInnerOffset, pixelOuterOffset;
 
@@ -473,7 +540,7 @@ namespace ThisProject
 				case ItemEffect.Ice:
 					pixelInnerOffset = 15;
 					pixelOuterOffset = 10;
-										
+
 					uv[0, 0] = TextureXY2UV(70, 2022);	//top left
 					uv[0, 1] = TextureXY2UV(79, 2022);	//top center
 					uv[0, 2] = TextureXY2UV(87, 2022);	//top right
@@ -484,11 +551,11 @@ namespace ThisProject
 					uv[2, 1] = TextureXY2UV(79, 2046);	//bottom center
 					uv[2, 2] = TextureXY2UV(87, 2046);	//bottom right
 					break;
-				
+
 				case ItemEffect.Solid:
 					pixelInnerOffset = 9;
 					pixelOuterOffset = 10;
-										
+
 					uv[0, 0] = TextureXY2UV(49, 2026);
 					uv[0, 1] = TextureXY2UV(58, 2026);
 					uv[0, 2] = TextureXY2UV(66, 2026);
@@ -503,7 +570,7 @@ namespace ThisProject
 				default:
 					pixelInnerOffset = 9;
 					pixelOuterOffset = 10;
-										
+
 					uv[0, 0] = TextureXY2UV(70, 2022);
 					uv[0, 1] = TextureXY2UV(79, 2022);
 					uv[0, 2] = TextureXY2UV(87, 2022);
@@ -566,17 +633,11 @@ namespace ThisProject
 			mesh.triangles = triangles;
 			mesh.uv = uvs;
 
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = mesh;
-
-			obj.renderer.material = atlas1Material;
-
-			return obj;
+			return mesh;
 		}
 
 
-		//Misc helper methods
+		//	misc helper methods
 		private static Vector2 TextureXY2UV(int textureX, int textureY)
 		{
 			return new Vector2((float)textureX / 2047, (float)(2047 - textureY) / 2047);
@@ -600,7 +661,7 @@ namespace ThisProject
 
 
 
-		//OLD
+		//	OLD
 		public static GameObject CreateTriangleMesh()
 		{
 			Mesh mesh = new Mesh();
