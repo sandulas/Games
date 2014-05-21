@@ -9,6 +9,8 @@ public class Test4_3D : MonoBehaviour
 
 	void Start()
 	{
+		GameObject.Find("Quad").renderer.sortingLayerName = "Background";
+		
 		GameObject obj;
 
 		for (int i = 0; i < 5; i++)
