@@ -17,7 +17,7 @@ public class Test4_3D : MonoBehaviour
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				obj = ItemFactory.CreateItem((ItemShape)j, (ItemMaterial)i);
+				obj = ItemFactory.CreateItem((ItemShape)j, (ItemMaterial)i, 1, 1);
 				obj.transform.position = new Vector3(i * 1.5f, j * 1.5f);
 			}
 		}
