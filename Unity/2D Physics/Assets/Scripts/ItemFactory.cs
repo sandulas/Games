@@ -44,35 +44,59 @@ namespace ThisProject
 			Application.targetFrameRate = -1;
 		}
 
-		public static GameObject CreateItem(ItemShape shape, ItemMaterial itemMaterial)
+		public static GameObject CreateItem(ItemShape shape, ItemMaterial itemMaterial, float width, float height)
 		{
+			Mesh objMesh, objEffectMesh;
 			ItemEffect effect;
 
 			if (itemMaterial == ItemMaterial.Ice) effect = ItemEffect.Ice;
 			else effect = ItemEffect.Solid;
 
-			GameObject obj, objEffect;
-
 			switch (shape)
 			{
 				case ItemShape.Circle:
-					obj = CreateCircle(0.5f, itemMaterial);
-					objEffect = CreateCircleEffect(0.5f, effect);
+					objMesh = CreateCircleMesh(width / 2, itemMaterial);
+					objEffectMesh = CreateCircleEffectMesh(width / 2, effect);
 					break;
 				case ItemShape.Rectangle:
-					obj = CreateRectangle(1, 1, itemMaterial);
-					objEffect = CreateRectangleEffect(1, 1, effect);
+					objMesh = CreateRectangleMesh(width, height, itemMaterial);
+					objEffectMesh = CreateRectangleEffectMesh(width, height, effect);
 					break;
 				case ItemShape.Triangle:
-					obj = CreateTriangle(1, 1f, itemMaterial);
-					objEffect = CreateTriangleEffect(1, 1f, effect);
+					objMesh = CreateTriangleMesh(width, height, itemMaterial);
+					objEffectMesh = CreateTriangleEffectMesh(width, height, effect);
 					break;
 				default:
-					obj = CreateCircle(0.5f, itemMaterial);
-					objEffect = CreateCircleEffect(0.5f, effect);
+					objMesh = CreateTriangleMesh(width, height, itemMaterial);
+					objEffectMesh = CreateTriangleEffectMesh(width, height, effect);
 					break;
 			}
 
+			//create the object
+			GameObject obj = new GameObject();
+			obj.AddComponent<MeshRenderer>();
+			obj.AddComponent<MeshFilter>().mesh = objMesh;
+
+			if (itemMaterial == ItemMaterial.Rubber) obj.renderer.material = atlas2Material;
+			else obj.renderer.material = atlas1Material;
+
+			//create the object effect
+			GameObject objEffect = new GameObject();
+			objEffect.AddComponent<MeshRenderer>();
+			objEffect.AddComponent<MeshFilter>().mesh = objEffectMesh;
+
+			obj.renderer.material = atlas1Material;
+
+
+			//add the object properties
+			ItemProperties itemProperties = obj.AddComponent<ItemProperties>();
+			itemProperties.Shape = shape;
+			itemProperties.Material = itemMaterial;
+			itemProperties.Width = width;
+			itemProperties.Height = height;
+
+
+			//setup the object and the object effect in the scene
 			objEffect.transform.parent = obj.transform;
 
 			obj.renderer.sortingLayerName = "Elements";
@@ -83,9 +107,15 @@ namespace ThisProject
 
 			currentLayerPair++;
 
+
 			SetItemPhysics(obj, itemMaterial);
 
 			return obj;
+		}
+		
+		public static void ResizeItem(GameObject item, float width, float height)
+		{
+
 		}
 		
 		private static void SetItemPhysics(GameObject item, ItemMaterial itemMaterial)
@@ -132,21 +162,7 @@ namespace ThisProject
 			item.rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 		}
 
-
 		//	circle
-		private static GameObject CreateCircle(float radius, ItemMaterial itemMaterial)
-		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = CreateCircleMesh(radius, itemMaterial);
-
-			if (itemMaterial == ItemMaterial.Rubber)
-				obj.renderer.material = atlas2Material;
-			else
-				obj.renderer.material = atlas1Material;
-			
-			return obj;
-		}
 		private static Mesh CreateCircleMesh(float radius, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = new Vector3[circleSegments + 1];
@@ -205,17 +221,6 @@ namespace ThisProject
 			mesh.uv = uvs;
 
 			return mesh;
-		}
-
-		private static GameObject CreateCircleEffect(float radius, ItemEffect effect)
-		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = CreateCircleEffectMesh(radius, effect);
-
-			obj.renderer.material = atlas1Material;
-
-			return obj;
 		}
 		private static Mesh CreateCircleEffectMesh(float radius, ItemEffect effect)
 		{
@@ -304,20 +309,6 @@ namespace ThisProject
 		}
 
 		//	rectangle
-		private static GameObject CreateRectangle(float width, float height, ItemMaterial itemMaterial)
-		{
-
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = CreateRectangleMesh(width, height, itemMaterial);
-
-			if (itemMaterial == ItemMaterial.Rubber)
-				obj.renderer.material = atlas2Material;
-			else
-				obj.renderer.material = atlas1Material;
-
-			return obj;
-		}
 		private static Mesh CreateRectangleMesh(float width, float height, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = {
@@ -365,17 +356,6 @@ namespace ThisProject
 			mesh.uv = uvs;
 
 			return mesh;
-		}
-		
-		private static GameObject CreateRectangleEffect(float width, float height, ItemEffect effect)
-		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = CreateRectangleEffectMesh(width, height, effect);
-
-			obj.renderer.material = atlas1Material;
-
-			return obj;
 		}
 		private static Mesh CreateRectangleEffectMesh(float width, float height, ItemEffect effect)
 		{
@@ -459,19 +439,6 @@ namespace ThisProject
 		}
 
 		//	triangle
-		private static GameObject CreateTriangle(float width, float height, ItemMaterial itemMaterial)
-		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = CreateTriangleMesh(width, height, itemMaterial);
-
-			if (itemMaterial == ItemMaterial.Rubber)
-				obj.renderer.material = atlas2Material;
-			else
-				obj.renderer.material = atlas1Material;
-
-			return obj;
-		}
 		private static Mesh CreateTriangleMesh(float width, float height, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = {
@@ -517,17 +484,6 @@ namespace ThisProject
 			mesh.uv = uvs;
 
 			return mesh;
-		}
-
-		private static GameObject CreateTriangleEffect(float width, float height, ItemEffect effect)
-		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<MeshRenderer>();
-			obj.AddComponent<MeshFilter>().mesh = CreateTriangleEffectMesh(width, height, effect);
-
-			obj.renderer.material = atlas1Material;
-
-			return obj;
 		}
 		private static Mesh CreateTriangleEffectMesh(float width, float height, ItemEffect effect)
 		{
@@ -905,5 +861,12 @@ namespace ThisProject
 
 			return obj;
 		}
+	}
+
+	public class ItemProperties : MonoBehaviour
+	{
+		public ItemShape Shape;
+		public ItemMaterial Material;
+		public float Width, Height;
 	}
 }
