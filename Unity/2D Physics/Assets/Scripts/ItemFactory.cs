@@ -17,7 +17,7 @@ namespace ThisProject
 		}
 	}
 
-	public class ItemFactory
+	public class Item
 	{
 		enum ItemEffect { Solid, Ice }
 
@@ -28,7 +28,7 @@ namespace ThisProject
 		
 		static int currentLayerPair;
 
-		static ItemFactory()
+		static Item()
 		{
 			atlas1 = (Texture2D)Resources.Load("Atlas1");
 			atlas2 = (Texture2D)Resources.Load("Atlas2");
@@ -44,7 +44,7 @@ namespace ThisProject
 			Application.targetFrameRate = -1;
 		}
 
-		public static GameObject CreateItem(ItemShape shape, ItemMaterial itemMaterial, float width, float height)
+		public static GameObject Create(ItemShape shape, ItemMaterial itemMaterial, float width, float height)
 		{
 			Mesh objMesh, objEffectMesh;
 			ItemEffect effect;
@@ -55,20 +55,20 @@ namespace ThisProject
 			switch (shape)
 			{
 				case ItemShape.Circle:
-					objMesh = CreateCircleMesh(width / 2, itemMaterial);
-					objEffectMesh = CreateCircleEffectMesh(width / 2, effect);
+					objMesh = createCircleMesh(width / 2, itemMaterial);
+					objEffectMesh = createCircleEffectMesh(width / 2, effect);
 					break;
 				case ItemShape.Rectangle:
-					objMesh = CreateRectangleMesh(width, height, itemMaterial);
-					objEffectMesh = CreateRectangleEffectMesh(width, height, effect);
+					objMesh = createRectangleMesh(width, height, itemMaterial);
+					objEffectMesh = createRectangleEffectMesh(width, height, effect);
 					break;
 				case ItemShape.Triangle:
-					objMesh = CreateTriangleMesh(width, height, itemMaterial);
-					objEffectMesh = CreateTriangleEffectMesh(width, height, effect);
+					objMesh = createTriangleMesh(width, height, itemMaterial);
+					objEffectMesh = createTriangleEffectMesh(width, height, effect);
 					break;
 				default:
-					objMesh = CreateTriangleMesh(width, height, itemMaterial);
-					objEffectMesh = CreateTriangleEffectMesh(width, height, effect);
+					objMesh = createTriangleMesh(width, height, itemMaterial);
+					objEffectMesh = createTriangleEffectMesh(width, height, effect);
 					break;
 			}
 
@@ -85,7 +85,7 @@ namespace ThisProject
 			objEffect.AddComponent<MeshRenderer>();
 			objEffect.AddComponent<MeshFilter>().mesh = objEffectMesh;
 
-			obj.renderer.material = atlas1Material;
+			objEffect.renderer.material = atlas1Material;
 
 
 			//add the object properties
@@ -108,62 +108,168 @@ namespace ThisProject
 			currentLayerPair++;
 
 
-			SetItemPhysics(obj, itemMaterial);
+			setPhysics(obj);
 
 			return obj;
 		}
-		
-		public static void ResizeItem(GameObject item, float width, float height)
-		{
 
+		public static void Resize(GameObject item, float width, float height)
+		{
+			update(item, item.GetComponent<ItemProperties>().Material, width, height);
+		}
+		public static void ChangeMaterial(GameObject item, ItemMaterial itemMaterial)
+		{
+			update(item, itemMaterial, item.GetComponent<ItemProperties>().Width, item.GetComponent<ItemProperties>().Height);
+		}
+
+		private static void update(GameObject item, ItemMaterial itemMaterial, float width, float height)
+		{
+			ItemProperties itemProperties = item.GetComponent<ItemProperties>();
+
+			Mesh objMesh, objEffectMesh;
+			ItemEffect effect;
+
+			if (itemMaterial == ItemMaterial.Ice) effect = ItemEffect.Ice;
+			else effect = ItemEffect.Solid;
+
+			switch (itemProperties.Shape)
+			{
+				case ItemShape.Circle:
+					objMesh = createCircleMesh(width / 2, itemMaterial);
+					objEffectMesh = createCircleEffectMesh(width / 2, effect);
+					break;
+				case ItemShape.Rectangle:
+					objMesh = createRectangleMesh(width, height, itemMaterial);
+					objEffectMesh = createRectangleEffectMesh(width, height, effect);
+					break;
+				case ItemShape.Triangle:
+					objMesh = createTriangleMesh(width, height, itemMaterial);
+					objEffectMesh = createTriangleEffectMesh(width, height, effect);
+					break;
+				default:
+					objMesh = createTriangleMesh(width, height, itemMaterial);
+					objEffectMesh = createTriangleEffectMesh(width, height, effect);
+					break;
+			}
+
+			//update the object
+			item.GetComponent<MeshFilter>().mesh = objMesh;
+
+			if (itemMaterial == ItemMaterial.Rubber) item.renderer.material = atlas2Material;
+			else item.renderer.material = atlas1Material;
+
+			//update the object effect
+			GameObject itemEffect = item.transform.GetChild(0).gameObject;
+			itemEffect.GetComponent<MeshFilter>().mesh = objEffectMesh;
+
+			//update the object properties
+			itemProperties.Material = itemMaterial;
+			itemProperties.Width = width;
+			itemProperties.Height = height;
+
+			//update physics
+			updatePhysics(item);
 		}
 		
-		private static void SetItemPhysics(GameObject item, ItemMaterial itemMaterial)
+		private static void setPhysics(GameObject item)
 		{
 			item.AddComponent<Rigidbody2D>();
+			item.rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
-			switch (itemMaterial)
+			ItemProperties properties = item.GetComponent<ItemProperties>();
+
+			switch (properties.Shape)
+			{
+				case ItemShape.Circle:
+					item.AddComponent<CircleCollider2D>();
+					break;
+				case ItemShape.Rectangle:
+					item.AddComponent<BoxCollider2D>();
+					break;
+				case ItemShape.Triangle:
+					item.AddComponent<PolygonCollider2D>();
+					break;
+				default:
+					break;
+			}
+			
+			updatePhysics(item);
+		}
+		private static void updatePhysics(GameObject item)
+		{
+			ItemProperties properties = item.GetComponent<ItemProperties>();
+			double itemArea = 1;
+
+			switch (properties.Shape)
+			{
+				case ItemShape.Circle:
+					CircleCollider2D circleCollider = item.GetComponent<CircleCollider2D>();
+					circleCollider.radius = properties.Width / 2;
+
+					itemArea = Math.PI * (properties.Width / 2) * (properties.Width / 2);
+					break;
+
+				case ItemShape.Rectangle:
+					BoxCollider2D boxCollider = item.GetComponent<BoxCollider2D>();
+					boxCollider.size = new Vector2(properties.Width, properties.Height);
+
+					itemArea = properties.Width * properties.Height;
+					break;
+
+				case ItemShape.Triangle:
+					PolygonCollider2D polygonCollider = item.GetComponent<PolygonCollider2D>();
+					Vector2[] points = new Vector2[3];
+					points[0] = new Vector2(-properties.Width / 2, -properties.Height / 2);
+					points[1] = new Vector2(-properties.Width / 2, properties.Height / 2);
+					points[2] = new Vector2(properties.Width / 2, -properties.Height / 2);
+					polygonCollider.points = points;
+
+					itemArea = properties.Width * properties.Height / 2;
+					break;
+
+				default:
+					break;
+			}
+
+
+			item.rigidbody2D.isKinematic = false;
+			switch (properties.Material)
 			{
 				case ItemMaterial.FixedMetal:
 					item.rigidbody2D.isKinematic = true;
 					break;
 				case ItemMaterial.Ice:
-					item.rigidbody2D.mass = 2f;
-					item.rigidbody2D.drag = 0f;
-					item.rigidbody2D.angularDrag = 0.1f;
-					item.rigidbody2D.isKinematic = false;
+					item.rigidbody2D.mass = 0.91f * (float)itemArea;
+					item.rigidbody2D.drag = 0.1f;
+					item.rigidbody2D.angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Metal:
-					item.rigidbody2D.mass = 5f;
-					item.rigidbody2D.drag = 0f;
-					item.rigidbody2D.angularDrag = 0.1f;
-					item.rigidbody2D.isKinematic = false;
+					item.rigidbody2D.mass = 7.9f * (float)itemArea;
+					item.rigidbody2D.drag = 0.1f;
+					item.rigidbody2D.angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Rubber:
-					item.rigidbody2D.mass = 1.5f;
-					item.rigidbody2D.drag = 0f;
-					item.rigidbody2D.angularDrag = 0.1f;
-					item.rigidbody2D.isKinematic = false;
+					item.rigidbody2D.mass = 1.0f * (float)itemArea;
+					item.rigidbody2D.drag = 0.1f;
+					item.rigidbody2D.angularDrag = 0.2f;
+
+					PhysicsMaterial2D physicsMaterial = new PhysicsMaterial2D("Rubber");
+					physicsMaterial.friction = 0.9f;
+					physicsMaterial.bounciness = 0.8f;
+					item.GetComponent<Collider2D>().sharedMaterial = physicsMaterial;
 					break;
 				case ItemMaterial.Wood:
-					item.rigidbody2D.mass = 1f;
-					item.rigidbody2D.drag = 0f;
-					item.rigidbody2D.angularDrag = 0.1f;
-					item.rigidbody2D.isKinematic = false;
+					item.rigidbody2D.mass = 0.65f * (float)itemArea;;
+					item.rigidbody2D.drag = 0.1f;
+					item.rigidbody2D.angularDrag = 0.2f;
 					break;
 				default:
-					item.rigidbody2D.isKinematic = true;
 					break;
 			}
-
-			CircleCollider2D collider = item.AddComponent<CircleCollider2D>();
-			collider.radius = 0.5f;
-
-			item.rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 		}
 
 		//	circle
-		private static Mesh CreateCircleMesh(float radius, ItemMaterial itemMaterial)
+		private static Mesh createCircleMesh(float radius, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = new Vector3[circleSegments + 1];
 			int[] triangles = new int[circleSegments * 3];
@@ -222,7 +328,7 @@ namespace ThisProject
 
 			return mesh;
 		}
-		private static Mesh CreateCircleEffectMesh(float radius, ItemEffect effect)
+		private static Mesh createCircleEffectMesh(float radius, ItemEffect effect)
 		{
 			Vector3[] vertices = new Vector3[circleSegments * 2];
 			int[] triangles = new int[circleSegments * 3 * 2];
@@ -309,7 +415,7 @@ namespace ThisProject
 		}
 
 		//	rectangle
-		private static Mesh CreateRectangleMesh(float width, float height, ItemMaterial itemMaterial)
+		private static Mesh createRectangleMesh(float width, float height, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = {
 														new Vector3(-width / 2, -height / 2, 0),
@@ -357,7 +463,7 @@ namespace ThisProject
 
 			return mesh;
 		}
-		private static Mesh CreateRectangleEffectMesh(float width, float height, ItemEffect effect)
+		private static Mesh createRectangleEffectMesh(float width, float height, ItemEffect effect)
 		{
 			int pixelInnerOffset, pixelOuterOffset;
 			Vector2 uv0, uv1, uv2, uv3;
@@ -439,7 +545,7 @@ namespace ThisProject
 		}
 
 		//	triangle
-		private static Mesh CreateTriangleMesh(float width, float height, ItemMaterial itemMaterial)
+		private static Mesh createTriangleMesh(float width, float height, ItemMaterial itemMaterial)
 		{
 			Vector3[] vertices = {
 														new Vector3(-width / 2, -height / 2, 0),
@@ -485,7 +591,7 @@ namespace ThisProject
 
 			return mesh;
 		}
-		private static Mesh CreateTriangleEffectMesh(float width, float height, ItemEffect effect)
+		private static Mesh createTriangleEffectMesh(float width, float height, ItemEffect effect)
 		{
 			int pixelInnerOffset, pixelOuterOffset;
 

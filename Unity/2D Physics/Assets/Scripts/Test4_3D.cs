@@ -4,25 +4,11 @@ using ThisProject;
 
 public class Test4_3D : MonoBehaviour
 {
-	bool loaded = false;
-	Texture2D atlas;
+	static bool loaded = false;
+	GameObject obj;
 
 	void Start()
 	{
-		GameObject.Find("Quad").renderer.sortingLayerName = "Background";
-		
-		GameObject obj;
-
-		for (int i = 0; i < 5; i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				obj = ItemFactory.CreateItem((ItemShape)j, (ItemMaterial)i, 1, 1);
-				obj.transform.position = new Vector3(i * 1.5f, j * 1.5f);
-			}
-		}
-
-
 		//ItemFactory.CreateItem(ItemShape.Triangle, ItemMaterial.Rubber);
 
 
@@ -43,12 +29,32 @@ public class Test4_3D : MonoBehaviour
 
 	void Update()
 	{
-		//if (Time.realtimeSinceStartup > 3 && !loaded)
+		if (Time.realtimeSinceStartup > 2 && !loaded)
+		{
+			Debug.Log(Time.realtimeSinceStartup);
+
+			GameObject.Find("Quad").renderer.sortingLayerName = "Background";
+
+			for (int i = 0; i < 5; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					obj = Item.Create((ItemShape)j, (ItemMaterial)i, 1, 1);
+					obj.transform.position = new Vector3(i * 1.5f, j * 1.5f);
+
+					Item.Resize(obj, 1.5f, 0.5f);
+				}
+			}
+
+			Item.ChangeMaterial(obj, ItemMaterial.Rubber);
+
+			loaded = true;
+			Debug.Log(Time.realtimeSinceStartup);
+		}
+
+		//if (Time.realtimeSinceStartup > 3)
 		//{
-		//  Debug.Log(Time.realtimeSinceStartup);
-		//  atlas = (Texture2D)Resources.Load("Atlas1");
-		//  loaded = true;
-		//  Debug.Log(Time.realtimeSinceStartup);
+		//  Item.Resize(obj, obj.GetComponent<ItemProperties>().Width + 0.01f, 2);
 		//}
 	}
 }
