@@ -97,6 +97,8 @@ namespace ThisProject
 
 
 			//setup the object and the object effect in the scene
+			obj.name = "Item: " + shape + " " + currentLayerPair;
+			objEffect.name = shape + " Effect " + currentLayerPair;
 			objEffect.transform.parent = obj.transform;
 
 			obj.renderer.sortingLayerName = "Elements";

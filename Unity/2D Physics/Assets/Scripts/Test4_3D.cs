@@ -9,32 +9,13 @@ public class Test4_3D : MonoBehaviour
 
 	void Start()
 	{
-		//ItemFactory.CreateItem(ItemShape.Triangle, ItemMaterial.Rubber);
-
-
-		//for (int i = 0; i < 50; i++)
-		//{
-		//  obj = ItemFactory.CreateTriangleMesh();
-		//  obj.renderer.sortingOrder = i;
-		//}
-
-		//for (int i = 0; i < 50; i++)
-		//{
-		//  obj = ItemFactory.CreateTriangleMesh2();
-		//  obj.renderer.sortingOrder = i + 100;
-		//}
-
-		
+		GameObject.Find("Quad").renderer.sortingLayerName = "Background";
 	}
 
 	void Update()
-	{
-		if (Time.realtimeSinceStartup > 2 && !loaded)
+	{		
+		if (Time.realtimeSinceStartup > 1 && !loaded)
 		{
-			Debug.Log(Time.realtimeSinceStartup);
-
-			GameObject.Find("Quad").renderer.sortingLayerName = "Background";
-
 			for (int i = 0; i < 5; i++)
 			{
 				for (int j = 0; j < 3; j++)
@@ -46,15 +27,13 @@ public class Test4_3D : MonoBehaviour
 				}
 			}
 
-			Item.ChangeMaterial(obj, ItemMaterial.Rubber);
-
 			loaded = true;
-			Debug.Log(Time.realtimeSinceStartup);
 		}
 
-		//if (Time.realtimeSinceStartup > 3)
+		//if (Time.realtimeSinceStartup > 2)
 		//{
 		//  Item.Resize(obj, obj.GetComponent<ItemProperties>().Width + 0.01f, 2);
+		//  Item.ChangeMaterial(obj, ItemMaterial.Rubber);
 		//}
 	}
 }
