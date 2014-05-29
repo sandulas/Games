@@ -21,8 +21,8 @@ namespace ThisProject
 	{
 		enum ItemEffect { Solid, Ice }
 
-		static Texture2D atlas1, atlas2;
-		static Material atlas1Material, atlas2Material;
+		static Texture2D atlas1, rubberTexture, metalTexture;
+		static Material atlas1Material, rubberMaterial, metalMaterial;
 		static float PixelsPerUnit = 1536f / 10;
 		static int circleSegments = 50;
 		
@@ -31,13 +31,19 @@ namespace ThisProject
 		static Item()
 		{
 			atlas1 = (Texture2D)Resources.Load("Atlas1");
-			atlas2 = (Texture2D)Resources.Load("Atlas2");
+			rubberTexture = (Texture2D)Resources.Load("Rubber");
+			metalTexture = (Texture2D)Resources.Load("Metal");
 
 			atlas1Material = new Material(Shader.Find("Custom/UnlitTransparent"));
 			atlas1Material.mainTexture = atlas1;
 
-			atlas2Material = new Material(Shader.Find("Custom/UnlitTransparent"));
-			atlas2Material.mainTexture = atlas2;
+			rubberMaterial = new Material(Shader.Find("Custom/UnlitTransparent"));
+			rubberMaterial.mainTexture = rubberTexture;
+			rubberMaterial.mainTextureScale = new Vector2(2, 2);
+
+			metalMaterial = new Material(Shader.Find("Custom/UnlitTransparent"));
+			metalMaterial.mainTexture = metalTexture;
+			metalMaterial.mainTextureScale = new Vector2(4, 4);
 
 			currentLayerPair = 0;
 
@@ -77,8 +83,18 @@ namespace ThisProject
 			obj.AddComponent<MeshRenderer>();
 			obj.AddComponent<MeshFilter>().mesh = objMesh;
 
-			if (itemMaterial == ItemMaterial.Rubber) obj.renderer.material = atlas2Material;
-			else obj.renderer.material = atlas1Material;
+			switch (itemMaterial)
+			{
+				case ItemMaterial.Rubber:
+					obj.renderer.material = rubberMaterial;
+					break;
+				case ItemMaterial.Metal:
+					obj.renderer.material = metalMaterial;
+					break;
+				default:
+					obj.renderer.material = atlas1Material;
+					break;
+			}
 
 			//create the object effect
 			GameObject objEffect = new GameObject();
@@ -157,8 +173,18 @@ namespace ThisProject
 			//update the object
 			item.GetComponent<MeshFilter>().mesh = objMesh;
 
-			if (itemMaterial == ItemMaterial.Rubber) item.renderer.material = atlas2Material;
-			else item.renderer.material = atlas1Material;
+			switch (itemMaterial)
+			{
+				case ItemMaterial.Rubber:
+					item.renderer.material = rubberMaterial;
+					break;
+				case ItemMaterial.Metal:
+					item.renderer.material = metalMaterial;
+					break;
+				default:
+					item.renderer.material = atlas1Material;
+					break;
+			}
 
 			//update the object effect
 			GameObject itemEffect = item.transform.GetChild(0).gameObject;
@@ -289,10 +315,10 @@ namespace ThisProject
 					TextureXYCenter = new IntVector2(1004, 1254);
 					break;
 				case ItemMaterial.Metal:
-					TextureXYCenter = new IntVector2(677, 250);
+					TextureXYCenter = new IntVector2(256, 256);
 					break;
 				case ItemMaterial.Rubber:
-					TextureXYCenter = new IntVector2(677, 250);
+					TextureXYCenter = new IntVector2(256, 256);
 					break;
 				case ItemMaterial.Wood:
 					TextureXYCenter = new IntVector2(800, 752);
@@ -439,10 +465,10 @@ namespace ThisProject
 					TextureXYTopLeft = new IntVector2(1, 1005);
 					break;
 				case ItemMaterial.Metal:
-					TextureXYTopLeft = new IntVector2(1, 1);
+					TextureXYTopLeft = new IntVector2(0, 0);
 					break;
 				case ItemMaterial.Rubber:
-					TextureXYTopLeft = new IntVector2(1, 1);
+					TextureXYTopLeft = new IntVector2(0, 0);
 					break;
 				case ItemMaterial.Wood:
 					TextureXYTopLeft = new IntVector2(1, 503);
@@ -568,10 +594,10 @@ namespace ThisProject
 					TextureXYTopLeft = new IntVector2(1, 1005);
 					break;
 				case ItemMaterial.Metal:
-					TextureXYTopLeft = new IntVector2(1, 1);
+					TextureXYTopLeft = new IntVector2(0, 0);
 					break;
 				case ItemMaterial.Rubber:
-					TextureXYTopLeft = new IntVector2(1, 1);
+					TextureXYTopLeft = new IntVector2(0, 0);
 					break;
 				case ItemMaterial.Wood:
 					TextureXYTopLeft = new IntVector2(1, 503);
@@ -793,7 +819,7 @@ namespace ThisProject
 			obj.AddComponent<MeshRenderer>();
 			obj.AddComponent<MeshFilter>().mesh = mesh;
 
-			obj.renderer.material = atlas2Material;
+			obj.renderer.material = rubberMaterial;
 
 			obj.transform.localPosition = new Vector3(2, 0, 0);
 
