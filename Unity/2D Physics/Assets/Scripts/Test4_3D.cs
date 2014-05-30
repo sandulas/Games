@@ -20,7 +20,7 @@ public class Test4_3D : MonoBehaviour
 			{
 				for (int j = 0; j < 3; j++)
 				{
-					obj = Item.Create((ItemShape)j, (ItemMaterial)i, 1, 1);
+					obj = Item.Create((ItemShape)j, (ItemMaterial)i, 6.6666f, 6.6666f);
 					obj.transform.position = new Vector3(i * 1.5f, j * 1.5f);
 
 					Item.Resize(obj, 1.5f, 0.5f);
@@ -30,11 +30,11 @@ public class Test4_3D : MonoBehaviour
 			loaded = true;
 		}
 
-		if (Time.realtimeSinceStartup > 2)
-		{
-			obj = GameObject.Find("Item: Circle 10");
-			Item.Resize(obj, obj.GetComponent<ItemProperties>().Width + 0.01f, 2);
-			Item.ChangeMaterial(obj, ItemMaterial.Rubber);
-		}
+		//if (Time.realtimeSinceStartup > 2)
+		//{
+		//  obj = GameObject.Find("Item: Circle 10");
+		//  Item.Resize(obj, obj.GetComponent<ItemProperties>().Width + 0.01f, 2);
+		//  Item.ChangeMaterial(obj, ItemMaterial.Ice);
+		//}
 	}
 }

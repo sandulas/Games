@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
 	{
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		Collider2D collider;
