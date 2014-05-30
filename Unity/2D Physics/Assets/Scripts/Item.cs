@@ -304,30 +304,13 @@ namespace ThisProject
 
 			vertices[0] = new Vector3(0, 0, 0);
 
-			IntVector2 TextureXYCenter = new IntVector2(0, 0);
-
-			switch (itemMaterial)
-			{
-				case ItemMaterial.FixedMetal:
-					TextureXYCenter = new IntVector2(256, 0);
-					break;
-				case ItemMaterial.Ice:
-					TextureXYCenter = new IntVector2(512, 0);
-					break;
-				case ItemMaterial.Metal:
-					TextureXYCenter = new IntVector2(256, 0);
-					break;
-				case ItemMaterial.Rubber:
-					TextureXYCenter = new IntVector2(512, 0);
-					break;
-				case ItemMaterial.Wood:
-					TextureXYCenter = new IntVector2(1024, 0);
-					break;
-			}
-
 			Texture2D texture = itemTextures[(int)itemMaterial];
 
-			uvs[0] = TextureXY2UV(texture, TextureXYCenter);
+			IntVector2 TextureXYCenter = new IntVector2(
+				(int)Math.Round((texture.width / 2) / itemMaterials[(int)itemMaterial].mainTextureScale.x),
+				(int)Math.Round((texture.height / 2) / itemMaterials[(int)itemMaterial].mainTextureScale.y));
+
+			uvs[0] = TextureXY2UV2(texture, TextureXYCenter);
 
 			double angle = 2 * Math.PI / circleSegments;
 
@@ -335,7 +318,7 @@ namespace ThisProject
 			{
 				vertices[i + 1] = new Vector3((float)(radius * Math.Cos(i * angle)), (float)(radius * Math.Sin(i * angle)), 0);
 
-				uvs[i + 1] = TextureXY2UV(texture, TextureXYCenter.x + (int)(radius * PixelsPerUnit * Math.Cos(i * angle)), TextureXYCenter.y - (int)(radius * PixelsPerUnit * Math.Sin(i * angle)));
+				uvs[i + 1] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(radius * PixelsPerUnit * Math.Cos(i * angle)), TextureXYCenter.y + (int)(radius * PixelsPerUnit * Math.Sin(i * angle)));
 
 				triangles[i * 3] = 0;
 
@@ -455,12 +438,10 @@ namespace ThisProject
 
 			Texture2D texture = itemTextures[(int)itemMaterial];
 
-			IntVector2 TextureXYTopLeft = new IntVector2(0, 0);
-
-			uvs[0] = TextureXY2UV(texture, TextureXYTopLeft.x, (int)(TextureXYTopLeft.y + height * PixelsPerUnit - 1));
-			uvs[1] = TextureXY2UV(texture, TextureXYTopLeft.x, TextureXYTopLeft.y);
-			uvs[2] = TextureXY2UV(texture, (int)(TextureXYTopLeft.x + width * PixelsPerUnit - 1), TextureXYTopLeft.y);
-			uvs[3] = TextureXY2UV(texture, (int)(TextureXYTopLeft.x + width * PixelsPerUnit - 1), (int)(TextureXYTopLeft.y + height * PixelsPerUnit - 1));
+			uvs[0] = TextureXY2UV2(texture, (int)(-width / 2 * PixelsPerUnit), (int)(-height / 2 * PixelsPerUnit));
+			uvs[1] = TextureXY2UV2(texture, (int)(-width / 2 * PixelsPerUnit), (int)(height / 2 * PixelsPerUnit));
+			uvs[2] = TextureXY2UV2(texture, (int)(width / 2 * PixelsPerUnit), (int)(height / 2 * PixelsPerUnit));
+			uvs[3] = TextureXY2UV2(texture, (int)(width / 2 * PixelsPerUnit), (int)(-height / 2 * PixelsPerUnit));
 
 			Mesh mesh = new Mesh();
 
@@ -694,6 +675,15 @@ namespace ThisProject
 		private static Vector2 TextureXY2UV(Texture2D texture, IntVector2 textureXY)
 		{
 			return TextureXY2UV(texture, textureXY.x, textureXY.y);
+		}
+
+		private static Vector2 TextureXY2UV2(Texture2D texture, int textureX, int textureY)
+		{
+			return new Vector2((float)textureX / texture.width, (float)textureY / texture.height);
+		}
+		private static Vector2 TextureXY2UV2(Texture2D texture, IntVector2 textureXY)
+		{
+			return TextureXY2UV2(texture, textureXY.x, textureXY.y);
 		}
 
 		private static Vector2 PointOnCircle(double circleCenterX, double circleCenterY, double radius, double angle)

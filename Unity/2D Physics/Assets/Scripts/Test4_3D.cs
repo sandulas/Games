@@ -21,9 +21,9 @@ public class Test4_3D : MonoBehaviour
 				for (int j = 0; j < 3; j++)
 				{
 					obj = Item.Create((ItemShape)j, (ItemMaterial)i, 6.6666f, 6.6666f);
-					obj.transform.position = new Vector3(i * 1.5f, j * 1.5f);
+					obj.transform.position = new Vector3(i * 7f, j * 7f);
 
-					Item.Resize(obj, 1.5f, 0.5f);
+					//Item.Resize(obj, 1.5f, 0.5f);
 				}
 			}
 
