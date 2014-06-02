@@ -39,7 +39,7 @@ namespace ThisProject
 			{
 				itemTextures[i] = (Texture2D)Resources.Load(Enum.GetName(typeof(ItemMaterial), i));
 				
-				itemMaterials[i] = new Material(Shader.Find("Custom/UnlitTransparent"));
+				itemMaterials[i] = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
 				itemMaterials[i].mainTexture = itemTextures[i];
 
 				switch (i)
@@ -128,11 +128,22 @@ namespace ThisProject
 			objEffect.name = shape + " Effect " + currentLayerPair;
 			objEffect.transform.parent = obj.transform;
 
-			obj.renderer.sortingLayerName = "Elements";
-			obj.renderer.sortingOrder = currentLayerPair * 2;
+			Vector3 pos;
+			
+			obj.layer = 0;
+			pos = obj.transform.position;
+			obj.transform.position = new Vector3(pos.x, pos.y, currentLayerPair * 0.001f);
 
-			objEffect.renderer.sortingLayerName = "Elements";
-			objEffect.renderer.sortingOrder = currentLayerPair * 2 + 1;
+			objEffect.layer = 0;
+			pos = objEffect.transform.localPosition;
+			objEffect.transform.localPosition = new Vector3(pos.x, pos.y, pos.z - 0.0005f);
+
+			
+			//obj.renderer.sortingLayerName = "Elements";
+			//obj.renderer.sortingOrder = currentLayerPair * 2;
+
+			//objEffect.renderer.sortingLayerName = "Elements";
+			//objEffect.renderer.sortingOrder = currentLayerPair * 2 + 1;
 
 			currentLayerPair++;
 
