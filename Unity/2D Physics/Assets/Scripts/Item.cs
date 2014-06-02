@@ -438,10 +438,14 @@ namespace ThisProject
 
 			Texture2D texture = itemTextures[(int)itemMaterial];
 
-			uvs[0] = TextureXY2UV2(texture, (int)(-width / 2 * PixelsPerUnit), (int)(-height / 2 * PixelsPerUnit));
-			uvs[1] = TextureXY2UV2(texture, (int)(-width / 2 * PixelsPerUnit), (int)(height / 2 * PixelsPerUnit));
-			uvs[2] = TextureXY2UV2(texture, (int)(width / 2 * PixelsPerUnit), (int)(height / 2 * PixelsPerUnit));
-			uvs[3] = TextureXY2UV2(texture, (int)(width / 2 * PixelsPerUnit), (int)(-height / 2 * PixelsPerUnit));
+			IntVector2 TextureXYCenter = new IntVector2(
+				(int)Math.Round((texture.width / 2) / itemMaterials[(int)itemMaterial].mainTextureScale.x),
+				(int)Math.Round((texture.height / 2) / itemMaterials[(int)itemMaterial].mainTextureScale.y));
+
+			uvs[0] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(-width / 2 * PixelsPerUnit), TextureXYCenter.y + (int)(-height / 2 * PixelsPerUnit));
+			uvs[1] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(-width / 2 * PixelsPerUnit), TextureXYCenter.y + (int)(height / 2 * PixelsPerUnit));
+			uvs[2] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(width / 2 * PixelsPerUnit), TextureXYCenter.y + (int)(height / 2 * PixelsPerUnit));
+			uvs[3] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(width / 2 * PixelsPerUnit), TextureXYCenter.y + (int)(-height / 2 * PixelsPerUnit));
 
 			Mesh mesh = new Mesh();
 
@@ -545,11 +549,13 @@ namespace ThisProject
 
 			Texture2D texture = itemTextures[(int)itemMaterial];
 
-			IntVector2 TextureXYTopLeft = new IntVector2(0, 0);
+			IntVector2 TextureXYCenter = new IntVector2(
+				(int)Math.Round((texture.width / 2) / itemMaterials[(int)itemMaterial].mainTextureScale.x),
+				(int)Math.Round((texture.height / 2) / itemMaterials[(int)itemMaterial].mainTextureScale.y));
 
-			uvs[0] = TextureXY2UV(texture, TextureXYTopLeft.x, (int)(TextureXYTopLeft.y + height * PixelsPerUnit - 1));
-			uvs[1] = TextureXY2UV(texture, TextureXYTopLeft.x, TextureXYTopLeft.y);
-			uvs[2] = TextureXY2UV(texture, (int)(TextureXYTopLeft.x + width * PixelsPerUnit - 1), (int)(TextureXYTopLeft.y + height * PixelsPerUnit - 1));
+			uvs[0] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(-width / 2 * PixelsPerUnit), TextureXYCenter.y + (int)(-height / 2 * PixelsPerUnit));
+			uvs[1] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(-width / 2 * PixelsPerUnit), TextureXYCenter.y + (int)(height / 2 * PixelsPerUnit));
+			uvs[2] = TextureXY2UV2(texture, TextureXYCenter.x + (int)(width / 2 * PixelsPerUnit), TextureXYCenter.y - (int)(height / 2 * PixelsPerUnit));
 
 			Mesh mesh = new Mesh();
 
