@@ -67,7 +67,7 @@ namespace ThisProject
 			atlas1Material = new Material(Shader.Find("Custom/UnlitTransparent"));
 			atlas1Material.mainTexture = atlas1;
 
-			currentLayerPair = 0;
+			currentLayerPair = 1;
 
 			Application.targetFrameRate = -1;
 		}
@@ -132,7 +132,7 @@ namespace ThisProject
 			
 			obj.layer = 0;
 			pos = obj.transform.position;
-			obj.transform.position = new Vector3(pos.x, pos.y, currentLayerPair * 0.001f);
+			obj.transform.position = new Vector3(pos.x, pos.y, -currentLayerPair * 0.001f);
 
 			objEffect.layer = 0;
 			pos = objEffect.transform.localPosition;
