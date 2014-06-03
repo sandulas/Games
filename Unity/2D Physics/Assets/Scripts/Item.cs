@@ -29,7 +29,7 @@ namespace ThisProject
 		static float PixelsPerUnit = 1536f / 10;
 		static int circleSegments = 50;
 		
-		static int currentLayerPair;
+		static int frontLayerIndex;
 
 		static Item()
 		{
@@ -67,7 +67,7 @@ namespace ThisProject
 			atlas1Material = new Material(Shader.Find("Custom/UnlitTransparent"));
 			atlas1Material.mainTexture = atlas1;
 
-			currentLayerPair = 1;
+			frontLayerIndex = 1;
 
 			Application.targetFrameRate = -1;
 		}
@@ -124,29 +124,11 @@ namespace ThisProject
 
 
 			//setup the object and the object effect in the scene
-			obj.name = "Item: " + shape + " " + currentLayerPair;
-			objEffect.name = shape + " Effect " + currentLayerPair;
+			obj.name = "Item: " + shape + " " + frontLayerIndex;
+			objEffect.name = shape + " Effect " + frontLayerIndex;
 			objEffect.transform.parent = obj.transform;
 
-			Vector3 pos;
-			
-			obj.layer = 0;
-			pos = obj.transform.position;
-			obj.transform.position = new Vector3(pos.x, pos.y, -currentLayerPair * 0.001f);
-
-			objEffect.layer = 0;
-			pos = objEffect.transform.localPosition;
-			objEffect.transform.localPosition = new Vector3(pos.x, pos.y, pos.z - 0.0005f);
-
-			
-			//obj.renderer.sortingLayerName = "Elements";
-			//obj.renderer.sortingOrder = currentLayerPair * 2;
-
-			//objEffect.renderer.sortingLayerName = "Elements";
-			//objEffect.renderer.sortingOrder = currentLayerPair * 2 + 1;
-
-			currentLayerPair++;
-
+			BringToFront(obj);
 
 			setPhysics(obj);
 
@@ -160,6 +142,24 @@ namespace ThisProject
 		public static void ChangeMaterial(GameObject item, ItemMaterial itemMaterial)
 		{
 			update(item, itemMaterial, item.GetComponent<ItemProperties>().Width, item.GetComponent<ItemProperties>().Height);
+		}
+
+		//don't increase the frontLayerIndex if the object is already in front
+		public static void BringToFront(GameObject item)
+		{
+			GameObject itemEffect = item.transform.GetChild(0).gameObject;
+
+			Vector3 pos;
+
+			item.layer = 0;
+			pos = item.transform.position;
+			item.transform.position = new Vector3(pos.x, pos.y, -frontLayerIndex * 0.001f);
+
+			itemEffect.layer = 0;
+			pos = itemEffect.transform.localPosition;
+			itemEffect.transform.localPosition = new Vector3(pos.x, pos.y, - 0.0005f);
+
+			frontLayerIndex++;
 		}
 
 		private static void update(GameObject item, ItemMaterial itemMaterial, float width, float height)
