@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ThisProject;
 
 public class InputManager : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class InputManager : MonoBehaviour
 					if (Time.timeScale == 0) Time.timeScale = 1;
 					else Time.timeScale = 0;
 				}
+
+				if (draggedObject.name.StartsWith("Item"))	Item.BringToFront(draggedObject);
 			}
 		}
 
@@ -49,7 +52,8 @@ public class InputManager : MonoBehaviour
 
 		if (Input.GetMouseButton(0))
 		{
-			if (draggedObject != null) draggedObject.transform.position = touchPosition - draggedObjectOffset;
+			//don't alter the z coordinate
+			//if (draggedObject != null) draggedObject.transform.position = touchPosition - draggedObjectOffset;
 		}
 
 	}
