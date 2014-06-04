@@ -139,6 +139,10 @@ namespace ThisProject
 		{
 			update(item, item.GetComponent<ItemProperties>().Material, width, height);
 		}
+		public static void Move(GameObject item, Vector3 position)
+		{
+			item.transform.position = new Vector3(position.x, position.y, item.transform.position.z);
+		}
 		public static void ChangeMaterial(GameObject item, ItemMaterial itemMaterial)
 		{
 			update(item, itemMaterial, item.GetComponent<ItemProperties>().Width, item.GetComponent<ItemProperties>().Height);
