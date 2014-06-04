@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 
 	void Start()
 	{
+		Time.timeScale = 1;
 	}
 
 	void Update()
@@ -30,31 +31,33 @@ public class InputManager : MonoBehaviour
 
 			if (collider != null)
 			{
-				draggedObject = collider.gameObject;
-				draggedObjectOffset = touchPosition - draggedObject.transform.position;
-
-				if (draggedObject.name == "Pause")
+				if (collider.gameObject.name == "Pause")
 				{
 					if (Time.timeScale == 0) Time.timeScale = 1;
 					else Time.timeScale = 0;
 				}
 
-				if (draggedObject.name.StartsWith("Item"))	Item.BringToFront(draggedObject);
+				if (collider.gameObject.name.StartsWith("Item"))
+				{
+					draggedObject = collider.gameObject;
+					draggedObjectOffset = touchPosition - draggedObject.transform.position;
+					Item.BringToFront(draggedObject);
+				}
 			}
 		}
 
 		if (Input.GetMouseButtonUp(0))
 		{
-			collider = Physics2D.OverlapPoint(touchPosition);
-
 			draggedObject = null;
 		}
 
 		if (Input.GetMouseButton(0))
 		{
-			//don't alter the z coordinate
-			//if (draggedObject != null) draggedObject.transform.position = touchPosition - draggedObjectOffset;
+			if (draggedObject != null)
+				if (Time.timeScale == 0)
+					Item.Move(draggedObject, touchPosition - draggedObjectOffset);
+				else
+					draggedObject.rigidbody2D.MovePosition(new Vector2((touchPosition - draggedObjectOffset).x, (touchPosition - draggedObjectOffset).y));
 		}
-
 	}
 }
