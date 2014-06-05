@@ -2,14 +2,20 @@
 using System.Collections;
 using ThisProject;
 
-public class Test4_3D : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
+	public Vector2 SceneSize;
+	public GameObject Background;
+
 	static bool loaded = false;
 	GameObject obj;
 
 	void Start()
 	{
-		GameObject.Find("Quad").renderer.sortingLayerName = "Background";
+		Time.timeScale = 1;
+
+		Background.transform.localScale = new Vector3(SceneSize.x, SceneSize.y, 1);
+		Background.renderer.material.mainTextureScale = new Vector2(SceneSize.x / 10, SceneSize.y / 10);
 	}
 
 	void Update()
@@ -21,7 +27,7 @@ public class Test4_3D : MonoBehaviour
 				for (int j = 0; j < 3; j++)
 				{
 					obj = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
-					obj.transform.position = new Vector3(i * 1.5f, j * 1.5f, obj.transform.position.z);
+					obj.transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj.transform.position.z);
 
 					Item.Resize(obj, 1.5f, 0.5f);
 				}
