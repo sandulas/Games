@@ -23,7 +23,7 @@ public class Test4_3D : MonoBehaviour
 					obj = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
 					obj.transform.position = new Vector3(i * 1.5f, j * 1.5f, obj.transform.position.z);
 
-					//Item.Resize(obj, 1.5f, 0.5f);
+					Item.Resize(obj, 1.5f, 0.5f);
 				}
 			}
 
