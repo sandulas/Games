@@ -30,6 +30,7 @@ namespace ThisProject
 		static int circleSegments = 50;
 		
 		static int frontLayerIndex;
+		const float layerSpacing = 0.001f;
 
 		static Item()
 		{
@@ -67,7 +68,7 @@ namespace ThisProject
 			atlas1Material = new Material(Shader.Find("Custom/UnlitTransparent"));
 			atlas1Material.mainTexture = atlas1;
 
-			frontLayerIndex = 1;
+			frontLayerIndex = 0;
 
 			Application.targetFrameRate = -1;
 		}
@@ -104,16 +105,25 @@ namespace ThisProject
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
 			obj.AddComponent<MeshFilter>().mesh = objMesh;
-
 			obj.renderer.material = itemMaterials[(int)itemMaterial];
 
 			//create the object effect
 			GameObject objEffect = new GameObject();
 			objEffect.AddComponent<MeshRenderer>();
 			objEffect.AddComponent<MeshFilter>().mesh = objEffectMesh;
-
 			objEffect.renderer.material = atlas1Material;
 
+			//setup the object and the object effect in the scene
+			obj.name = "Item: " + shape + " " + frontLayerIndex;
+			objEffect.name = shape + " Effect " + frontLayerIndex;
+			
+			objEffect.transform.parent = obj.transform;
+			obj.layer = 0;
+
+			//bring the effect in front of the object
+			Vector3 pos = objEffect.transform.localPosition;
+			objEffect.transform.localPosition = new Vector3(pos.x, pos.y, -layerSpacing / 2);
+			BringToFront(obj);
 
 			//add the object properties
 			ItemProperties itemProperties = obj.AddComponent<ItemProperties>();
@@ -121,14 +131,6 @@ namespace ThisProject
 			itemProperties.Material = itemMaterial;
 			itemProperties.Width = width;
 			itemProperties.Height = height;
-
-
-			//setup the object and the object effect in the scene
-			obj.name = "Item: " + shape + " " + frontLayerIndex;
-			objEffect.name = shape + " Effect " + frontLayerIndex;
-			objEffect.transform.parent = obj.transform;
-
-			BringToFront(obj);
 
 			setPhysics(obj);
 
@@ -148,22 +150,15 @@ namespace ThisProject
 			update(item, itemMaterial, item.GetComponent<ItemProperties>().Width, item.GetComponent<ItemProperties>().Height);
 		}
 
-		//don't increase the frontLayerIndex if the object is already in front
 		public static void BringToFront(GameObject item)
 		{
-			GameObject itemEffect = item.transform.GetChild(0).gameObject;
-
-			Vector3 pos;
-
-			item.layer = 0;
-			pos = item.transform.position;
-			item.transform.position = new Vector3(pos.x, pos.y, -frontLayerIndex * 0.001f);
-
-			itemEffect.layer = 0;
-			pos = itemEffect.transform.localPosition;
-			itemEffect.transform.localPosition = new Vector3(pos.x, pos.y, - 0.0005f);
-
-			frontLayerIndex++;
+			Vector3 pos = item.transform.position;
+			
+			if (pos.z > frontLayerIndex * layerSpacing || pos.z >= 0)
+			{
+				frontLayerIndex--;
+				item.transform.position = new Vector3(pos.x, pos.y, frontLayerIndex * layerSpacing);
+			}
 		}
 
 		private static void update(GameObject item, ItemMaterial itemMaterial, float width, float height)
