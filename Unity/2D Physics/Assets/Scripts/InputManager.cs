@@ -35,6 +35,15 @@ public class InputManager : MonoBehaviour
 					if (Time.timeScale == 0) Time.timeScale = 1;
 					else Time.timeScale = 0;
 				}
+				if (collider.gameObject.name == "Rotate")
+				{
+					SceneManager.CameraTargetPosition = new Vector3(5, 0);
+				}
+				if (collider.gameObject.name == "Move")
+				{
+					SceneManager.CameraTargetPosition = new Vector3(0, 0);
+				}
+
 
 				if (collider.gameObject.name.StartsWith("Item"))
 				{

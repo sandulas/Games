@@ -120,7 +120,7 @@ namespace ThisProject
 			objEffect.transform.parent = obj.transform;
 			obj.layer = 0;
 
-			//bring the effect in front of the object
+			//bring the effect in front of the object, bring the object to front
 			Vector3 pos = objEffect.transform.localPosition;
 			objEffect.transform.localPosition = new Vector3(pos.x, pos.y, -layerSpacing / 2);
 			BringToFront(obj);
@@ -145,16 +145,30 @@ namespace ThisProject
 		{
 			item.transform.position = new Vector3(position.x, position.y, item.transform.position.z);
 		}
+		public static void Move(GameObject item, Vector2 position)
+		{
+			item.transform.position = new Vector3(position.x, position.y, item.transform.position.z);
+		}
+		public static void Move(GameObject item, float x, float y)
+		{
+			Move(item, new Vector2(x, y));
+		}
 		public static void ChangeMaterial(GameObject item, ItemMaterial itemMaterial)
 		{
 			update(item, itemMaterial, item.GetComponent<ItemProperties>().Width, item.GetComponent<ItemProperties>().Height);
 		}
-
+		public static void Duplicate(GameObject item)
+		{
+			GameObject.Instantiate(item);
+			item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y, 0);
+			BringToFront(item);
+		}
 		public static void BringToFront(GameObject item)
 		{
 			Vector3 pos = item.transform.position;
-			
-			if (pos.z > frontLayerIndex * layerSpacing || pos.z >= 0)
+			float frontPosition = frontLayerIndex * layerSpacing;
+
+			if (pos.z > frontPosition || pos.z >= 0)
 			{
 				frontLayerIndex--;
 				item.transform.position = new Vector3(pos.x, pos.y, frontLayerIndex * layerSpacing);
@@ -719,4 +733,13 @@ namespace ThisProject
 		public ItemMaterial Material;
 		public float Width, Height;
 	}
+
+	public static class Extensions
+	{
+		public static Vector3 SetXY(this Vector3 original, float x, float y)
+		{
+			return new Vector3(x, y, original.z);
+		}
+	}
+
 }
