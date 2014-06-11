@@ -6,25 +6,37 @@ namespace ThisProject
 {
 	public class SceneManager : MonoBehaviour
 	{
-		Vector2 SceneSize = new Vector2(80, 50);
+		Vector2 SceneSize = new Vector2(40, 25);
 		float WallWidth = 0.5f;
 
-		public GameObject Background;
+		public static GameObject Background;
 
 		private Camera camera;
 		private Vector2 cameraPosition;
 		public static Vector2 CameraTargetPosition;
+		public static float CameraTargetSize;
+		public static float PixelsPerUnit, AspectRatio;
 
 
 		private static bool loaded = false;
 		void Start()
 		{
-			GameObject obj;
 			Time.timeScale = 1;
 
+			//initialize the camera
+			camera = Camera.main;
+			camera.transform.position = new Vector3(0, 0, -12);
+			CameraTargetPosition = new Vector2(0, 0);
+			CameraTargetSize = camera.orthographicSize;
+
+			//initialize the background
+			Background = GameObject.Find("Background");
 			Background.transform.position = new Vector3(0, 0, 0);
 			Background.transform.localScale = new Vector3(SceneSize.x, SceneSize.y, 1);
 			Background.renderer.material.mainTextureScale = new Vector2(SceneSize.x / 10, SceneSize.y / 10);
+
+			//setup the walls
+			GameObject obj;
 
 			obj = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, SceneSize.x, WallWidth);
 			Item.Move(obj, 0, SceneSize.y / 2 + WallWidth / 2);
@@ -41,17 +53,15 @@ namespace ThisProject
 			Item.Duplicate(obj);
 			Item.Move(obj, -SceneSize.x / 2 - WallWidth / 2, 0);
 			obj.name = "Wall - Left";
-
-			camera = Camera.main;
-			camera.transform.position = new Vector3(0, 0, -12);
-			CameraTargetPosition = new Vector2(0, 0);
-
+			
+			//setup variables
+			PixelsPerUnit = Screen.height / camera.orthographicSize / 2;
+			AspectRatio = (float)Screen.width / Screen.height;
 		}
 
 		void Update()
 		{
 			UpdateCamera();
-
 
 			GameObject obj;
 			if (Time.realtimeSinceStartup > 1 && !loaded)
@@ -80,8 +90,36 @@ namespace ThisProject
 
 		void UpdateCamera()
 		{
-			cameraPosition = Vector2.Lerp(cameraPosition, CameraTargetPosition, 6 * Time.deltaTime);
-			MyTransform.SetPositionXY(camera.transform, cameraPosition);
+			//set the size
+			if (CameraTargetSize < 3) CameraTargetSize = 3;
+			else if (CameraTargetSize > SceneSize.y / 2 + WallWidth) CameraTargetSize = SceneSize.y / 2 + WallWidth;
+
+			camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, CameraTargetSize, 0.1f);
+			PixelsPerUnit = Screen.height / camera.orthographicSize / 2;
+
+			//set the position
+			MyTransform.SetPositionXY(camera.transform, Vector2.Lerp(camera.transform.position, CameraTargetPosition, 0.06f));
+			if (camera.transform.position.y > SceneSize.y / 2 + WallWidth - camera.orthographicSize)
+			{
+				CameraTargetPosition.y = SceneSize.y / 2 + WallWidth - camera.orthographicSize;
+				MyTransform.SetPositionY(camera.transform, CameraTargetPosition.y);
+			}
+			else if (camera.transform.position.y < -SceneSize.y / 2 - WallWidth + camera.orthographicSize)
+			{
+				CameraTargetPosition.y = -SceneSize.y / 2 - WallWidth + camera.orthographicSize;
+				MyTransform.SetPositionY(camera.transform, CameraTargetPosition.y);
+			}
+			if (camera.transform.position.x > SceneSize.x / 2 + WallWidth - camera.orthographicSize * AspectRatio)
+			{
+				CameraTargetPosition.x = SceneSize.x / 2 + WallWidth - camera.orthographicSize * AspectRatio;
+				MyTransform.SetPositionX(camera.transform, CameraTargetPosition.x);
+			}
+			else if (camera.transform.position.x < -SceneSize.x / 2 - WallWidth + camera.orthographicSize * AspectRatio)
+			{
+				CameraTargetPosition.x = -SceneSize.x / 2 - WallWidth + camera.orthographicSize * AspectRatio;
+				MyTransform.SetPositionX(camera.transform, CameraTargetPosition.x);
+			}
 		}
+
 	}
 }
