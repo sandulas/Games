@@ -80,15 +80,8 @@ namespace ThisProject
 
 		void UpdateCamera()
 		{
-			cameraPosition = camera.transform.position;
-
-			Vector2 direction = (CameraTargetPosition - cameraPosition).normalized;
-
-			float totalDistange = (CameraTargetPosition - cameraPosition).magnitude;
-			float displacement = totalDistange * 6 * Time.deltaTime;
-
-			cameraPosition = cameraPosition + direction * displacement;
-			camera.transform.position = camera.transform.position.SetXY(cameraPosition.x, cameraPosition.y);
+			cameraPosition = Vector2.Lerp(cameraPosition, CameraTargetPosition, 6 * Time.deltaTime);
+			MyTransform.SetPositionXY(camera.transform, cameraPosition);
 		}
 	}
 }
