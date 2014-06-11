@@ -744,5 +744,15 @@ namespace ThisProject
 		{
 			transform.position = new Vector3(positionXY.x, positionXY.y, transform.position.z);
 		}
+
+		public static void SetPositionX(Transform transform, float positionX)
+		{
+			transform.position = new Vector3(positionX, transform.position.y, transform.position.z);
+		}
+
+		public static void SetPositionY(Transform transform, float positionY)
+		{
+			transform.position = new Vector3(transform.position.x, positionY, transform.position.z);
+		}
 	}
 }
