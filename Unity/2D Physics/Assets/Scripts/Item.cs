@@ -6,16 +6,6 @@ namespace ThisProject
 {
 	public enum ItemShape { Rectangle, Circle, Triangle }
 	public enum ItemMaterial { FixedMetal, Metal, Wood, Rubber, Ice }
-	public class IntVector2
-	{
-		public int x, y;
-
-		public IntVector2(int x, int y)
-		{
-			this.x = x;
-			this.y = y;
-		}
-	}
 
 	public class Item
 	{
@@ -659,15 +649,15 @@ namespace ThisProject
 														 new Vector3(width / 2, -height / 2),
 														 //outside 0
 														 new Vector3(-width / 2, (float)(-height / 2 - outerOffset)),
-														 GetVector3(PointOnCircle(-width / 2, - height / 2, outerOffset, Math.PI + Math.PI / 4 )),
+														 MyVector3.Get(PointOnCircle(-width / 2, - height / 2, outerOffset, Math.PI + Math.PI / 4 )),
 														 new Vector3((float)(-width / 2 - outerOffset), -height / 2),
 														 //outside 1
 														 new Vector3((float)(-width / 2 - outerOffset), height / 2),
-														 GetVector3(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1) / 2)),
-														 GetVector3(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1))),
+														 MyVector3.Get(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1) / 2)),
+														 MyVector3.Get(PointOnCircle(-width / 2, height / 2, outerOffset, Math.PI - (Math.PI - angle1))),
 														 //outside 3
-														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2))),
-														 GetVector3(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2) / 2)),
+														 MyVector3.Get(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2))),
+														 MyVector3.Get(PointOnCircle(width / 2, -height / 2, outerOffset, 3 * Math.PI / 2 + (Math.PI - angle2) / 2)),
 														 new Vector3(width / 2, (float)(-height / 2 - outerOffset)),
 													 };
 
@@ -720,11 +710,6 @@ namespace ThisProject
 		{
 			return new Vector2((float)(circleCenterX + radius * Math.Cos(angle)), (float)(circleCenterY + radius * Math.Sin(angle)));
 		}
-
-		private static Vector3 GetVector3(Vector2 vector2)
-		{
-			return new Vector3(vector2.x, vector2.y);
-		}
 	}
 
 	public class ItemProperties : MonoBehaviour
@@ -734,12 +719,30 @@ namespace ThisProject
 		public float Width, Height;
 	}
 
-	public static class Extensions
+	public class IntVector2
 	{
-		public static Vector3 SetXY(this Vector3 original, float x, float y)
+		public int x, y;
+
+		public IntVector2(int x, int y)
 		{
-			return new Vector3(x, y, original.z);
+			this.x = x;
+			this.y = y;
 		}
 	}
 
+	public static class MyVector3
+	{
+		public static Vector3 Get(Vector2 vector2)
+		{
+			return new Vector3(vector2.x, vector2.y);
+		}
+	}
+
+	public static class MyTransform
+	{
+		public static void SetPositionXY(Transform transform, Vector2 positionXY)
+		{
+			transform.position = new Vector3(positionXY.x, positionXY.y, transform.position.z);
+		}
+	}
 }
