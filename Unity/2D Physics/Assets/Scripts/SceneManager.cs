@@ -10,8 +10,9 @@ namespace ThisProject
 		float WallWidth = 0.5f;
 
 		public static GameObject Background;
+		public static Camera UICamera;
 
-		private Camera camera;
+		private Camera gameCamera;
 		private Vector2 cameraPosition;
 		public static Vector2 CameraTargetPosition;
 		public static float CameraTargetSize;
@@ -24,10 +25,12 @@ namespace ThisProject
 			Time.timeScale = 1;
 
 			//initialize the camera
-			camera = Camera.main;
-			camera.transform.position = new Vector3(0, 0, -12);
+			gameCamera = Camera.main;
+			gameCamera.transform.position = new Vector3(0, 0, -12);
 			CameraTargetPosition = new Vector2(0, 0);
-			CameraTargetSize = camera.orthographicSize;
+			CameraTargetSize = gameCamera.orthographicSize;
+
+			UICamera = Camera.allCameras[1];
 
 			//initialize the background
 			Background = GameObject.Find("Background");
@@ -55,7 +58,7 @@ namespace ThisProject
 			obj.name = "Wall - Left";
 			
 			//setup variables
-			PixelsPerUnit = Screen.height / camera.orthographicSize / 2;
+			PixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 			AspectRatio = (float)Screen.width / Screen.height;
 		}
 
@@ -94,30 +97,30 @@ namespace ThisProject
 			if (CameraTargetSize < 3) CameraTargetSize = 3;
 			else if (CameraTargetSize > SceneSize.y / 2 + WallWidth) CameraTargetSize = SceneSize.y / 2 + WallWidth;
 
-			camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, CameraTargetSize, 0.1f);
-			PixelsPerUnit = Screen.height / camera.orthographicSize / 2;
+			gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, CameraTargetSize, 0.1f);
+			PixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 
 			//set the position
-			MyTransform.SetPositionXY(camera.transform, Vector2.Lerp(camera.transform.position, CameraTargetPosition, 0.06f));
-			if (camera.transform.position.y > SceneSize.y / 2 + WallWidth - camera.orthographicSize)
+			MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, CameraTargetPosition, 0.06f));
+			if (gameCamera.transform.position.y > SceneSize.y / 2 + WallWidth - gameCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = SceneSize.y / 2 + WallWidth - camera.orthographicSize;
-				MyTransform.SetPositionY(camera.transform, CameraTargetPosition.y);
+				CameraTargetPosition.y = SceneSize.y / 2 + WallWidth - gameCamera.orthographicSize;
+				MyTransform.SetPositionY(gameCamera.transform, CameraTargetPosition.y);
 			}
-			else if (camera.transform.position.y < -SceneSize.y / 2 - WallWidth + camera.orthographicSize)
+			else if (gameCamera.transform.position.y < -SceneSize.y / 2 - WallWidth + gameCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = -SceneSize.y / 2 - WallWidth + camera.orthographicSize;
-				MyTransform.SetPositionY(camera.transform, CameraTargetPosition.y);
+				CameraTargetPosition.y = -SceneSize.y / 2 - WallWidth + gameCamera.orthographicSize;
+				MyTransform.SetPositionY(gameCamera.transform, CameraTargetPosition.y);
 			}
-			if (camera.transform.position.x > SceneSize.x / 2 + WallWidth - camera.orthographicSize * AspectRatio)
+			if (gameCamera.transform.position.x > SceneSize.x / 2 + WallWidth - gameCamera.orthographicSize * AspectRatio)
 			{
-				CameraTargetPosition.x = SceneSize.x / 2 + WallWidth - camera.orthographicSize * AspectRatio;
-				MyTransform.SetPositionX(camera.transform, CameraTargetPosition.x);
+				CameraTargetPosition.x = SceneSize.x / 2 + WallWidth - gameCamera.orthographicSize * AspectRatio;
+				MyTransform.SetPositionX(gameCamera.transform, CameraTargetPosition.x);
 			}
-			else if (camera.transform.position.x < -SceneSize.x / 2 - WallWidth + camera.orthographicSize * AspectRatio)
+			else if (gameCamera.transform.position.x < -SceneSize.x / 2 - WallWidth + gameCamera.orthographicSize * AspectRatio)
 			{
-				CameraTargetPosition.x = -SceneSize.x / 2 - WallWidth + camera.orthographicSize * AspectRatio;
-				MyTransform.SetPositionX(camera.transform, CameraTargetPosition.x);
+				CameraTargetPosition.x = -SceneSize.x / 2 - WallWidth + gameCamera.orthographicSize * AspectRatio;
+				MyTransform.SetPositionX(gameCamera.transform, CameraTargetPosition.x);
 			}
 		}
 
