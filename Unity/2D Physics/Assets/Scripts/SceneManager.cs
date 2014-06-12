@@ -97,11 +97,11 @@ namespace ThisProject
 			if (CameraTargetSize < 3) CameraTargetSize = 3;
 			else if (CameraTargetSize > SceneSize.y / 2 + WallWidth) CameraTargetSize = SceneSize.y / 2 + WallWidth;
 
-			gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, CameraTargetSize, 0.1f);
+			gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, CameraTargetSize, 0.15f);
 			PixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 
 			//set the position
-			MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, CameraTargetPosition, 0.06f));
+			MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, CameraTargetPosition, 0.08f));
 			if (gameCamera.transform.position.y > SceneSize.y / 2 + WallWidth - gameCamera.orthographicSize)
 			{
 				CameraTargetPosition.y = SceneSize.y / 2 + WallWidth - gameCamera.orthographicSize;
