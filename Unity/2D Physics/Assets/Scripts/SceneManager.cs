@@ -18,8 +18,8 @@ namespace ThisProject
 		public static float CameraTargetSize;
 		public static float PixelsPerUnit, AspectRatio;
 
-
 		private static bool loaded = false;
+
 		void Start()
 		{
 			Time.timeScale = 1;
@@ -60,6 +60,9 @@ namespace ThisProject
 			//setup variables
 			PixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 			AspectRatio = (float)Screen.width / Screen.height;
+
+			//setup the event handlers
+			InputManager.OnTouch += new InputManager.TouchHandler(InputManager_OnTouch);
 		}
 
 		void Update()
@@ -124,5 +127,9 @@ namespace ThisProject
 			}
 		}
 
+		void InputManager_OnTouch(GameObject target)
+		{
+			Debug.Log(target);
+		}
 	}
 }

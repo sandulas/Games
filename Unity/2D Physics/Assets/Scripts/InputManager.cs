@@ -17,13 +17,15 @@ public class InputManager : MonoBehaviour
 
 	void Update()
 	{
-		//click
+		//touch
 		if (Input.GetMouseButtonDown(0))
 		{
 			inputPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			inputPosition.z = 0;
 
 			inputCollider = Physics2D.OverlapPoint(inputPosition);
+
+			OnTouch(inputCollider.gameObject);
 
 			if (inputCollider != null)
 			{
@@ -91,4 +93,9 @@ public class InputManager : MonoBehaviour
 			SceneManager.CameraTargetSize = Camera.main.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * Camera.main.orthographicSize * 2;
 		}
 	}
+
+	public delegate void TouchHandler(GameObject target);
+	public static event TouchHandler OnTouch;
+	public static void Touch(GameObject target) { if (OnTouch != null) OnTouch(target); }
 }
+
