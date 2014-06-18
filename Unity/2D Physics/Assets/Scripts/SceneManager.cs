@@ -104,7 +104,7 @@ namespace ThisProject
 			PixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 
 			//set the position
-			MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, CameraTargetPosition, 0.08f));
+			MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, CameraTargetPosition, 0.15f));
 			if (gameCamera.transform.position.y > SceneSize.y / 2 + WallWidth - gameCamera.orthographicSize)
 			{
 				CameraTargetPosition.y = SceneSize.y / 2 + WallWidth - gameCamera.orthographicSize;
