@@ -15,12 +15,17 @@ public class InputManager : MonoBehaviour
 
 	//Trebuie sa tratez separat inputul pentru UI fata de cel pentru joc; pentru ui trebuie folosita camera de UI pentru a face ScreenToWorldPoint.
 
+    void Update2()
+    {
+
+    }
+
 	void Update()
 	{
 		//touch
 		if (Input.GetMouseButtonDown(0))
 		{
-			inputPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			inputPosition = SceneManager.MainCamera.ScreenToWorldPoint(Input.mousePosition);
 			inputPosition.z = 0;
 
 			inputCollider = Physics2D.OverlapPoint(inputPosition);
@@ -31,7 +36,7 @@ public class InputManager : MonoBehaviour
 			{
 				draggedObject = inputCollider.gameObject;
 				draggedObjectOffset = inputPosition - draggedObject.transform.position;
-				cameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit * 1.5f - Camera.main.transform.position;
+                cameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit * 1.5f - SceneManager.MainCamera.transform.position;
 
 				//bring the items to front
 				if (draggedObject.name.StartsWith("Item")) Item.BringToFront(draggedObject);
@@ -41,7 +46,7 @@ public class InputManager : MonoBehaviour
 		//drag
 		if (Input.GetMouseButton(0))
 		{
-			inputPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            inputPosition = SceneManager.MainCamera.ScreenToWorldPoint(Input.mousePosition);
 			inputPosition.z = 0;
 
 			if (draggedObject != null)
@@ -90,7 +95,7 @@ public class InputManager : MonoBehaviour
 		//zoom
 		if (Input.GetAxis("Mouse ScrollWheel") != 0)
 		{
-			SceneManager.CameraTargetSize = Camera.main.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * Camera.main.orthographicSize * 2;
+            SceneManager.CameraTargetSize = SceneManager.MainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.MainCamera.orthographicSize * 2;
 		}
 	}
 
