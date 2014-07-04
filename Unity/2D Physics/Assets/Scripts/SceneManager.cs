@@ -61,8 +61,9 @@ namespace ThisProject
 			AspectRatio = (float)Screen.width / Screen.height;
 
 			//setup the event handlers
-			InputManager.OnTouch += new InputManager.TouchHandler(InputManager_OnTouch);
-		}
+			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
+            InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
+        }
 
 		void Update()
 		{
@@ -126,9 +127,14 @@ namespace ThisProject
 			}
 		}
 
-		void InputManager_OnTouch(GameObject target)
+		void InputManager_OnTouch(GameObject target, Camera camera, Vector3 offset)
 		{
-			Debug.Log(target);
+			Debug.Log("Touch: " + target.name + "\r\n" + camera.name);
 		}
-	}
+
+        void InputManager_OnDrag(GameObject target, Camera camera, Vector3 offset)
+        {
+            Debug.Log("Drag: " + target.name + "\r\n" + camera.name);
+        }
+    }
 }
