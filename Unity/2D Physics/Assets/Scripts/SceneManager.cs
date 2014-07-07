@@ -63,6 +63,8 @@ namespace ThisProject
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
             InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
+            InputManager.OnRelease += new InputManager.SingleTouchHandler(InputManager_OnRelease);
+            InputManager.OnTap += new InputManager.SingleTouchHandler(InputManager_OnTap);
         }
 
 		void Update()
@@ -135,6 +137,21 @@ namespace ThisProject
         void InputManager_OnDrag(GameObject target, Camera camera, Vector3 offset)
         {
             Debug.Log("Drag: " + target.name + "\r\n" + camera.name);
+        }
+
+        void InputManager_OnRelease(GameObject target, Camera camera, Vector3 offset)
+        {
+            Debug.Log("Release: " + target.name + "\r\n" + camera.name);
+        }
+
+        void InputManager_OnTap(GameObject target, Camera camera, Vector3 offset)
+        {
+            Debug.Log("Tap: " + target.name + "\r\n" + camera.name);
+
+            if (target.name.StartsWith("Item"))
+            {
+
+            }
         }
     }
 }

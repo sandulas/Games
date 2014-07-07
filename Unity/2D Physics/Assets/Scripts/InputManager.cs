@@ -24,7 +24,11 @@ public class InputManager : MonoBehaviour
                 RaiseTouchAndDrag(SceneManager.MainCamera);
         }
 
-        Debug.Log("Camera: " + touchCamera);
+        //drag
+        if (Input.GetMouseButton(0) && (touchedObject != null))
+        {
+            drag(touchedObject, touchCamera, touchOffset);
+        }
 
         //tap and release
         if (Input.GetMouseButtonUp(0) && (touchedObject != null))
@@ -33,20 +37,17 @@ public class InputManager : MonoBehaviour
             inputPosition.z = 0;
 
             inputCollider = Physics2D.OverlapPoint(inputPosition, touchCamera.cullingMask);
-
             if (inputCollider != null)
             {
-
                 if (touchedObject == inputCollider.gameObject)
-                    OnTap(touchedObject, touchCamera, touchOffset);
+                {
+                    tap(touchedObject, touchCamera, touchOffset);
+                }
             }
 
-            OnRelease(touchedObject, touchCamera, touchOffset);
+            release(touchedObject, touchCamera, touchOffset);
             touchedObject = null;
-
-            return;
         }
-
 
 
         //zoom
@@ -70,8 +71,8 @@ public class InputManager : MonoBehaviour
             touchOffset = inputPosition - touchedObject.transform.position;
             touchCamera = camera;
 
-            OnTouch(touchedObject, touchCamera, touchOffset);
-            OnDrag(touchedObject, touchCamera, touchOffset);
+            touch(touchedObject, touchCamera, touchOffset);
+            drag(touchedObject, touchCamera, touchOffset);
             return true;
         }
         return false;
