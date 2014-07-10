@@ -17,7 +17,10 @@ namespace ThisProject
 		public static float CameraTargetSize;
 		public static float PixelsPerUnit, AspectRatio;
 
-		private static bool loaded = false;
+        GameObject[] obj;
+        Vector2[] objVelocities;
+        bool loaded = false;
+        bool paused = false;
 
 		void Start()
 		{
@@ -38,23 +41,23 @@ namespace ThisProject
 			Background.renderer.material.mainTextureScale = new Vector2(SceneSize.x / 10, SceneSize.y / 10);
 
 			//setup the walls
-			GameObject obj;
+			GameObject wall;
 
-			obj = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, SceneSize.x, WallWidth);
-			Item.Move(obj, 0, SceneSize.y / 2 + WallWidth / 2);
-			obj.name = "Wall - Top";
+			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, SceneSize.x, WallWidth);
+			Item.Move(wall, 0, SceneSize.y / 2 + WallWidth / 2);
+			wall.name = "Wall - Top";
 
-			Item.Duplicate(obj);
-			Item.Move(obj, 0, -SceneSize.y / 2 - WallWidth / 2);
-			obj.name = "Wall - Bottom";
+			Item.Duplicate(wall);
+			Item.Move(wall, 0, -SceneSize.y / 2 - WallWidth / 2);
+			wall.name = "Wall - Bottom";
 
-			obj = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, WallWidth, SceneSize.y + WallWidth * 2);
-			Item.Move(obj, SceneSize.x / 2 + WallWidth / 2, 0);
-			obj.name = "Wall - Right";
+			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, WallWidth, SceneSize.y + WallWidth * 2);
+			Item.Move(wall, SceneSize.x / 2 + WallWidth / 2, 0);
+			wall.name = "Wall - Right";
 
-			Item.Duplicate(obj);
-			Item.Move(obj, -SceneSize.x / 2 - WallWidth / 2, 0);
-			obj.name = "Wall - Left";
+			Item.Duplicate(wall);
+			Item.Move(wall, -SceneSize.x / 2 - WallWidth / 2, 0);
+			wall.name = "Wall - Left";
 			
 			//setup variables
 			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
@@ -65,23 +68,28 @@ namespace ThisProject
             InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
             InputManager.OnRelease += new InputManager.SingleTouchHandler(InputManager_OnRelease);
             InputManager.OnTap += new InputManager.SingleTouchHandler(InputManager_OnTap);
+
+            //-------------- TEMPORARY -----------------
+            obj = new GameObject[15];
+            objVelocities = new Vector2[15];
         }
 
 		void Update()
 		{
 			UpdateCamera();
 
-			GameObject obj;
 			if (Time.realtimeSinceStartup > 1 && !loaded)
 			{
-				for (int i = 0; i < 5; i++)
+                int objIndex = 0;
+                for (int i = 0; i < 5; i++)
 				{
 					for (int j = 0; j < 3; j++)
 					{
-						obj = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
-						obj.transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj.transform.position.z);
+						obj[objIndex] = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
+						obj[objIndex].transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj[objIndex].transform.position.z);
 
-						Item.Resize(obj, 1.5f, 0.5f);
+						Item.Resize(obj[objIndex], 1.5f, 0.5f);
+                        objIndex++;
 					}
 				}
 
@@ -131,23 +139,51 @@ namespace ThisProject
 
 		void InputManager_OnTouch(GameObject target, Camera camera, Vector3 offset)
 		{
-			Debug.Log("Touch: " + target.name + "\r\n" + camera.name);
+			//Debug.Log("Touch: " + target.name + "\r\n" + camera.name);
 		}
 
         void InputManager_OnDrag(GameObject target, Camera camera, Vector3 offset)
         {
-            Debug.Log("Drag: " + target.name + "\r\n" + camera.name);
+            //Debug.Log("Drag: " + target.name + "\r\n" + camera.name);
         }
 
         void InputManager_OnRelease(GameObject target, Camera camera, Vector3 offset)
         {
-            Debug.Log("Release: " + target.name + "\r\n" + camera.name);
+            //Debug.Log("Release: " + target.name + "\r\n" + camera.name);
         }
 
         void InputManager_OnTap(GameObject target, Camera camera, Vector3 offset)
         {
-            Debug.Log("Tap: " + target.name + "\r\n" + camera.name);
 
+            //Pause Button
+			if (target.name == "PauseButton")
+            {
+                Debug.Log("Tap: " + target.name + "\r\n" + camera.name);
+                
+                if (paused)
+                {
+                    for (int i = 0; i < obj.Length; i++)
+                    {
+						if (obj[i].GetComponent<ItemProperties>().Material != ItemMaterial.FixedMetal)
+						{
+							obj[i].rigidbody2D.isKinematic = false;
+							obj[i].rigidbody2D.velocity = objVelocities[i];
+						}
+                    }
+					paused = false;
+				}
+				else
+                {
+                    for (int i = 0; i < obj.Length; i++)
+                    {
+                        objVelocities[i] = obj[i].rigidbody2D.velocity;
+                        obj[i].rigidbody2D.isKinematic = true;
+                    }
+					paused = true;
+				}
+            }
+
+			//-------
             if (target.name.StartsWith("Item"))
             {
 
