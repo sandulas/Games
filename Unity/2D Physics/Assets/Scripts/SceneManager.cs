@@ -4,10 +4,20 @@ using ThisProject;
 
 namespace ThisProject
 {
+	public enum GameStatus
+	{
+		Play = 0,
+		Pause = 1
+	}
+
 	public class SceneManager : MonoBehaviour
 	{
-		Vector2 SceneSize = new Vector2(40, 25);
-		float WallWidth = 0.5f;
+		public GameStatus Status = GameStatus.Play;
+
+		Vector2 playgroundSize = new Vector2(40, 25);
+		float wallWidth = 0.5f;
+		Vector2 sceneSize;
+		float titleHeight = 10; float learnGalleryHeight = 15; float playGalleryHeight = 25;
 
 		public static GameObject Background;
 		public static Camera UICamera, MainCamera;
@@ -20,11 +30,12 @@ namespace ThisProject
         GameObject[] obj;
         Vector2[] objVelocities;
         bool loaded = false;
-        bool paused = false;
 
 		void Start()
 		{
 			Time.timeScale = 1;
+
+			sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + titleHeight);
 
 			//initialize the camera
 			MainCamera = Camera.main;
@@ -36,27 +47,27 @@ namespace ThisProject
 
 			//initialize the background
 			Background = GameObject.Find("Background");
-			Background.transform.position = new Vector3(0, 0, 0);
-			Background.transform.localScale = new Vector3(SceneSize.x, SceneSize.y, 1);
-			Background.renderer.material.mainTextureScale = new Vector2(SceneSize.x / 10, SceneSize.y / 10);
+			Background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
+			Background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
+			Background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
 
 			//setup the walls
 			GameObject wall;
 
-			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, SceneSize.x, WallWidth);
-			Item.Move(wall, 0, SceneSize.y / 2 + WallWidth / 2);
+			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, playgroundSize.x, wallWidth);
+			Item.Move(wall, 0, playgroundSize.y / 2 + wallWidth / 2);
 			wall.name = "Wall - Top";
 
 			Item.Duplicate(wall);
-			Item.Move(wall, 0, -SceneSize.y / 2 - WallWidth / 2);
+			Item.Move(wall, 0, -playgroundSize.y / 2 - wallWidth / 2);
 			wall.name = "Wall - Bottom";
 
-			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, WallWidth, SceneSize.y + WallWidth * 2);
-			Item.Move(wall, SceneSize.x / 2 + WallWidth / 2, 0);
+			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth, playgroundSize.y + wallWidth * 2);
+			Item.Move(wall, playgroundSize.x / 2 + wallWidth / 2, 0);
 			wall.name = "Wall - Right";
 
 			Item.Duplicate(wall);
-			Item.Move(wall, -SceneSize.x / 2 - WallWidth / 2, 0);
+			Item.Move(wall, -playgroundSize.x / 2 - wallWidth / 2, 0);
 			wall.name = "Wall - Left";
 			
 			//setup variables
@@ -108,31 +119,31 @@ namespace ThisProject
 		{
 			//set the size
 			if (CameraTargetSize < 3) CameraTargetSize = 3;
-			else if (CameraTargetSize > SceneSize.y / 2 + WallWidth) CameraTargetSize = SceneSize.y / 2 + WallWidth;
+			else if (CameraTargetSize > playgroundSize.y / 2 + wallWidth) CameraTargetSize = playgroundSize.y / 2 + wallWidth;
 
 			MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, CameraTargetSize, 0.15f);
 			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
 
 			//set the position
 			MyTransform.SetPositionXY(MainCamera.transform, Vector2.Lerp(MainCamera.transform.position, CameraTargetPosition, 0.15f));
-			if (MainCamera.transform.position.y > SceneSize.y / 2 + WallWidth - MainCamera.orthographicSize)
+			if (MainCamera.transform.position.y > playgroundSize.y / 2 + wallWidth - MainCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = SceneSize.y / 2 + WallWidth - MainCamera.orthographicSize;
+				CameraTargetPosition.y = playgroundSize.y / 2 + wallWidth - MainCamera.orthographicSize;
 				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
 			}
-			else if (MainCamera.transform.position.y < -SceneSize.y / 2 - WallWidth + MainCamera.orthographicSize)
+			else if (MainCamera.transform.position.y < -playgroundSize.y / 2 - wallWidth + MainCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = -SceneSize.y / 2 - WallWidth + MainCamera.orthographicSize;
+				CameraTargetPosition.y = -playgroundSize.y / 2 - wallWidth + MainCamera.orthographicSize;
 				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
 			}
-			if (MainCamera.transform.position.x > SceneSize.x / 2 + WallWidth - MainCamera.orthographicSize * AspectRatio)
+			if (MainCamera.transform.position.x > playgroundSize.x / 2 + wallWidth - MainCamera.orthographicSize * AspectRatio)
 			{
-				CameraTargetPosition.x = SceneSize.x / 2 + WallWidth - MainCamera.orthographicSize * AspectRatio;
+				CameraTargetPosition.x = playgroundSize.x / 2 + wallWidth - MainCamera.orthographicSize * AspectRatio;
 				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
 			}
-			else if (MainCamera.transform.position.x < -SceneSize.x / 2 - WallWidth + MainCamera.orthographicSize * AspectRatio)
+			else if (MainCamera.transform.position.x < -playgroundSize.x / 2 - wallWidth + MainCamera.orthographicSize * AspectRatio)
 			{
-				CameraTargetPosition.x = -SceneSize.x / 2 - WallWidth + MainCamera.orthographicSize * AspectRatio;
+				CameraTargetPosition.x = -playgroundSize.x / 2 - wallWidth + MainCamera.orthographicSize * AspectRatio;
 				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
 			}
 		}
@@ -156,32 +167,7 @@ namespace ThisProject
         {
 
             //Pause Button
-			if (target.name == "PauseButton")
-            {
-                Debug.Log("Tap: " + target.name + "\r\n" + camera.name);
-                
-                if (paused)
-                {
-                    for (int i = 0; i < obj.Length; i++)
-                    {
-						if (obj[i].GetComponent<ItemProperties>().Material != ItemMaterial.FixedMetal)
-						{
-							obj[i].rigidbody2D.isKinematic = false;
-							obj[i].rigidbody2D.velocity = objVelocities[i];
-						}
-                    }
-					paused = false;
-				}
-				else
-                {
-                    for (int i = 0; i < obj.Length; i++)
-                    {
-                        objVelocities[i] = obj[i].rigidbody2D.velocity;
-                        obj[i].rigidbody2D.isKinematic = true;
-                    }
-					paused = true;
-				}
-            }
+			if (target.name == "PauseButton") PauseButton_Tap(target, camera, offset);
 
 			//-------
             if (target.name.StartsWith("Item"))
@@ -189,5 +175,32 @@ namespace ThisProject
 
             }
         }
+
+		void PauseButton_Tap(GameObject target, Camera camera, Vector3 offset)
+		{
+
+			if (Status == GameStatus.Pause)
+			{
+				for (int i = 0; i < obj.Length; i++)
+				{
+					if (obj[i].GetComponent<ItemProperties>().Material != ItemMaterial.FixedMetal)
+					{
+						obj[i].rigidbody2D.isKinematic = false;
+						obj[i].rigidbody2D.velocity = objVelocities[i];
+					}
+				}
+				Status = GameStatus.Play;
+			}
+			else
+			{
+				for (int i = 0; i < obj.Length; i++)
+				{
+					objVelocities[i] = obj[i].rigidbody2D.velocity;
+					obj[i].rigidbody2D.isKinematic = true;
+				}
+				Status = GameStatus.Pause;
+			}
+
+		}
     }
 }
