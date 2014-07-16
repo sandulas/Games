@@ -15,9 +15,10 @@ namespace ThisProject
 		public GameStatus Status = GameStatus.Play;
 
 		Vector2 playgroundSize = new Vector2(40, 25);
+		float titleHeight = 10; float learnGalleryHeight = 15; float playGalleryHeight = 25;
 		float wallWidth = 0.5f;
 		Vector2 sceneSize;
-		float titleHeight = 10; float learnGalleryHeight = 15; float playGalleryHeight = 25;
+		Rect cameraTrap;
 
 		public static GameObject Background;
 		public static Camera UICamera, MainCamera;
@@ -74,6 +75,13 @@ namespace ThisProject
 			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
 			AspectRatio = (float)Screen.width / Screen.height;
 
+			//set camera trap to the playground area
+			cameraTrap = new Rect(
+				-playgroundSize.x / 2 - wallWidth,
+				playgroundSize.y / 2 + wallWidth,
+				playgroundSize.x + 2 * wallWidth,
+				playgroundSize.y + 2 * wallWidth);
+
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
             InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
@@ -117,35 +125,40 @@ namespace ThisProject
 
 		void UpdateCamera()
 		{
-			//set the size
+			//set and restrict the size
 			if (CameraTargetSize < 3) CameraTargetSize = 3;
-			else if (CameraTargetSize > playgroundSize.y / 2 + wallWidth) CameraTargetSize = playgroundSize.y / 2 + wallWidth;
+			else if (CameraTargetSize > cameraTrap.height / 2) CameraTargetSize = cameraTrap.height / 2;
+			if (CameraTargetSize * AspectRatio > cameraTrap.width / 2) CameraTargetSize = cameraTrap.width / 2 / AspectRatio;
 
 			MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, CameraTargetSize, 0.15f);
 			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
 
-			//set the position
+			Debug.Log(cameraTrap);
+			Debug.Log("(" + cameraTrap.x + ", " + cameraTrap.y + "), (" + cameraTrap.xMax + ", " + cameraTrap.yMax + ")");
+
+			//set and restrict the position
 			MyTransform.SetPositionXY(MainCamera.transform, Vector2.Lerp(MainCamera.transform.position, CameraTargetPosition, 0.15f));
-			if (MainCamera.transform.position.y > playgroundSize.y / 2 + wallWidth - MainCamera.orthographicSize)
+
+			if (MainCamera.transform.position.y > cameraTrap.y - MainCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = playgroundSize.y / 2 + wallWidth - MainCamera.orthographicSize;
+				CameraTargetPosition.y = cameraTrap.y - MainCamera.orthographicSize;
 				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
 			}
-			else if (MainCamera.transform.position.y < -playgroundSize.y / 2 - wallWidth + MainCamera.orthographicSize)
-			{
-				CameraTargetPosition.y = -playgroundSize.y / 2 - wallWidth + MainCamera.orthographicSize;
-				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
-			}
-			if (MainCamera.transform.position.x > playgroundSize.x / 2 + wallWidth - MainCamera.orthographicSize * AspectRatio)
-			{
-				CameraTargetPosition.x = playgroundSize.x / 2 + wallWidth - MainCamera.orthographicSize * AspectRatio;
-				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
-			}
-			else if (MainCamera.transform.position.x < -playgroundSize.x / 2 - wallWidth + MainCamera.orthographicSize * AspectRatio)
-			{
-				CameraTargetPosition.x = -playgroundSize.x / 2 - wallWidth + MainCamera.orthographicSize * AspectRatio;
-				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
-			}
+			//else if (MainCamera.transform.position.y < cameraTrap.yMax + MainCamera.orthographicSize)
+			//{
+			//	CameraTargetPosition.y = cameraTrap.yMax + MainCamera.orthographicSize;
+			//	MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
+			//}
+			//if (MainCamera.transform.position.x > cameraTrap.x - MainCamera.orthographicSize * AspectRatio)
+			//{
+			//	CameraTargetPosition.x = cameraTrap.x - MainCamera.orthographicSize * AspectRatio;
+			//	MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
+			//}
+			//else if (MainCamera.transform.position.x < cameraTrap.x - MainCamera.orthographicSize * AspectRatio)
+			//{
+			//	CameraTargetPosition.x = cameraTrap.x - MainCamera.orthographicSize * AspectRatio;
+			//	MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
+			//}
 		}
 
 		void InputManager_OnTouch(GameObject target, Camera camera, Vector3 offset)
