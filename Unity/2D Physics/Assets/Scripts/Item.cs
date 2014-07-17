@@ -755,4 +755,26 @@ namespace ThisProject
 			transform.position = new Vector3(transform.position.x, positionY, transform.position.z);
 		}
 	}
+
+	public class MyRect
+	{
+		public float Top, Left, Bottom, Right;
+
+		public float Height
+		{
+			get { return Top - Bottom; }
+		}
+		public float Width
+		{
+			get { return Right - Left; }
+		}
+ 
+		public MyRect(float top, float left, float bottom, float right)
+		{
+			this.Top = top;
+			this.Left = left;
+			this.Bottom = bottom;
+			this.Right = right;
+		}
+	}
 }

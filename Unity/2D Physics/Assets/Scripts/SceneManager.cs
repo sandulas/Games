@@ -18,7 +18,7 @@ namespace ThisProject
 		float titleHeight = 10; float learnGalleryHeight = 15; float playGalleryHeight = 25;
 		float wallWidth = 0.5f;
 		Vector2 sceneSize;
-		Rect cameraTrap;
+		MyRect cameraTrap;
 
 		public static GameObject Background;
 		public static Camera UICamera, MainCamera;
@@ -76,11 +76,11 @@ namespace ThisProject
 			AspectRatio = (float)Screen.width / Screen.height;
 
 			//set camera trap to the playground area
-			cameraTrap = new Rect(
-				-playgroundSize.x / 2 - wallWidth,
+			cameraTrap = new MyRect(
 				playgroundSize.y / 2 + wallWidth,
-				playgroundSize.x + 2 * wallWidth,
-				playgroundSize.y + 2 * wallWidth);
+				-playgroundSize.x / 2 - wallWidth,
+				-playgroundSize.y / 2 - wallWidth,
+				playgroundSize.x / 2 + wallWidth);
 
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
@@ -127,38 +127,35 @@ namespace ThisProject
 		{
 			//set and restrict the size
 			if (CameraTargetSize < 3) CameraTargetSize = 3;
-			else if (CameraTargetSize > cameraTrap.height / 2) CameraTargetSize = cameraTrap.height / 2;
-			if (CameraTargetSize * AspectRatio > cameraTrap.width / 2) CameraTargetSize = cameraTrap.width / 2 / AspectRatio;
+			else if (CameraTargetSize > cameraTrap.Height / 2) CameraTargetSize = cameraTrap.Height / 2;
+			if (CameraTargetSize * AspectRatio > cameraTrap.Width / 2) CameraTargetSize = cameraTrap.Width / 2 / AspectRatio;
 
 			MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, CameraTargetSize, 0.15f);
 			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
 
-			Debug.Log(cameraTrap);
-			Debug.Log("(" + cameraTrap.x + ", " + cameraTrap.y + "), (" + cameraTrap.xMax + ", " + cameraTrap.yMax + ")");
-
 			//set and restrict the position
 			MyTransform.SetPositionXY(MainCamera.transform, Vector2.Lerp(MainCamera.transform.position, CameraTargetPosition, 0.15f));
 
-			if (MainCamera.transform.position.y > cameraTrap.y - MainCamera.orthographicSize)
+			if (MainCamera.transform.position.y > cameraTrap.Top - MainCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = cameraTrap.y - MainCamera.orthographicSize;
+				CameraTargetPosition.y = cameraTrap.Top - MainCamera.orthographicSize;
 				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
 			}
-			//else if (MainCamera.transform.position.y < cameraTrap.yMax + MainCamera.orthographicSize)
-			//{
-			//	CameraTargetPosition.y = cameraTrap.yMax + MainCamera.orthographicSize;
-			//	MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
-			//}
-			//if (MainCamera.transform.position.x > cameraTrap.x - MainCamera.orthographicSize * AspectRatio)
-			//{
-			//	CameraTargetPosition.x = cameraTrap.x - MainCamera.orthographicSize * AspectRatio;
-			//	MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
-			//}
-			//else if (MainCamera.transform.position.x < cameraTrap.x - MainCamera.orthographicSize * AspectRatio)
-			//{
-			//	CameraTargetPosition.x = cameraTrap.x - MainCamera.orthographicSize * AspectRatio;
-			//	MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
-			//}
+			else if (MainCamera.transform.position.y < cameraTrap.Bottom + MainCamera.orthographicSize)
+			{
+				CameraTargetPosition.y = cameraTrap.Bottom + MainCamera.orthographicSize;
+				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
+			}
+			if (MainCamera.transform.position.x > cameraTrap.Right - MainCamera.orthographicSize * AspectRatio)
+			{
+				CameraTargetPosition.x = cameraTrap.Right - MainCamera.orthographicSize * AspectRatio;
+				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
+			}
+			else if (MainCamera.transform.position.x < cameraTrap.Left + MainCamera.orthographicSize * AspectRatio)
+			{
+				CameraTargetPosition.x = cameraTrap.Left + MainCamera.orthographicSize * AspectRatio;
+				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
+			}
 		}
 
 		void InputManager_OnTouch(GameObject target, Camera camera, Vector3 offset)
