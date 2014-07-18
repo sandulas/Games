@@ -134,47 +134,56 @@ namespace ThisProject
 			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
 
 			//set and restrict the position
-			MyTransform.SetPositionXY(MainCamera.transform, Vector2.Lerp(MainCamera.transform.position, CameraTargetPosition, 0.15f));
+			MyTransform.SetPositionXY(MainCamera.transform, Vector2.Lerp(MainCamera.transform.position, CameraTargetPosition, 0.1f));
 
 			if (MainCamera.transform.position.y > cameraTrap.Top - MainCamera.orthographicSize)
 			{
 				CameraTargetPosition.y = cameraTrap.Top - MainCamera.orthographicSize;
 				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
+				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
 			}
 			else if (MainCamera.transform.position.y < cameraTrap.Bottom + MainCamera.orthographicSize)
 			{
 				CameraTargetPosition.y = cameraTrap.Bottom + MainCamera.orthographicSize;
 				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
+				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
 			}
 			if (MainCamera.transform.position.x > cameraTrap.Right - MainCamera.orthographicSize * AspectRatio)
 			{
 				CameraTargetPosition.x = cameraTrap.Right - MainCamera.orthographicSize * AspectRatio;
 				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
+				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
 			}
 			else if (MainCamera.transform.position.x < cameraTrap.Left + MainCamera.orthographicSize * AspectRatio)
 			{
 				CameraTargetPosition.x = cameraTrap.Left + MainCamera.orthographicSize * AspectRatio;
 				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
+				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
 			}
 		}
 
 		void InputManager_OnTouch(GameObject target, Camera camera, Vector3 offset)
 		{
-			//Debug.Log("Touch: " + target.name + "\r\n" + camera.name);
+			//Debug.Log("Touch: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
 		}
 
         void InputManager_OnDrag(GameObject target, Camera camera, Vector3 offset)
         {
-            //Debug.Log("Drag: " + target.name + "\r\n" + camera.name);
+			//Debug.Log("Drag: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
+			if (target == SceneManager.Background)
+			{
+				SceneManager.CameraTargetPosition = -Input.mousePosition / PixelsPerUnit - InputManager.CameraOffset;
+			}
         }
 
         void InputManager_OnRelease(GameObject target, Camera camera, Vector3 offset)
         {
-            //Debug.Log("Release: " + target.name + "\r\n" + camera.name);
-        }
+			//Debug.Log("Release: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
+		}
 
         void InputManager_OnTap(GameObject target, Camera camera, Vector3 offset)
         {
+			//Debug.Log("Tap: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
 
             //Pause Button
 			if (target.name == "PauseButton") PauseButton_Tap(target, camera, offset);
