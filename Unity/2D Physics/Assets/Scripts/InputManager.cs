@@ -4,84 +4,83 @@ using ThisProject;
 
 public class InputManager : MonoBehaviour
 {
+	public static Camera touchCamera;
+	public static GameObject touchObject = null;
+	public static Vector3 touchPosition = Vector3.zero;
+
 	Collider2D inputCollider;
-	GameObject touchedObject = null;
 	Vector3 touchOffset;
 	public static Vector3 CameraOffset;
-	public static Vector3 worldPosition = Vector3.zero;
-    Camera touchCamera;
 
 	void Start()
 	{
 	}
 
 
-    void Update()
-    {
-        //touch and drag
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!RaiseTouchAndDrag(SceneManager.UICamera))
-                RaiseTouchAndDrag(SceneManager.MainCamera);
-        }
-
-        //drag
-        if (Input.GetMouseButton(0) && (touchedObject != null))
-        {
-			worldPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
-			worldPosition.z = 0;
-
-			drag(touchedObject, touchCamera, touchOffset);
+	void Update()
+	{
+		//touch and drag
+		if (Input.GetMouseButtonDown(0))
+		{
+			if (!RaiseTouchAndDrag(SceneManager.uiCamera))
+				RaiseTouchAndDrag(SceneManager.mainCamera);
 		}
 
-        //tap and release
-        if (Input.GetMouseButtonUp(0) && (touchedObject != null))
-        {
-            worldPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
-            worldPosition.z = 0;
+		//drag
+		if (Input.GetMouseButton(0) && (touchObject != null))
+		{
+			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
+			touchPosition.z = 0;
 
-            inputCollider = Physics2D.OverlapPoint(worldPosition, touchCamera.cullingMask);
-            if (inputCollider != null)
-            {
-                if (touchedObject == inputCollider.gameObject)
-                {
-                    tap(touchedObject, touchCamera, touchOffset);
-                }
-            }
+			drag();
+		}
 
-            release(touchedObject, touchCamera, touchOffset);
-            touchedObject = null;
-        }
+		//tap and release
+		if (Input.GetMouseButtonUp(0) && (touchObject != null))
+		{
+			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
+			touchPosition.z = 0;
 
+			inputCollider = Physics2D.OverlapPoint(touchPosition, touchCamera.cullingMask);
+			if (inputCollider != null)
+			{
+				if (touchObject == inputCollider.gameObject)
+				{
+					tap();
+				}
+			}
 
-        //zoom
-        if (Input.GetAxis("Mouse ScrollWheel") != 0)
-        {
-            SceneManager.CameraTargetSize = SceneManager.MainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.MainCamera.orthographicSize * 2;
-        }
+			release();
+			touchObject = null;
+		}
 
-    }
+		//zoom
+		if (Input.GetAxis("Mouse ScrollWheel") != 0)
+		{
+			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.mainCamera.orthographicSize * 2;
+		}
+	}
 
-    private bool RaiseTouchAndDrag(Camera camera)
-    {
-        worldPosition = camera.ScreenToWorldPoint(Input.mousePosition);
-        worldPosition.z = 0;
+	private bool RaiseTouchAndDrag(Camera camera)
+	{
+		touchPosition = camera.ScreenToWorldPoint(Input.mousePosition);
+		touchPosition.z = 0;
 
-        inputCollider = Physics2D.OverlapPoint(worldPosition, camera.cullingMask);
+		inputCollider = Physics2D.OverlapPoint(touchPosition, camera.cullingMask);
 
-        if (inputCollider != null)
-        {
+		if (inputCollider != null)
+		{
 			touchCamera = camera;
-			touchedObject = inputCollider.gameObject;
-            touchOffset = worldPosition - touchedObject.transform.position;
-			CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - touchCamera.transform.position;
+			touchObject = inputCollider.gameObject;
+			touchOffset = touchPosition - touchObject.transform.position;
+			CameraOffset = -Input.mousePosition / SceneManager.pixelsPerUnit - touchCamera.transform.position;
 
-            touch(touchedObject, touchCamera, touchOffset);
-            drag(touchedObject, touchCamera, touchOffset);
-            return true;
-        }
-        return false;
-    }
+			touch();
+			drag();
+			return true;
+		}
+		return false;
+	}
 
 
 	void Update2()
@@ -89,43 +88,43 @@ public class InputManager : MonoBehaviour
 		//touch
 		if (Input.GetMouseButtonDown(0))
 		{
-			worldPosition = SceneManager.MainCamera.ScreenToWorldPoint(Input.mousePosition);
-			worldPosition.z = 0;
+			touchPosition = SceneManager.mainCamera.ScreenToWorldPoint(Input.mousePosition);
+			touchPosition.z = 0;
 
-			inputCollider = Physics2D.OverlapPoint(worldPosition);
+			inputCollider = Physics2D.OverlapPoint(touchPosition);
 
 
 			if (inputCollider != null)
 			{
-				touchedObject = inputCollider.gameObject;
-				touchOffset = worldPosition - touchedObject.transform.position;
-                CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit * 1.5f - SceneManager.MainCamera.transform.position;
-                OnTouch(inputCollider.gameObject, SceneManager.MainCamera, touchOffset);
+				touchObject = inputCollider.gameObject;
+				touchOffset = touchPosition - touchObject.transform.position;
+				CameraOffset = -Input.mousePosition / SceneManager.pixelsPerUnit * 1.5f - SceneManager.mainCamera.transform.position;
+				OnTouch();
 
 				//bring the items to front
-				if (touchedObject.name.StartsWith("Item")) Item.BringToFront(touchedObject);
+				if (touchObject.name.StartsWith("Item")) Item.BringToFront(touchObject);
 			}
 		}
 
 		//drag
 		if (Input.GetMouseButton(0))
 		{
-            worldPosition = SceneManager.MainCamera.ScreenToWorldPoint(Input.mousePosition);
-			worldPosition.z = 0;
+			touchPosition = SceneManager.mainCamera.ScreenToWorldPoint(Input.mousePosition);
+			touchPosition.z = 0;
 
-			if (touchedObject != null)
+			if (touchObject != null)
 			{
 				//drag the items
-				if (touchedObject.name.StartsWith("Item"))
+				if (touchObject.name.StartsWith("Item"))
 					if (Time.timeScale == 0)
-						Item.Move(touchedObject, worldPosition - touchOffset);
+						Item.Move(touchObject, touchPosition - touchOffset);
 					else
-						touchedObject.rigidbody2D.MovePosition(new Vector2((worldPosition - touchOffset).x, (worldPosition - touchOffset).y));
+						touchObject.rigidbody2D.MovePosition(new Vector2((touchPosition - touchOffset).x, (touchPosition - touchOffset).y));
 
 				//drag the scene
-				if (touchedObject == SceneManager.Background)
+				if (touchObject == SceneManager.background)
 				{
-					SceneManager.CameraTargetPosition = -Input.mousePosition / SceneManager.PixelsPerUnit * 1.5f - CameraOffset;
+					SceneManager.cameraTargetPosition = -Input.mousePosition / SceneManager.pixelsPerUnit * 1.5f - CameraOffset;
 				}
 			}
 		}
@@ -133,10 +132,10 @@ public class InputManager : MonoBehaviour
 		//release
 		if (Input.GetMouseButtonUp(0))
 		{
-			inputCollider = Physics2D.OverlapPoint(worldPosition);
+			inputCollider = Physics2D.OverlapPoint(touchPosition);
 
 			//button clicks
-			if (inputCollider != null && inputCollider.gameObject == touchedObject)
+			if (inputCollider != null && inputCollider.gameObject == touchObject)
 			{
 				if (inputCollider.gameObject.name == "Pause")
 				{
@@ -145,36 +144,36 @@ public class InputManager : MonoBehaviour
 				}
 				if (inputCollider.gameObject.name == "Rotate")
 				{
-					SceneManager.CameraTargetPosition = new Vector3(5, 0);
+					SceneManager.cameraTargetPosition = new Vector3(5, 0);
 				}
 				if (inputCollider.gameObject.name == "Move")
 				{
-					SceneManager.CameraTargetPosition = new Vector3(0, 0);
+					SceneManager.cameraTargetPosition = new Vector3(0, 0);
 				}
 			}
 
-			touchedObject = null;
+			touchObject = null;
 		}
 
 		//zoom
 		if (Input.GetAxis("Mouse ScrollWheel") != 0)
 		{
-            SceneManager.CameraTargetSize = SceneManager.MainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.MainCamera.orthographicSize * 2;
+			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.mainCamera.orthographicSize * 2;
 		}
 	}
 
-	public delegate void SingleTouchHandler(GameObject target, Camera camera, Vector3 offset);
-	
-    public static event SingleTouchHandler OnTouch;
-	private static void touch(GameObject target, Camera camera, Vector3 offset) { if (OnTouch != null) OnTouch(target, camera, offset); }
+	public delegate void SingleTouchHandler();
 
-    public static event SingleTouchHandler OnDrag;
-    private static void drag(GameObject target, Camera camera, Vector3 offset) { if (OnDrag != null) OnDrag(target, camera, offset); }
+	public static event SingleTouchHandler OnTouch;
+	private static void touch() { if (OnTouch != null) OnTouch(); }
 
-    public static event SingleTouchHandler OnTap;
-    private static void tap(GameObject target, Camera camera, Vector3 offset) { if (OnTap != null) OnTap(target, camera, offset); }
+	public static event SingleTouchHandler OnDrag;
+	private static void drag() { if (OnDrag != null) OnDrag(); }
 
-    public static event SingleTouchHandler OnRelease;
-    private static void release(GameObject target, Camera camera, Vector3 offset) { if (OnRelease != null) OnRelease(target, camera, offset); }
+	public static event SingleTouchHandler OnTap;
+	private static void tap() { if (OnTap != null) OnTap(); }
+
+	public static event SingleTouchHandler OnRelease;
+	private static void release() { if (OnRelease != null) OnRelease(); }
 }
 
