@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ThisProject;
+using System;
 
 namespace ThisProject
 {
@@ -12,25 +13,29 @@ namespace ThisProject
 
 	public class SceneManager : MonoBehaviour
 	{
-		public GameStatus Status = GameStatus.Play;
+		public GameStatus status = GameStatus.Play;
+
+		public static GameObject background;
+		public static Camera uiCamera, mainCamera;
+
+		public static Vector2 cameraTargetPosition;
+		public static float cameraTargetSize;
+		public static float pixelsPerUnit, aspectRatio;
+
 
 		Vector2 playgroundSize = new Vector2(40, 25);
 		float titleHeight = 10; float learnGalleryHeight = 15; float playGalleryHeight = 25;
 		float wallWidth = 0.5f;
 		Vector2 sceneSize;
+
 		MyRect cameraTrap;
 
-		public static GameObject Background;
-		public static Camera UICamera, MainCamera;
-		
-        private Vector2 cameraPosition;
-		public static Vector2 CameraTargetPosition;
-		public static float CameraTargetSize;
-		public static float PixelsPerUnit, AspectRatio;
+		Vector3 dragOffset;
 
-        GameObject[] obj;
-        Vector2[] objVelocities;
-        bool loaded = false;
+		GameObject[] obj;
+		Vector2[] objVelocities;
+		
+		bool loaded = false;
 
 		void Start()
 		{
@@ -39,18 +44,18 @@ namespace ThisProject
 			sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + titleHeight);
 
 			//initialize the camera
-			MainCamera = Camera.main;
-			MainCamera.transform.position = new Vector3(0, 0, -12);
-			CameraTargetPosition = new Vector2(0, 0);
-			CameraTargetSize = MainCamera.orthographicSize;
+			mainCamera = Camera.main;
+			mainCamera.transform.position = new Vector3(0, 0, -12);
+			cameraTargetPosition = new Vector2(0, 0);
+			cameraTargetSize = mainCamera.orthographicSize;
 
-			UICamera = Camera.allCameras[1];
+			uiCamera = Camera.allCameras[1];
 
 			//initialize the background
-			Background = GameObject.Find("Background");
-			Background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
-			Background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
-			Background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
+			background = GameObject.Find("Background");
+			background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
+			background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
+			background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
 
 			//setup the walls
 			GameObject wall;
@@ -70,10 +75,10 @@ namespace ThisProject
 			Item.Duplicate(wall);
 			Item.Move(wall, -playgroundSize.x / 2 - wallWidth / 2, 0);
 			wall.name = "Wall - Left";
-			
+
 			//setup variables
-			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
-			AspectRatio = (float)Screen.width / Screen.height;
+			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
+			aspectRatio = (float)Screen.width / Screen.height;
 
 			//set camera trap to the playground area
 			cameraTrap = new MyRect(
@@ -84,14 +89,14 @@ namespace ThisProject
 
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
-            InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
-            InputManager.OnRelease += new InputManager.SingleTouchHandler(InputManager_OnRelease);
-            InputManager.OnTap += new InputManager.SingleTouchHandler(InputManager_OnTap);
+			InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
+			InputManager.OnRelease += new InputManager.SingleTouchHandler(InputManager_OnRelease);
+			InputManager.OnTap += new InputManager.SingleTouchHandler(InputManager_OnTap);
 
-            //-------------- TEMPORARY -----------------
-            obj = new GameObject[15];
-            objVelocities = new Vector2[15];
-        }
+			//-------------- TEMPORARY -----------------
+			obj = new GameObject[15];
+			objVelocities = new Vector2[15];
+		}
 
 		void Update()
 		{
@@ -99,8 +104,8 @@ namespace ThisProject
 
 			if (Time.realtimeSinceStartup > 1 && !loaded)
 			{
-                int objIndex = 0;
-                for (int i = 0; i < 5; i++)
+				int objIndex = 0;
+				for (int i = 0; i < 5; i++)
 				{
 					for (int j = 0; j < 3; j++)
 					{
@@ -108,7 +113,7 @@ namespace ThisProject
 						obj[objIndex].transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj[objIndex].transform.position.z);
 
 						Item.Resize(obj[objIndex], 1.5f, 0.5f);
-                        objIndex++;
+						objIndex++;
 					}
 				}
 
@@ -126,79 +131,88 @@ namespace ThisProject
 		void UpdateCamera()
 		{
 			//set and restrict the size
-			if (CameraTargetSize < 3) CameraTargetSize = 3;
-			else if (CameraTargetSize > cameraTrap.Height / 2) CameraTargetSize = cameraTrap.Height / 2;
-			if (CameraTargetSize * AspectRatio > cameraTrap.Width / 2) CameraTargetSize = cameraTrap.Width / 2 / AspectRatio;
+			if (cameraTargetSize < 3) cameraTargetSize = 3;
+			else if (cameraTargetSize > cameraTrap.Height / 2) cameraTargetSize = cameraTrap.Height / 2;
+			if (cameraTargetSize * aspectRatio > cameraTrap.Width / 2) cameraTargetSize = cameraTrap.Width / 2 / aspectRatio;
 
-			MainCamera.orthographicSize = Mathf.Lerp(MainCamera.orthographicSize, CameraTargetSize, 0.15f);
-			PixelsPerUnit = Screen.height / MainCamera.orthographicSize / 2;
+			mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, cameraTargetSize, 0.15f);
+			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
 
 			//set and restrict the position
-			MyTransform.SetPositionXY(MainCamera.transform, Vector2.Lerp(MainCamera.transform.position, CameraTargetPosition, 0.1f));
+			MyTransform.SetPositionXY(mainCamera.transform, Vector2.Lerp(mainCamera.transform.position, cameraTargetPosition, 0.15f));
 
-			if (MainCamera.transform.position.y > cameraTrap.Top - MainCamera.orthographicSize)
+			if (mainCamera.transform.position.y > cameraTrap.Top - mainCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = cameraTrap.Top - MainCamera.orthographicSize;
-				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
-				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
+				cameraTargetPosition.y = (float)Math.Round(cameraTrap.Top - mainCamera.orthographicSize, 4);
+				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
+				dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
 			}
-			else if (MainCamera.transform.position.y < cameraTrap.Bottom + MainCamera.orthographicSize)
+			else if (mainCamera.transform.position.y < cameraTrap.Bottom + mainCamera.orthographicSize)
 			{
-				CameraTargetPosition.y = cameraTrap.Bottom + MainCamera.orthographicSize;
-				MyTransform.SetPositionY(MainCamera.transform, CameraTargetPosition.y);
-				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
+				cameraTargetPosition.y = (float)Math.Round(cameraTrap.Bottom + mainCamera.orthographicSize, 4);
+				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
+				dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
 			}
-			if (MainCamera.transform.position.x > cameraTrap.Right - MainCamera.orthographicSize * AspectRatio)
+
+			if (mainCamera.transform.position.x > cameraTrap.Right - mainCamera.orthographicSize * aspectRatio)
 			{
-				CameraTargetPosition.x = cameraTrap.Right - MainCamera.orthographicSize * AspectRatio;
-				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
-				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
+				cameraTargetPosition.x = (float)Math.Round(cameraTrap.Right - mainCamera.orthographicSize * aspectRatio, 4);
+				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
+				dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
 			}
-			else if (MainCamera.transform.position.x < cameraTrap.Left + MainCamera.orthographicSize * AspectRatio)
+			else if (mainCamera.transform.position.x < cameraTrap.Left + mainCamera.orthographicSize * aspectRatio)
 			{
-				CameraTargetPosition.x = cameraTrap.Left + MainCamera.orthographicSize * AspectRatio;
-				MyTransform.SetPositionX(MainCamera.transform, CameraTargetPosition.x);
-				//InputManager.CameraOffset = -Input.mousePosition / SceneManager.PixelsPerUnit - SceneManager.MainCamera.transform.position;
+				cameraTargetPosition.x = (float)Math.Round(cameraTrap.Left + mainCamera.orthographicSize * aspectRatio, 4);
+				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
+				dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
 			}
 		}
 
-		void InputManager_OnTouch(GameObject target, Camera camera, Vector3 offset)
+		void InputManager_OnTouch()
 		{
-			//Debug.Log("Touch: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
-		}
+			//Debug.Log("Touch: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
-        void InputManager_OnDrag(GameObject target, Camera camera, Vector3 offset)
-        {
-			//Debug.Log("Drag: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
-			if (target == SceneManager.Background)
+			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
 			{
-				SceneManager.CameraTargetPosition = -Input.mousePosition / PixelsPerUnit - InputManager.CameraOffset;
+				cameraTargetPosition = mainCamera.transform.position;
+				dragOffset = -(Vector2)Input.mousePosition / SceneManager.pixelsPerUnit - cameraTargetPosition;
 			}
-        }
-
-        void InputManager_OnRelease(GameObject target, Camera camera, Vector3 offset)
-        {
-			//Debug.Log("Release: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
 		}
 
-        void InputManager_OnTap(GameObject target, Camera camera, Vector3 offset)
-        {
-			//Debug.Log("Tap: " + target.name + ", " + camera.name + ", " + Input.mousePosition);
+		void InputManager_OnDrag()
+		{
+			//Debug.Log("Drag: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
-            //Pause Button
-			if (target.name == "PauseButton") PauseButton_Tap(target, camera, offset);
+			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+			{
+				cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - dragOffset;
+				Debug.Log(dragOffset + " - " + cameraTargetPosition + " - " + cameraTargetSize);
+			}
+		}
+
+		void InputManager_OnRelease()
+		{
+			//Debug.Log("Release: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
+		}
+
+		void InputManager_OnTap()
+		{
+			//Debug.Log("Tap: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
+
+			//Pause Button
+			if (InputManager.touchObject.name == "PauseButton") PauseButton_Tap();
 
 			//-------
-            if (target.name.StartsWith("Item"))
-            {
+			if (InputManager.touchObject.name.StartsWith("Item"))
+			{
 
-            }
-        }
+			}
+		}
 
-		void PauseButton_Tap(GameObject target, Camera camera, Vector3 offset)
+		void PauseButton_Tap()
 		{
 
-			if (Status == GameStatus.Pause)
+			if (status == GameStatus.Pause)
 			{
 				for (int i = 0; i < obj.Length; i++)
 				{
@@ -208,7 +222,7 @@ namespace ThisProject
 						obj[i].rigidbody2D.velocity = objVelocities[i];
 					}
 				}
-				Status = GameStatus.Play;
+				status = GameStatus.Play;
 			}
 			else
 			{
@@ -217,9 +231,9 @@ namespace ThisProject
 					objVelocities[i] = obj[i].rigidbody2D.velocity;
 					obj[i].rigidbody2D.isKinematic = true;
 				}
-				Status = GameStatus.Pause;
+				status = GameStatus.Pause;
 			}
-
 		}
-    }
+
+	}
 }
