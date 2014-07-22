@@ -13,7 +13,7 @@ namespace ThisProject
 
 	public class SceneManager : MonoBehaviour
 	{
-		public GameStatus status = GameStatus.Play;
+		public GameStatus gameStatus = GameStatus.Play;
 
 		public static GameObject background;
 		public static Camera uiCamera, mainCamera;
@@ -143,26 +143,26 @@ namespace ThisProject
 
 			if (mainCamera.transform.position.y > cameraTrap.Top - mainCamera.orthographicSize)
 			{
-				cameraTargetPosition.y = (float)Math.Round(cameraTrap.Top - mainCamera.orthographicSize, 4);
+				cameraTargetPosition.y = cameraTrap.Top - mainCamera.orthographicSize - 0.00001f;
 				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
 				dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
 			}
 			else if (mainCamera.transform.position.y < cameraTrap.Bottom + mainCamera.orthographicSize)
 			{
-				cameraTargetPosition.y = (float)Math.Round(cameraTrap.Bottom + mainCamera.orthographicSize, 4);
+				cameraTargetPosition.y = cameraTrap.Bottom + mainCamera.orthographicSize + 0.00001f;
 				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
 				dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
 			}
 
 			if (mainCamera.transform.position.x > cameraTrap.Right - mainCamera.orthographicSize * aspectRatio)
 			{
-				cameraTargetPosition.x = (float)Math.Round(cameraTrap.Right - mainCamera.orthographicSize * aspectRatio, 4);
+				cameraTargetPosition.x = cameraTrap.Right - mainCamera.orthographicSize * aspectRatio - 0.00001f;
 				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
 				dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
 			}
 			else if (mainCamera.transform.position.x < cameraTrap.Left + mainCamera.orthographicSize * aspectRatio)
 			{
-				cameraTargetPosition.x = (float)Math.Round(cameraTrap.Left + mainCamera.orthographicSize * aspectRatio, 4);
+				cameraTargetPosition.x = cameraTrap.Left + mainCamera.orthographicSize * aspectRatio + 0.00001f;
 				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
 				dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
 			}
@@ -172,10 +172,17 @@ namespace ThisProject
 		{
 			//Debug.Log("Touch: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
+			//camera
 			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
 			{
 				cameraTargetPosition = mainCamera.transform.position;
 				dragOffset = -(Vector2)Input.mousePosition / SceneManager.pixelsPerUnit - cameraTargetPosition;
+			}
+
+			//item
+			if (InputManager.touchObject.name.StartsWith("Item"))
+			{
+				dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
 			}
 		}
 
@@ -183,16 +190,45 @@ namespace ThisProject
 		{
 			//Debug.Log("Drag: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
+			//camera
 			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
 			{
 				cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - dragOffset;
-				Debug.Log(dragOffset + " - " + cameraTargetPosition + " - " + cameraTargetSize);
+				//Debug.Log(dragOffset + " - " + cameraTargetPosition + " - " + cameraTargetSize);
 			}
+
+			//item
+			if (InputManager.touchObject.name.StartsWith("Item"))
+			{
+				//Item.Move(InputManager.touchObject, InputManager.touchPosition - dragOffset);
+				//InputManager.touchObject.rigidbody2D.MovePosition(
+				//	new Vector2((InputManager.touchPosition - dragOffset).x, (InputManager.touchPosition - dragOffset).y));
+
+				if (InputManager.touchObject.GetComponent<ItemProperties>().Material== ItemMaterial.FixedMetal)
+				{
+					InputManager.touchObject.rigidbody2D.isKinematic = false;
+				}
+
+				if (gameStatus == GameStatus.Pause)
+					Item.Move(InputManager.touchObject, InputManager.touchPosition - dragOffset);
+				else
+					InputManager.touchObject.rigidbody2D.MovePosition(
+						new Vector2((InputManager.touchPosition - dragOffset).x, (InputManager.touchPosition - dragOffset).y));
+			}
+
 		}
 
 		void InputManager_OnRelease()
 		{
-			//Debug.Log("Release: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
+			//item
+			if (InputManager.touchObject.name.StartsWith("Item"))
+			{
+				if (InputManager.touchObject.GetComponent<ItemProperties>().Material == ItemMaterial.FixedMetal)
+				{
+					InputManager.touchObject.rigidbody2D.isKinematic = true;
+					InputManager.touchObject.rigidbody2D.angularVelocity = 0;
+				}
+			}
 		}
 
 		void InputManager_OnTap()
@@ -212,7 +248,7 @@ namespace ThisProject
 		void PauseButton_Tap()
 		{
 
-			if (status == GameStatus.Pause)
+			if (gameStatus == GameStatus.Pause)
 			{
 				for (int i = 0; i < obj.Length; i++)
 				{
@@ -222,7 +258,7 @@ namespace ThisProject
 						obj[i].rigidbody2D.velocity = objVelocities[i];
 					}
 				}
-				status = GameStatus.Play;
+				gameStatus = GameStatus.Play;
 			}
 			else
 			{
@@ -231,7 +267,7 @@ namespace ThisProject
 					objVelocities[i] = obj[i].rigidbody2D.velocity;
 					obj[i].rigidbody2D.isKinematic = true;
 				}
-				status = GameStatus.Pause;
+				gameStatus = GameStatus.Pause;
 			}
 		}
 
