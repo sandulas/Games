@@ -22,7 +22,7 @@ namespace ThisProject
 		public static Vector2 cameraTargetPosition;
 		public static float cameraTargetSize;
 
-		public static float pixelsPerUnit, aspectRatio, uiTop, uiBottom, uiLeft, uiRight;
+		public static float pixelsPerUnit, aspectRatio, uiPixelsPerUnit, uiTop, uiBottom, uiLeft, uiRight;
 
 
 		//settings
@@ -62,6 +62,8 @@ namespace ThisProject
 				playgroundSize.x / 2 + wallWidth);
 
 			uiCamera = Camera.allCameras[1];
+			float dpi = 132;
+			uiCamera.orthographicSize = Screen.height / dpi; //Screen.dpi / 28;
 
 			//initialize the background
 			background = GameObject.Find("Background");
@@ -89,8 +91,9 @@ namespace ThisProject
 			wall.name = "Wall - Left";
 
 			//setup variables
-			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
 			aspectRatio = (float)Screen.width / Screen.height;
+			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
+			uiPixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
 			uiTop = uiCamera.orthographicSize;
 			uiBottom = -uiCamera.orthographicSize;
 			uiLeft = -uiCamera.orthographicSize * aspectRatio;
@@ -101,6 +104,9 @@ namespace ThisProject
 
 			//position the toolbar
 			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRight, 0);
+			GameObject gameObject = GameObject.Find("ToolbarBackground");
+			MyTransform.SetPositionXY(gameObject.transform, uiRight, uiCamera.orthographicSize + 0.01f);
+			MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * uiPixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
 				
 
 			//setup the event handlers
