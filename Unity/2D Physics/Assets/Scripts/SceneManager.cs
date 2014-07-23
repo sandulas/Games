@@ -13,6 +13,7 @@ namespace ThisProject
 
 	public class SceneManager : MonoBehaviour
 	{
+		//public
 		public GameStatus gameStatus = GameStatus.Play;
 
 		public static GameObject background;
@@ -20,22 +21,26 @@ namespace ThisProject
 
 		public static Vector2 cameraTargetPosition;
 		public static float cameraTargetSize;
-		public static float pixelsPerUnit, aspectRatio;
+
+		public static float pixelsPerUnit, aspectRatio, uiTop, uiBottom, uiLeft, uiRight;
 
 
+		//settings
 		Vector2 playgroundSize = new Vector2(40, 25);
-		float titleHeight = 10; float learnGalleryHeight = 15; float playGalleryHeight = 25;
+		float titleHeight = 10;
+		float learnGalleryHeight = 15;
+		float playGalleryHeight = 25;
 		float wallWidth = 0.5f;
 		Vector2 sceneSize;
 
 		MyRect cameraTrap;
-
 		Vector3 dragOffset;
-
 		GameObject[] obj;
 		Vector2[] objVelocities;
 		
 		bool loaded = false;
+
+
 
 		void Start()
 		{
@@ -48,6 +53,13 @@ namespace ThisProject
 			mainCamera.transform.position = new Vector3(0, 0, -12);
 			cameraTargetPosition = new Vector2(0, 0);
 			cameraTargetSize = mainCamera.orthographicSize;
+
+			//set camera trap to the playground area
+			cameraTrap = new MyRect(
+				playgroundSize.y / 2 + wallWidth,
+				-playgroundSize.x / 2 - wallWidth,
+				-playgroundSize.y / 2 - wallWidth,
+				playgroundSize.x / 2 + wallWidth);
 
 			uiCamera = Camera.allCameras[1];
 
@@ -79,13 +91,17 @@ namespace ThisProject
 			//setup variables
 			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
 			aspectRatio = (float)Screen.width / Screen.height;
+			uiTop = uiCamera.orthographicSize;
+			uiBottom = -uiCamera.orthographicSize;
+			uiLeft = -uiCamera.orthographicSize * aspectRatio;
+			uiRight = uiCamera.orthographicSize * aspectRatio;
 
-			//set camera trap to the playground area
-			cameraTrap = new MyRect(
-				playgroundSize.y / 2 + wallWidth,
-				-playgroundSize.x / 2 - wallWidth,
-				-playgroundSize.y / 2 - wallWidth,
-				playgroundSize.x / 2 + wallWidth);
+			//position the pause button
+			MyTransform.SetPositionXY(GameObject.Find("PauseButton").transform,	uiLeft + 0.5f, uiTop - 0.5f);
+
+			//position the toolbar
+			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRight, 0);
+				
 
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
