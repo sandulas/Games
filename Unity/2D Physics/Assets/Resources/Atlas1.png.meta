@@ -35,6 +35,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 153.600006
   alphaIsTransparency: 1
   textureType: 8
@@ -50,6 +51,7 @@ TextureImporter:
         height: 94
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: Rotate
       rect:
         serializedVersion: 2
@@ -59,6 +61,7 @@ TextureImporter:
         height: 94
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
     - name: Pause
       rect:
         serializedVersion: 2
@@ -68,5 +71,46 @@ TextureImporter:
         height: 104
       alignment: 0
       pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Tollbar
+      rect:
+        serializedVersion: 2
+        x: 1842
+        y: 1998
+        width: 204
+        height: 48
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Rectangle
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1810
+        width: 187
+        height: 171
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Circle
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1626
+        width: 187
+        height: 171
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Triangle
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1445
+        width: 187
+        height: 171
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

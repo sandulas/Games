@@ -740,9 +740,13 @@ namespace ThisProject
 
 	public static class MyTransform
 	{
+		public static void SetPositionXY(Transform transform, float x, float y)
+		{
+			transform.position = new Vector3(x, y, transform.position.z);
+		}
 		public static void SetPositionXY(Transform transform, Vector2 positionXY)
 		{
-			transform.position = new Vector3(positionXY.x, positionXY.y, transform.position.z);
+			SetPositionXY(transform, positionXY.x, positionXY.y);
 		}
 
 		public static void SetPositionX(Transform transform, float positionX)
