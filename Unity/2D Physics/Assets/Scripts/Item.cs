@@ -744,19 +744,34 @@ namespace ThisProject
 		{
 			transform.position = new Vector3(x, y, transform.position.z);
 		}
-		public static void SetPositionXY(Transform transform, Vector2 positionXY)
+		public static void SetPositionXY(Transform transform, Vector2 xy)
 		{
-			SetPositionXY(transform, positionXY.x, positionXY.y);
+			SetPositionXY(transform, xy.x, xy.y);
+		}
+		public static void SetPositionX(Transform transform, float x)
+		{
+			transform.position = new Vector3(x, transform.position.y, transform.position.z);
+		}
+		public static void SetPositionY(Transform transform, float y)
+		{
+			transform.position = new Vector3(transform.position.x, y, transform.position.z);
 		}
 
-		public static void SetPositionX(Transform transform, float positionX)
+		public static void SetScaleXY(Transform transform, float x, float y)
 		{
-			transform.position = new Vector3(positionX, transform.position.y, transform.position.z);
+			transform.localScale = new Vector3(x, y, transform.localScale.z);
 		}
-
-		public static void SetPositionY(Transform transform, float positionY)
+		public static void SetScaleXY(Transform transform, Vector2 xy)
 		{
-			transform.position = new Vector3(transform.position.x, positionY, transform.position.z);
+			SetScaleXY(transform, xy.x, xy.y);
+		}
+		public static void SetScaleX(Transform transform, float x)
+		{
+			transform.localScale = new Vector3(x, transform.localScale.y, transform.localScale.z);
+		}
+		public static void SetScaleY(Transform transform, float y)
+		{
+			transform.localScale = new Vector3(transform.localScale.x, y, transform.localScale.z);
 		}
 	}
 
