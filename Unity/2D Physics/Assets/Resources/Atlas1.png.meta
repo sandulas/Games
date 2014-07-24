@@ -112,5 +112,55 @@ TextureImporter:
       alignment: 3
       pivot: {x: 1, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Material_Metal
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1332
+        width: 187
+        height: 111
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Material_Wood
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1212
+        width: 187
+        height: 111
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Material_Ice
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 1092
+        width: 187
+        height: 111
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Material_Fixed
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 972
+        width: 187
+        height: 111
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Material_Rubber
+      rect:
+        serializedVersion: 2
+        x: 1860
+        y: 852
+        width: 187
+        height: 111
+      alignment: 3
+      pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
