@@ -63,8 +63,10 @@ namespace ThisProject
 
 			uiCamera = Camera.allCameras[1];
 			float dpi = 132;
-			uiCamera.orthographicSize = Screen.height / dpi; //Screen.dpi / 28;
-
+			float scaleFactor = 1 + (Screen.height / dpi - 3) * 0.1f;
+			uiCamera.orthographicSize = 0.4f + Screen.height / dpi / scaleFactor;
+			//uiCamera.orthographicSize = 5 / scaleFactor;
+			
 			//initialize the background
 			background = GameObject.Find("Background");
 			background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
