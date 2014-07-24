@@ -63,8 +63,8 @@ namespace ThisProject
 
 			uiCamera = Camera.allCameras[1];
 			float dpi = 132;
-			float scaleFactor = 1 + (Screen.height / dpi - 3) * 0.1f;
-			uiCamera.orthographicSize = 0.4f + Screen.height / dpi / scaleFactor;
+			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
+			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 			//uiCamera.orthographicSize = 5 / scaleFactor;
 			
 			//initialize the background
@@ -106,10 +106,22 @@ namespace ThisProject
 
 			//position the toolbar
 			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRight, 0);
+			
 			GameObject gameObject = GameObject.Find("ToolbarBackground");
 			MyTransform.SetPositionXY(gameObject.transform, uiRight, uiCamera.orthographicSize + 0.01f);
 			MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * uiPixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
-				
+
+			MyTransform.SetPositionXY(GameObject.Find("Rectangle").transform, uiRight + 0.05f, uiTop - 0.1f);
+			MyTransform.SetPositionXY(GameObject.Find("Circle").transform, uiRight + 0.05f, uiTop - 1.2f - 0.1f);
+			MyTransform.SetPositionXY(GameObject.Find("Triangle").transform, uiRight + 0.05f, uiTop - 2.2f - 0.1f);
+
+			MyTransform.SetPositionXY(GameObject.Find("Material_Ice").transform, uiRight + 0.03f, uiBottom + 0.8f);
+			MyTransform.SetPositionXY(GameObject.Find("Material_Rubber").transform, uiRight + 0.03f, uiBottom + 0.7f + 0.8f);
+			MyTransform.SetPositionXY(GameObject.Find("Material_Wood").transform, uiRight + 0.03f, uiBottom + 1.4f + 0.8f);
+			MyTransform.SetPositionXY(GameObject.Find("Material_Metal").transform, uiRight + 0.03f, uiBottom + 2.1f + 0.8f);
+			MyTransform.SetPositionXY(GameObject.Find("Material_Fixed").transform, uiRight + 0.03f, uiBottom + 2.8f + 0.8f);
+
+
 
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
