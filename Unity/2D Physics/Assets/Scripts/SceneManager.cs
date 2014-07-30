@@ -166,41 +166,51 @@ namespace ThisProject
 
 		void UpdateCamera()
 		{
-			//set and restrict the size
+			//restrict the size
 			if (cameraTargetSize < 3) cameraTargetSize = 3;
 			else if (cameraTargetSize > cameraTrap.Height / 2) cameraTargetSize = cameraTrap.Height / 2;
 			if (cameraTargetSize * aspectRatio > cameraTrap.Width / 2) cameraTargetSize = cameraTrap.Width / 2 / aspectRatio;
 
+			//set the size(animated)
 			mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, cameraTargetSize, 0.15f);
 			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
 
-			//set and restrict the position
+			//set the position(animated)
 			MyTransform.SetPositionXY(mainCamera.transform, Vector2.Lerp(mainCamera.transform.position, cameraTargetPosition, 0.15f));
 
+			//restrict the position
 			if (mainCamera.transform.position.y > cameraTrap.Top - mainCamera.orthographicSize)
 			{
 				cameraTargetPosition.y = cameraTrap.Top - mainCamera.orthographicSize - 0.00001f;
 				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
-				dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
+				
+				if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+					dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
 			}
 			else if (mainCamera.transform.position.y < cameraTrap.Bottom + mainCamera.orthographicSize)
 			{
 				cameraTargetPosition.y = cameraTrap.Bottom + mainCamera.orthographicSize + 0.00001f;
 				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
-				dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
+				
+				if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+					dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
 			}
 
 			if (mainCamera.transform.position.x > cameraTrap.Right - mainCamera.orthographicSize * aspectRatio)
 			{
 				cameraTargetPosition.x = cameraTrap.Right - mainCamera.orthographicSize * aspectRatio - 0.00001f;
 				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
-				dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
+				
+				if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+					dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
 			}
 			else if (mainCamera.transform.position.x < cameraTrap.Left + mainCamera.orthographicSize * aspectRatio)
 			{
 				cameraTargetPosition.x = cameraTrap.Left + mainCamera.orthographicSize * aspectRatio + 0.00001f;
 				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
-				dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
+
+				if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+					dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
 			}
 		}
 
@@ -240,7 +250,7 @@ namespace ThisProject
 				//InputManager.touchObject.rigidbody2D.MovePosition(
 				//	new Vector2((InputManager.touchPosition - dragOffset).x, (InputManager.touchPosition - dragOffset).y));
 
-				if (InputManager.touchObject.GetComponent<ItemProperties>().Material== ItemMaterial.FixedMetal)
+				if (InputManager.touchObject.GetComponent<ItemProperties>().Material == ItemMaterial.FixedMetal)
 				{
 					InputManager.touchObject.rigidbody2D.isKinematic = false;
 				}

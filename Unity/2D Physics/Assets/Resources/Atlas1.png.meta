@@ -72,7 +72,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Tollbar
+    - name: Toolbar
       rect:
         serializedVersion: 2
         x: 1842
