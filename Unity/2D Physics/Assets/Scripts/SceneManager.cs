@@ -31,8 +31,8 @@ namespace ThisProject
 		//variables
 		GameStatus gameStatus = GameStatus.Play;
 		Vector2 sceneSize;
-		float pixelsPerUnit, aspectRatio, uiPixelsPerUnit, uiTop, uiBottom, uiLeft, uiRight;
-		MyRect cameraViewTrap, cameraTrap, playgroundTrap;
+		float pixelsPerUnit, aspectRatio, uiPixelsPerUnit;
+		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 		Vector3 dragOffset;
 		
 		GameObject[] obj;
@@ -45,36 +45,59 @@ namespace ThisProject
 		{
 			Time.timeScale = 1;
 
-			sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + titleHeight);
-
-			//initialize the camera
+			//define the UI objects
 			mainCamera = Camera.main;
+			uiCamera = Camera.allCameras[1];
+			background = GameObject.Find("Background");
+			buttonPause = GameObject.Find("ButtonPause");
+			buttonRectangle = GameObject.Find("ButtonRectangle");
+			buttonCircle = GameObject.Find("ButtonCircle");
+			buttonTriangle = GameObject.Find("ButtonTriangle");
+			buttonFixed = GameObject.Find("ButtonFixed");
+			buttonMetal = GameObject.Find("ButtonMetal");
+			buttonWood = GameObject.Find("ButtonWood");
+			buttonRubber = GameObject.Find("ButtonRubber");
+			buttonIce = GameObject.Find("ButtonIce");
+
+
+			//initialize the cameras
 			mainCamera.transform.position = new Vector3(0, 0, -12);
 			cameraTargetPosition = new Vector2(0, 0);
 			cameraTargetSize = mainCamera.orthographicSize;
 
-			//set camera trap to the playground area + the walls
-			cameraViewTrap = new MyRect(
-				playgroundSize.y / 2 + wallWidth,
-				-playgroundSize.x / 2 - wallWidth,
-				-playgroundSize.y / 2 - wallWidth,
-				playgroundSize.x / 2 + wallWidth);
+			//float dpi = Mathf.Clamp(Screen.dpi, 1, 1000);
+			float dpi = 132;
+			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
+			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 
-			//set the playground trap to the playground
-			playgroundTrap = new MyRect(
+			//setup variables
+			aspectRatio = (float)Screen.width / Screen.height;
+			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
+			uiPixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
+			
+			//ui area
+			uiRect = new MyRect(
+				uiCamera.orthographicSize,
+				-uiCamera.orthographicSize * aspectRatio,
+				-uiCamera.orthographicSize,
+				uiCamera.orthographicSize * aspectRatio);
+
+			//playground area
+			playgroundRect = new MyRect(
 				playgroundSize.y / 2,
 				-playgroundSize.x / 2,
 				-playgroundSize.y / 2,
 				playgroundSize.x / 2);
 
-			uiCamera = Camera.allCameras[1];
-			//float dpi = Mathf.Clamp(Screen.dpi, 1, 1000);
-			float dpi = 132;
-			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
-			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
+			//playground + walls area
+			playViewRect = new MyRect(
+				playgroundRect.Top + wallWidth,
+				playgroundRect.Left - wallWidth,
+				playgroundRect.Bottom - wallWidth,
+				playgroundRect.Right + wallWidth);
 			
 			//initialize the background
-			background = GameObject.Find("Background");
+			sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + titleHeight);
 			background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
 			background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
 			background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
@@ -98,34 +121,24 @@ namespace ThisProject
 			Item.Move(wall, -playgroundSize.x / 2 - wallWidth / 2, 0);
 			wall.name = "Wall - Left";
 
-			//setup variables
-			aspectRatio = (float)Screen.width / Screen.height;
-			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
-			uiPixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
-			uiTop = uiCamera.orthographicSize;
-			uiBottom = -uiCamera.orthographicSize;
-			uiLeft = -uiCamera.orthographicSize * aspectRatio;
-			uiRight = uiCamera.orthographicSize * aspectRatio;
-
 			//position the pause button
-			MyTransform.SetPositionXY(GameObject.Find("PauseButton").transform,	uiLeft + 0.5f, uiTop - 0.5f);
+			MyTransform.SetPositionXY(buttonPause.transform,	uiRect.Left + 0.5f, uiRect.Top - 0.5f);
 
 			//position the toolbar
-			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRight, 0);
-			
+			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRect.Right, 0);
 			GameObject gameObject = GameObject.Find("ToolbarBackground");
-			MyTransform.SetPositionXY(gameObject.transform, uiRight, uiCamera.orthographicSize + 0.01f);
+			MyTransform.SetPositionXY(gameObject.transform, uiRect.Right, uiCamera.orthographicSize + 0.01f);
 			MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * uiPixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
 
-			MyTransform.SetPositionXY(GameObject.Find("Rectangle").transform, uiRight + 0.05f, uiTop - 0.1f);
-			MyTransform.SetPositionXY(GameObject.Find("Circle").transform, uiRight + 0.05f, uiTop - 1.2f - 0.1f);
-			MyTransform.SetPositionXY(GameObject.Find("Triangle").transform, uiRight + 0.05f, uiTop - 2.2f - 0.1f);
+			MyTransform.SetPositionXY(buttonRectangle.transform, uiRect.Right + 0.05f, uiRect.Top - 0.1f);
+			MyTransform.SetPositionXY(buttonCircle.transform, uiRect.Right + 0.05f, uiRect.Top - 1.2f - 0.1f);
+			MyTransform.SetPositionXY(buttonTriangle.transform, uiRect.Right + 0.05f, uiRect.Top - 2.2f - 0.1f);
 
-			MyTransform.SetPositionXY(GameObject.Find("Material_Ice").transform, uiRight + 0.03f, uiBottom + 0.8f);
-			MyTransform.SetPositionXY(GameObject.Find("Material_Rubber").transform, uiRight + 0.03f, uiBottom + 0.7f + 0.8f);
-			MyTransform.SetPositionXY(GameObject.Find("Material_Wood").transform, uiRight + 0.03f, uiBottom + 1.4f + 0.8f);
-			MyTransform.SetPositionXY(GameObject.Find("Material_Metal").transform, uiRight + 0.03f, uiBottom + 2.1f + 0.8f);
-			MyTransform.SetPositionXY(GameObject.Find("Material_Fixed").transform, uiRight + 0.03f, uiBottom + 2.8f + 0.8f);
+			MyTransform.SetPositionXY(buttonFixed.transform, uiRect.Right + 0.03f, uiRect.Bottom + 2.8f + 0.8f);
+			MyTransform.SetPositionXY(buttonMetal.transform, uiRect.Right + 0.03f, uiRect.Bottom + 2.1f + 0.8f);
+			MyTransform.SetPositionXY(buttonWood.transform, uiRect.Right + 0.03f, uiRect.Bottom + 1.4f + 0.8f);
+			MyTransform.SetPositionXY(buttonRubber.transform, uiRect.Right + 0.03f, uiRect.Bottom + 0.7f + 0.8f);
+			MyTransform.SetPositionXY(buttonIce.transform, uiRect.Right + 0.03f, uiRect.Bottom + 0.8f);
 
 
 			//setup the event handlers
@@ -173,24 +186,24 @@ namespace ThisProject
 		{
 			//restrict the size
 			if (cameraTargetSize < 3) cameraTargetSize = 3;
-			else if (cameraTargetSize > cameraViewTrap.Height / 2) cameraTargetSize = cameraViewTrap.Height / 2;
-			if (cameraTargetSize * aspectRatio > cameraViewTrap.Width / 2) cameraTargetSize = cameraViewTrap.Width / 2 / aspectRatio;
+			else if (cameraTargetSize > playViewRect.Height / 2) cameraTargetSize = playViewRect.Height / 2;
+			if (cameraTargetSize * aspectRatio > playViewRect.Width / 2) cameraTargetSize = playViewRect.Width / 2 / aspectRatio;
 
 			//set the size(animated) and update variables
 			mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
 			
 			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
-			cameraTrap = new MyRect(
-				cameraViewTrap.Top - mainCamera.orthographicSize,
-				cameraViewTrap.Left + +mainCamera.orthographicSize * aspectRatio,
-				cameraViewTrap.Bottom + mainCamera.orthographicSize,
-				cameraViewTrap.Right - mainCamera.orthographicSize * aspectRatio);
+			mainCameraRect = new MyRect(
+				playViewRect.Top - mainCamera.orthographicSize,
+				playViewRect.Left + +mainCamera.orthographicSize * aspectRatio,
+				playViewRect.Bottom + mainCamera.orthographicSize,
+				playViewRect.Right - mainCamera.orthographicSize * aspectRatio);
 
 			//set the position(animated)
 			MyTransform.SetPositionXY(mainCamera.transform, Vector2.Lerp(mainCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
 
 			//restrict the position
-			Vector2 trappedPosition = cameraTrap.GetInsidePosition(mainCamera.transform.position);
+			Vector2 trappedPosition = mainCameraRect.GetInsidePosition(mainCamera.transform.position);
 
 			if (trappedPosition.x != mainCamera.transform.position.x)
 			{
@@ -246,7 +259,7 @@ namespace ThisProject
 				//	InputManager.touchObject.rigidbody2D.isKinematic = false;
 				//}
 
-				Vector2 trappedPosition = playgroundTrap.GetInsidePosition(InputManager.touchPosition - dragOffset);
+				Vector2 trappedPosition = playgroundRect.GetInsidePosition(InputManager.touchPosition - dragOffset);
 
 				if (gameStatus == GameStatus.Pause)
 					Item.Move(InputManager.touchObject, trappedPosition);
@@ -274,7 +287,7 @@ namespace ThisProject
 			//Debug.Log("Tap: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
 			//Pause Button
-			if (InputManager.touchObject.name == "PauseButton") PauseButton_Tap();
+			if (InputManager.touchObject == buttonPause) PauseButton_Tap();
 
 			//-------
 			if (InputManager.touchObject.name.StartsWith("Item"))
