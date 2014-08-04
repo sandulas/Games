@@ -795,5 +795,18 @@ namespace ThisProject
 			this.Bottom = bottom;
 			this.Right = right;
 		}
+
+		public Vector2 GetInsidePosition(Vector2 position)
+		{
+			Vector2 insidePosition = position;
+
+			if (insidePosition.x < Left) insidePosition.x = Left + 0.00001f;
+			else if (insidePosition.x > Right) insidePosition.x = Right - 0.00001f;
+
+			if (insidePosition.y < Bottom) insidePosition.y = Bottom + 0.00001f;
+			else if (insidePosition.y > Top) insidePosition.y = Top - 0.00001f;
+
+			return insidePosition;
+		}
 	}
 }
