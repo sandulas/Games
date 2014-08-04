@@ -14,16 +14,12 @@ namespace ThisProject
 	public class SceneManager : MonoBehaviour
 	{
 		//public
-		public GameStatus gameStatus = GameStatus.Play;
-
-		public static GameObject background;
 		public static Camera uiCamera, mainCamera;
-
 		public static Vector2 cameraTargetPosition;
 		public static float cameraTargetSize;
 
-		public static float pixelsPerUnit, aspectRatio, uiPixelsPerUnit, uiTop, uiBottom, uiLeft, uiRight;
-
+		//UI
+		GameObject background, buttonPause, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce;
 
 		//settings
 		Vector2 playgroundSize = new Vector2(40, 25);
@@ -31,10 +27,14 @@ namespace ThisProject
 		float learnGalleryHeight = 15;
 		float playGalleryHeight = 25;
 		float wallWidth = 0.5f;
-		Vector2 sceneSize;
 
+		//variables
+		GameStatus gameStatus = GameStatus.Play;
+		Vector2 sceneSize;
+		float pixelsPerUnit, aspectRatio, uiPixelsPerUnit, uiTop, uiBottom, uiLeft, uiRight;
 		MyRect cameraViewTrap, cameraTrap, playgroundTrap;
 		Vector3 dragOffset;
+		
 		GameObject[] obj;
 		Vector2[] objVelocities;
 		
@@ -128,7 +128,6 @@ namespace ThisProject
 			MyTransform.SetPositionXY(GameObject.Find("Material_Fixed").transform, uiRight + 0.03f, uiBottom + 2.8f + 0.8f);
 
 
-
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
 			InputManager.OnDrag += new InputManager.SingleTouchHandler(InputManager_OnDrag);
@@ -199,7 +198,7 @@ namespace ThisProject
 				MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
 
 				if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
-					dragOffset.x = -Input.mousePosition.x / SceneManager.pixelsPerUnit - cameraTargetPosition.x;
+					dragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
 			}
 
 			if (trappedPosition.y != mainCamera.transform.position.y)
@@ -208,7 +207,7 @@ namespace ThisProject
 				MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
 
 				if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
-					dragOffset.y = -Input.mousePosition.y / SceneManager.pixelsPerUnit - cameraTargetPosition.y;
+					dragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
 			}
 		}
 
@@ -220,7 +219,7 @@ namespace ThisProject
 			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
 			{
 				cameraTargetPosition = mainCamera.transform.position;
-				dragOffset = -(Vector2)Input.mousePosition / SceneManager.pixelsPerUnit - cameraTargetPosition;
+				dragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
 			}
 
 			//item
