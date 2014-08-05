@@ -34,8 +34,8 @@ namespace ThisProject
 		float pixelsPerUnit, aspectRatio, uiPixelsPerUnit;
 		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 		Vector3 dragOffset;
-		
-		GameObject[] obj;
+
+		GameObject[] obj; int objIndex = 0;
 		Vector2[] objVelocities;
 		
 		bool loaded = false;
@@ -148,8 +148,8 @@ namespace ThisProject
 			InputManager.OnTap += new InputManager.SingleTouchHandler(InputManager_OnTap);
 
 			//-------------- TEMPORARY -----------------
-			obj = new GameObject[15];
-			objVelocities = new Vector2[15];
+			obj = new GameObject[0];
+			objVelocities = new Vector2[0];
 		}
 
 		void Update()
@@ -158,11 +158,13 @@ namespace ThisProject
 
 			if (Time.realtimeSinceStartup > 1 && !loaded)
 			{
-				int objIndex = 0;
 				for (int i = 0; i < 5; i++)
 				{
 					for (int j = 0; j < 3; j++)
 					{
+						Array.Resize<GameObject>(ref obj, objIndex + 1);
+						Array.Resize<Vector2>(ref objVelocities, objIndex + 1);
+
 						obj[objIndex] = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
 						obj[objIndex].transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj[objIndex].transform.position.z);
 
@@ -226,20 +228,26 @@ namespace ThisProject
 
 		void InputManager_OnTouch()
 		{
-			//Debug.Log("Touch: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
-
-			//camera
+			//start dragging the camera
 			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
 			{
 				cameraTargetPosition = mainCamera.transform.position;
 				dragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
 			}
 
-			//item
+			//start dragging the item
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
 				dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
 			}
+
+			//create and start dragging a new item
+			if (InputManager.touchObject == buttonRectangle)
+				CreateItem(ItemShape.Rectangle, ItemMaterial.Wood);
+			else if (InputManager.touchObject == buttonCircle)
+				CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
+			else if (InputManager.touchObject == buttonTriangle)
+				CreateItem(ItemShape.Triangle, ItemMaterial.Ice);
 		}
 
 		void InputManager_OnDrag()
@@ -248,7 +256,6 @@ namespace ThisProject
 			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
 			{
 				cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - dragOffset;
-				//Debug.Log(dragOffset + " - " + cameraTargetPosition + " - " + cameraTargetSize);
 			}
 
 			//item
@@ -287,7 +294,7 @@ namespace ThisProject
 			//Debug.Log("Tap: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
 			//Pause Button
-			if (InputManager.touchObject == buttonPause) PauseButton_Tap();
+			if (InputManager.touchObject == buttonPause) Pause();
 
 			//-------
 			if (InputManager.touchObject.name.StartsWith("Item"))
@@ -296,7 +303,8 @@ namespace ThisProject
 			}
 		}
 
-		void PauseButton_Tap()
+
+		void Pause()
 		{
 
 			if (gameStatus == GameStatus.Pause)
@@ -320,6 +328,28 @@ namespace ThisProject
 				}
 				gameStatus = GameStatus.Pause;
 			}
+		}
+
+		void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial)
+		{
+			Array.Resize<GameObject>(ref obj, objIndex + 1);
+			Array.Resize<Vector2>(ref objVelocities, objIndex + 1);
+
+			float size = 1f / uiCamera.orthographicSize * mainCamera.orthographicSize;
+
+			obj[objIndex] = Item.Create(itemShape, itemMaterial, size, size);
+			objVelocities[objIndex] = Vector2.zero;
+
+			if (gameStatus == GameStatus.Pause)
+				obj[objIndex].rigidbody2D.isKinematic = true;
+
+			InputManager.touchCamera = mainCamera;
+			InputManager.touchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+			InputManager.touchObject = obj[objIndex];
+			MyTransform.SetPositionXY(obj[objIndex].transform, InputManager.touchPosition);
+			dragOffset = Vector2.zero;
+
+			objIndex++;
 		}
 
 	}
