@@ -32,7 +32,7 @@ namespace ThisProject
 		//variables
 		GameStatus gameStatus = GameStatus.Play;
 		Vector2 sceneSize;
-		float pixelsPerUnit, aspectRatio, uiPixelsPerUnit;
+		float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 		Vector3 dragOffset;
 
@@ -71,14 +71,14 @@ namespace ThisProject
 			cameraTargetSize = mainCamera.orthographicSize;
 
 			//float dpi = Mathf.Clamp(Screen.dpi, 1, 1000);
-			float dpi = 132;
+			dpi = 32;
 			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
 			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 
 			//setup variables
 			aspectRatio = (float)Screen.width / Screen.height;
 			pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
-			uiPixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
+			spritePixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
 			
 			//ui area
 			uiRect = new MyRect(
@@ -133,7 +133,7 @@ namespace ThisProject
 			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRect.Right, 0);
 			GameObject gameObject = GameObject.Find("ToolbarBackground");
 			MyTransform.SetPositionXY(gameObject.transform, uiRect.Right, uiCamera.orthographicSize + 0.01f);
-			MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * uiPixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
+			MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
 
 			MyTransform.SetPositionXY(buttonRectangle.transform, uiRect.Right + 0.05f, uiRect.Top - 0.1f);
 			MyTransform.SetPositionXY(buttonCircle.transform, uiRect.Right + 0.05f, uiRect.Top - 1.2f - 0.1f);
@@ -297,12 +297,11 @@ namespace ThisProject
 
 		void InputManager_OnTap()
 		{
-			//Debug.Log("Tap: " + InputManager.touchObject.name + ", " + InputManager.touchCamera.name + ", " + Input.mousePosition);
 
 			//Pause Button
 			if (InputManager.touchObject == buttonPause) Pause();
 
-			//-------
+			//Items
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
 				if (gameStatus != GameStatus.Pause) return;
@@ -315,14 +314,24 @@ namespace ThisProject
 				buttonResize.transform.parent = item.transform;
 				buttonClone.transform.parent = item.transform;
 
-				MyTransform.SetLocalPositionXY(buttonMove.transform, -itemProperties.width / 2, -itemProperties.height / 2);
+				buttonMove.transform.rotation = Quaternion.Euler(Vector3.zero);
+				buttonRotate.transform.rotation = Quaternion.Euler(Vector3.zero);
+				buttonResize.transform.rotation = Quaternion.Euler(Vector3.zero);
+				buttonClone.transform.rotation = Quaternion.Euler(Vector3.zero);
 
-				Vector2 bottomLeft = new Vector2();
-				bottomLeft =
-					uiCamera.ScreenToWorldPoint(
-						mainCamera.WorldToScreenPoint(new Vector2(buttonMove.transform.position.x, buttonMove.transform.position.y)));
+				float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.3f) / pixelsPerUnit;
 
-				MyTransform.SetPositionXY(buttonMove.transform, bottomLeft);
+				MyTransform.SetLocalPositionXY(buttonMove.transform, -itemProperties.width / 2 - offset, -itemProperties.height / 2 - offset);
+				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonMove.transform.position.x, buttonMove.transform.position.y))));
+
+				MyTransform.SetLocalPositionXY(buttonResize.transform, itemProperties.width / 2 + offset, -itemProperties.height / 2 - offset);
+				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonResize.transform.position.x, buttonResize.transform.position.y))));
+
+				MyTransform.SetLocalPositionXY(buttonClone.transform, itemProperties.width / 2 + offset, itemProperties.height / 2 + offset);
+				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonClone.transform.position.x, buttonClone.transform.position.y))));
+
+				MyTransform.SetLocalPositionXY(buttonRotate.transform, -itemProperties.width / 2 - offset, itemProperties.height / 2 + offset);
+				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonRotate.transform.position.x, buttonRotate.transform.position.y))));
 
 			}
 		}
