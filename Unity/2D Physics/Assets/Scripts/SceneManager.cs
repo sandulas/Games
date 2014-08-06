@@ -19,7 +19,8 @@ namespace ThisProject
 		public static float cameraTargetSize;
 
 		//UI
-		GameObject background, buttonPause, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce;
+		GameObject background, buttonPause, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
+				   buttonMove, buttonRotate, buttonResize, buttonClone;
 
 		//settings
 		Vector2 playgroundSize = new Vector2(40, 25);
@@ -58,6 +59,10 @@ namespace ThisProject
 			buttonWood = GameObject.Find("ButtonWood");
 			buttonRubber = GameObject.Find("ButtonRubber");
 			buttonIce = GameObject.Find("ButtonIce");
+			buttonMove = GameObject.Find("ButtonMove");
+			buttonRotate = GameObject.Find("ButtonRotate");
+			buttonResize = GameObject.Find("ButtonResize");
+			buttonClone = GameObject.Find("ButtonClone");
 
 
 			//initialize the cameras
@@ -239,6 +244,7 @@ namespace ThisProject
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
 				dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
+				if (gameStatus == GameStatus.Pause) Item.BringToFront(InputManager.touchObject);
 			}
 
 			//create and start dragging a new item
@@ -299,6 +305,24 @@ namespace ThisProject
 			//-------
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
+				if (gameStatus != GameStatus.Pause) return;
+
+				GameObject item = InputManager.touchObject;
+				ItemProperties itemProperties = item.GetComponent<ItemProperties>();
+
+				buttonMove.transform.parent = item.transform;
+				buttonRotate.transform.parent = item.transform;
+				buttonResize.transform.parent = item.transform;
+				buttonClone.transform.parent = item.transform;
+
+				MyTransform.SetLocalPositionXY(buttonMove.transform, -itemProperties.width / 2, -itemProperties.height / 2);
+
+				Vector2 bottomLeft = new Vector2();
+				bottomLeft =
+					uiCamera.ScreenToWorldPoint(
+						mainCamera.WorldToScreenPoint(new Vector2(buttonMove.transform.position.x, buttonMove.transform.position.y)));
+
+				MyTransform.SetPositionXY(buttonMove.transform, bottomLeft);
 
 			}
 		}
@@ -311,7 +335,7 @@ namespace ThisProject
 			{
 				for (int i = 0; i < obj.Length; i++)
 				{
-					if (obj[i].GetComponent<ItemProperties>().Material != ItemMaterial.FixedMetal)
+					if (obj[i].GetComponent<ItemProperties>().material != ItemMaterial.FixedMetal)
 					{
 						obj[i].rigidbody2D.isKinematic = false;
 						obj[i].rigidbody2D.velocity = objVelocities[i];
