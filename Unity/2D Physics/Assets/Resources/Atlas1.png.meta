@@ -45,20 +45,20 @@ TextureImporter:
     - name: Move
       rect:
         serializedVersion: 2
-        x: 1404
-        y: 1953
-        width: 88
-        height: 94
+        x: 1750
+        y: 1954
+        width: 91
+        height: 93
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Rotate
       rect:
         serializedVersion: 2
-        x: 1494
-        y: 1953
-        width: 88
-        height: 94
+        x: 1750
+        y: 1859
+        width: 91
+        height: 93
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,6 +161,26 @@ TextureImporter:
         height: 111
       alignment: 3
       pivot: {x: 1, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Resize
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 1764
+        width: 91
+        height: 93
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Clone
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 1669
+        width: 91
+        height: 93
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

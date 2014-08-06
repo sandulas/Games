@@ -117,10 +117,10 @@ namespace ThisProject
 
 			//add the object properties
 			ItemProperties itemProperties = obj.AddComponent<ItemProperties>();
-			itemProperties.Shape = shape;
-			itemProperties.Material = itemMaterial;
-			itemProperties.Width = width;
-			itemProperties.Height = height;
+			itemProperties.shape = shape;
+			itemProperties.material = itemMaterial;
+			itemProperties.width = width;
+			itemProperties.height = height;
 
 			setPhysics(obj);
 
@@ -129,7 +129,7 @@ namespace ThisProject
 
 		public static void Resize(GameObject item, float width, float height)
 		{
-			update(item, item.GetComponent<ItemProperties>().Material, width, height);
+			update(item, item.GetComponent<ItemProperties>().material, width, height);
 		}
 		public static void Move(GameObject item, Vector3 position)
 		{
@@ -145,7 +145,7 @@ namespace ThisProject
 		}
 		public static void ChangeMaterial(GameObject item, ItemMaterial itemMaterial)
 		{
-			update(item, itemMaterial, item.GetComponent<ItemProperties>().Width, item.GetComponent<ItemProperties>().Height);
+			update(item, itemMaterial, item.GetComponent<ItemProperties>().width, item.GetComponent<ItemProperties>().height);
 		}
 		public static void Duplicate(GameObject item)
 		{
@@ -175,7 +175,7 @@ namespace ThisProject
 			if (itemMaterial == ItemMaterial.Ice) effect = ItemEffect.Ice;
 			else effect = ItemEffect.Solid;
 
-			switch (itemProperties.Shape)
+			switch (itemProperties.shape)
 			{
 				case ItemShape.Circle:
 					objMesh = createCircleMesh(width / 2, itemMaterial);
@@ -204,9 +204,12 @@ namespace ThisProject
 			itemEffect.GetComponent<MeshFilter>().mesh = objEffectMesh;
 
 			//update the object properties
-			itemProperties.Material = itemMaterial;
-			itemProperties.Width = width;
-			itemProperties.Height = height;
+			itemProperties.material = itemMaterial;
+			itemProperties.width = width;
+			if (itemProperties.shape == ItemShape.Circle)
+				itemProperties.height = width;
+			else
+				itemProperties.height = height;
 
 			//update physics
 			updatePhysics(item);
@@ -219,7 +222,7 @@ namespace ThisProject
 
 			ItemProperties properties = item.GetComponent<ItemProperties>();
 
-			switch (properties.Shape)
+			switch (properties.shape)
 			{
 				case ItemShape.Circle:
 					item.AddComponent<CircleCollider2D>();
@@ -241,31 +244,31 @@ namespace ThisProject
 			ItemProperties properties = item.GetComponent<ItemProperties>();
 			double itemArea = 1;
 
-			switch (properties.Shape)
+			switch (properties.shape)
 			{
 				case ItemShape.Circle:
 					CircleCollider2D circleCollider = item.GetComponent<CircleCollider2D>();
-					circleCollider.radius = properties.Width / 2;
+					circleCollider.radius = properties.width / 2;
 
-					itemArea = Math.PI * (properties.Width / 2) * (properties.Width / 2);
+					itemArea = Math.PI * (properties.width / 2) * (properties.width / 2);
 					break;
 
 				case ItemShape.Rectangle:
 					BoxCollider2D boxCollider = item.GetComponent<BoxCollider2D>();
-					boxCollider.size = new Vector2(properties.Width, properties.Height);
+					boxCollider.size = new Vector2(properties.width, properties.height);
 
-					itemArea = properties.Width * properties.Height;
+					itemArea = properties.width * properties.height;
 					break;
 
 				case ItemShape.Triangle:
 					PolygonCollider2D polygonCollider = item.GetComponent<PolygonCollider2D>();
 					Vector2[] points = new Vector2[3];
-					points[0] = new Vector2(-properties.Width / 2, -properties.Height / 2);
-					points[1] = new Vector2(-properties.Width / 2, properties.Height / 2);
-					points[2] = new Vector2(properties.Width / 2, -properties.Height / 2);
+					points[0] = new Vector2(-properties.width / 2, -properties.height / 2);
+					points[1] = new Vector2(-properties.width / 2, properties.height / 2);
+					points[2] = new Vector2(properties.width / 2, -properties.height / 2);
 					polygonCollider.points = points;
 
-					itemArea = properties.Width * properties.Height / 2;
+					itemArea = properties.width * properties.height / 2;
 					break;
 
 				default:
@@ -274,7 +277,7 @@ namespace ThisProject
 
 
 			item.rigidbody2D.isKinematic = false;
-			switch (properties.Material)
+			switch (properties.material)
 			{
 				case ItemMaterial.FixedMetal:
 					item.rigidbody2D.isKinematic = true;
@@ -714,9 +717,9 @@ namespace ThisProject
 
 	public class ItemProperties : MonoBehaviour
 	{
-		public ItemShape Shape;
-		public ItemMaterial Material;
-		public float Width, Height;
+		public ItemShape shape;
+		public ItemMaterial material;
+		public float width, height;
 	}
 
 	public class IntVector2
@@ -756,6 +759,24 @@ namespace ThisProject
 		{
 			transform.position = new Vector3(transform.position.x, y, transform.position.z);
 		}
+
+		public static void SetLocalPositionXY(Transform transform, float x, float y)
+		{
+			transform.localPosition = new Vector3(x, y, transform.localPosition.z);
+		}
+		public static void SetLocalPositionXY(Transform transform, Vector2 xy)
+		{
+			SetLocalPositionXY(transform, xy.x, xy.y);
+		}
+		public static void SetLocalPositionX(Transform transform, float x)
+		{
+			transform.localPosition = new Vector3(x, transform.localPosition.y, transform.localPosition.z);
+		}
+		public static void SetLocalPositionY(Transform transform, float y)
+		{
+			transform.localPosition = new Vector3(transform.localPosition.x, y, transform.localPosition.z);
+		}
+
 
 		public static void SetScaleXY(Transform transform, float x, float y)
 		{
