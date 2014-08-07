@@ -304,35 +304,10 @@ namespace ThisProject
 			//Items
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
-				if (gameStatus != GameStatus.Pause) return;
+				//if (gameStatus != GameStatus.Pause) return;
 
 				GameObject item = InputManager.touchObject;
-				ItemProperties itemProperties = item.GetComponent<ItemProperties>();
-
-				buttonMove.transform.parent = item.transform;
-				buttonRotate.transform.parent = item.transform;
-				buttonResize.transform.parent = item.transform;
-				buttonClone.transform.parent = item.transform;
-
-				buttonMove.transform.rotation = Quaternion.Euler(Vector3.zero);
-				buttonRotate.transform.rotation = Quaternion.Euler(Vector3.zero);
-				buttonResize.transform.rotation = Quaternion.Euler(Vector3.zero);
-				buttonClone.transform.rotation = Quaternion.Euler(Vector3.zero);
-
-				float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.3f) / pixelsPerUnit;
-
-				MyTransform.SetLocalPositionXY(buttonMove.transform, -itemProperties.width / 2 - offset, -itemProperties.height / 2 - offset);
-				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonMove.transform.position.x, buttonMove.transform.position.y))));
-
-				MyTransform.SetLocalPositionXY(buttonResize.transform, itemProperties.width / 2 + offset, -itemProperties.height / 2 - offset);
-				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonResize.transform.position.x, buttonResize.transform.position.y))));
-
-				MyTransform.SetLocalPositionXY(buttonClone.transform, itemProperties.width / 2 + offset, itemProperties.height / 2 + offset);
-				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonClone.transform.position.x, buttonClone.transform.position.y))));
-
-				MyTransform.SetLocalPositionXY(buttonRotate.transform, -itemProperties.width / 2 - offset, itemProperties.height / 2 + offset);
-				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(new Vector2(buttonRotate.transform.position.x, buttonRotate.transform.position.y))));
-
+				PositionControls(item);
 			}
 		}
 
@@ -383,6 +358,83 @@ namespace ThisProject
 			dragOffset = Vector2.zero;
 
 			objIndex++;
+		}
+
+		void PositionControls(GameObject item)
+		{
+			ItemProperties itemProperties = item.GetComponent<ItemProperties>();
+
+			float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.3f) / pixelsPerUnit;
+			float width, height;
+			if (itemProperties.shape == ItemShape.Circle)
+			{
+				width = (itemProperties.width) / (float)Math.Sqrt(2);
+				height = width;
+			}
+			else
+			{
+				width = itemProperties.width;
+				height = itemProperties.height;
+			}
+
+			Vector2[] corners = new Vector2[4];
+			corners[0] = item.transform.TransformPoint(-width / 2 - offset, -height / 2 - offset, item.transform.localPosition.z);
+			corners[1] = item.transform.TransformPoint(width / 2 + offset, -height / 2 - offset, item.transform.localPosition.z);
+			corners[2] = item.transform.TransformPoint(width / 2 + offset, height / 2 + offset, item.transform.localPosition.z);
+			corners[3] = item.transform.TransformPoint(-width / 2 - offset, height / 2 + offset, item.transform.localPosition.z);
+
+			Array.Sort(corners, delegate(Vector2 v1, Vector2 v2) { return v1.y.CompareTo(v2.y); });
+
+			if (Math.Abs(corners[0].y - corners[3].y) >= Math.Abs(corners[1].x - corners[2].x))
+			{
+				if (corners[0].x >= corners[1].x)
+				{
+					MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
+					MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
+				}
+				else
+				{
+					MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
+					MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
+				}
+
+				if (corners[2].x >= corners[3].x)
+				{
+					MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
+					MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
+				}
+				else
+				{
+					MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
+					MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
+				}
+			}
+			else
+			{
+				Array.Sort(corners, delegate(Vector2 v1, Vector2 v2) { return v1.x.CompareTo(v2.x); });
+
+				if (corners[0].y >= corners[1].y)
+				{
+					MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
+					MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
+				}
+				else
+				{
+					MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
+					MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
+				}
+
+				if (corners[2].y >= corners[3].y)
+				{
+					MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
+					MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
+				}
+				else
+				{
+					MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
+					MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
+				}
+			}
 		}
 
 	}
