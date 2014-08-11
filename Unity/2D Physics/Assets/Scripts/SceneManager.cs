@@ -263,8 +263,8 @@ namespace ThisProject
 			//start rotating the item when touching the rotate button
 			if (InputManager.touchObject == buttonRotate)
 			{
-				initialAngle = Vector2.Angle(InputManager.touchPosition - selectedItem.transform.position, Vector2.right);
-				if (InputManager.touchPosition.y < selectedItem.transform.position.y) initialAngle = 360 - initialAngle;
+				initialAngle = Vector2.Angle(mainCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+				if (mainCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialAngle = 360 - initialAngle;
 			}
 
 			//create and start dragging a new item
@@ -305,10 +305,8 @@ namespace ThisProject
 			//rotate button
 			if (InputManager.touchObject == buttonRotate)
 			{
-				float currentAngle = Vector2.Angle(InputManager.touchPosition - selectedItem.transform.position, Vector2.right);
-				if (InputManager.touchPosition.y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
-
-				Debug.Log(currentAngle);
+				float currentAngle = Vector2.Angle(mainCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+				if (mainCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
 	
 				selectedItem.transform.Rotate(new Vector3(0, 0, currentAngle - initialAngle));
 				initialAngle = currentAngle;
@@ -324,6 +322,10 @@ namespace ThisProject
 				if (gameStatus != GameStatus.Pause) return;
 
 				selectedItem = InputManager.touchObject;
+				PositionControls();
+			}
+			if (InputManager.touchObject == buttonRotate)
+			{
 				PositionControls();
 			}
 			
