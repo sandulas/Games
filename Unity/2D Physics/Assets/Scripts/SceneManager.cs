@@ -20,7 +20,7 @@ namespace ThisProject
 
 		//UI
 		GameObject background, buttonPause, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
-				   buttonMove, buttonRotate, buttonResize, buttonClone;
+				   buttonMove, buttonRotate, buttonResize, buttonClone, holderControls;
 
 		//settings
 		Vector2 playgroundSize = new Vector2(40, 25);
@@ -35,6 +35,8 @@ namespace ThisProject
 		float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 		Vector3 dragOffset;
+		GameObject selectedItem = null;
+		float initialAngle;
 
 		GameObject[] obj; int objIndex = 0;
 		Vector2[] objVelocities;
@@ -63,6 +65,7 @@ namespace ThisProject
 			buttonRotate = GameObject.Find("ButtonRotate");
 			buttonResize = GameObject.Find("ButtonResize");
 			buttonClone = GameObject.Find("ButtonClone");
+			holderControls = GameObject.Find("Controls");
 
 
 			//initialize the cameras
@@ -71,7 +74,7 @@ namespace ThisProject
 			cameraTargetSize = mainCamera.orthographicSize;
 
 			//float dpi = Mathf.Clamp(Screen.dpi, 1, 1000);
-			dpi = 32;
+			dpi = 132;
 			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
 			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 
@@ -145,6 +148,7 @@ namespace ThisProject
 			MyTransform.SetPositionXY(buttonRubber.transform, uiRect.Right + 0.03f, uiRect.Bottom + 0.7f + 0.8f);
 			MyTransform.SetPositionXY(buttonIce.transform, uiRect.Right + 0.03f, uiRect.Bottom + 0.8f);
 
+			HideControls();
 
 			//setup the event handlers
 			InputManager.OnTouch += new InputManager.SingleTouchHandler(InputManager_OnTouch);
@@ -231,6 +235,8 @@ namespace ThisProject
 			}
 		}
 
+
+		//Events
 		void InputManager_OnTouch()
 		{
 			//start dragging the camera
@@ -240,11 +246,25 @@ namespace ThisProject
 				dragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
 			}
 
-			//start dragging the item
+			//start dragging the item when touching it
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
 				dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
 				if (gameStatus == GameStatus.Pause) Item.BringToFront(InputManager.touchObject);
+			}
+
+			//start dragging the item when touching the move button
+			if (InputManager.touchObject == buttonMove)
+			{
+				Item.BringToFront(InputManager.touchObject);
+				DragObject(selectedItem);
+			}
+
+			//start rotating the item when touching the rotate button
+			if (InputManager.touchObject == buttonRotate)
+			{
+				initialAngle = Vector2.Angle(InputManager.touchPosition - selectedItem.transform.position, Vector2.right);
+				if (InputManager.touchPosition.y < selectedItem.transform.position.y) initialAngle = 360 - initialAngle;
 			}
 
 			//create and start dragging a new item
@@ -254,6 +274,8 @@ namespace ThisProject
 				CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
 			else if (InputManager.touchObject == buttonTriangle)
 				CreateItem(ItemShape.Triangle, ItemMaterial.Ice);
+
+			HideControls();
 		}
 
 		void InputManager_OnDrag()
@@ -280,10 +302,31 @@ namespace ThisProject
 					InputManager.touchObject.rigidbody2D.MovePosition(trappedPosition);
 			}
 
+			//rotate button
+			if (InputManager.touchObject == buttonRotate)
+			{
+				float currentAngle = Vector2.Angle(InputManager.touchPosition - selectedItem.transform.position, Vector2.right);
+				if (InputManager.touchPosition.y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
+
+				Debug.Log(currentAngle);
+	
+				selectedItem.transform.Rotate(new Vector3(0, 0, currentAngle - initialAngle));
+				initialAngle = currentAngle;
+			}
+
 		}
 
 		void InputManager_OnRelease()
 		{
+			//Items
+			if (InputManager.touchObject.name.StartsWith("Item"))
+			{
+				if (gameStatus != GameStatus.Pause) return;
+
+				selectedItem = InputManager.touchObject;
+				PositionControls();
+			}
+			
 			//item
 			//if (InputManager.touchObject.name.StartsWith("Item"))
 			//{
@@ -297,21 +340,12 @@ namespace ThisProject
 
 		void InputManager_OnTap()
 		{
-
 			//Pause Button
 			if (InputManager.touchObject == buttonPause) Pause();
-
-			//Items
-			if (InputManager.touchObject.name.StartsWith("Item"))
-			{
-				//if (gameStatus != GameStatus.Pause) return;
-
-				GameObject item = InputManager.touchObject;
-				PositionControls(item);
-			}
 		}
 
 
+		//Functions
 		void Pause()
 		{
 
@@ -351,18 +385,17 @@ namespace ThisProject
 			if (gameStatus == GameStatus.Pause)
 				obj[objIndex].rigidbody2D.isKinematic = true;
 
-			InputManager.touchCamera = mainCamera;
-			InputManager.touchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-			InputManager.touchObject = obj[objIndex];
-			MyTransform.SetPositionXY(obj[objIndex].transform, InputManager.touchPosition);
-			dragOffset = Vector2.zero;
+			MyTransform.SetPositionXY(obj[objIndex].transform, mainCamera.ScreenToWorldPoint(Input.mousePosition));
+			DragObject(obj[objIndex]);
 
 			objIndex++;
 		}
 
-		void PositionControls(GameObject item)
+		void PositionControls()
 		{
-			ItemProperties itemProperties = item.GetComponent<ItemProperties>();
+			holderControls.SetActive(true);
+
+			ItemProperties itemProperties = selectedItem.GetComponent<ItemProperties>();
 
 			float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.3f) / pixelsPerUnit;
 			float width, height;
@@ -378,10 +411,10 @@ namespace ThisProject
 			}
 
 			Vector2[] corners = new Vector2[4];
-			corners[0] = item.transform.TransformPoint(-width / 2 - offset, -height / 2 - offset, item.transform.localPosition.z);
-			corners[1] = item.transform.TransformPoint(width / 2 + offset, -height / 2 - offset, item.transform.localPosition.z);
-			corners[2] = item.transform.TransformPoint(width / 2 + offset, height / 2 + offset, item.transform.localPosition.z);
-			corners[3] = item.transform.TransformPoint(-width / 2 - offset, height / 2 + offset, item.transform.localPosition.z);
+			corners[0] = selectedItem.transform.TransformPoint(-width / 2 - offset, -height / 2 - offset, selectedItem.transform.localPosition.z);
+			corners[1] = selectedItem.transform.TransformPoint(width / 2 + offset, -height / 2 - offset, selectedItem.transform.localPosition.z);
+			corners[2] = selectedItem.transform.TransformPoint(width / 2 + offset, height / 2 + offset, selectedItem.transform.localPosition.z);
+			corners[3] = selectedItem.transform.TransformPoint(-width / 2 - offset, height / 2 + offset, selectedItem.transform.localPosition.z);
 
 			Array.Sort(corners, delegate(Vector2 v1, Vector2 v2) { return v1.y.CompareTo(v2.y); });
 
@@ -437,5 +470,17 @@ namespace ThisProject
 			}
 		}
 
+		void HideControls()
+		{
+			holderControls.SetActive(false);
+		}
+
+		void DragObject(GameObject obj)
+		{
+			InputManager.touchCamera = mainCamera;
+			InputManager.touchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+			InputManager.touchObject = obj;
+			dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
+		}
 	}
 }
