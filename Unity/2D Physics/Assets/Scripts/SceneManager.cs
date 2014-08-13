@@ -262,21 +262,20 @@ namespace ThisProject
 				Item.BringToFront(InputManager.touchObject);
 				DragObject(selectedItem);
 			}
-
+			
 			//start rotate
 			if (InputManager.touchObject == buttonRotate)
 			{
 				initialAngle = Vector2.Angle(mainCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
 				if (mainCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialAngle = 360 - initialAngle;
 			}
-
+			
 			//start resize
 			if (InputManager.touchObject == buttonResize)
 			{
 				initialResizePosition = (Vector2)selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
-
-
+			
 			//create and start dragging a new item
 			if (InputManager.touchObject == buttonRectangle)
 				CreateItem(ItemShape.Rectangle, ItemMaterial.Wood);
@@ -325,13 +324,16 @@ namespace ThisProject
 			//resize button
 			if (InputManager.touchObject == buttonResize)
 			{
-				//NU MERGE DACA FACI ZOOM OUT LA MAXIM
-
 				Vector2 currentResizePosition = (Vector2)selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 				Vector2 resizeOffset = Vector2.Scale(currentResizePosition - initialResizePosition, resizeCorner);
 
 				ItemProperties itemProps = selectedItem.GetComponent<ItemProperties>();
+				//Item.Resize(selectedItem, itemProps.width + resizeOffset.x * 2, itemProps.height + resizeOffset.y * 2);
 				Item.Resize(selectedItem, itemProps.width + resizeOffset.x, itemProps.height + resizeOffset.y);
+
+				Vector2 moveOffset = Vector2.Scale(resizeOffset / 2, resizeCorner);
+				Item.Move(selectedItem, (Vector2)selectedItem.transform.position + moveOffset);
+				currentResizePosition = (Vector2)selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 
 				initialResizePosition = currentResizePosition;
 			}
@@ -422,7 +424,7 @@ namespace ThisProject
 
 			ItemProperties itemProperties = selectedItem.GetComponent<ItemProperties>();
 
-			float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.3f) / pixelsPerUnit;
+			float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.26f) / pixelsPerUnit;
 			float width, height;
 			if (itemProperties.shape == ItemShape.Circle)
 			{
@@ -494,7 +496,7 @@ namespace ThisProject
 				}
 			}
 
-			resizeCorner = selectedItem.transform.InverseTransformPoint(buttonResize.transform.position);
+			resizeCorner = selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(uiCamera.WorldToScreenPoint(buttonResize.transform.position)));
 			resizeCorner.x = Math.Sign(resizeCorner.x);
 			resizeCorner.y = Math.Sign(resizeCorner.y);
 		}
