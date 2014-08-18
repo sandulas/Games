@@ -78,9 +78,11 @@ namespace ThisProject
 			cameraTargetSize = mainCamera.orthographicSize;
 
 			if (Screen.dpi == 0) dpi = 270;
+			else dpi = Screen.dpi;
 			dpi = Mathf.Clamp(dpi, 100, 700);
 			//dpi = 132;
 			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
+
 			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 
 			//setup variables
@@ -523,6 +525,14 @@ namespace ThisProject
 			InputManager.touchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 			InputManager.touchObject = obj;
 			dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
+		}
+
+
+		void OnGUI()
+		{
+			GUI.contentColor = new Color(1, 0, 0, 1);
+			GUI.skin.label.fontSize = 16;
+			GUI.Label(new Rect(5, Screen.height / 2, 100, 100), Screen.dpi.ToString());
 		}
 	}
 }
