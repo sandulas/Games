@@ -77,8 +77,9 @@ namespace ThisProject
 			cameraTargetPosition = new Vector2(0, 0);
 			cameraTargetSize = mainCamera.orthographicSize;
 
-			//float dpi = Mathf.Clamp(Screen.dpi, 1, 1000);
-			dpi = 132;
+			if (Screen.dpi == 0) dpi = 270;
+			dpi = Mathf.Clamp(dpi, 100, 700);
+			//dpi = 132;
 			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
 			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 
