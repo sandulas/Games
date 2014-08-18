@@ -29,17 +29,18 @@ namespace ThisProject
 		float playGalleryHeight = 25;
 		float wallWidth = 0.5f;
 
-		//variables
+		//scene variables
 		GameStatus gameStatus = GameStatus.Play;
 		Vector2 sceneSize;
 		float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 		
+		//operations variables
 		Vector3 dragOffset;
 		GameObject selectedItem = null;
-		float initialAngle;
-		Vector2 resizeCorner;
-		Vector2 initialResizePosition;
+		float initialRotation, initialInputAngle;
+		Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
+		GameObject tmpGameObject;
 
 		GameObject[] obj; int objIndex = 0;
 		Vector2[] objVelocities;
@@ -162,6 +163,7 @@ namespace ThisProject
 			//-------------- TEMPORARY -----------------
 			obj = new GameObject[0];
 			objVelocities = new Vector2[0];
+			tmpGameObject = new GameObject();
 		}
 
 		void Update()
@@ -266,14 +268,22 @@ namespace ThisProject
 			//start rotate
 			if (InputManager.touchObject == buttonRotate)
 			{
-				initialAngle = Vector2.Angle(mainCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
-				if (mainCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialAngle = 360 - initialAngle;
+				initialInputAngle = Vector2.Angle(mainCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+				if (mainCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialInputAngle = 360 - initialInputAngle;
+
+				initialRotation = selectedItem.transform.eulerAngles.z;
 			}
 			
 			//start resize
 			if (InputManager.touchObject == buttonResize)
 			{
-				initialResizePosition = (Vector2)selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				tmpGameObject.transform.position = selectedItem.transform.position;
+				tmpGameObject.transform.rotation = selectedItem.transform.rotation;
+				selectedItem.transform.parent = tmpGameObject.transform;
+
+				initialSize = new Vector2(selectedItem.GetComponent<ItemProperties>().width, selectedItem.GetComponent<ItemProperties>().height);
+				initialPosition = selectedItem.transform.localPosition;
+				initialInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
 			
 			//create and start dragging a new item
@@ -317,25 +327,19 @@ namespace ThisProject
 				float currentAngle = Vector2.Angle(mainCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
 				if (mainCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
 	
-				selectedItem.transform.Rotate(new Vector3(0, 0, currentAngle - initialAngle));
-				initialAngle = currentAngle;
+				selectedItem.transform.eulerAngles = new Vector3(0, 0, (float)Math.Round(initialRotation + currentAngle - initialInputAngle, MidpointRounding.AwayFromZero));
 			}
 
 			//resize button
 			if (InputManager.touchObject == buttonResize)
 			{
-				Vector2 currentResizePosition = (Vector2)selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-				Vector2 resizeOffset = Vector2.Scale(currentResizePosition - initialResizePosition, resizeCorner);
+				Vector2 currentInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
 
-				ItemProperties itemProps = selectedItem.GetComponent<ItemProperties>();
-				//Item.Resize(selectedItem, itemProps.width + resizeOffset.x * 2, itemProps.height + resizeOffset.y * 2);
-				Item.Resize(selectedItem, itemProps.width + resizeOffset.x, itemProps.height + resizeOffset.y);
+				Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
 
 				Vector2 moveOffset = Vector2.Scale(resizeOffset / 2, resizeCorner);
-				Item.Move(selectedItem, (Vector2)selectedItem.transform.position + moveOffset);
-				currentResizePosition = (Vector2)selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
-
-				initialResizePosition = currentResizePosition;
+				MyTransform.SetLocalPositionXY(selectedItem.transform, initialPosition + moveOffset);
 			}
 		}
 
@@ -349,9 +353,15 @@ namespace ThisProject
 				selectedItem = InputManager.touchObject;
 				PositionControls();
 			}
+			
 			if (InputManager.touchObject == buttonRotate || InputManager.touchObject == buttonResize)
 			{
 				PositionControls();
+			}
+
+			if (InputManager.touchObject == buttonResize)
+			{
+				selectedItem.transform.parent = null;
 			}
 			
 			//item
