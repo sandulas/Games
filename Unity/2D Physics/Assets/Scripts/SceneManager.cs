@@ -38,6 +38,7 @@ namespace ThisProject
 		//operations variables
 		Vector3 dragOffset;
 		GameObject selectedItem = null;
+		ItemProperties selectedItemProps = null;
 		float initialRotation, initialInputAngle;
 		Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
 		GameObject tmpGameObject;
@@ -284,7 +285,7 @@ namespace ThisProject
 				tmpGameObject.transform.rotation = selectedItem.transform.rotation;
 				selectedItem.transform.parent = tmpGameObject.transform;
 
-				initialSize = new Vector2(selectedItem.GetComponent<ItemProperties>().width, selectedItem.GetComponent<ItemProperties>().height);
+				initialSize = new Vector2(selectedItemProps.width, selectedItemProps.height);
 				initialPosition = selectedItem.transform.localPosition;
 				initialInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
@@ -339,9 +340,9 @@ namespace ThisProject
 				Vector2 currentInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 				Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
 
-				//apply this only for circles
-				//if (resizeOffset.x > resizeOffset.y) resizeOffset.x = resizeOffset.y;
-				//else resizeOffset.y = resizeOffset.x;
+				if (selectedItemProps.shape== ItemShape.Circle)
+					if (resizeOffset.x > resizeOffset.y) resizeOffset.x = resizeOffset.y;
+					else resizeOffset.y = resizeOffset.x;
 
 				Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
 
@@ -358,6 +359,7 @@ namespace ThisProject
 				if (gameStatus != GameStatus.Pause) return;
 
 				selectedItem = InputManager.touchObject;
+				selectedItemProps = selectedItem.GetComponent<ItemProperties>();
 				PositionControls();
 			}
 			
@@ -439,19 +441,17 @@ namespace ThisProject
 		{
 			holderControls.SetActive(true);
 
-			ItemProperties itemProperties = selectedItem.GetComponent<ItemProperties>();
-
 			float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.26f) / pixelsPerUnit;
 			float width, height;
-			if (itemProperties.shape == ItemShape.Circle)
+			if (selectedItemProps.shape == ItemShape.Circle)
 			{
-				width = (itemProperties.width) / (float)Math.Sqrt(2);
+				width = (selectedItemProps.width) / (float)Math.Sqrt(2);
 				height = width;
 			}
 			else
 			{
-				width = itemProperties.width;
-				height = itemProperties.height;
+				width = selectedItemProps.width;
+				height = selectedItemProps.height;
 			}
 
 			Vector2[] corners = new Vector2[4];
