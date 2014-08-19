@@ -339,6 +339,10 @@ namespace ThisProject
 				Vector2 currentInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 				Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
 
+				//apply this only for circles
+				//if (resizeOffset.x > resizeOffset.y) resizeOffset.x = resizeOffset.y;
+				//else resizeOffset.y = resizeOffset.x;
+
 				Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
 
 				Vector2 moveOffset = Vector2.Scale(resizeOffset / 2, resizeCorner);
