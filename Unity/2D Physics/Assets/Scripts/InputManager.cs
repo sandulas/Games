@@ -7,8 +7,11 @@ public class InputManager : MonoBehaviour
 	public static Camera touchCamera;
 	public static GameObject touchObject = null;
 	public static Vector3 touchPosition = Vector3.zero;
+	public static float doubleTouchDistance = 0;
+	public static float doubleTouchDistanceOffset;
 
 	Collider2D inputCollider;
+	int prevTouchCount = 0;
 
 	void Start()
 	{
@@ -17,15 +20,18 @@ public class InputManager : MonoBehaviour
 
 	void Update()
 	{
+		//DO NOT USE Input.MousePosition ANYWHERE. IT REPORTS WORNG POSITION FOR DOUBLE TOUCH. USE Touch.position INSTEAD.
+
+
 		//touch and drag
-		if (Input.GetMouseButtonDown(0))
+		if (Input.GetMouseButtonDown(0) || (Input.touchCount == 1 && prevTouchCount == 0))
 		{
 			if (!RaiseTouchAndDrag(SceneManager.uiCamera))
 				RaiseTouchAndDrag(SceneManager.mainCamera);
 		}
 
 		//drag
-		if (Input.GetMouseButton(0) && (touchObject != null))
+		if ((Input.GetMouseButton(0)) && (touchObject != null))
 		{
 			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
 			touchPosition.z = 0;
@@ -34,7 +40,7 @@ public class InputManager : MonoBehaviour
 		}
 
 		//tap and release
-		if (Input.GetMouseButtonUp(0) && (touchObject != null))
+		if ((Input.GetMouseButtonUp(0) || (Input.touchCount != 1 && prevTouchCount == 1)) && (touchObject != null))
 		{
 			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
 			touchPosition.z = 0;
@@ -52,11 +58,34 @@ public class InputManager : MonoBehaviour
 			touchObject = null;
 		}
 
+		//double touch start
+		if (Input.touchCount == 2 && prevTouchCount != 2)
+		{
+			doubleTouchDistance = Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
+		}
+		//double touch drag
+		if (Input.touchCount == 2 && prevTouchCount == 2)
+		{
+			doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
+			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + doubleTouchDistanceOffset * SceneManager.mainCamera.orthographicSize;
+
+	
+			doubleTouchDistance = Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
+
+		}
+		//double touch end
+		if (Input.touchCount != 2 && prevTouchCount == 2)
+		{
+
+		}
+
 		//zoom
 		if (Input.GetAxis("Mouse ScrollWheel") != 0)
 		{
 			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.mainCamera.orthographicSize * 2;
 		}
+
+		prevTouchCount = Input.touchCount;
 	}
 
 	private bool RaiseTouchAndDrag(Camera camera)

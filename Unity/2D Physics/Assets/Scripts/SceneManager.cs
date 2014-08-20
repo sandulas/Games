@@ -536,7 +536,7 @@ namespace ThisProject
 		{
 			GUI.contentColor = new Color(1, 0, 0, 1);
 			GUI.skin.label.fontSize = 16;
-			GUI.Label(new Rect(5, Screen.height / 2, 100, 100), Screen.dpi.ToString());
+			GUI.Label(new Rect(5, Screen.height / 2, 100, 100), InputManager.doubleTouchDistanceOffset.ToString());
 		}
 	}
 }
