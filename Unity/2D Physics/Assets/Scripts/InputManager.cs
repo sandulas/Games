@@ -20,18 +20,15 @@ public class InputManager : MonoBehaviour
 
 	void Update()
 	{
-		//DO NOT USE Input.MousePosition ANYWHERE. IT REPORTS WORNG POSITION FOR DOUBLE TOUCH. USE Touch.position INSTEAD.
-
-
-		//touch and drag
-		if (Input.GetMouseButtonDown(0) || (Input.touchCount == 1 && prevTouchCount == 0))
+		//single touch start
+		if (getSingleTouchStart())
 		{
-			if (!RaiseTouchAndDrag(SceneManager.uiCamera))
-				RaiseTouchAndDrag(SceneManager.mainCamera);
+			if (!RaiseTouch(SceneManager.uiCamera))
+				RaiseTouch(SceneManager.mainCamera);
 		}
 
-		//drag
-		if ((Input.GetMouseButton(0)) && (touchObject != null))
+		//single touch drag
+		if (getSingleTouchDrag() && touchObject != null)
 		{
 			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
 			touchPosition.z = 0;
@@ -39,8 +36,8 @@ public class InputManager : MonoBehaviour
 			drag();
 		}
 
-		//tap and release
-		if ((Input.GetMouseButtonUp(0) || (Input.touchCount != 1 && prevTouchCount == 1)) && (touchObject != null))
+		//single touch tap and release
+		if (getSingleTouchEnd() && touchObject != null)
 		{
 			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
 			touchPosition.z = 0;
@@ -59,27 +56,28 @@ public class InputManager : MonoBehaviour
 		}
 
 		//double touch start
-		if (Input.touchCount == 2 && prevTouchCount != 2)
+		if (getDoubleTouchStart())
 		{
 			doubleTouchDistance = Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
 		}
+
 		//double touch drag
-		if (Input.touchCount == 2 && prevTouchCount == 2)
+		if (getDoubleTouchDrag())
 		{
 			doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
 			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + doubleTouchDistanceOffset * SceneManager.mainCamera.orthographicSize;
 
 	
 			doubleTouchDistance = Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
-
 		}
+
 		//double touch end
-		if (Input.touchCount != 2 && prevTouchCount == 2)
+		if (getDoubleTouchEnd())
 		{
 
 		}
 
-		//zoom
+		//mouse wheel zoom
 		if (Input.GetAxis("Mouse ScrollWheel") != 0)
 		{
 			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.mainCamera.orthographicSize * 2;
@@ -88,7 +86,59 @@ public class InputManager : MonoBehaviour
 		prevTouchCount = Input.touchCount;
 	}
 
-	private bool RaiseTouchAndDrag(Camera camera)
+	private bool getSingleTouchStart()
+	{
+		//left mouse button was pressed
+		if (Input.GetMouseButtonDown(0) && Input.touchCount == 0) return true;
+
+		//single touch started
+		if (Input.touchCount == 1 && prevTouchCount == 0) return true;
+
+		return false;
+	}
+	public bool getSingleTouchDrag()
+	{
+		//left mouse button is down
+		if (Input.GetMouseButton(0) && Input.touchCount == 0) return true;
+
+		//single touch maintained
+		if (Input.touchCount == 1 && (prevTouchCount == 0 || prevTouchCount == 1)) return true;
+
+		return false;
+	}
+	private bool getSingleTouchEnd()
+	{
+		//left mouse button was released
+		if (Input.GetMouseButtonUp(0) && Input.touchCount == 0) return true;
+
+		//single touch end or more touches added
+		if ((Input.touchCount != 1 && prevTouchCount == 1)) return true;
+
+		return false;
+	}
+	public bool getDoubleTouchStart()
+	{
+		//double touch started, either by adding or removing touches
+		if (Input.touchCount == 2 && prevTouchCount != 2) return true;
+
+		return false;
+	}
+	public bool getDoubleTouchDrag()
+	{
+		//double touch maintained
+		if (Input.touchCount == 2) return true;
+
+		return false;
+	}
+	public bool getDoubleTouchEnd()
+	{
+		//double touch ended, either by adding or removing touches
+		if (Input.touchCount != 2 && prevTouchCount == 2) return true;
+
+		return false;
+	}
+
+	private bool RaiseTouch(Camera camera)
 	{
 		touchPosition = camera.ScreenToWorldPoint(Input.mousePosition);
 		touchPosition.z = 0;
@@ -101,7 +151,6 @@ public class InputManager : MonoBehaviour
 			touchObject = inputCollider.gameObject;
 
 			touch();
-			drag();
 			return true;
 		}
 		return false;
