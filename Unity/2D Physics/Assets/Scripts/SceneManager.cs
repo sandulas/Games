@@ -41,7 +41,8 @@ namespace ThisProject
 		ItemProperties selectedItemProps = null;
 		float initialRotation, initialInputAngle;
 		Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
-		GameObject tmpGameObject;
+		GameObject tempResizeParent;
+		GameObject cameraFollowObject;
 
 		GameObject[] obj; int objIndex = 0;
 		Vector2[] objVelocities;
@@ -71,7 +72,6 @@ namespace ThisProject
 			buttonResize = GameObject.Find("ButtonResize");
 			buttonClone = GameObject.Find("ButtonClone");
 			holderControls = GameObject.Find("Controls");
-
 
 			//initialize the cameras
 			mainCamera.transform.position = new Vector3(0, 0, -12);
@@ -167,11 +167,13 @@ namespace ThisProject
 			//-------------- TEMPORARY -----------------
 			obj = new GameObject[0];
 			objVelocities = new Vector2[0];
-			tmpGameObject = new GameObject();
+			tempResizeParent = new GameObject();
 		}
 
-		void Update()
+		void FixedUpdate()
 		{
+			if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
+
 			UpdateCamera();
 
 			if (Time.realtimeSinceStartup > 1 && !loaded)
@@ -192,6 +194,7 @@ namespace ThisProject
 				}
 
 				loaded = true;
+				//cameraFollowObject = GameObject.Find("Item: Circle -14");
 			}
 
 			//if (Time.realtimeSinceStartup > 2)
@@ -281,13 +284,13 @@ namespace ThisProject
 			//start resize
 			if (InputManager.touchObject == buttonResize)
 			{
-				tmpGameObject.transform.position = selectedItem.transform.position;
-				tmpGameObject.transform.rotation = selectedItem.transform.rotation;
-				selectedItem.transform.parent = tmpGameObject.transform;
+				tempResizeParent.transform.position = selectedItem.transform.position;
+				tempResizeParent.transform.rotation = selectedItem.transform.rotation;
+				selectedItem.transform.parent = tempResizeParent.transform;
 
 				initialSize = new Vector2(selectedItemProps.width, selectedItemProps.height);
 				initialPosition = selectedItem.transform.localPosition;
-				initialInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				initialInputPosition = tempResizeParent.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
 			
 			//create and start dragging a new item
@@ -337,7 +340,7 @@ namespace ThisProject
 			//resize button
 			if (InputManager.touchObject == buttonResize)
 			{
-				Vector2 currentInputPosition = tmpGameObject.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
+				Vector2 currentInputPosition = tempResizeParent.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 				Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
 
 				if (selectedItemProps.shape== ItemShape.Circle)
@@ -345,6 +348,7 @@ namespace ThisProject
 					else resizeOffset.y = resizeOffset.x;
 
 				Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
+				selectedItem.rigidbody2D.isKinematic = true;
 
 				Vector2 moveOffset = Vector2.Scale(resizeOffset / 2, resizeCorner);
 				MyTransform.SetLocalPositionXY(selectedItem.transform, initialPosition + moveOffset);
