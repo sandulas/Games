@@ -176,26 +176,26 @@ namespace ThisProject
 
 			UpdateCamera();
 
-			if (Time.realtimeSinceStartup > 1 && !loaded)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					for (int j = 0; j < 3; j++)
-					{
-						Array.Resize<GameObject>(ref obj, objIndex + 1);
-						Array.Resize<Vector2>(ref objVelocities, objIndex + 1);
+			//if (Time.realtimeSinceStartup > 1 && !loaded)
+			//{
+			//	for (int i = 0; i < 5; i++)
+			//	{
+			//		for (int j = 0; j < 3; j++)
+			//		{
+			//			Array.Resize<GameObject>(ref obj, objIndex + 1);
+			//			Array.Resize<Vector2>(ref objVelocities, objIndex + 1);
 
-						obj[objIndex] = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
-						obj[objIndex].transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj[objIndex].transform.position.z);
+			//			obj[objIndex] = Item.Create((ItemShape)j, (ItemMaterial)i, 1.5f, 1.5f);
+			//			obj[objIndex].transform.position = new Vector3(i * 1.5f - 3, j * 1.5f, obj[objIndex].transform.position.z);
 
-						Item.Resize(obj[objIndex], 1.5f, 0.5f);
-						objIndex++;
-					}
-				}
+			//			Item.Resize(obj[objIndex], 1.5f, 0.5f);
+			//			objIndex++;
+			//		}
+			//	}
 
-				loaded = true;
-				//cameraFollowObject = GameObject.Find("Item: Circle -14");
-			}
+			//	loaded = true;
+			//	//cameraFollowObject = GameObject.Find("Item: Circle -14");
+			//}
 
 			//if (Time.realtimeSinceStartup > 2)
 			//{
@@ -293,13 +293,19 @@ namespace ThisProject
 				initialInputPosition = tempResizeParent.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(Input.mousePosition));
 			}
 			
+			//clone and start dragging
+			if (InputManager.touchObject == buttonClone)
+			{
+				CloneItem();
+			}
+
 			//create and start dragging a new item
 			if (InputManager.touchObject == buttonRectangle)
-				CreateItem(ItemShape.Rectangle, ItemMaterial.Wood);
+				CreateNewItem(ItemShape.Rectangle, ItemMaterial.Wood);
 			else if (InputManager.touchObject == buttonCircle)
-				CreateItem(ItemShape.Circle, ItemMaterial.Rubber);
+				CreateNewItem(ItemShape.Circle, ItemMaterial.Rubber);
 			else if (InputManager.touchObject == buttonTriangle)
-				CreateItem(ItemShape.Triangle, ItemMaterial.Ice);
+				CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
 
 			HideControls();
 		}
@@ -422,23 +428,44 @@ namespace ThisProject
 			}
 		}
 
-		void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial)
+		void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
+		{
+			float size = 1f / uiCamera.orthographicSize * mainCamera.orthographicSize;
+		
+			CreateItem(itemShape, itemMaterial, size, size);
+
+			MyTransform.SetPositionXY(obj[objIndex - 1].transform, mainCamera.ScreenToWorldPoint(Input.mousePosition));
+			DragObject(obj[objIndex - 1]);
+
+		}
+		void CloneItem()
+		{
+			CreateItem(selectedItemProps.shape, selectedItemProps.material, selectedItemProps.width, selectedItemProps.height);
+			obj[objIndex - 1].transform.rotation = selectedItem.transform.rotation;
+			obj[objIndex - 1].transform.position = selectedItem.transform.position;
+			Item.BringToFront(obj[objIndex - 1]);
+			DragObject(obj[objIndex - 1]);
+		}
+		void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
 		{
 			Array.Resize<GameObject>(ref obj, objIndex + 1);
 			Array.Resize<Vector2>(ref objVelocities, objIndex + 1);
 
-			float size = 1f / uiCamera.orthographicSize * mainCamera.orthographicSize;
-
-			obj[objIndex] = Item.Create(itemShape, itemMaterial, size, size);
+			obj[objIndex] = Item.Create(itemShape, itemMaterial, width, height);
 			objVelocities[objIndex] = Vector2.zero;
 
 			if (gameStatus == GameStatus.Pause)
 				obj[objIndex].rigidbody2D.isKinematic = true;
 
-			MyTransform.SetPositionXY(obj[objIndex].transform, mainCamera.ScreenToWorldPoint(Input.mousePosition));
-			DragObject(obj[objIndex]);
-
 			objIndex++;
+		}
+
+		void DragObject(GameObject obj)
+		{
+			InputManager.touchCamera = mainCamera;
+			InputManager.touchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+			InputManager.touchObject = obj;
+			dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
 		}
 
 		void PositionControls()
@@ -525,14 +552,6 @@ namespace ThisProject
 		void HideControls()
 		{
 			holderControls.SetActive(false);
-		}
-
-		void DragObject(GameObject obj)
-		{
-			InputManager.touchCamera = mainCamera;
-			InputManager.touchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-			InputManager.touchObject = obj;
-			dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
 		}
 
 
