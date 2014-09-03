@@ -176,6 +176,7 @@ namespace ThisProject
 
 			UpdateCamera();
 
+			if (selectedItem != null && holderControls.activeSelf) PositionControls();
 			//if (Time.realtimeSinceStartup > 1 && !loaded)
 			//{
 			//	for (int i = 0; i < 5; i++)
@@ -307,7 +308,15 @@ namespace ThisProject
 			else if (InputManager.touchObject == buttonTriangle)
 				CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
 
-			HideControls();
+			if (InputManager.touchObject != background && InputManager.touchObject != buttonRotate && InputManager.touchObject != buttonResize && InputManager.touchObject != buttonMove && InputManager.touchObject != buttonClone)
+			{
+				HideControls();
+				selectedItem = null;
+			}
+			if (InputManager.touchObject == buttonRotate || InputManager.touchObject == buttonResize || InputManager.touchObject == buttonMove || InputManager.touchObject == buttonClone)
+			{
+				HideControls();
+			}
 		}
 
 		void InputManager_OnDrag()
