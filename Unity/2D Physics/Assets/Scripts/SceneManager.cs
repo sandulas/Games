@@ -8,7 +8,8 @@ namespace ThisProject
 	public enum GameStatus
 	{
 		Play = 0,
-		Pause = 1
+		Pause = 1,
+		Stop = 2
 	}
 
 	public class SceneManager : MonoBehaviour
@@ -19,7 +20,7 @@ namespace ThisProject
 		public static float cameraTargetSize;
 
 		//UI
-		GameObject background, buttonPause, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
+		GameObject background, buttonPlay, buttonPause, buttonStop, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 				   buttonMove, buttonRotate, buttonResize, buttonClone, holderControls;
 
 		//settings
@@ -30,7 +31,7 @@ namespace ThisProject
 		float wallWidth = 0.5f;
 
 		//scene variables
-		GameStatus gameStatus = GameStatus.Play;
+		GameStatus gameStatus = GameStatus.Stop;
 		Vector2 sceneSize;
 		float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
@@ -58,7 +59,9 @@ namespace ThisProject
 			mainCamera = Camera.main;
 			uiCamera = Camera.allCameras[1];
 			background = GameObject.Find("Background");
+			buttonPlay = GameObject.Find("ButtonPlay");
 			buttonPause = GameObject.Find("ButtonPause");
+			buttonStop = GameObject.Find("ButtonStop");
 			buttonRectangle = GameObject.Find("ButtonRectangle");
 			buttonCircle = GameObject.Find("ButtonCircle");
 			buttonTriangle = GameObject.Find("ButtonTriangle");
@@ -137,8 +140,10 @@ namespace ThisProject
 			Item.Move(wall, -playgroundSize.x / 2 - wallWidth / 2, 0);
 			wall.name = "Wall - Left";
 
-			//position the pause button
+			//position the UI buttons
 			MyTransform.SetPositionXY(buttonPause.transform,	uiRect.Left + 0.5f, uiRect.Top - 0.5f);
+			MyTransform.SetPositionXY(buttonPlay.transform, uiRect.Left + uiRect.Width / 2 - 1.5f, uiRect.Top - 0.5f);
+			MyTransform.SetPositionXY(buttonStop.transform, uiRect.Left + uiRect.Width / 2 + 1.5f, uiRect.Top - 0.5f);
 
 			//position the toolbar
 			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRect.Right, 0);
@@ -263,7 +268,7 @@ namespace ThisProject
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
 				dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
-				if (gameStatus == GameStatus.Pause) Item.BringToFront(InputManager.touchObject);
+				if (gameStatus == GameStatus.Stop) Item.BringToFront(InputManager.touchObject);
 			}
 
 			//start move
@@ -301,12 +306,15 @@ namespace ThisProject
 			}
 
 			//create and start dragging a new item
-			if (InputManager.touchObject == buttonRectangle)
-				CreateNewItem(ItemShape.Rectangle, ItemMaterial.Wood);
-			else if (InputManager.touchObject == buttonCircle)
-				CreateNewItem(ItemShape.Circle, ItemMaterial.Rubber);
-			else if (InputManager.touchObject == buttonTriangle)
-				CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
+			if (gameStatus == GameStatus.Stop)
+			{
+				if (InputManager.touchObject == buttonRectangle)
+					CreateNewItem(ItemShape.Rectangle, ItemMaterial.Wood);
+				else if (InputManager.touchObject == buttonCircle)
+					CreateNewItem(ItemShape.Circle, ItemMaterial.Rubber);
+				else if (InputManager.touchObject == buttonTriangle)
+					CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
+			}
 
 			if (InputManager.touchObject != background && InputManager.touchObject != buttonRotate && InputManager.touchObject != buttonResize && InputManager.touchObject != buttonMove && InputManager.touchObject != buttonClone)
 			{
@@ -337,10 +345,8 @@ namespace ThisProject
 
 				Vector2 trappedPosition = playgroundRect.GetInsidePosition(InputManager.touchPosition - dragOffset);
 
-				if (gameStatus == GameStatus.Pause)
-					Item.Move(InputManager.touchObject, trappedPosition);
-				else
-					InputManager.touchObject.rigidbody2D.MovePosition(trappedPosition);
+				if (gameStatus == GameStatus.Stop) Item.Move(InputManager.touchObject, trappedPosition);
+				else if (gameStatus == GameStatus.Play) InputManager.touchObject.rigidbody2D.MovePosition(trappedPosition);
 			}
 
 			//rotate button
@@ -375,7 +381,7 @@ namespace ThisProject
 			//Items
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
-				if (gameStatus != GameStatus.Pause) return;
+				if (gameStatus != GameStatus.Stop) return;
 
 				selectedItem = InputManager.touchObject;
 				selectedItemProps = selectedItem.GetComponent<ItemProperties>();
@@ -405,37 +411,58 @@ namespace ThisProject
 
 		void InputManager_OnTap()
 		{
-			//Pause Button
-			if (InputManager.touchObject == buttonPause) Pause();
+			//pause button
+			if (InputManager.touchObject == buttonPause)
+				if (gameStatus == GameStatus.Play) Pause();
+				else if (gameStatus == GameStatus.Pause) Play();
+			
+			//play button
+			if (InputManager.touchObject == buttonPlay && gameStatus != GameStatus.Play)
+				Play();
+
+			//stop button
+			if (InputManager.touchObject == buttonStop && gameStatus != GameStatus.Stop)
+				Stop();
 		}
+
 
 
 		//Functions
+
+		void Play()
+		{
+			for (int i = 0; i < obj.Length; i++)
+			{
+				if (obj[i].GetComponent<ItemProperties>().material != ItemMaterial.FixedMetal)
+				{
+					obj[i].rigidbody2D.isKinematic = false;
+					obj[i].rigidbody2D.velocity = objVelocities[i];
+				}
+			}
+			gameStatus = GameStatus.Play;
+		}
+
 		void Pause()
 		{
-
-			if (gameStatus == GameStatus.Pause)
+			for (int i = 0; i < obj.Length; i++)
 			{
-				for (int i = 0; i < obj.Length; i++)
-				{
-					if (obj[i].GetComponent<ItemProperties>().material != ItemMaterial.FixedMetal)
-					{
-						obj[i].rigidbody2D.isKinematic = false;
-						obj[i].rigidbody2D.velocity = objVelocities[i];
-					}
-				}
-				gameStatus = GameStatus.Play;
+				//TREBUIE SA RETIN SI ANGULAR VELOCITY
+				objVelocities[i] = obj[i].rigidbody2D.velocity;
+				obj[i].rigidbody2D.isKinematic = true;
 			}
-			else
-			{
-				for (int i = 0; i < obj.Length; i++)
-				{
-					objVelocities[i] = obj[i].rigidbody2D.velocity;
-					obj[i].rigidbody2D.isKinematic = true;
-				}
-				gameStatus = GameStatus.Pause;
-			}
+			gameStatus = GameStatus.Pause;
 		}
+
+		void Stop()
+		{
+			for (int i = 0; i < obj.Length; i++)
+			{
+				objVelocities[i] = Vector3.zero; ;
+				obj[i].rigidbody2D.isKinematic = true;
+			}
+			gameStatus = GameStatus.Stop;
+		}
+
 
 		void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
 		{
@@ -463,8 +490,7 @@ namespace ThisProject
 			obj[objIndex] = Item.Create(itemShape, itemMaterial, width, height);
 			objVelocities[objIndex] = Vector2.zero;
 
-			if (gameStatus == GameStatus.Pause)
-				obj[objIndex].rigidbody2D.isKinematic = true;
+			obj[objIndex].rigidbody2D.isKinematic = true;
 
 			objIndex++;
 		}
