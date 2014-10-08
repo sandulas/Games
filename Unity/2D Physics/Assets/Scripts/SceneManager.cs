@@ -20,7 +20,7 @@ namespace ThisProject
 		public static float cameraTargetSize;
 
 		//UI
-		GameObject background, buttonPlay, buttonPause, buttonStop, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
+		GameObject background, buttonMenu, buttonPlay, buttonPause, buttonStop, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 				   buttonMove, buttonRotate, buttonResize, buttonClone, holderControls;
 
 		//settings
@@ -59,6 +59,7 @@ namespace ThisProject
 			mainCamera = Camera.main;
 			uiCamera = Camera.allCameras[1];
 			background = GameObject.Find("Background");
+			buttonMenu = GameObject.Find("ButtonMenu");
 			buttonPlay = GameObject.Find("ButtonPlay");
 			buttonPause = GameObject.Find("ButtonPause");
 			buttonStop = GameObject.Find("ButtonStop");
@@ -141,9 +142,12 @@ namespace ThisProject
 			wall.name = "Wall - Left";
 
 			//position the UI buttons
-			MyTransform.SetPositionXY(buttonPause.transform,	uiRect.Left + 0.5f, uiRect.Top - 0.5f);
-			MyTransform.SetPositionXY(buttonPlay.transform, uiRect.Left + uiRect.Width / 2 - 1.5f, uiRect.Top - 0.5f);
-			MyTransform.SetPositionXY(buttonStop.transform, uiRect.Left + uiRect.Width / 2 + 1.5f, uiRect.Top - 0.5f);
+			MyTransform.SetPositionXY(buttonMenu.transform,	uiRect.Left + 0.5f, uiRect.Top - 0.5f);
+			MyTransform.SetPositionXY(buttonPlay.transform, uiRect.Left + uiRect.Width / 2 - 0.6f, uiRect.Top - 0.65f);
+			MyTransform.SetPositionXY(buttonPause.transform, uiRect.Left + uiRect.Width / 2 - 0.6f, uiRect.Top - 0.65f);
+			buttonPause.SetActive(false);
+			MyTransform.SetPositionXY(buttonStop.transform, uiRect.Left + uiRect.Width / 2 + 0.6f, uiRect.Top - 0.65f);
+			buttonStop.SetActive(false);
 
 			//position the toolbar
 			MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRect.Right, 0);
@@ -440,6 +444,10 @@ namespace ThisProject
 				}
 			}
 			gameStatus = GameStatus.Play;
+
+			buttonPause.SetActive(true);
+			buttonStop.SetActive(true);
+			buttonPlay.SetActive(false);
 		}
 
 		void Pause()
@@ -451,6 +459,9 @@ namespace ThisProject
 				obj[i].rigidbody2D.isKinematic = true;
 			}
 			gameStatus = GameStatus.Pause;
+
+			buttonPause.SetActive(false);
+			buttonPlay.SetActive(true);
 		}
 
 		void Stop()
@@ -461,6 +472,11 @@ namespace ThisProject
 				obj[i].rigidbody2D.isKinematic = true;
 			}
 			gameStatus = GameStatus.Stop;
+
+			buttonPause.SetActive(false);
+			buttonStop.SetActive(false);
+			buttonPlay.SetActive(true);
+
 		}
 
 

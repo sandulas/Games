@@ -62,12 +62,12 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Pause
+    - name: Menu
       rect:
         serializedVersion: 2
-        x: 1584
+        x: 1583
         y: 1943
-        width: 102
+        width: 103
         height: 104
       alignment: 0
       pivot: {x: .5, y: .5}
@@ -179,6 +179,36 @@ TextureImporter:
         y: 1669
         width: 91
         height: 93
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Play
+      rect:
+        serializedVersion: 2
+        x: 1892
+        y: 668
+        width: 155
+        height: 157
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Pause
+      rect:
+        serializedVersion: 2
+        x: 1892
+        y: 509
+        width: 155
+        height: 157
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Stop
+      rect:
+        serializedVersion: 2
+        x: 1892
+        y: 350
+        width: 155
+        height: 157
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
