@@ -808,6 +808,10 @@ namespace ThisProject
 		{
 			get { return Right - Left; }
 		}
+		public Vector2 Center
+		{
+			get { return new Vector2(Left + Width / 2, Bottom + Height / 2); }
+		}
  
 		public MyRect(float top, float left, float bottom, float right)
 		{
