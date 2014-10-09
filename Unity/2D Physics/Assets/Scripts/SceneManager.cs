@@ -47,6 +47,7 @@ namespace ThisProject
 
 		GameObject[] obj; int objIndex = 0;
 		Vector2[] objVelocities;
+		GameObject objContainer;
 		
 		bool loaded = false;
 
@@ -176,7 +177,9 @@ namespace ThisProject
 			//-------------- TEMPORARY -----------------
 			obj = new GameObject[0];
 			objVelocities = new Vector2[0];
-			tempResizeParent = new GameObject();
+			tempResizeParent = new GameObject("Temporary parent for Resize");
+			objContainer = new GameObject("Objects Container");
+			objContainer.transform.position = playgroundRect.Center;
 		}
 
 		void FixedUpdate()
@@ -399,7 +402,7 @@ namespace ThisProject
 
 			if (InputManager.touchObject == buttonResize)
 			{
-				selectedItem.transform.parent = null;
+				selectedItem.transform.parent = objContainer.transform;
 			}
 			
 			//item
@@ -416,9 +419,8 @@ namespace ThisProject
 		void InputManager_OnTap()
 		{
 			//pause button
-			if (InputManager.touchObject == buttonPause)
-				if (gameStatus == GameStatus.Play) Pause();
-				else if (gameStatus == GameStatus.Pause) Play();
+			if (InputManager.touchObject == buttonPause && gameStatus != GameStatus.Pause)
+				Pause();
 			
 			//play button
 			if (InputManager.touchObject == buttonPlay && gameStatus != GameStatus.Play)
@@ -427,6 +429,12 @@ namespace ThisProject
 			//stop button
 			if (InputManager.touchObject == buttonStop && gameStatus != GameStatus.Stop)
 				Stop();
+
+			//menu button
+			if (InputManager.touchObject == buttonMenu && gameStatus == GameStatus.Stop)
+			{
+				Save();
+			}
 		}
 
 
@@ -507,6 +515,8 @@ namespace ThisProject
 			objVelocities[objIndex] = Vector2.zero;
 
 			obj[objIndex].rigidbody2D.isKinematic = true;
+
+			obj[objIndex].transform.parent = objContainer.transform;
 
 			objIndex++;
 		}
@@ -605,6 +615,10 @@ namespace ThisProject
 			holderControls.SetActive(false);
 		}
 
+		void Save()
+		{
+			Debug.Log("Save");
+		}
 
 		void OnGUI()
 		{
