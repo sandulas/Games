@@ -2,6 +2,7 @@
 using System.Collections;
 using ThisProject;
 using System;
+using System.Xml;
 
 namespace ThisProject
 {
@@ -618,7 +619,47 @@ namespace ThisProject
 		void Save()
 		{
 			Debug.Log("Save");
+
+			XmlDocument xmlDoc = new XmlDocument();
+			XmlNode rootNode = xmlDoc.CreateElement("r");
+			
+			//root node with camera properties attributes
+			XmlAddAttribute(xmlDoc, rootNode, "z", mainCamera.orthographicSize.ToString());
+			XmlAddAttribute(xmlDoc, rootNode, "x", mainCamera.transform.position.x.ToString());
+			XmlAddAttribute(xmlDoc, rootNode, "y", mainCamera.transform.position.y.ToString());
+			xmlDoc.AppendChild(rootNode);
+
+			//item nodes with item properties attibutes
+			XmlNode itemNode;
+			ItemProperties itemProps;
+			for (int i = 0; i < obj.Length; i++)
+			{
+				itemNode = xmlDoc.CreateElement("i");
+				itemProps = obj[i].GetComponent<ItemProperties>();
+				
+				XmlAddAttribute(xmlDoc, itemNode, "s", itemProps.shape.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "m", itemProps.material.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "w", itemProps.width.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "h", itemProps.height.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "x", obj[i].transform.localPosition.x.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "y", obj[i].transform.localPosition.y.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "r", obj[i].transform.rotation.eulerAngles.z.ToString());
+				
+				rootNode.AppendChild(itemNode);
+			}
+
+			xmlDoc.Save(Application.persistentDataPath + "/nume_fisier.xml");
+
+			Debug.Log("Saved to: " + Application.persistentDataPath + "/save.xml");
 		}
+
+		void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
+		{
+			XmlAttribute attribute = xmlDoc.CreateAttribute(attributeName);
+			attribute.Value = attributeValue;
+			parentXmlNode.Attributes.Append(attribute);
+		}
+
 
 		void OnGUI()
 		{
