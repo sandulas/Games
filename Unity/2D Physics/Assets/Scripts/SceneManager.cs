@@ -486,6 +486,7 @@ namespace ThisProject
 			buttonStop.SetActive(false);
 			buttonPlay.SetActive(true);
 
+			Load();
 		}
 
 
@@ -520,6 +521,14 @@ namespace ThisProject
 			obj[objIndex].transform.parent = objContainer.transform;
 
 			objIndex++;
+		}
+		void DeleteAllItems()
+		{
+			for (int i = 0; i < obj.Length; i++)
+			{
+			//	Destroy(obj[i]);
+			//	Remove the object from the obj vector
+			}
 		}
 
 		void DragObject(GameObject obj)
@@ -623,13 +632,13 @@ namespace ThisProject
 			XmlDocument xmlDoc = new XmlDocument();
 			XmlNode rootNode = xmlDoc.CreateElement("r");
 			
-			//root node with camera properties attributes
-			XmlAddAttribute(xmlDoc, rootNode, "z", mainCamera.orthographicSize.ToString());
-			XmlAddAttribute(xmlDoc, rootNode, "x", mainCamera.transform.position.x.ToString());
-			XmlAddAttribute(xmlDoc, rootNode, "y", mainCamera.transform.position.y.ToString());
+			//root node - camera size and position
+			XmlAddAttribute(xmlDoc, rootNode, "s", mainCamera.orthographicSize.ToString()); //size
+			XmlAddAttribute(xmlDoc, rootNode, "x", mainCamera.transform.position.x.ToString()); // x position
+			XmlAddAttribute(xmlDoc, rootNode, "y", mainCamera.transform.position.y.ToString()); // y position
 			xmlDoc.AppendChild(rootNode);
 
-			//item nodes with item properties attibutes
+			//item nodes - item properties
 			XmlNode itemNode;
 			ItemProperties itemProps;
 			for (int i = 0; i < obj.Length; i++)
@@ -637,20 +646,50 @@ namespace ThisProject
 				itemNode = xmlDoc.CreateElement("i");
 				itemProps = obj[i].GetComponent<ItemProperties>();
 				
-				XmlAddAttribute(xmlDoc, itemNode, "s", itemProps.shape.ToString());
-				XmlAddAttribute(xmlDoc, itemNode, "m", itemProps.material.ToString());
-				XmlAddAttribute(xmlDoc, itemNode, "w", itemProps.width.ToString());
-				XmlAddAttribute(xmlDoc, itemNode, "h", itemProps.height.ToString());
-				XmlAddAttribute(xmlDoc, itemNode, "x", obj[i].transform.localPosition.x.ToString());
-				XmlAddAttribute(xmlDoc, itemNode, "y", obj[i].transform.localPosition.y.ToString());
-				XmlAddAttribute(xmlDoc, itemNode, "r", obj[i].transform.rotation.eulerAngles.z.ToString());
+				XmlAddAttribute(xmlDoc, itemNode, "s", itemProps.shape.ToString()); //shape
+				XmlAddAttribute(xmlDoc, itemNode, "m", itemProps.material.ToString()); //material
+				XmlAddAttribute(xmlDoc, itemNode, "w", itemProps.width.ToString()); //width
+				XmlAddAttribute(xmlDoc, itemNode, "h", itemProps.height.ToString()); //height
+				XmlAddAttribute(xmlDoc, itemNode, "x", obj[i].transform.localPosition.x.ToString()); //x position
+				XmlAddAttribute(xmlDoc, itemNode, "y", obj[i].transform.localPosition.y.ToString()); //y position
+				XmlAddAttribute(xmlDoc, itemNode, "r", obj[i].transform.rotation.eulerAngles.z.ToString());// z-axis rotation
 				
 				rootNode.AppendChild(itemNode);
 			}
 
-			xmlDoc.Save(Application.persistentDataPath + "/nume_fisier.xml");
+			xmlDoc.Save(Application.persistentDataPath + "/save.xml");
 
 			Debug.Log("Saved to: " + Application.persistentDataPath + "/save.xml");
+		}
+		void Load()
+		{
+			Debug.Log("Load");
+
+			DeleteAllItems();
+
+			XmlDocument xmlDoc = new XmlDocument();
+			xmlDoc.Load(Application.persistentDataPath + "/save.xml");
+
+			//set camera position and size
+			XmlNode root = xmlDoc.DocumentElement;
+			cameraTargetPosition = new Vector2(float.Parse(root.Attributes["x"].Value), float.Parse(root.Attributes["y"].Value));
+			cameraTargetSize = float.Parse(root.Attributes["s"].Value);
+
+			//create items
+			ItemShape shape; ItemMaterial material; float width; float height;
+			for (int i = 0; i < root.ChildNodes.Count; i++)
+			{
+				shape = (ItemShape)Enum.Parse(typeof(ItemShape), root.ChildNodes[i].Attributes["s"].Value);
+				material = (ItemMaterial)Enum.Parse(typeof(ItemMaterial), root.ChildNodes[i].Attributes["m"].Value);
+				width = float.Parse(root.ChildNodes[i].Attributes["w"].Value);
+				height = float.Parse(root.ChildNodes[i].Attributes["h"].Value);
+
+				CreateItem(shape, material, width, height);
+
+				MyTransform.SetLocalPositionXY(obj[objIndex - 1].transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value), float.Parse(root.ChildNodes[i].Attributes["y"].Value));
+			}
+
+			Debug.Log("Loaded");
 		}
 
 		void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
