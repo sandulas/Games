@@ -434,7 +434,7 @@ namespace ThisProject
 			//menu button
 			if (InputManager.touchObject == buttonMenu && gameStatus == GameStatus.Stop)
 			{
-				Save();
+				//Save();
 			}
 		}
 
@@ -444,6 +444,8 @@ namespace ThisProject
 
 		void Play()
 		{
+			Save();
+
 			for (int i = 0; i < obj.Length; i++)
 			{
 				if (obj[i].GetComponent<ItemProperties>().material != ItemMaterial.FixedMetal)
@@ -526,9 +528,11 @@ namespace ThisProject
 		{
 			for (int i = 0; i < obj.Length; i++)
 			{
-			//	Destroy(obj[i]);
-			//	Remove the object from the obj vector
+				Destroy(obj[i]);
 			}
+			Array.Resize<GameObject>(ref obj, 0);
+			Array.Resize<Vector2>(ref objVelocities, 0);
+			objIndex = 0;
 		}
 
 		void DragObject(GameObject obj)
@@ -687,6 +691,7 @@ namespace ThisProject
 				CreateItem(shape, material, width, height);
 
 				MyTransform.SetLocalPositionXY(obj[objIndex - 1].transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value), float.Parse(root.ChildNodes[i].Attributes["y"].Value));
+				obj[objIndex - 1].transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
 			}
 
 			Debug.Log("Loaded");
