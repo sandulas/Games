@@ -1,122 +1,118 @@
 ﻿using UnityEngine;
 using System.Collections;
-using ThisProject;
 
 public class MyInput : MonoBehaviour
 {
 	public Camera[] cameras;
-	public static Camera touchCamera;
-	public static GameObject touchObject = null;
-	public static Vector3 touchPosition = Vector3.zero;
-	public static float doubleTouchDistance = 0;
-	public static float doubleTouchDistanceOffset;
 
+	GameObject touchedObject = null;
+	Camera touchedObjectCamera;
+	
+	MyInputEvents touchedObjectInputEvents;
 	Collider2D inputCollider;
+	Vector3 touchPosition = Vector3.zero;
+
 	int prevTouchCount = 0;
 
 	void Start()
 	{
 	}
 
-
 	void Update()
 	{
 		//single touch start
-		if (getSingleTouchStart())
+		if (singleTouchStart)
 		{
-			if (!RaiseTouch(SceneManager.uiCamera))
-				RaiseTouch(SceneManager.mainCamera);
+			for (int i = 0; i < cameras.Length; i++)
+			{
+				touchPosition = cameras[i].ScreenToWorldPoint(Input.mousePosition);
+				touchPosition.z = 0;
+
+				inputCollider = Physics2D.OverlapPoint(touchPosition, cameras[i].cullingMask);
+
+				if (inputCollider != null)
+				{
+					touchedObjectInputEvents = inputCollider.gameObject.GetComponent<MyInputEvents>();
+
+					if (touchedObjectInputEvents != null)
+					{
+						touchedObject = inputCollider.gameObject;
+						touchedObjectCamera = cameras[i];
+						touchedObjectInputEvents.Touch(touchedObject, touchedObjectCamera);
+						break;
+					}
+				}
+			}
 		}
 
 		//single touch drag
-		if (getSingleTouchDrag() && touchObject != null)
+		if (singleTouchDrag && touchedObject != null)
 		{
-			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
-			touchPosition.z = 0;
-
-			drag();
+			touchedObjectInputEvents.Drag(touchedObject, touchedObjectCamera);
 		}
 
 		//single touch tap and release
-		if (getSingleTouchEnd() && touchObject != null)
+		if (singleTouchEnd && touchedObject != null)
 		{
-			touchPosition = touchCamera.ScreenToWorldPoint(Input.mousePosition);
+			touchPosition = touchedObjectCamera.ScreenToWorldPoint(Input.mousePosition);
 			touchPosition.z = 0;
 
-			inputCollider = Physics2D.OverlapPoint(touchPosition, touchCamera.cullingMask);
+			inputCollider = Physics2D.OverlapPoint(touchPosition, touchedObjectCamera.cullingMask);
 			if (inputCollider != null)
 			{
-				if (touchObject == inputCollider.gameObject)
+				if (touchedObject == inputCollider.gameObject)
 				{
-					tap();
+					touchedObjectInputEvents.Tap(touchedObject, touchedObjectCamera);
 				}
 			}
 
-			release();
-			touchObject = null;
-		}
-
-		//double touch start
-		if (getDoubleTouchStart())
-		{
-			doubleTouchDistance = Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
-		}
-
-		//double touch drag
-		if (getDoubleTouchDrag())
-		{
-			doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
-			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + doubleTouchDistanceOffset * SceneManager.mainCamera.orthographicSize;
-
-	
-			doubleTouchDistance = Vector2.Distance(SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[0].position), SceneManager.uiCamera.ScreenToWorldPoint(Input.touches[1].position));
-		}
-
-		//double touch end
-		if (getDoubleTouchEnd())
-		{
-
-		}
-
-		//mouse wheel zoom
-		if (Input.GetAxis("Mouse ScrollWheel") != 0)
-		{
-			SceneManager.cameraTargetSize = SceneManager.mainCamera.orthographicSize + -Input.GetAxis("Mouse ScrollWheel") * SceneManager.mainCamera.orthographicSize * 2;
+			touchedObjectInputEvents.Release(touchedObject, touchedObjectCamera);
+			touchedObject = null;
 		}
 
 		prevTouchCount = Input.touchCount;
 	}
 
-	private bool getSingleTouchStart()
+	bool singleTouchStart
 	{
-		//left mouse button was pressed
-		if (Input.GetMouseButtonDown(0) && Input.touchCount == 0) return true;
+		get
+		{
+			//left mouse button was pressed
+			if (Input.GetMouseButtonDown(0) && Input.touchCount == 0) return true;
 
-		//single touch started
-		if (Input.touchCount == 1 && prevTouchCount == 0) return true;
+			//single touch started
+			if (Input.touchCount == 1 && prevTouchCount == 0) return true;
 
-		return false;
+			return false;
+		}
 	}
-	public bool getSingleTouchDrag()
+	bool singleTouchDrag
 	{
-		//left mouse button is down
-		if (Input.GetMouseButton(0) && Input.touchCount == 0) return true;
+		get
+		{
+			//left mouse button is down
+			if (Input.GetMouseButton(0) && Input.touchCount == 0) return true;
 
-		//single touch maintained
-		if (Input.touchCount == 1 && (prevTouchCount == 0 || prevTouchCount == 1)) return true;
+			//single touch maintained
+			if (Input.touchCount == 1 && (prevTouchCount == 0 || prevTouchCount == 1)) return true;
 
-		return false;
+			return false;
+		}
 	}
-	private bool getSingleTouchEnd()
+	private bool singleTouchEnd
 	{
-		//left mouse button was released
-		if (Input.GetMouseButtonUp(0) && Input.touchCount == 0) return true;
+		get
+		{
+			//left mouse button was released
+			if (Input.GetMouseButtonUp(0) && Input.touchCount == 0) return true;
 
-		//single touch end or more touches added
-		if ((Input.touchCount != 1 && prevTouchCount == 1)) return true;
+			//single touch end or more touches added
+			if ((Input.touchCount != 1 && prevTouchCount == 1)) return true;
 
-		return false;
+			return false;
+		}
 	}
+
 	public bool getDoubleTouchStart()
 	{
 		//double touch started, either by adding or removing touches
@@ -138,37 +134,5 @@ public class MyInput : MonoBehaviour
 
 		return false;
 	}
-
-	private bool RaiseTouch(Camera camera)
-	{
-		touchPosition = camera.ScreenToWorldPoint(Input.mousePosition);
-		touchPosition.z = 0;
-
-		inputCollider = Physics2D.OverlapPoint(touchPosition, camera.cullingMask);
-
-		if (inputCollider != null)
-		{
-			touchCamera = camera;
-			touchObject = inputCollider.gameObject;
-
-			touch();
-			return true;
-		}
-		return false;
-	}
-
-	public delegate void SingleTouchHandler();
-
-	public static event SingleTouchHandler OnTouch;
-	private static void touch() { if (OnTouch != null) OnTouch(); }
-
-	public static event SingleTouchHandler OnDrag;
-	private static void drag() { if (OnDrag != null) OnDrag(); }
-
-	public static event SingleTouchHandler OnTap;
-	private static void tap() { if (OnTap != null) OnTap(); }
-
-	public static event SingleTouchHandler OnRelease;
-	private static void release() { if (OnRelease != null) OnRelease(); }
 }
 
