@@ -105,62 +105,6 @@ public class Main : MonoBehaviour
 		itemsContainer = new GameObject("Objects Container");
 		itemsContainer.transform.position = playgroundRect.Center;
 	}
-
-	void Update()
-	{
-	}
-
-	void FixedUpdate()
-	{
-		if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
-
-		UpdateCamera();
-
-		if (selectedItem != null && itemControlsHolder.activeSelf) PositionControls();
-	}
-
-	void UpdateCamera()
-	{
-		//restrict the size
-		if (cameraTargetSize < 3) cameraTargetSize = 3;
-		else if (cameraTargetSize > playViewRect.Height / 2) cameraTargetSize = playViewRect.Height / 2;
-		if (cameraTargetSize * aspectRatio > playViewRect.Width / 2) cameraTargetSize = playViewRect.Width / 2 / aspectRatio;
-
-		//set the size(animated) and update variables
-		mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
-
-		pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
-		mainCameraRect = new MyRect(
-			playViewRect.Top - mainCamera.orthographicSize,
-			playViewRect.Left + +mainCamera.orthographicSize * aspectRatio,
-			playViewRect.Bottom + mainCamera.orthographicSize,
-			playViewRect.Right - mainCamera.orthographicSize * aspectRatio);
-
-		//set the position(animated)
-		MyTransform.SetPositionXY(mainCamera.transform, Vector2.Lerp(mainCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
-
-		//restrict the position
-		Vector2 trappedPosition = mainCameraRect.GetInsidePosition(mainCamera.transform.position);
-
-		if (trappedPosition.x != mainCamera.transform.position.x)
-		{
-			cameraTargetPosition.x = trappedPosition.x;
-			MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
-
-			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
-				dragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
-		}
-
-		if (trappedPosition.y != mainCamera.transform.position.y)
-		{
-			cameraTargetPosition.y = trappedPosition.y;
-			MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
-
-			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
-				dragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
-		}
-	}
-
 	private void SetupUI()
 	{
 		//setup UI camera size depending on the screen size
@@ -227,17 +171,13 @@ public class Main : MonoBehaviour
 		SetupUIInputEvents();
 
 	}
-
 	private void SetupUIInputEvents()
 	{
 		MyInputEvents inputEvents;
 
 		//Menu Button
 		inputEvents = buttonMenu.GetComponent<MyInputEvents>();
-		inputEvents.OnTouch += ButtonMenu_OnTouch;
-		inputEvents.OnDrag += ButtonMenu_OnDrag;
 		inputEvents.OnTap += ButtonMenu_OnTap;
-		inputEvents.OnRelease += ButtonMenu_OnRelease;
 
 		DragAndDrop dragAndDrop = buttonMenu.GetComponent<DragAndDrop>();
 		//dragAndDrop.MoveToPositionMethod = delegate(GameObject gameObject, Vector3 position) { gameObject.rigidbody2D.MovePosition(position); };
@@ -251,6 +191,61 @@ public class Main : MonoBehaviour
 		inputEvents.OnTouch += ButtonCreate_OnTouch;
 	}
 
+	void FixedUpdate()
+	{
+		if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
+
+		UpdateCamera();
+
+		if (selectedItem != null && itemControlsHolder.activeSelf) PositionItemControls();
+	}
+	void UpdateCamera()
+	{
+		//restrict the size
+		if (cameraTargetSize < 3) cameraTargetSize = 3;
+		else if (cameraTargetSize > playViewRect.Height / 2) cameraTargetSize = playViewRect.Height / 2;
+		if (cameraTargetSize * aspectRatio > playViewRect.Width / 2) cameraTargetSize = playViewRect.Width / 2 / aspectRatio;
+
+		//set the size(animated) and update variables
+		mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
+
+		pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
+		mainCameraRect = new MyRect(
+			playViewRect.Top - mainCamera.orthographicSize,
+			playViewRect.Left + +mainCamera.orthographicSize * aspectRatio,
+			playViewRect.Bottom + mainCamera.orthographicSize,
+			playViewRect.Right - mainCamera.orthographicSize * aspectRatio);
+
+		//set the position(animated)
+		MyTransform.SetPositionXY(mainCamera.transform, Vector2.Lerp(mainCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
+
+		//restrict the position
+		Vector2 trappedPosition = mainCameraRect.GetInsidePosition(mainCamera.transform.position);
+
+		if (trappedPosition.x != mainCamera.transform.position.x)
+		{
+			cameraTargetPosition.x = trappedPosition.x;
+			MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
+
+			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+				dragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
+		}
+
+		if (trappedPosition.y != mainCamera.transform.position.y)
+		{
+			cameraTargetPosition.y = trappedPosition.y;
+			MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
+
+			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
+				dragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
+		}
+	}
+
+	private void ButtonMenu_OnTap(GameObject sender, Camera camera)
+	{
+		Debug.Log("Tap: " + sender.name + " -> " + camera.name);
+	}
+
 	void ButtonCreate_OnTouch(GameObject sender, Camera camera)
 	{
 		if (sender == buttonRectangle)
@@ -261,30 +256,58 @@ public class Main : MonoBehaviour
 			CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
 	}
 
+	void Item_OnTouch(GameObject sender, Camera camera)
+	{
+		sender.rigidbody2D.isKinematic = false;
+	}
+	void Item_OnRelease(GameObject sender, Camera camera)
+	{
+		sender.rigidbody2D.isKinematic = true;
+	}
 
+	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
+	{
+		float size = 1f / uiCamera.orthographicSize * mainCamera.orthographicSize;
 
-	private void ButtonMenu_OnTouch(GameObject sender, Camera camera)
+		CreateItem(itemShape, itemMaterial, size, size);
+
+		MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, mainCamera.ScreenToWorldPoint(Input.mousePosition));
+		DragItem(items[items.Length - 1].gameObject);
+	}	
+	void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
 	{
-		Debug.Log("Touch: " + sender.name + " -> " + camera.name);
+		PhysicsObject physicsObject = new PhysicsObject();
+
+		//create the item
+		physicsObject.gameObject = Item.Create(itemShape, itemMaterial, width, height);
+		physicsObject.gameObject.transform.parent = itemsContainer.transform;
+		//physicsObject.gameObject.rigidbody2D.isKinematic = true;
+		physicsObject.velocity = Vector2.zero;
+		physicsObject.angularVelocity = 0;
+
+		//setup input events
+		DragAndDrop dragAndDrop = physicsObject.gameObject.AddComponent<DragAndDrop>();
+		dragAndDrop.MoveToPositionMethod = delegate(GameObject gameObject, Vector3 position) { gameObject.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(position)); };
+		
+		MyInputEvents inputEvents = physicsObject.gameObject.GetComponent<MyInputEvents>();
+		inputEvents.OnRelease += Item_OnRelease;
+		inputEvents.OnTouch += Item_OnTouch;
+
+		//add the item to the list
+		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
+		items[items.Length - 1] = physicsObject;
 	}
-	private void ButtonMenu_OnDrag(GameObject sender, Camera camera)
+
+	void DragItem(GameObject item)
 	{
-		Debug.Log("Drag: " + sender.name + " -> " + camera.name);
-	}
-	private void ButtonMenu_OnTap(GameObject sender, Camera camera)
-	{
-		Debug.Log("Tap: " + sender.name + " -> " + camera.name);
-	}
-	private void ButtonMenu_OnRelease(GameObject sender, Camera camera)
-	{
-		Debug.Log("Release: " + sender.name + " -> " + camera.name);
+		item.GetComponent<DragAndDrop>().Drag(mainCamera);
 	}
 
 	void HideItemControls()
 	{
 		itemControlsHolder.SetActive(false);
 	}
-	void PositionControls()
+	void PositionItemControls()
 	{
 		itemControlsHolder.SetActive(true);
 
@@ -363,33 +386,6 @@ public class Main : MonoBehaviour
 		resizeCorner = selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(uiCamera.WorldToScreenPoint(buttonResize.transform.position)));
 		resizeCorner.x = Math.Sign(resizeCorner.x);
 		resizeCorner.y = Math.Sign(resizeCorner.y);
-	}
-
-	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
-	{
-		float size = 1f / uiCamera.orthographicSize * mainCamera.orthographicSize;
-
-		CreateItem(itemShape, itemMaterial, size, size);
-
-		MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, mainCamera.ScreenToWorldPoint(Input.mousePosition));
-		
-		myInput.Drag(items[items.Length - 1].gameObject, mainCamera);
-	}	
-	void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
-	{
-
-		PhysicsObject physicsObject = new PhysicsObject();
-
-		physicsObject.gameObject = Item.Create(itemShape, itemMaterial, width, height);
-		physicsObject.gameObject.transform.parent = itemsContainer.transform;
-		physicsObject.gameObject.rigidbody2D.isKinematic = true;
-		physicsObject.velocity = Vector2.zero;
-		physicsObject.angularVelocity = 0;
-
-		physicsObject.gameObject.AddComponent<DragAndDrop>();
-
-		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
-		items[items.Length - 1] = physicsObject;
 	}
 }
 

@@ -5,18 +5,14 @@ public class MyInput : MonoBehaviour
 {
 	public Camera[] cameras;
 
-	GameObject touchedObject = null;
-	Camera touchedObjectCamera;
+	static GameObject touchedObject = null;
+	static Camera touchedObjectCamera;
 	
-	MyInputEvents touchedObjectInputEvents;
-	Collider2D inputCollider;
-	Vector3 touchPosition = Vector3.zero;
+	static MyInputEvents touchedObjectInputEvents;
+	static Collider2D inputCollider;
+	static Vector3 touchPosition = Vector3.zero;
 
-	int prevTouchCount = 0;
-
-	void Start()
-	{
-	}
+	static int prevTouchCount = 0;
 
 	void Update()
 	{
@@ -73,10 +69,11 @@ public class MyInput : MonoBehaviour
 		prevTouchCount = Input.touchCount;
 	}
 
-	public void Drag(GameObject gameObject, Camera camera)
+	public static void Drag(GameObject gameObject, Camera camera)
 	{
 		touchedObject = gameObject;
 		touchedObjectCamera = camera;
+		touchedObjectInputEvents = touchedObject.GetComponent<MyInputEvents>();
 	}
 
 	bool singleTouchStart

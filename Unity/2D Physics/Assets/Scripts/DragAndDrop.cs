@@ -8,7 +8,7 @@ public class DragAndDrop : MonoBehaviour
 
 	Vector3 offset;
 
-	void Start()
+	void Awake()
 	{
 		MyInputEvents inputEvents = gameObject.GetComponent<MyInputEvents>();
 		if (inputEvents == null) inputEvents = gameObject.AddComponent<MyInputEvents>();
@@ -30,8 +30,9 @@ public class DragAndDrop : MonoBehaviour
 			sender.transform.position = camera.ScreenToWorldPoint(Input.mousePosition - offset);
 	}
 
-	void Update()
+	public void Drag(Camera camera)
 	{
-
+		offset = Input.mousePosition - camera.WorldToScreenPoint(gameObject.transform.position);
+		MyInput.Drag(gameObject, camera);
 	}
 }
