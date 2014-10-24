@@ -73,6 +73,12 @@ public class MyInput : MonoBehaviour
 		prevTouchCount = Input.touchCount;
 	}
 
+	public void Drag(GameObject gameObject, Camera camera)
+	{
+		touchedObject = gameObject;
+		touchedObjectCamera = camera;
+	}
+
 	bool singleTouchStart
 	{
 		get
