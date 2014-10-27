@@ -7,12 +7,12 @@ using System;
 public class Main : MonoBehaviour
 {
 	//public
-	public static Camera uiCamera, mainCamera;
+	public static Camera uiCamera, gameCamera;
 	public static Vector2 cameraTargetPosition;
 	public static float cameraTargetSize;
 
 	//UI
-	GameObject background, buttonMenu, buttonPlay, buttonPause, buttonStop, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
+	GameObject master, background, buttonMenu, buttonPlay, buttonPause, buttonStop, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 			   buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
 	
@@ -30,12 +30,20 @@ public class Main : MonoBehaviour
 	MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 
 	//operations variables
-	Vector3 dragOffset;
+	Vector3 cameraDragOffset;
+	bool isCameraDragged = false;
+
+	float doubleTouchDistance = 0;
+	float doubleTouchDistanceOffset;
+
 	GameObject selectedItem = null;
 	ItemProperties selectedItemProps = null;
+	
 	float initialRotation, initialInputAngle;
 	Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
+	
 	GameObject tempResizeParent;
+	
 	GameObject cameraFollowObject;
 
 	PhysicsObject[] items = new PhysicsObject[0];
@@ -45,18 +53,19 @@ public class Main : MonoBehaviour
 	{
 		Time.timeScale = 1;
 
-		mainCamera = Camera.main;
+		gameCamera = Camera.main;
 		uiCamera = Camera.allCameras[1];
 		background = GameObject.Find("Background");
+		master = GameObject.Find("_Master");
 
 		//initialize the main camera
-		mainCamera.transform.position = new Vector3(0, 0, -12);
+		gameCamera.transform.position = new Vector3(0, 0, -12);
 		cameraTargetPosition = new Vector2(0, 0);
-		cameraTargetSize = mainCamera.orthographicSize;
+		cameraTargetSize = gameCamera.orthographicSize;
 
 		//setup variables
 		aspectRatio = (float)Screen.width / Screen.height;
-		pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
+		pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 		spritePixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
 
 		//playground area
@@ -177,21 +186,31 @@ public class Main : MonoBehaviour
 
 		//Menu Button
 		inputEvents = buttonMenu.GetComponent<MyInputEvents>();
-		inputEvents.OnTap += ButtonMenu_OnTap;
-
-		DragAndDrop dragAndDrop = buttonMenu.GetComponent<DragAndDrop>();
-		//dragAndDrop.MoveToPositionMethod = delegate(GameObject gameObject, Vector3 position) { gameObject.rigidbody2D.MovePosition(position); };
+		inputEvents.OnTap += ButtonMenu_Tap;
 
 		//Create buttons: rectangle, circle, triangle
 		inputEvents = buttonRectangle.GetComponent<MyInputEvents>();
-		inputEvents.OnTouch += ButtonCreate_OnTouch;
+		inputEvents.OnTouch += ButtonCreate_Touch;
 		inputEvents = buttonCircle.GetComponent<MyInputEvents>();
-		inputEvents.OnTouch += ButtonCreate_OnTouch;
+		inputEvents.OnTouch += ButtonCreate_Touch;
 		inputEvents = buttonTriangle.GetComponent<MyInputEvents>();
-		inputEvents.OnTouch += ButtonCreate_OnTouch;
+		inputEvents.OnTouch += ButtonCreate_Touch;
+
+		//background (for game camera movement)
+		inputEvents = background.GetComponent<MyInputEvents>();
+		inputEvents.OnTouch += Background_Touch;
+		inputEvents.OnDrag += Background_Drag;
+		inputEvents.OnRelease += Background_Release;
+
+		//pinch and zoom on game camera
+		inputEvents = master.GetComponent<MyInputEvents>();
+		inputEvents.OnDoubleTouchStart += Master_DoubleTouchStart;
+		inputEvents.OnDoubleTouchDrag += Master_DoubleTouchDrag;
+		inputEvents.OnMouseScrollWheel += Master_MouseScrollWheel;
+
 	}
 
-	void FixedUpdate()
+	void Update()
 	{
 		if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
 
@@ -207,46 +226,50 @@ public class Main : MonoBehaviour
 		if (cameraTargetSize * aspectRatio > playViewRect.Width / 2) cameraTargetSize = playViewRect.Width / 2 / aspectRatio;
 
 		//set the size(animated) and update variables
-		mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
+		gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
 
-		pixelsPerUnit = Screen.height / mainCamera.orthographicSize / 2;
+		pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 		mainCameraRect = new MyRect(
-			playViewRect.Top - mainCamera.orthographicSize,
-			playViewRect.Left + +mainCamera.orthographicSize * aspectRatio,
-			playViewRect.Bottom + mainCamera.orthographicSize,
-			playViewRect.Right - mainCamera.orthographicSize * aspectRatio);
+			playViewRect.Top - gameCamera.orthographicSize,
+			playViewRect.Left + +gameCamera.orthographicSize * aspectRatio,
+			playViewRect.Bottom + gameCamera.orthographicSize,
+			playViewRect.Right - gameCamera.orthographicSize * aspectRatio);
 
 		//set the position(animated)
-		MyTransform.SetPositionXY(mainCamera.transform, Vector2.Lerp(mainCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
+		MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
 
 		//restrict the position
-		Vector2 trappedPosition = mainCameraRect.GetInsidePosition(mainCamera.transform.position);
+		Vector2 trappedPosition = mainCameraRect.GetInsidePosition(gameCamera.transform.position);
 
-		if (trappedPosition.x != mainCamera.transform.position.x)
+		if (trappedPosition.x != gameCamera.transform.position.x)
 		{
 			cameraTargetPosition.x = trappedPosition.x;
-			MyTransform.SetPositionX(mainCamera.transform, cameraTargetPosition.x);
+			MyTransform.SetPositionX(gameCamera.transform, cameraTargetPosition.x);
 
-			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
-				dragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
+			if (isCameraDragged)
+				cameraDragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
 		}
 
-		if (trappedPosition.y != mainCamera.transform.position.y)
+		if (trappedPosition.y != gameCamera.transform.position.y)
 		{
 			cameraTargetPosition.y = trappedPosition.y;
-			MyTransform.SetPositionY(mainCamera.transform, cameraTargetPosition.y);
+			MyTransform.SetPositionY(gameCamera.transform, cameraTargetPosition.y);
 
-			if (InputManager.touchObject == background && InputManager.touchCamera == mainCamera)
-				dragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
+			if (isCameraDragged)
+				cameraDragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
 		}
 	}
 
-	private void ButtonMenu_OnTap(GameObject sender, Camera camera)
+
+	//INPUT EVENTS
+	#region Input Events
+
+	private void ButtonMenu_Tap(GameObject sender, Camera camera)
 	{
 		Debug.Log("Tap: " + sender.name + " -> " + camera.name);
 	}
 
-	void ButtonCreate_OnTouch(GameObject sender, Camera camera)
+	void ButtonCreate_Touch(GameObject sender, Camera camera)
 	{
 		if (sender == buttonRectangle)
 			CreateNewItem(ItemShape.Rectangle, ItemMaterial.Wood);
@@ -256,22 +279,59 @@ public class Main : MonoBehaviour
 			CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
 	}
 
-	void Item_OnTouch(GameObject sender, Camera camera)
+	void Item_Touch(GameObject sender, Camera camera)
 	{
 		sender.rigidbody2D.isKinematic = false;
 	}
-	void Item_OnRelease(GameObject sender, Camera camera)
+	void Item_Release(GameObject sender, Camera camera)
 	{
 		sender.rigidbody2D.isKinematic = true;
 	}
 
+	//main camera movement
+	void Background_Touch(GameObject sender, Camera camera)
+	{
+		cameraTargetPosition = gameCamera.transform.position;
+		cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
+		isCameraDragged = true;
+	}
+	void Background_Drag(GameObject sender, Camera camera)
+	{
+		cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
+	}
+	void Background_Release(GameObject sender, Camera camera)
+	{
+		isCameraDragged = false;
+	}
+
+	//main camera pinch and zoom
+	private void Master_DoubleTouchStart(Touch touch0, Touch touch1)
+	{
+		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+	}
+	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
+	{
+		doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+		cameraTargetSize = gameCamera.orthographicSize + doubleTouchDistanceOffset * gameCamera.orthographicSize;
+
+		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+	}
+	private void Master_MouseScrollWheel(float amount)
+	{
+		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
+	}
+
+	#endregion
+
+	
+	//METHODS
 	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
 	{
-		float size = 1f / uiCamera.orthographicSize * mainCamera.orthographicSize;
+		float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
 
 		CreateItem(itemShape, itemMaterial, size, size);
 
-		MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, mainCamera.ScreenToWorldPoint(Input.mousePosition));
+		MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, gameCamera.ScreenToWorldPoint(Input.mousePosition));
 		DragItem(items[items.Length - 1].gameObject);
 	}	
 	void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
@@ -290,8 +350,8 @@ public class Main : MonoBehaviour
 		dragAndDrop.MoveToPositionMethod = delegate(GameObject gameObject, Vector3 position) { gameObject.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(position)); };
 		
 		MyInputEvents inputEvents = physicsObject.gameObject.GetComponent<MyInputEvents>();
-		inputEvents.OnRelease += Item_OnRelease;
-		inputEvents.OnTouch += Item_OnTouch;
+		inputEvents.OnRelease += Item_Release;
+		inputEvents.OnTouch += Item_Touch;
 
 		//add the item to the list
 		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
@@ -300,7 +360,7 @@ public class Main : MonoBehaviour
 
 	void DragItem(GameObject item)
 	{
-		item.GetComponent<DragAndDrop>().Drag(mainCamera);
+		item.GetComponent<DragAndDrop>().Drag(gameCamera);
 	}
 
 	void HideItemControls()
@@ -336,24 +396,24 @@ public class Main : MonoBehaviour
 		{
 			if (corners[0].x >= corners[1].x)
 			{
-				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
-				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
+				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[1])));
+				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[0])));
 			}
 			else
 			{
-				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
-				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
+				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[0])));
+				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[1])));
 			}
 
 			if (corners[2].x >= corners[3].x)
 			{
-				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
-				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
+				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[3])));
+				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[2])));
 			}
 			else
 			{
-				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
-				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
+				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[2])));
+				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[3])));
 			}
 		}
 		else
@@ -362,28 +422,28 @@ public class Main : MonoBehaviour
 
 			if (corners[0].y >= corners[1].y)
 			{
-				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
-				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
+				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[1])));
+				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[0])));
 			}
 			else
 			{
-				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[0])));
-				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[1])));
+				MyTransform.SetPositionXY(buttonMove.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[0])));
+				MyTransform.SetPositionXY(buttonRotate.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[1])));
 			}
 
 			if (corners[2].y >= corners[3].y)
 			{
-				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
-				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
+				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[3])));
+				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[2])));
 			}
 			else
 			{
-				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[2])));
-				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(mainCamera.WorldToScreenPoint(corners[3])));
+				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[2])));
+				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[3])));
 			}
 		}
 
-		resizeCorner = selectedItem.transform.InverseTransformPoint(mainCamera.ScreenToWorldPoint(uiCamera.WorldToScreenPoint(buttonResize.transform.position)));
+		resizeCorner = selectedItem.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(uiCamera.WorldToScreenPoint(buttonResize.transform.position)));
 		resizeCorner.x = Math.Sign(resizeCorner.x);
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
