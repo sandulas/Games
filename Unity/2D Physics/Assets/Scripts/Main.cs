@@ -6,57 +6,63 @@ using System;
 
 public class Main : MonoBehaviour
 {
-	//public
-	public static Camera uiCamera, gameCamera;
-	public static Vector2 cameraTargetPosition;
-	public static float cameraTargetSize;
+	#region Properties and variables
 
-	//UI
-	GameObject master, background, buttonMenu, buttonPlay, buttonPause, buttonStop, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
-			   buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
+	//public
+	public Camera uiCamera, gameCamera;
+	public GameObject master, background;
+	
+	//game
+	GameObject
+		buttonMenu, buttonPlay, buttonPause, buttonStop,
+		buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
+		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
+
+	GameStatus gameStatus = GameStatus.Stop;
+
+	GameObject selectedItem = null;
+	ItemProperties selectedItemProps = null;
+
+	PhysicsObject[] items = new PhysicsObject[0];
+	GameObject itemsContainer;
+
+	float initialRotation, initialInputAngle;
+	Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
+	GameObject resizeParent;
+	bool isItemDragged = false;
 
 	
-	//settings
+	//setup, camera
 	Vector2 playgroundSize = new Vector2(40, 25);
 	float titleHeight = 10;
 	float learnGalleryHeight = 15;
 	float playGalleryHeight = 25;
 	float wallWidth = 0.5f;
 
-	//scene variables
-	GameStatus gameStatus = GameStatus.Stop;
 	Vector2 sceneSize;
 	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 	MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
-
-	//operations variables
+	
+	Vector2 cameraTargetPosition;
+	float cameraTargetSize;
+	GameObject cameraFollowObject;
 	Vector3 cameraDragOffset;
 	bool isCameraDragged = false;
-
 	float doubleTouchDistance = 0;
 	float doubleTouchDistanceOffset;
 
-	GameObject selectedItem = null;
-	ItemProperties selectedItemProps = null;
-	
-	float initialRotation, initialInputAngle;
-	Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
-	
-	GameObject tempResizeParent;
-	
-	GameObject cameraFollowObject;
+	#endregion
 
-	PhysicsObject[] items = new PhysicsObject[0];
-	GameObject itemsContainer;
 
 	void Start()
 	{
-		Time.timeScale = 1;
+		SetupScene();
+		SetupUI();
+	}
 
-		gameCamera = Camera.main;
-		uiCamera = Camera.allCameras[1];
-		background = GameObject.Find("Background");
-		master = GameObject.Find("_Master");
+	void SetupScene()
+	{
+		Time.timeScale = 1;
 
 		//initialize the main camera
 		gameCamera.transform.position = new Vector3(0, 0, -12);
@@ -107,14 +113,12 @@ public class Main : MonoBehaviour
 		Item.Move(wall, -playgroundSize.x / 2 - wallWidth / 2, 0);
 		wall.name = "Wall - Left";
 
-		SetupUI();
-
-		tempResizeParent = new GameObject("Temporary parent for Resize");
-
+		//create the resize parent helper object and items container
+		resizeParent = new GameObject("Temporary parent for Resize");
 		itemsContainer = new GameObject("Objects Container");
 		itemsContainer.transform.position = playgroundRect.Center;
 	}
-	private void SetupUI()
+	void SetupUI()
 	{
 		//setup UI camera size depending on the screen size
 		if (Screen.dpi == 0) dpi = 270;
@@ -196,6 +200,15 @@ public class Main : MonoBehaviour
 		inputEvents = buttonTriangle.GetComponent<MyInputEvents>();
 		inputEvents.OnTouch += ButtonCreate_Touch;
 
+		//Item buttons
+		inputEvents = buttonMove.GetComponent<MyInputEvents>();
+		inputEvents.OnTouch += ButtonMove_Touch;
+		inputEvents = buttonRotate.GetComponent<MyInputEvents>();
+		inputEvents.OnTouch += ButtonRotate_Touch;
+		inputEvents.OnDrag += ButtonRotate_Drag;
+		inputEvents.OnRelease += ButtonRotate_Release;
+
+
 		//background (for game camera movement)
 		inputEvents = background.GetComponent<MyInputEvents>();
 		inputEvents.OnTouch += Background_Touch;
@@ -216,7 +229,8 @@ public class Main : MonoBehaviour
 
 		UpdateCamera();
 
-		if (selectedItem != null && itemControlsHolder.activeSelf) PositionItemControls();
+		if (selectedItem != null && itemControlsHolder.activeSelf) ShowItemControls();
+		if (isItemDragged) selectedItem.rigidbody2D.angularVelocity = 0;
 	}
 	void UpdateCamera()
 	{
@@ -261,9 +275,7 @@ public class Main : MonoBehaviour
 	}
 
 
-	//INPUT EVENTS
-	#region Input Events
-
+	//EVENTS
 	private void ButtonMenu_Tap(GameObject sender, Camera camera)
 	{
 		Debug.Log("Tap: " + sender.name + " -> " + camera.name);
@@ -277,51 +289,53 @@ public class Main : MonoBehaviour
 			CreateNewItem(ItemShape.Circle, ItemMaterial.Rubber);
 		else if (sender == buttonTriangle)
 			CreateNewItem(ItemShape.Triangle, ItemMaterial.Ice);
+
+		HideItemControls();
 	}
 
 	void Item_Touch(GameObject sender, Camera camera)
 	{
-		sender.rigidbody2D.isKinematic = false;
+		DragStart(sender);
 	}
 	void Item_Release(GameObject sender, Camera camera)
 	{
 		sender.rigidbody2D.isKinematic = true;
+		isItemDragged = false;
+
+		ShowItemControls();
 	}
 
-	//main camera movement
-	void Background_Touch(GameObject sender, Camera camera)
+	private void ButtonMove_Touch(GameObject sender, Camera camera)
 	{
-		cameraTargetPosition = gameCamera.transform.position;
-		cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
-		isCameraDragged = true;
-	}
-	void Background_Drag(GameObject sender, Camera camera)
-	{
-		cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
-	}
-	void Background_Release(GameObject sender, Camera camera)
-	{
-		isCameraDragged = false;
+		DragItem(selectedItem);
 	}
 
-	//main camera pinch and zoom
-	private void Master_DoubleTouchStart(Touch touch0, Touch touch1)
+	private void ButtonRotate_Touch(GameObject sender, Camera camera)
 	{
-		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
-	}
-	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
-	{
-		doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
-		cameraTargetSize = gameCamera.orthographicSize + doubleTouchDistanceOffset * gameCamera.orthographicSize;
+		initialInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialInputAngle = 360 - initialInputAngle;
 
-		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
-	}
-	private void Master_MouseScrollWheel(float amount)
-	{
-		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
-	}
+		initialRotation = selectedItem.transform.eulerAngles.z;
 
-	#endregion
+		selectedItem.rigidbody2D.isKinematic = false;
+		Physics2D.gravity = Vector2.zero;
+
+		HideItemControls();
+	}
+	private void ButtonRotate_Drag(GameObject sender, Camera camera)
+	{
+		float currentAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
+
+		selectedItem.transform.eulerAngles = new Vector3(0, 0, initialRotation + currentAngle - initialInputAngle);
+	}
+	private void ButtonRotate_Release(GameObject sender, Camera camera)
+	{
+		selectedItem.rigidbody2D.isKinematic = true;
+		Physics2D.gravity = -9.81f * Vector2.up;
+
+		ShowItemControls();
+	}
 
 	
 	//METHODS
@@ -361,13 +375,23 @@ public class Main : MonoBehaviour
 	void DragItem(GameObject item)
 	{
 		item.GetComponent<DragAndDrop>().Drag(gameCamera);
+		DragStart(item);
+	}
+	void DragStart(GameObject item)
+	{
+		item.rigidbody2D.isKinematic = false;
+		selectedItem = item;
+		selectedItemProps = selectedItem.GetComponent<ItemProperties>();
+		isItemDragged = true;
+
+		HideItemControls();
 	}
 
 	void HideItemControls()
 	{
 		itemControlsHolder.SetActive(false);
 	}
-	void PositionItemControls()
+	void ShowItemControls()
 	{
 		itemControlsHolder.SetActive(true);
 
@@ -447,6 +471,43 @@ public class Main : MonoBehaviour
 		resizeCorner.x = Math.Sign(resizeCorner.x);
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
+
+	#region Camera movement and zoom
+
+	//main camera movement
+	void Background_Touch(GameObject sender, Camera camera)
+	{
+		cameraTargetPosition = gameCamera.transform.position;
+		cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
+		isCameraDragged = true;
+	}
+	void Background_Drag(GameObject sender, Camera camera)
+	{
+		cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
+	}
+	void Background_Release(GameObject sender, Camera camera)
+	{
+		isCameraDragged = false;
+	}
+
+	//main camera pinch and zoom
+	private void Master_DoubleTouchStart(Touch touch0, Touch touch1)
+	{
+		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+	}
+	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
+	{
+		doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+		cameraTargetSize = gameCamera.orthographicSize + doubleTouchDistanceOffset * gameCamera.orthographicSize;
+
+		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+	}
+	private void Master_MouseScrollWheel(float amount)
+	{
+		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
+	}
+
+	#endregion
 }
 
 public enum GameStatus
