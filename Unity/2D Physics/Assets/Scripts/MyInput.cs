@@ -16,6 +16,8 @@ public class MyInput : MonoBehaviour
 
 	void Update()
 	{
+		#region Single Touch
+		
 		//single touch start
 		if (singleTouchStart)
 		{
@@ -66,6 +68,31 @@ public class MyInput : MonoBehaviour
 			touchedObject = null;
 		}
 
+		#endregion
+
+		#region Double Touch
+
+		if (doubleTouchStart)
+		{
+			gameObject.GetComponent<MyInputEvents>().DoubleTouchStart(Input.touches[0], Input.touches[1]);
+		}
+		if (doubleTouchDrag)
+		{
+			gameObject.GetComponent<MyInputEvents>().DoubleTouchDrag(Input.touches[0], Input.touches[1]);
+		}
+		if (doubleTouchEnd)
+		{
+			gameObject.GetComponent<MyInputEvents>().DoubleTouchEnd();
+		}
+
+		#endregion
+
+		//mouse scroll wheel
+		if (Input.GetAxis("Mouse ScrollWheel") != 0)
+		{
+			gameObject.GetComponent<MyInputEvents>().MouseScrollWheel(Input.GetAxis("Mouse ScrollWheel"));
+		}
+
 		prevTouchCount = Input.touchCount;
 	}
 
@@ -102,7 +129,7 @@ public class MyInput : MonoBehaviour
 			return false;
 		}
 	}
-	private bool singleTouchEnd
+	bool singleTouchEnd
 	{
 		get
 		{
@@ -116,26 +143,35 @@ public class MyInput : MonoBehaviour
 		}
 	}
 
-	public bool getDoubleTouchStart()
+	public bool doubleTouchStart
 	{
-		//double touch started, either by adding or removing touches
-		if (Input.touchCount == 2 && prevTouchCount != 2) return true;
+		get
+		{
+			//double touch started, either by adding or removing touches
+			if (Input.touchCount == 2 && prevTouchCount != 2) return true;
 
-		return false;
+			return false;
+		}
 	}
-	public bool getDoubleTouchDrag()
+	public bool doubleTouchDrag
 	{
-		//double touch maintained
-		if (Input.touchCount == 2) return true;
+		get
+		{
+			//double touch maintained
+			if (Input.touchCount == 2) return true;
 
-		return false;
+			return false;
+		}
 	}
-	public bool getDoubleTouchEnd()
+	public bool doubleTouchEnd
 	{
-		//double touch ended, either by adding or removing touches
-		if (Input.touchCount != 2 && prevTouchCount == 2) return true;
+		get
+		{
+			//double touch ended, either by adding or removing touches
+			if (Input.touchCount != 2 && prevTouchCount == 2) return true;
 
-		return false;
+			return false;
+		}
 	}
 }
 
