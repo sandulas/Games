@@ -207,6 +207,12 @@ public class Main : MonoBehaviour
 		inputEvents.OnTouch += ButtonRotate_Touch;
 		inputEvents.OnDrag += ButtonRotate_Drag;
 		inputEvents.OnRelease += ButtonRotate_Release;
+		inputEvents = buttonResize.GetComponent<MyInputEvents>();
+		inputEvents.OnTouch += ButtonResize_Touch;
+		inputEvents.OnDrag += ButtonResize_Drag;
+		inputEvents.OnRelease += ButtonResize_Release;
+		inputEvents = buttonClone.GetComponent<MyInputEvents>();
+		inputEvents.OnTouch += ButtonClone_Touch;
 
 
 		//background (for game camera movement)
@@ -337,17 +343,66 @@ public class Main : MonoBehaviour
 		ShowItemControls();
 	}
 
+	private void ButtonResize_Touch(GameObject sender, Camera camera)
+	{
+		resizeParent.transform.position = selectedItem.transform.position;
+		resizeParent.transform.rotation = selectedItem.transform.rotation;
+		selectedItem.transform.parent = resizeParent.transform;
+
+		initialSize = new Vector2(selectedItemProps.width, selectedItemProps.height);
+		initialPosition = selectedItem.transform.localPosition;
+		initialInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
+
+		selectedItem.rigidbody2D.isKinematic = false;
+		Physics2D.gravity = Vector2.zero;
+
+		HideItemControls();
+	}
+	private void ButtonResize_Drag(GameObject sender, Camera camera)
+	{
+		Vector2 currentInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
+		Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
+
+		if (selectedItemProps.shape == ItemShape.Circle)
+			if (resizeOffset.x > resizeOffset.y) resizeOffset.x = resizeOffset.y;
+			else resizeOffset.y = resizeOffset.x;
+
+		Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
+
+		Vector2 moveOffset = Vector2.Scale(resizeOffset / 2, resizeCorner);
+		MyTransform.SetLocalPositionXY(selectedItem.transform, initialPosition + moveOffset);
+	}
+	private void ButtonResize_Release(GameObject sender, Camera camera)
+	{
+		selectedItem.transform.parent = itemsContainer.transform;
+	
+		selectedItem.rigidbody2D.isKinematic = true;
+		Physics2D.gravity = -9.81f * Vector2.up;
+
+		ShowItemControls();
+	}
+
+	private void ButtonClone_Touch(GameObject sender, Camera camera)
+	{
+		CloneItem();
+	}
+
 	
 	//METHODS
 	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
 	{
 		float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
-
 		CreateItem(itemShape, itemMaterial, size, size);
-
 		MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, gameCamera.ScreenToWorldPoint(Input.mousePosition));
 		DragItem(items[items.Length - 1].gameObject);
-	}	
+	}
+	void CloneItem()
+	{
+		CreateItem(selectedItemProps.shape, selectedItemProps.material, selectedItemProps.width, selectedItemProps.height);
+		items[items.Length - 1].gameObject.transform.rotation = selectedItem.transform.rotation;
+		items[items.Length - 1].gameObject.transform.position = selectedItem.transform.position;
+		DragItem(items[items.Length - 1].gameObject);
+	}
 	void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
 	{
 		PhysicsObject physicsObject = new PhysicsObject();
