@@ -3,12 +3,20 @@ using System.Collections;
 
 public class MyPhysicsEvents : MonoBehaviour
 {
-	public delegate void CollisionEnterHandler(Collision2D collision);
+	public delegate void TriggerHandler(Collider2D otherCollider);
 
-	public event CollisionEnterHandler OnCollisionEnter;
+	public event TriggerHandler OnTriggerEnter, OnTriggerStay, OnTriggerExit;
 
-	void OnCollisionEnter2D(Collision2D collision)
+	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
-		if (OnCollisionEnter != null) OnCollisionEnter(collision);
+		if (OnTriggerEnter != null) OnTriggerEnter(otherCollider);
+	}
+	void OnTriggerStay2D(Collider2D otherCollider)
+	{
+		if (OnTriggerStay != null) OnTriggerStay(otherCollider);
+	}
+	void OnTriggerExit2D(Collider2D otherCollider)
+	{
+		if (OnTriggerExit != null) OnTriggerExit(otherCollider);
 	}
 }
