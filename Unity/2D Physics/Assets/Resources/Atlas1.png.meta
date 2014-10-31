@@ -1,6 +1,24 @@
 fileFormatVersion: 2
 guid: 3c530bb4d052a90498488bcdc59ed248
 TextureImporter:
+  fileIDToRecycleName:
+    21300000: Move
+    21300002: Rotate
+    21300004: Menu
+    21300006: Toolbar
+    21300008: Rectangle
+    21300010: Circle
+    21300012: Triangle
+    21300014: Material_Metal
+    21300016: Material_Wood
+    21300018: Material_Ice
+    21300020: Material_Fixed
+    21300022: Material_Rubber
+    21300024: Resize
+    21300026: Clone
+    21300028: Play
+    21300030: Pause
+    21300032: Stop
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
