@@ -331,10 +331,6 @@ public class Main2 : MonoBehaviour
 		//selectedItem.rigidbody2D.isKinematic = false;
 		//Physics2D.gravity = Vector2.zero;
 		selectedItem.collider2D.isTrigger = true;
-		MyPhysicsEvents physicsEvents = selectedItem.AddComponent<MyPhysicsEvents>();
-		physicsEvents.OnTriggerEnter += physicsEvents_OnTriggerEnter;
-		physicsEvents.OnTriggerStay += physicsEvents_OnTriggerStay;
-		physicsEvents.OnTriggerExit += physicsEvents_OnTriggerExit;
 
 		HideItemControls();
 		currentAction = "rotate";
@@ -344,6 +340,7 @@ public class Main2 : MonoBehaviour
 	}
 	private void ButtonRotate_Release(GameObject sender, Camera camera)
 	{
+		selectedItem.collider2D.isTrigger = false;
 		ShowItemControls();
 		currentAction = null;
 	}
@@ -397,13 +394,14 @@ public class Main2 : MonoBehaviour
 	{
 		Debug.Log("Trigger Enter: " + fixedFrameCount);
 
-		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation + 0.1f);
+		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation + 1f);
 		collisionEnter = true;
 	}
 	private void physicsEvents_OnTriggerStay(Collider2D otherCollider)
 	{
 		Debug.Log("Trigger Stay: " + fixedFrameCount);
-		//selectedItem.transform.eulerAngles = beforeCollisionEulerAngles;
+
+		//selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation - 1);
 		//blockRotation = true;
 	}
 	private void physicsEvents_OnTriggerExit(Collider2D otherCollider)
@@ -416,7 +414,7 @@ public class Main2 : MonoBehaviour
 	void FixedUpdate()
 	{
 		fixedFrameCount++;
-//		Debug.Log("Fixed Update: " + fixedFrameCount);
+		//Debug.Log("Fixed Update: " + fixedFrameCount);
 
 		if (currentAction == "rotate")
 		{
@@ -431,7 +429,8 @@ public class Main2 : MonoBehaviour
 				checkCollisionExit = false;
 				if (!collisionExit)
 				{
-					selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation);
+					selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation - 1);
+					Debug.Log("---------Reset: " + fixedFrameCount);
 					return;
 				}
 				collisionExit = false;
@@ -474,9 +473,15 @@ public class Main2 : MonoBehaviour
 		DragAndDrop dragAndDrop = physicsObject.gameObject.AddComponent<DragAndDrop>();
 		dragAndDrop.MoveToPositionMethod = delegate(GameObject gameObject, Vector3 position) { gameObject.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(position)); };
 		
+		//setup physics events
 		MyInputEvents inputEvents = physicsObject.gameObject.GetComponent<MyInputEvents>();
 		inputEvents.OnRelease += Item_Release;
 		inputEvents.OnTouch += Item_Touch;
+
+		MyPhysicsEvents physicsEvents = physicsObject.gameObject.AddComponent<MyPhysicsEvents>();
+		physicsEvents.OnTriggerEnter += physicsEvents_OnTriggerEnter;
+		physicsEvents.OnTriggerStay += physicsEvents_OnTriggerStay;
+		physicsEvents.OnTriggerExit += physicsEvents_OnTriggerExit;
 
 		//add the item to the list
 		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
