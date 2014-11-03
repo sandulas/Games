@@ -27,7 +27,7 @@ public class Main2 : MonoBehaviour
 	GameObject itemsContainer;
 
 	float initialRotation, initialInputAngle, currentInputAngle;
-	float prevRotation; bool collisionEnter = false; bool collisionExit = false; bool checkCollisionExit = false; bool firstCollision = false;
+	float prevRotation; float rotationStep = 5f; bool newCollision = true; bool collisionEnter = false; bool collisionStay = false; bool collisionExit = false;
 
 	Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
 	GameObject resizeParent;
@@ -325,12 +325,10 @@ public class Main2 : MonoBehaviour
 	{
 		initialInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
 		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialInputAngle = 360 - initialInputAngle;
-
 		initialRotation = selectedItem.transform.eulerAngles.z;
 
-		//selectedItem.rigidbody2D.isKinematic = false;
-		//Physics2D.gravity = Vector2.zero;
 		selectedItem.collider2D.isTrigger = true;
+		Destroy(selectedItem.rigidbody2D);
 
 		HideItemControls();
 		currentAction = "rotate";
@@ -392,65 +390,56 @@ public class Main2 : MonoBehaviour
 
 	void physicsEvents_OnTriggerEnter(Collider2D otherCollider)
 	{
-		Debug.Log("Trigger Enter: " + fixedFrameCount);
-		firstCollision = true;
-
-		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation + 1f);
+		if (newCollision)
+		{
+			rotationStep = (selectedItem.transform.eulerAngles.z - prevRotation) / 2;
+			newCollision = false;
+		}
+		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation + rotationStep);
+		
 		collisionEnter = true;
-		collisionExit = false;
 	}
 	void physicsEvents_OnTriggerStay(Collider2D otherCollider)
 	{
-		Debug.Log("Trigger Stay: " + fixedFrameCount);
+		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation);
+		if (Math.Abs(rotationStep) > 0.1f) rotationStep /= 2;
 
-		//selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation - 1);
-		//blockRotation = true;
+		collisionStay = true;
 	}
 	void physicsEvents_OnTriggerExit(Collider2D otherCollider)
 	{
-		Debug.Log("Trigger Exit: " + fixedFrameCount);
-
 		collisionExit = true;
 	}
 
 	void FixedUpdate()
 	{
 		fixedFrameCount++;
-		//Debug.Log("Fixed Update: " + fixedFrameCount);
 
 		if (currentAction == "rotate")
 		{
-			if (firstCollision)
-			{
-				Debug.Log("FirstCollision");
-			}
+			//DOESN'T WORK FOR MULTIPLE COLLISIONS
+
+			if (!collisionEnter & !collisionStay & !collisionExit) newCollision = true;
 
 			if (collisionEnter)
 			{
-				checkCollisionExit = true;
 				collisionEnter = false;
 				return;
 			}
-			if (checkCollisionExit)
+			if (collisionStay)
 			{
-				checkCollisionExit = false;
-
-				if (!collisionExit)
-				{
-					selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation);
-					Debug.Log("---------Reset: " + fixedFrameCount);
-					return;
-				}
+				collisionStay = false;
+				return;
+			}
+			if (collisionExit)
+			{
+				collisionExit = false;
 			}
 
-			if (!firstCollision || true)
-			{
-				currentInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
-				if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentInputAngle = 360 - currentInputAngle;
-			}
-
-			prevRotation = selectedItem.transform.eulerAngles.z;
-			selectedItem.transform.eulerAngles = new Vector3(0, 0, initialRotation + currentInputAngle - initialInputAngle);
+			currentInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+			if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentInputAngle = 360 - currentInputAngle;
+			prevRotation = (float)Math.Round(selectedItem.transform.eulerAngles.z, 3);
+			selectedItem.transform.eulerAngles = new Vector3(0, 0, (float)Math.Round(initialRotation + currentInputAngle - initialInputAngle, 3));
 		}
 	}
 	

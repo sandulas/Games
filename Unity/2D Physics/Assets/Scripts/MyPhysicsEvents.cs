@@ -9,14 +9,17 @@ public class MyPhysicsEvents : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D otherCollider)
 	{
+		//Debug.Log("Trigger Enter - " + gameObject.name);
 		if (OnTriggerEnter != null) OnTriggerEnter(otherCollider);
 	}
 	void OnTriggerStay2D(Collider2D otherCollider)
 	{
+		//Debug.Log("Trigger Stay - " + gameObject.name);
 		if (OnTriggerStay != null) OnTriggerStay(otherCollider);
 	}
 	void OnTriggerExit2D(Collider2D otherCollider)
 	{
+		//Debug.Log("Trigger Exit - " + gameObject.name);
 		if (OnTriggerExit != null) OnTriggerExit(otherCollider);
 	}
 }
