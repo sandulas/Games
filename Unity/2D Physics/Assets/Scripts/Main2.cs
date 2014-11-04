@@ -328,7 +328,7 @@ public class Main2 : MonoBehaviour
 		initialRotation = selectedItem.transform.eulerAngles.z;
 
 		selectedItem.collider2D.isTrigger = true;
-		Destroy(selectedItem.rigidbody2D);
+		//Destroy(selectedItem.rigidbody2D);
 
 		HideItemControls();
 		currentAction = "rotate";
@@ -390,54 +390,46 @@ public class Main2 : MonoBehaviour
 
 	void physicsEvents_OnTriggerEnter(Collider2D otherCollider)
 	{
-		if (newCollision)
-		{
-			rotationStep = (selectedItem.transform.eulerAngles.z - prevRotation) / 2;
-			newCollision = false;
-		}
-		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation + rotationStep);
-		
+		Debug.Log("Trigger Enter");
+		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation);
+
+		initialInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
+		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialInputAngle = 360 - initialInputAngle;
+		initialRotation = selectedItem.transform.eulerAngles.z;
+
 		collisionEnter = true;
 	}
 	void physicsEvents_OnTriggerStay(Collider2D otherCollider)
 	{
-		selectedItem.transform.eulerAngles = new Vector3(0, 0, prevRotation);
-		if (Math.Abs(rotationStep) > 0.1f) rotationStep /= 2;
-
-		collisionStay = true;
+		Debug.Log("Trigger Stay");
 	}
 	void physicsEvents_OnTriggerExit(Collider2D otherCollider)
 	{
-		collisionExit = true;
+		Debug.Log("Trigger Exit");
 	}
 
 	void FixedUpdate()
 	{
+		if (selectedItem != null)
+		{
+			selectedItem.rigidbody2D.fixedAngle = true;
+			//selectedItem.rigidbody2D.transform.eulerAngles = new Vector3(0, 0, 0);
+			//selectedItem.rigidbody2D.angularVelocity = 0;
+		}
+
 		fixedFrameCount++;
 
 		if (currentAction == "rotate")
 		{
-			//DOESN'T WORK FOR MULTIPLE COLLISIONS
-
-			if (!collisionEnter & !collisionStay & !collisionExit) newCollision = true;
-
 			if (collisionEnter)
 			{
 				collisionEnter = false;
 				return;
 			}
-			if (collisionStay)
-			{
-				collisionStay = false;
-				return;
-			}
-			if (collisionExit)
-			{
-				collisionExit = false;
-			}
 
 			currentInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
 			if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentInputAngle = 360 - currentInputAngle;
+
 			prevRotation = (float)Math.Round(selectedItem.transform.eulerAngles.z, 3);
 			selectedItem.transform.eulerAngles = new Vector3(0, 0, (float)Math.Round(initialRotation + currentInputAngle - initialInputAngle, 3));
 		}
