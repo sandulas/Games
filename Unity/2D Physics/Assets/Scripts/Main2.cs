@@ -241,7 +241,7 @@ public class Main2 : MonoBehaviour
 		UpdateCamera();
 
 		if (selectedItem != null && itemControlsHolder.activeSelf) ShowItemControls();
-		if (isItemDragged) selectedItem.rigidbody2D.angularVelocity = 0;
+		//if (isItemDragged) selectedItem.rigidbody2D.angularVelocity = 0;
 	}
 	void UpdateCamera()
 	{
@@ -327,8 +327,9 @@ public class Main2 : MonoBehaviour
 		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialInputAngle = 360 - initialInputAngle;
 		initialRotation = selectedItem.transform.eulerAngles.z;
 
-		selectedItem.collider2D.isTrigger = true;
+		//selectedItem.collider2D.isTrigger = true;
 		//Destroy(selectedItem.rigidbody2D);
+		selectedItem.rigidbody2D.isKinematic = true;
 
 		HideItemControls();
 		currentAction = "rotate";
@@ -470,10 +471,10 @@ public class Main2 : MonoBehaviour
 		inputEvents.OnRelease += Item_Release;
 		inputEvents.OnTouch += Item_Touch;
 
-		MyPhysicsEvents physicsEvents = physicsObject.gameObject.AddComponent<MyPhysicsEvents>();
-		physicsEvents.OnTriggerEnter += physicsEvents_OnTriggerEnter;
-		physicsEvents.OnTriggerStay += physicsEvents_OnTriggerStay;
-		physicsEvents.OnTriggerExit += physicsEvents_OnTriggerExit;
+		//MyPhysicsEvents physicsEvents = physicsObject.gameObject.AddComponent<MyPhysicsEvents>();
+		//physicsEvents.OnTriggerEnter += physicsEvents_OnTriggerEnter;
+		//physicsEvents.OnTriggerStay += physicsEvents_OnTriggerStay;
+		//physicsEvents.OnTriggerExit += physicsEvents_OnTriggerExit;
 
 		//add the item to the list
 		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
