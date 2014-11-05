@@ -236,7 +236,11 @@ public class Main : MonoBehaviour
 		UpdateCamera();
 
 		if (selectedItem != null && itemControlsHolder.activeSelf) ShowItemControls();
-		if (isItemDragged) selectedItem.rigidbody2D.angularVelocity = 0;
+		if (isItemDragged)
+		{
+			selectedItem.rigidbody2D.angularVelocity = 0;
+			selectedItem.rigidbody2D.velocity = Vector2.zero;
+		}
 	}
 	void UpdateCamera()
 	{
@@ -325,6 +329,7 @@ public class Main : MonoBehaviour
 
 		selectedItem.rigidbody2D.isKinematic = false;
 		Physics2D.gravity = Vector2.zero;
+		isItemDragged = true;
 
 		HideItemControls();
 	}
@@ -333,12 +338,14 @@ public class Main : MonoBehaviour
 		float currentAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
 		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
 
-		selectedItem.transform.eulerAngles = new Vector3(0, 0, initialRotation + currentAngle - initialInputAngle);
+		//selectedItem.transform.eulerAngles = new Vector3(0, 0, initialRotation + currentAngle - initialInputAngle);
+		selectedItem.rigidbody2D.MoveRotation(initialRotation + currentAngle - initialInputAngle);
 	}
 	private void ButtonRotate_Release(GameObject sender, Camera camera)
 	{
 		selectedItem.rigidbody2D.isKinematic = true;
 		Physics2D.gravity = -9.81f * Vector2.up;
+		isItemDragged = false;
 
 		ShowItemControls();
 	}
@@ -354,7 +361,10 @@ public class Main : MonoBehaviour
 		initialInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
 
 		selectedItem.rigidbody2D.isKinematic = false;
+		selectedItem.rigidbody2D.fixedAngle = true;
 		Physics2D.gravity = Vector2.zero;
+		isItemDragged = true;
+
 
 		HideItemControls();
 	}
@@ -370,13 +380,18 @@ public class Main : MonoBehaviour
 		Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
 
 		Vector2 moveOffset = Vector2.Scale(resizeOffset / 2, resizeCorner);
+		Vector2 curLocPos = selectedItem.transform.localPosition;
 		MyTransform.SetLocalPositionXY(selectedItem.transform, initialPosition + moveOffset);
+		Vector2 newPos = selectedItem.transform.position;
+		MyTransform.SetLocalPositionXY(selectedItem.transform, curLocPos);
+		selectedItem.rigidbody2D.MovePosition(newPos);
 	}
 	private void ButtonResize_Release(GameObject sender, Camera camera)
 	{
 		selectedItem.transform.parent = itemsContainer.transform;
 	
 		selectedItem.rigidbody2D.isKinematic = true;
+		selectedItem.rigidbody2D.fixedAngle = false;
 		Physics2D.gravity = -9.81f * Vector2.up;
 
 		ShowItemControls();
@@ -435,6 +450,7 @@ public class Main : MonoBehaviour
 	void DragStart(GameObject item)
 	{
 		item.rigidbody2D.isKinematic = false;
+		//item.rigidbody2D.fixedAngle = true;
 		selectedItem = item;
 		selectedItemProps = selectedItem.GetComponent<ItemProperties>();
 		isItemDragged = true;
