@@ -413,7 +413,6 @@ public class Main2 : MonoBehaviour
 	{
 		if (selectedItem != null)
 		{
-			selectedItem.rigidbody2D.fixedAngle = true;
 			//selectedItem.rigidbody2D.transform.eulerAngles = new Vector3(0, 0, 0);
 			//selectedItem.rigidbody2D.angularVelocity = 0;
 		}
