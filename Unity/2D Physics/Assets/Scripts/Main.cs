@@ -53,6 +53,7 @@ public class Main : MonoBehaviour
 
 	#endregion
 
+	int makeKinematic = 0;
 
 	void Start()
 	{
@@ -284,6 +285,19 @@ public class Main : MonoBehaviour
 		}
 	}
 
+	void FixedUpdate()
+	{
+		if (makeKinematic == 1)
+		{
+			makeKinematic = 2;
+		}
+		else if (makeKinematic == 2)
+		{
+			selectedItem.rigidbody2D.isKinematic = true;
+			makeKinematic = 0;
+		}
+
+	}
 
 	//EVENTS
 	private void ButtonMenu_Tap(GameObject sender, Camera camera)
@@ -306,11 +320,13 @@ public class Main : MonoBehaviour
 	void Item_Touch(GameObject sender, Camera camera)
 	{
 		DragStart(sender);
+		Physics2D.gravity = Vector2.zero;
 	}
 	void Item_Release(GameObject sender, Camera camera)
 	{
-		sender.rigidbody2D.isKinematic = true;
+		//sender.rigidbody2D.isKinematic = true;
 		isItemDragged = false;
+		makeKinematic = 1;
 
 		ShowItemControls();
 	}
@@ -343,7 +359,8 @@ public class Main : MonoBehaviour
 	}
 	private void ButtonRotate_Release(GameObject sender, Camera camera)
 	{
-		selectedItem.rigidbody2D.isKinematic = true;
+		//selectedItem.rigidbody2D.isKinematic = true;
+		makeKinematic = 1;
 		Physics2D.gravity = -9.81f * Vector2.up;
 		isItemDragged = false;
 
@@ -384,13 +401,15 @@ public class Main : MonoBehaviour
 		MyTransform.SetLocalPositionXY(selectedItem.transform, initialPosition + moveOffset);
 		Vector2 newPos = selectedItem.transform.position;
 		MyTransform.SetLocalPositionXY(selectedItem.transform, curLocPos);
+
 		selectedItem.rigidbody2D.MovePosition(newPos);
 	}
 	private void ButtonResize_Release(GameObject sender, Camera camera)
 	{
 		selectedItem.transform.parent = itemsContainer.transform;
 	
-		selectedItem.rigidbody2D.isKinematic = true;
+		//selectedItem.rigidbody2D.isKinematic = true;
+		makeKinematic = 1;
 		selectedItem.rigidbody2D.fixedAngle = false;
 		Physics2D.gravity = -9.81f * Vector2.up;
 
@@ -468,6 +487,7 @@ public class Main : MonoBehaviour
 
 		float offset = (Screen.height / uiCamera.orthographicSize / 2 * 0.26f) / pixelsPerUnit;
 		float width, height;
+
 		if (selectedItemProps.shape == ItemShape.Circle)
 		{
 			width = (selectedItemProps.width) / (float)Math.Sqrt(2);
@@ -484,6 +504,17 @@ public class Main : MonoBehaviour
 		corners[1] = selectedItem.transform.TransformPoint(width / 2 + offset, -height / 2 - offset, selectedItem.transform.localPosition.z);
 		corners[2] = selectedItem.transform.TransformPoint(width / 2 + offset, height / 2 + offset, selectedItem.transform.localPosition.z);
 		corners[3] = selectedItem.transform.TransformPoint(-width / 2 - offset, height / 2 + offset, selectedItem.transform.localPosition.z);
+
+		Vector2 standardPosition = Vector2.zero, tweakedPosition = Vector2.zero;
+		if (selectedItemProps.shape == ItemShape.Triangle)
+		{
+			standardPosition = uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[2]));
+
+			float angle = (float)Math.Atan(width / height);
+			tweakedPosition = selectedItem.transform.TransformPoint((float)Math.Cos(angle) * offset * 1.5f, (float)Math.Sin(angle) * offset * 1.5f, selectedItem.transform.localPosition.z);
+	
+			tweakedPosition = uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(tweakedPosition));
+		}
 
 		Array.Sort(corners, delegate(Vector2 v1, Vector2 v2) { return v1.y.CompareTo(v2.y); });
 
@@ -536,6 +567,18 @@ public class Main : MonoBehaviour
 				MyTransform.SetPositionXY(buttonResize.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[2])));
 				MyTransform.SetPositionXY(buttonClone.transform, uiCamera.ScreenToWorldPoint(gameCamera.WorldToScreenPoint(corners[3])));
 			}
+		}
+
+		if (selectedItemProps.shape == ItemShape.Triangle)
+		{
+			if ((Vector2)buttonResize.transform.position == standardPosition)
+				MyTransform.SetPositionXY(buttonResize.transform, tweakedPosition);
+			else if ((Vector2)buttonRotate.transform.position == standardPosition)
+				MyTransform.SetPositionXY(buttonRotate.transform, tweakedPosition);
+			else if ((Vector2)buttonMove.transform.position == standardPosition)
+				MyTransform.SetPositionXY(buttonMove.transform, tweakedPosition);
+			else if ((Vector2)buttonClone.transform.position == standardPosition)
+				MyTransform.SetPositionXY(buttonClone.transform, tweakedPosition);
 		}
 
 		resizeCorner = selectedItem.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(uiCamera.WorldToScreenPoint(buttonResize.transform.position)));
