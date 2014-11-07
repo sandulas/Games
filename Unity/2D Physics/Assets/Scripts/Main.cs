@@ -59,6 +59,8 @@ public class Main : MonoBehaviour
 	{
 		SetupScene();
 		SetupUI();
+
+		Physics2D.gravity = Vector2.zero;
 	}
 
 	void SetupScene()
@@ -237,11 +239,6 @@ public class Main : MonoBehaviour
 		UpdateCamera();
 
 		if (selectedItem != null && itemControlsHolder.activeSelf) ShowItemControls();
-		if (isItemDragged)
-		{
-			selectedItem.rigidbody2D.angularVelocity = 0;
-			selectedItem.rigidbody2D.velocity = Vector2.zero;
-		}
 	}
 	void UpdateCamera()
 	{
@@ -287,6 +284,12 @@ public class Main : MonoBehaviour
 
 	void FixedUpdate()
 	{
+		if (isItemDragged)
+		{
+			selectedItem.rigidbody2D.angularVelocity = 0;
+			selectedItem.rigidbody2D.velocity = Vector2.zero;
+		}
+
 		if (makeKinematic == 1)
 		{
 			makeKinematic = 2;
@@ -320,7 +323,6 @@ public class Main : MonoBehaviour
 	void Item_Touch(GameObject sender, Camera camera)
 	{
 		DragStart(sender);
-		Physics2D.gravity = Vector2.zero;
 	}
 	void Item_Release(GameObject sender, Camera camera)
 	{
@@ -338,30 +340,27 @@ public class Main : MonoBehaviour
 
 	private void ButtonRotate_Touch(GameObject sender, Camera camera)
 	{
-		initialInputAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
-		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) initialInputAngle = 360 - initialInputAngle;
-
-		initialRotation = selectedItem.transform.eulerAngles.z;
-
 		selectedItem.rigidbody2D.isKinematic = false;
-		Physics2D.gravity = Vector2.zero;
 		isItemDragged = true;
+
+		initialInputAngle = Vector2.Angle((Vector2)gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.rigidbody2D.worldCenterOfMass, Vector2.right);
+		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.rigidbody2D.worldCenterOfMass.y) initialInputAngle = 360 - initialInputAngle;
+	
+		initialRotation = selectedItem.transform.eulerAngles.z;
 
 		HideItemControls();
 	}
 	private void ButtonRotate_Drag(GameObject sender, Camera camera)
 	{
-		float currentAngle = Vector2.Angle(gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.transform.position, Vector2.right);
-		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.transform.position.y) currentAngle = 360 - currentAngle;
+		float currentAngle = Vector2.Angle((Vector2)gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.rigidbody2D.worldCenterOfMass, Vector2.right);
+		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.rigidbody2D.worldCenterOfMass.y) currentAngle = 360 - currentAngle;
 
-		//selectedItem.transform.eulerAngles = new Vector3(0, 0, initialRotation + currentAngle - initialInputAngle);
 		selectedItem.rigidbody2D.MoveRotation(initialRotation + currentAngle - initialInputAngle);
 	}
 	private void ButtonRotate_Release(GameObject sender, Camera camera)
 	{
 		//selectedItem.rigidbody2D.isKinematic = true;
 		makeKinematic = 1;
-		Physics2D.gravity = -9.81f * Vector2.up;
 		isItemDragged = false;
 
 		ShowItemControls();
@@ -379,7 +378,6 @@ public class Main : MonoBehaviour
 
 		selectedItem.rigidbody2D.isKinematic = false;
 		selectedItem.rigidbody2D.fixedAngle = true;
-		Physics2D.gravity = Vector2.zero;
 		isItemDragged = true;
 
 
@@ -411,7 +409,6 @@ public class Main : MonoBehaviour
 		//selectedItem.rigidbody2D.isKinematic = true;
 		makeKinematic = 1;
 		selectedItem.rigidbody2D.fixedAngle = false;
-		Physics2D.gravity = -9.81f * Vector2.up;
 
 		ShowItemControls();
 	}
