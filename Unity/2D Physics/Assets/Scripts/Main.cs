@@ -26,23 +26,26 @@ public class Main : MonoBehaviour
 	PhysicsObject[] items = new PhysicsObject[0];
 	GameObject itemsContainer;
 
+	//operations
 	float initialRotation, initialInputAngle;
 	Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
 	GameObject resizeParent;
 	bool isItemDragged = false;
+	int makeKinematic = 0;
 
 	
-	//setup, camera
+	//setup
 	Vector2 playgroundSize = new Vector2(40, 25);
 	float titleHeight = 10;
 	float learnGalleryHeight = 15;
 	float playGalleryHeight = 25;
-	float wallWidth = 0.5f;
+	float wallWidth = 1f;
 
 	Vector2 sceneSize;
 	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 	MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
 	
+	//camera
 	Vector2 cameraTargetPosition;
 	float cameraTargetSize;
 	GameObject cameraFollowObject;
@@ -52,8 +55,6 @@ public class Main : MonoBehaviour
 	float doubleTouchDistanceOffset;
 
 	#endregion
-
-	int makeKinematic = 0;
 
 	void Start()
 	{
