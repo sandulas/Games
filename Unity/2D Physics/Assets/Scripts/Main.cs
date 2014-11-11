@@ -14,7 +14,8 @@ public class Main : MonoBehaviour
 	
 	//game
 	GameObject
-		buttonMenu, buttonPlay, buttonPause, buttonStop,
+		buttonLearnGallery, buttonPlayGallery, titlePlay, titleLearn,
+		buttonMenu,	buttonPlay, buttonPause, buttonStop,
 		buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
@@ -36,7 +37,7 @@ public class Main : MonoBehaviour
 	
 	//setup
 	Vector2 playgroundSize = new Vector2(40, 25);
-	float titleHeight = 10;
+	float homeHeight = 10;
 	float learnGalleryHeight = 15;
 	float playGalleryHeight = 25;
 	float wallWidth = 1f;
@@ -93,7 +94,7 @@ public class Main : MonoBehaviour
 			playgroundRect.Right + wallWidth);
 
 		//initialize the background
-		sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + titleHeight);
+		sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + homeHeight);
 		background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
 		background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
 		background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
@@ -141,10 +142,16 @@ public class Main : MonoBehaviour
 			uiCamera.orthographicSize * aspectRatio);
 
 		//define the UI objects
+		buttonLearnGallery = GameObject.Find("ButtonLearnGallery");
+		buttonPlayGallery = GameObject.Find("ButtonPlayGallery");
+		titleLearn = GameObject.Find("Title_Learn");
+		titlePlay = GameObject.Find("Title_Play");
+		
 		buttonMenu = GameObject.Find("ButtonMenu");
 		buttonPlay = GameObject.Find("ButtonPlay");
 		buttonPause = GameObject.Find("ButtonPause");
 		buttonStop = GameObject.Find("ButtonStop");
+
 		buttonRectangle = GameObject.Find("ButtonRectangle");
 		buttonCircle = GameObject.Find("ButtonCircle");
 		buttonTriangle = GameObject.Find("ButtonTriangle");
@@ -153,11 +160,21 @@ public class Main : MonoBehaviour
 		buttonWood = GameObject.Find("ButtonWood");
 		buttonRubber = GameObject.Find("ButtonRubber");
 		buttonIce = GameObject.Find("ButtonIce");
+		
 		buttonMove = GameObject.Find("ButtonMove");
 		buttonRotate = GameObject.Find("ButtonRotate");
 		buttonResize = GameObject.Find("ButtonResize");
 		buttonClone = GameObject.Find("ButtonClone");
 		itemControlsHolder = GameObject.Find("Controls");
+
+		//position the home elements
+		MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.2f, 20.5f);
+		MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.2f, 20.5f);
+
+		//position the gallery elements
+		MyTransform.SetPositionXY(titleLearn.transform, -5f, 16.5f);
+		MyTransform.SetPositionXY(titlePlay.transform, -5f, 11.5f);
+
 
 		//position the UI buttons
 		MyTransform.SetPositionXY(buttonMenu.transform, uiRect.Left + 0.5f, uiRect.Top - 0.5f);
@@ -624,8 +641,8 @@ public class Main : MonoBehaviour
 
 public enum GameStatus
 {
-	Play = 0,
-	Pause = 1,
+	Menu = 0,
+	Play = 1,
 	Stop = 2
 }
 
