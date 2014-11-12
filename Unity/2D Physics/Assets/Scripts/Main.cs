@@ -44,11 +44,14 @@ public class Main : MonoBehaviour
 
 	Vector2 sceneSize;
 	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
-	MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
+	MyRect
+		homeRect, learnGalleryRect, playGalleryRect, gameRect,
+		playgroundRect, gameUIRect, mainCameraTrapRect;
 	
 	//camera
 	Vector2 cameraTargetPosition;
 	float cameraTargetSize;
+	float cameraDefaultSize = 5f;
 	GameObject cameraFollowObject;
 	Vector3 cameraDragOffset;
 	bool isCameraDragged = false;
@@ -72,7 +75,7 @@ public class Main : MonoBehaviour
 		//initialize the main camera
 		gameCamera.transform.position = new Vector3(0, 0, -12);
 		cameraTargetPosition = new Vector2(0, 0);
-		cameraTargetSize = gameCamera.orthographicSize;
+		cameraTargetSize = cameraDefaultSize;
 
 		//setup variables
 		aspectRatio = (float)Screen.width / Screen.height;
@@ -87,11 +90,32 @@ public class Main : MonoBehaviour
 			playgroundSize.x / 2);
 
 		//playground + walls area
-		playViewRect = new MyRect(
+		gameRect = new MyRect(
 			playgroundRect.Top + wallWidth,
 			playgroundRect.Left - wallWidth,
 			playgroundRect.Bottom - wallWidth,
 			playgroundRect.Right + wallWidth);
+
+		playGalleryRect = new MyRect(
+			gameRect.Top + 6f,
+			-cameraDefaultSize * aspectRatio,
+			gameRect.Top,
+			cameraDefaultSize * aspectRatio
+			);
+
+		learnGalleryRect = new MyRect(
+			playGalleryRect.Top + 3f,
+			-cameraDefaultSize * aspectRatio,
+			playGalleryRect.Top,
+			cameraDefaultSize * aspectRatio
+			);
+
+		homeRect = new MyRect(
+			learnGalleryRect.Top + cameraDefaultSize * 2,
+			-cameraDefaultSize * aspectRatio,
+			learnGalleryRect.Top,
+			cameraDefaultSize * aspectRatio
+			);
 
 		//initialize the background
 		sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + homeHeight);
@@ -135,7 +159,7 @@ public class Main : MonoBehaviour
 
 
 		//UI area
-		uiRect = new MyRect(
+		gameUIRect = new MyRect(
 			uiCamera.orthographicSize,
 			-uiCamera.orthographicSize * aspectRatio,
 			-uiCamera.orthographicSize,
@@ -177,28 +201,28 @@ public class Main : MonoBehaviour
 
 
 		//position the UI buttons
-		MyTransform.SetPositionXY(buttonMenu.transform, uiRect.Left + 0.5f, uiRect.Top - 0.5f);
-		MyTransform.SetPositionXY(buttonPlay.transform, uiRect.Left + uiRect.Width / 2 - 0.6f, uiRect.Top - 0.65f);
-		MyTransform.SetPositionXY(buttonPause.transform, uiRect.Left + uiRect.Width / 2 - 0.6f, uiRect.Top - 0.65f);
+		MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
+		MyTransform.SetPositionXY(buttonPlay.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
+		MyTransform.SetPositionXY(buttonPause.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
 		buttonPause.SetActive(false);
-		MyTransform.SetPositionXY(buttonStop.transform, uiRect.Left + uiRect.Width / 2 + 0.6f, uiRect.Top - 0.65f);
+		MyTransform.SetPositionXY(buttonStop.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
 		buttonStop.SetActive(false);
 
 		//position the toolbar
-		MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, uiRect.Right, 0);
+		MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, gameUIRect.Right, 0);
 		GameObject gameObject = GameObject.Find("ToolbarBackground");
-		MyTransform.SetPositionXY(gameObject.transform, uiRect.Right, uiCamera.orthographicSize + 0.01f);
+		MyTransform.SetPositionXY(gameObject.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
 		MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
 
-		MyTransform.SetPositionXY(buttonRectangle.transform, uiRect.Right + 0.05f, uiRect.Top - 0.1f);
-		MyTransform.SetPositionXY(buttonCircle.transform, uiRect.Right + 0.05f, uiRect.Top - 1.2f - 0.1f);
-		MyTransform.SetPositionXY(buttonTriangle.transform, uiRect.Right + 0.05f, uiRect.Top - 2.2f - 0.1f);
+		MyTransform.SetPositionXY(buttonRectangle.transform, gameUIRect.Right + 0.05f, gameUIRect.Top - 0.1f);
+		MyTransform.SetPositionXY(buttonCircle.transform, gameUIRect.Right + 0.05f, gameUIRect.Top - 1.2f - 0.1f);
+		MyTransform.SetPositionXY(buttonTriangle.transform, gameUIRect.Right + 0.05f, gameUIRect.Top - 2.2f - 0.1f);
 
-		MyTransform.SetPositionXY(buttonFixed.transform, uiRect.Right + 0.03f, uiRect.Bottom + 2.8f + 0.8f);
-		MyTransform.SetPositionXY(buttonMetal.transform, uiRect.Right + 0.03f, uiRect.Bottom + 2.1f + 0.8f);
-		MyTransform.SetPositionXY(buttonWood.transform, uiRect.Right + 0.03f, uiRect.Bottom + 1.4f + 0.8f);
-		MyTransform.SetPositionXY(buttonRubber.transform, uiRect.Right + 0.03f, uiRect.Bottom + 0.7f + 0.8f);
-		MyTransform.SetPositionXY(buttonIce.transform, uiRect.Right + 0.03f, uiRect.Bottom + 0.8f);
+		MyTransform.SetPositionXY(buttonFixed.transform, gameUIRect.Right + 0.03f, gameUIRect.Bottom + 2.8f + 0.8f);
+		MyTransform.SetPositionXY(buttonMetal.transform, gameUIRect.Right + 0.03f, gameUIRect.Bottom + 2.1f + 0.8f);
+		MyTransform.SetPositionXY(buttonWood.transform, gameUIRect.Right + 0.03f, gameUIRect.Bottom + 1.4f + 0.8f);
+		MyTransform.SetPositionXY(buttonRubber.transform, gameUIRect.Right + 0.03f, gameUIRect.Bottom + 0.7f + 0.8f);
+		MyTransform.SetPositionXY(buttonIce.transform, gameUIRect.Right + 0.03f, gameUIRect.Bottom + 0.8f);
 
 		HideItemControls();
 
@@ -262,24 +286,24 @@ public class Main : MonoBehaviour
 	{
 		//restrict the size
 		if (cameraTargetSize < 3) cameraTargetSize = 3;
-		else if (cameraTargetSize > playViewRect.Height / 2) cameraTargetSize = playViewRect.Height / 2;
-		if (cameraTargetSize * aspectRatio > playViewRect.Width / 2) cameraTargetSize = playViewRect.Width / 2 / aspectRatio;
+		else if (cameraTargetSize > gameRect.Height / 2) cameraTargetSize = gameRect.Height / 2;
+		if (cameraTargetSize * aspectRatio > gameRect.Width / 2) cameraTargetSize = gameRect.Width / 2 / aspectRatio;
 
 		//set the size(animated) and update variables
 		gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
 
 		pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
-		mainCameraRect = new MyRect(
-			playViewRect.Top - gameCamera.orthographicSize,
-			playViewRect.Left + +gameCamera.orthographicSize * aspectRatio,
-			playViewRect.Bottom + gameCamera.orthographicSize,
-			playViewRect.Right - gameCamera.orthographicSize * aspectRatio);
+		mainCameraTrapRect = new MyRect(
+			gameRect.Top - gameCamera.orthographicSize,
+			gameRect.Left + gameCamera.orthographicSize * aspectRatio,
+			gameRect.Bottom + gameCamera.orthographicSize,
+			gameRect.Right - gameCamera.orthographicSize * aspectRatio);
 
 		//set the position(animated)
 		MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
 
 		//restrict the position
-		Vector2 trappedPosition = mainCameraRect.GetInsidePosition(gameCamera.transform.position);
+		Vector2 trappedPosition = mainCameraTrapRect.GetInsidePosition(gameCamera.transform.position);
 
 		if (trappedPosition.x != gameCamera.transform.position.x)
 		{
