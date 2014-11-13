@@ -114,5 +114,15 @@ namespace Sandulas
 
 			return insidePosition;
 		}
+
+		public void Draw()
+		{
+			Debug.DrawLine(new Vector3(Left, Top, 0), new Vector3(Right, Bottom, 0), Color.red, 10000, false);
+			Debug.DrawLine(new Vector3(Left, Bottom, 0), new Vector3(Right, Top, 0), Color.red, 10000, false);
+			Debug.DrawLine(new Vector3(Left, Bottom, 0), new Vector3(Right, Bottom, 0), Color.red, 10000, false);
+			Debug.DrawLine(new Vector3(Left, Top, 0), new Vector3(Right, Top, 0), Color.red, 10000, false);
+			Debug.DrawLine(new Vector3(Left, Bottom, 0), new Vector3(Left, Top, 0), Color.red, 10000, false);
+			Debug.DrawLine(new Vector3(Right, Bottom, 0), new Vector3(Right, Top, 0), Color.red, 10000, false);
+		}
 	}
 }

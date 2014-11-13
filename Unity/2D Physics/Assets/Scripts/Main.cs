@@ -35,23 +35,22 @@ public class Main : MonoBehaviour
 	int makeKinematic = 0;
 
 	
-	//setup
-	Vector2 playgroundSize = new Vector2(40, 25);
-	float homeHeight = 10;
-	float learnGalleryHeight = 15;
-	float playGalleryHeight = 25;
-	float wallWidth = 1f;
-
-	Vector2 sceneSize;
+	//scene setup
 	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
+	
+	MyRect playgroundRect = new MyRect(10, -15, -10, 15);
+	float wallWidth = 1f;
+	
 	MyRect
 		homeRect, learnGalleryRect, playGalleryRect, gameRect,
-		playgroundRect, gameUIRect, mainCameraTrapRect;
+		gameUIRect;
 	
 	//camera
 	Vector2 cameraTargetPosition;
 	float cameraTargetSize;
 	float cameraDefaultSize = 5f;
+	MyRect cameraTrapRect, targetCameraTrapRect;
+
 	GameObject cameraFollowObject;
 	Vector3 cameraDragOffset;
 	bool isCameraDragged = false;
@@ -66,12 +65,12 @@ public class Main : MonoBehaviour
 		SetupUI();
 
 		Physics2D.gravity = Vector2.zero;
+		Application.targetFrameRate = 60;
+		targetCameraTrapRect = gameRect;
 	}
 
 	void SetupScene()
 	{
-		Time.timeScale = 1;
-
 		//initialize the main camera
 		gameCamera.transform.position = new Vector3(0, 0, -12);
 		cameraTargetPosition = new Vector2(0, 0);
@@ -82,64 +81,58 @@ public class Main : MonoBehaviour
 		pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
 		spritePixelsPerUnit = 1536f / 10; //Screen.height / uiCamera.orthographicSize / 2;
 
-		//playground area
-		playgroundRect = new MyRect(
-			playgroundSize.y / 2,
-			-playgroundSize.x / 2,
-			-playgroundSize.y / 2,
-			playgroundSize.x / 2);
-
 		//playground + walls area
 		gameRect = new MyRect(
 			playgroundRect.Top + wallWidth,
 			playgroundRect.Left - wallWidth,
 			playgroundRect.Bottom - wallWidth,
 			playgroundRect.Right + wallWidth);
+		gameRect.Draw();
 
 		playGalleryRect = new MyRect(
-			gameRect.Top + 6f,
+			gameRect.Top + cameraDefaultSize * 2,
 			-cameraDefaultSize * aspectRatio,
 			gameRect.Top,
-			cameraDefaultSize * aspectRatio
-			);
+			cameraDefaultSize * aspectRatio);
+		playGalleryRect.Draw();
 
 		learnGalleryRect = new MyRect(
-			playGalleryRect.Top + 3f,
+			playGalleryRect.Top + 6f,
 			-cameraDefaultSize * aspectRatio,
 			playGalleryRect.Top,
-			cameraDefaultSize * aspectRatio
-			);
+			cameraDefaultSize * aspectRatio);
+		learnGalleryRect.Draw();
 
 		homeRect = new MyRect(
 			learnGalleryRect.Top + cameraDefaultSize * 2,
 			-cameraDefaultSize * aspectRatio,
 			learnGalleryRect.Top,
-			cameraDefaultSize * aspectRatio
-			);
+			cameraDefaultSize * aspectRatio);
+		homeRect.Draw();
 
 		//initialize the background
-		sceneSize = new Vector2(playgroundSize.x + 2 * wallWidth, playgroundSize.y + 2 * wallWidth + playGalleryHeight + learnGalleryHeight + homeHeight);
-		background.transform.position = new Vector3(0, sceneSize.y / 2 - wallWidth - playgroundSize.y / 2, 0);
+		Vector2 sceneSize = new Vector2(gameRect.Width, gameRect.Height + playGalleryRect.Height + learnGalleryRect.Height + homeRect.Height);
+		background.transform.position = new Vector3(0, (sceneSize.y - gameRect.Height) / 2, 0);
 		background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
 		background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
 
 		//setup the walls
 		GameObject wall;
 
-		wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, playgroundSize.x, wallWidth);
-		Item.Move(wall, 0, playgroundSize.y / 2 + wallWidth / 2);
+		wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, playgroundRect.Width , wallWidth);
+		Item.Move(wall, 0, playgroundRect.Height / 2 + wallWidth / 2);
 		wall.name = "Wall - Top";
 
 		Item.Duplicate(wall);
-		Item.Move(wall, 0, -playgroundSize.y / 2 - wallWidth / 2);
+		Item.Move(wall, 0, -playgroundRect.Height / 2 - wallWidth / 2);
 		wall.name = "Wall - Bottom";
 
-		wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth, playgroundSize.y + wallWidth * 2);
-		Item.Move(wall, playgroundSize.x / 2 + wallWidth / 2, 0);
+		wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth, playgroundRect.Height + wallWidth * 2);
+		Item.Move(wall, playgroundRect.Width / 2 + wallWidth / 2, 0);
 		wall.name = "Wall - Right";
 
 		Item.Duplicate(wall);
-		Item.Move(wall, -playgroundSize.x / 2 - wallWidth / 2, 0);
+		Item.Move(wall, -playgroundRect.Width / 2 - wallWidth / 2, 0);
 		wall.name = "Wall - Left";
 
 		//create the resize parent helper object and items container
@@ -152,11 +145,9 @@ public class Main : MonoBehaviour
 		//setup UI camera size depending on the screen size
 		if (Screen.dpi == 0) dpi = 270;
 		else dpi = Screen.dpi;
-		dpi = Mathf.Clamp(dpi, 100, 700);
-		//dpi = 132;
+		dpi = Mathf.Clamp(dpi, 100, 700);//dpi = 132;
 		float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
 		uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
-
 
 		//UI area
 		gameUIRect = new MyRect(
@@ -168,8 +159,8 @@ public class Main : MonoBehaviour
 		//define the UI objects
 		buttonLearnGallery = GameObject.Find("ButtonLearnGallery");
 		buttonPlayGallery = GameObject.Find("ButtonPlayGallery");
-		titleLearn = GameObject.Find("Title_Learn");
-		titlePlay = GameObject.Find("Title_Play");
+		titleLearn = GameObject.Find("TitleLearn");
+		titlePlay = GameObject.Find("TitlePlay");
 		
 		buttonMenu = GameObject.Find("ButtonMenu");
 		buttonPlay = GameObject.Find("ButtonPlay");
@@ -192,13 +183,20 @@ public class Main : MonoBehaviour
 		itemControlsHolder = GameObject.Find("Controls");
 
 		//position the home elements
-		MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.2f, 20.5f);
-		MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.2f, 20.5f);
+		float unit = learnGalleryRect.Width / 1000;
+		MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.2f, homeRect.Bottom + 1.2f);
+		MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.2f, homeRect.Bottom + 1.2f);
 
 		//position the gallery elements
-		MyTransform.SetPositionXY(titleLearn.transform, -5f, 16.5f);
-		MyTransform.SetPositionXY(titlePlay.transform, -5f, 11.5f);
-
+		MyTransform.SetPositionXY(titleLearn.transform, learnGalleryRect.Left + unit * 25, learnGalleryRect.Top - unit * 15);
+		MyTransform.SetPositionXY(titlePlay.transform, playGalleryRect.Left + unit * 25, playGalleryRect.Top - unit * 15);
+		MyTransform.SetScaleXY(titleLearn.transform, unit * 80, unit * 80);
+		MyTransform.SetScaleXY(titlePlay.transform, unit * 80, unit * 80);
+		GameObject gameObject = GameObject.Find("ItemBackground");
+		MyTransform.SetPositionXY(
+			gameObject.transform,
+			learnGalleryRect.Left + unit * 20 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
+			learnGalleryRect.Top - unit * 70 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
 
 		//position the UI buttons
 		MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
@@ -210,7 +208,7 @@ public class Main : MonoBehaviour
 
 		//position the toolbar
 		MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, gameUIRect.Right, 0);
-		GameObject gameObject = GameObject.Find("ToolbarBackground");
+		gameObject = GameObject.Find("ToolbarBackground");
 		MyTransform.SetPositionXY(gameObject.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
 		MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
 
@@ -293,17 +291,17 @@ public class Main : MonoBehaviour
 		gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
 
 		pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
-		mainCameraTrapRect = new MyRect(
-			gameRect.Top - gameCamera.orthographicSize,
-			gameRect.Left + gameCamera.orthographicSize * aspectRatio,
-			gameRect.Bottom + gameCamera.orthographicSize,
-			gameRect.Right - gameCamera.orthographicSize * aspectRatio);
+		cameraTrapRect = new MyRect(
+			targetCameraTrapRect.Top - gameCamera.orthographicSize,
+			targetCameraTrapRect.Left + gameCamera.orthographicSize * aspectRatio,
+			targetCameraTrapRect.Bottom + gameCamera.orthographicSize,
+			targetCameraTrapRect.Right - gameCamera.orthographicSize * aspectRatio);
 
 		//set the position(animated)
 		MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
 
 		//restrict the position
-		Vector2 trappedPosition = mainCameraTrapRect.GetInsidePosition(gameCamera.transform.position);
+		Vector2 trappedPosition = cameraTrapRect.GetInsidePosition(gameCamera.transform.position);
 
 		if (trappedPosition.x != gameCamera.transform.position.x)
 		{
@@ -347,7 +345,11 @@ public class Main : MonoBehaviour
 	//EVENTS
 	private void ButtonMenu_Tap(GameObject sender, Camera camera)
 	{
-		Debug.Log("Tap: " + sender.name + " -> " + camera.name);
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, playGalleryRect.Left, playGalleryRect.Bottom, playGalleryRect.Right),
+			new Vector2(0, homeRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
 	}
 
 	void ButtonCreate_Touch(GameObject sender, Camera camera)
@@ -630,12 +632,17 @@ public class Main : MonoBehaviour
 	//main camera movement
 	void Background_Touch(GameObject sender, Camera camera)
 	{
+		if (gameStatus == GameStatus.Transition) return;
+
 		cameraTargetPosition = gameCamera.transform.position;
 		cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
 		isCameraDragged = true;
 	}
 	void Background_Drag(GameObject sender, Camera camera)
 	{
+		if (gameStatus == GameStatus.Transition) return;
+		if (!isCameraDragged) return;
+
 		cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
 	}
 	void Background_Release(GameObject sender, Camera camera)
@@ -660,14 +667,27 @@ public class Main : MonoBehaviour
 		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
 	}
 
+	IEnumerator TransitionTo(GameStatus newGameStatus, MyRect newCameraTrapRect, Vector2 newCameraPosition, float newCameraSize)
+	{
+		targetCameraTrapRect = new MyRect(homeRect.Top, gameRect.Left, gameRect.Bottom, gameRect.Right);
+		cameraTargetSize = newCameraSize;
+		cameraTargetPosition = newCameraPosition;
+
+		gameStatus = GameStatus.Transition;
+		yield return new WaitForSeconds(1f);
+		targetCameraTrapRect = newCameraTrapRect;
+		gameStatus = newGameStatus;
+	}
+
 	#endregion
 }
 
 public enum GameStatus
 {
 	Menu = 0,
-	Play = 1,
-	Stop = 2
+	Transition = 1,
+	Play = 2,
+	Stop = 3
 }
 
 public class PhysicsObject
