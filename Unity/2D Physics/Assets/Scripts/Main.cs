@@ -67,6 +67,7 @@ public class Main : MonoBehaviour
 		Physics2D.gravity = Vector2.zero;
 		Application.targetFrameRate = 60;
 		targetCameraTrapRect = gameRect;
+
 	}
 
 	void SetupScene()
@@ -231,9 +232,12 @@ public class Main : MonoBehaviour
 	{
 		MyInputEvents inputEvents;
 
-		//Menu Button
-		inputEvents = buttonMenu.GetComponent<MyInputEvents>();
-		inputEvents.OnTap += ButtonMenu_Tap;
+		//Menu button
+		buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
+		
+		//Learn and play gallery buttons
+		buttonLearnGallery.GetComponent<MyInputEvents>().OnTap += ButtonLearnGallery_Tap;
+		buttonPlayGallery.GetComponent<MyInputEvents>().OnTap += ButtonPlayGallery_Tap;
 
 		//Create buttons: rectangle, circle, triangle
 		inputEvents = buttonRectangle.GetComponent<MyInputEvents>();
@@ -342,16 +346,7 @@ public class Main : MonoBehaviour
 
 	}
 
-	//EVENTS
-	private void ButtonMenu_Tap(GameObject sender, Camera camera)
-	{
-		StartCoroutine(TransitionTo(
-			GameStatus.Menu,
-			new MyRect(homeRect.Top, playGalleryRect.Left, playGalleryRect.Bottom, playGalleryRect.Right),
-			new Vector2(0, homeRect.Top - cameraDefaultSize),
-			cameraDefaultSize));
-	}
-
+	//Toolbar
 	void ButtonCreate_Touch(GameObject sender, Camera camera)
 	{
 		if (sender == buttonRectangle)
@@ -364,6 +359,7 @@ public class Main : MonoBehaviour
 		HideItemControls();
 	}
 
+	//Operations
 	void Item_Touch(GameObject sender, Camera camera)
 	{
 		DragStart(sender);
@@ -462,7 +458,6 @@ public class Main : MonoBehaviour
 		CloneItem();
 	}
 
-	
 	//METHODS
 	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
 	{
@@ -627,7 +622,39 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
-	#region Camera movement and zoom
+	#region Camera movement and zoom, navigation
+
+
+	//Navigation
+	private void ButtonMenu_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new Vector2(0, homeRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
+	}
+	private void ButtonLearnGallery_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
+	}
+	private void ButtonPlayGallery_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new Vector2(0, playGalleryRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
+	}
 
 	//main camera movement
 	void Background_Touch(GameObject sender, Camera camera)
@@ -674,7 +701,7 @@ public class Main : MonoBehaviour
 		cameraTargetPosition = newCameraPosition;
 
 		gameStatus = GameStatus.Transition;
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(0.8f);
 		targetCameraTrapRect = newCameraTrapRect;
 		gameStatus = newGameStatus;
 	}
