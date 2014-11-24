@@ -720,6 +720,8 @@ public class Main : MonoBehaviour
 	}
 	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
 	{
+		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
+
 		doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
 		cameraTargetSize = gameCamera.orthographicSize + doubleTouchDistanceOffset * gameCamera.orthographicSize;
 
@@ -727,6 +729,8 @@ public class Main : MonoBehaviour
 	}
 	private void Master_MouseScrollWheel(float amount)
 	{
+		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
+
 		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
 	}
 
