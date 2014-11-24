@@ -16,7 +16,7 @@ public class Main : MonoBehaviour
 	GameObject
 		buttonLearnGallery, buttonPlayGallery, titlePlay, titleLearn,
 		buttonMenu,	buttonPlay, buttonPause, buttonStop,
-		buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
+		toolbar, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
 	GameStatus gameStatus = GameStatus.Stop;
@@ -168,6 +168,7 @@ public class Main : MonoBehaviour
 		buttonPause = GameObject.Find("ButtonPause");
 		buttonStop = GameObject.Find("ButtonStop");
 
+		toolbar = GameObject.Find("Toolbar");
 		buttonRectangle = GameObject.Find("ButtonRectangle");
 		buttonCircle = GameObject.Find("ButtonCircle");
 		buttonTriangle = GameObject.Find("ButtonTriangle");
@@ -208,7 +209,7 @@ public class Main : MonoBehaviour
 		buttonStop.SetActive(false);
 
 		//position the toolbar
-		MyTransform.SetPositionXY(GameObject.Find("Toolbar").transform, gameUIRect.Right, 0);
+		MyTransform.SetPositionXY(toolbar.transform, gameUIRect.Right, 0);
 		gameObject = GameObject.Find("ToolbarBackground");
 		MyTransform.SetPositionXY(gameObject.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
 		MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
@@ -238,6 +239,9 @@ public class Main : MonoBehaviour
 		//Learn and play gallery buttons
 		buttonLearnGallery.GetComponent<MyInputEvents>().OnTap += ButtonLearnGallery_Tap;
 		buttonPlayGallery.GetComponent<MyInputEvents>().OnTap += ButtonPlayGallery_Tap;
+
+		//Gallery items
+		GameObject.Find("ItemBackground").GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
 
 		//Create buttons: rectangle, circle, triangle
 		inputEvents = buttonRectangle.GetComponent<MyInputEvents>();
@@ -622,7 +626,7 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
-	#region Camera movement and zoom, navigation
+	#region Navigation, camera movement and zoom
 
 
 	//Navigation
@@ -630,9 +634,11 @@ public class Main : MonoBehaviour
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
+		HideGameUI();
+
 		StartCoroutine(TransitionTo(
 			GameStatus.Menu,
-			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			homeRect,
 			new Vector2(0, homeRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
@@ -642,19 +648,49 @@ public class Main : MonoBehaviour
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Menu,
-			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new MyRect(learnGalleryRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
 			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
 	private void ButtonPlayGallery_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
+
 		StartCoroutine(TransitionTo(
 			GameStatus.Menu,
-			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new MyRect(learnGalleryRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
 			new Vector2(0, playGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
+	void GalleryItem_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Stop,
+			gameRect,
+			gameRect.Center,
+			cameraDefaultSize));
+
+		ShowGameUI();
+	}
+
+	
+	void HideGameUI()
+	{
+		toolbar.SetActive(false);
+		buttonMenu.SetActive(false);
+		buttonPlay.SetActive(false);
+		buttonStop.SetActive(false);
+	}
+	void ShowGameUI()
+	{
+		toolbar.SetActive(true);
+		buttonMenu.SetActive(true);
+		buttonPlay.SetActive(true);
+		buttonStop.SetActive(false);
+	}
+
 
 	//main camera movement
 	void Background_Touch(GameObject sender, Camera camera)
