@@ -3,6 +3,7 @@ using System.Collections;
 using Sandulas;
 using ThisProject;
 using System;
+using System.Xml;
 
 public class Main : MonoBehaviour
 {
@@ -36,7 +37,8 @@ public class Main : MonoBehaviour
 
 	
 	//scene setup
-	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
+	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit, menuUnit;
+	int learnGalleryCount = 6, playGalleryCount = 10;
 	
 	MyRect playgroundRect = new MyRect(10, -15, -10, 15);
 	float wallWidth = 1f;
@@ -90,15 +92,17 @@ public class Main : MonoBehaviour
 			playgroundRect.Right + wallWidth);
 		gameRect.Draw();
 
+		menuUnit = cameraDefaultSize * aspectRatio * 2 / 1000;
+
 		playGalleryRect = new MyRect(
-			gameRect.Top + cameraDefaultSize * 2,
+			gameRect.Top + menuUnit * 270 + (playGalleryCount - 1) / 4 * menuUnit * 200,
 			-cameraDefaultSize * aspectRatio,
 			gameRect.Top,
 			cameraDefaultSize * aspectRatio);
 		playGalleryRect.Draw();
 
 		learnGalleryRect = new MyRect(
-			playGalleryRect.Top + 6f,
+			playGalleryRect.Top + menuUnit * 290 + (learnGalleryCount - 1) / 4 * menuUnit * 200,
 			-cameraDefaultSize * aspectRatio,
 			playGalleryRect.Top,
 			cameraDefaultSize * aspectRatio);
@@ -184,23 +188,45 @@ public class Main : MonoBehaviour
 		buttonClone = GameObject.Find("ButtonClone");
 		itemControlsHolder = GameObject.Find("Controls");
 
-		//position the home elements
-		float unit = learnGalleryRect.Width / 1000;
+		//LAYOUT
+
+		//home elements
 		MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.2f, homeRect.Bottom + 1.2f);
 		MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.2f, homeRect.Bottom + 1.2f);
 
-		//position the gallery elements
-		MyTransform.SetPositionXY(titleLearn.transform, learnGalleryRect.Left + unit * 25, learnGalleryRect.Top - unit * 15);
-		MyTransform.SetPositionXY(titlePlay.transform, playGalleryRect.Left + unit * 25, playGalleryRect.Top - unit * 15);
-		MyTransform.SetScaleXY(titleLearn.transform, unit * 80, unit * 80);
-		MyTransform.SetScaleXY(titlePlay.transform, unit * 80, unit * 80);
+		//gallery titles
+		MyTransform.SetPositionXY(titleLearn.transform, learnGalleryRect.Left + menuUnit * 25, learnGalleryRect.Top - menuUnit * 15);
+		MyTransform.SetPositionXY(titlePlay.transform, playGalleryRect.Left + menuUnit * 25, playGalleryRect.Top - menuUnit * 15);
+		MyTransform.SetScaleXY(titleLearn.transform, menuUnit * 80, menuUnit * 80);
+		MyTransform.SetScaleXY(titlePlay.transform, menuUnit * 80, menuUnit * 80);
+		
+		//learn gallery
 		GameObject gameObject = GameObject.Find("ItemBackground");
-		MyTransform.SetPositionXY(
-			gameObject.transform,
-			learnGalleryRect.Left + unit * 20 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
-			learnGalleryRect.Top - unit * 70 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
+		MyTransform.SetScaleXY(gameObject.transform, menuUnit * 110, menuUnit * 110);
+		Vector2 startPos = new Vector2(
+			learnGalleryRect.Left + menuUnit * 20 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
+			learnGalleryRect.Top - menuUnit * 70 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
+		MyTransform.SetPositionXY(gameObject.transform,startPos.x, startPos.y);
+		
+		GameObject tmp;
+		for (int i = 1; i < learnGalleryCount; i++)
+		{
+			tmp = (GameObject)GameObject.Instantiate(gameObject);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 200);
+		}
 
-		//position the UI buttons
+		//play gallery
+		startPos = new Vector2(
+			playGalleryRect.Left + menuUnit * 20 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
+			playGalleryRect.Top - menuUnit * 75 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
+		for (int i = 0; i < playGalleryCount; i++)
+		{
+			tmp = (GameObject)GameObject.Instantiate(gameObject);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 200);
+		}
+
+
+		//UI buttons
 		MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
 		MyTransform.SetPositionXY(buttonPlay.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
 		MyTransform.SetPositionXY(buttonPause.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
@@ -208,7 +234,7 @@ public class Main : MonoBehaviour
 		MyTransform.SetPositionXY(buttonStop.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
 		buttonStop.SetActive(false);
 
-		//position the toolbar
+		//toolbar
 		MyTransform.SetPositionXY(toolbar.transform, gameUIRect.Right, 0);
 		gameObject = GameObject.Find("ToolbarBackground");
 		MyTransform.SetPositionXY(gameObject.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
@@ -232,9 +258,6 @@ public class Main : MonoBehaviour
 	private void SetupUIInputEvents()
 	{
 		MyInputEvents inputEvents;
-
-		//Menu button
-		buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
 		
 		//Learn and play gallery buttons
 		buttonLearnGallery.GetComponent<MyInputEvents>().OnTap += ButtonLearnGallery_Tap;
@@ -242,6 +265,13 @@ public class Main : MonoBehaviour
 
 		//Gallery items
 		GameObject.Find("ItemBackground").GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
+
+		//Menu button
+		buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
+
+		//Play button
+		buttonPlay.GetComponent<MyInputEvents>().OnTap += ButtonPlay_Tap;
+
 
 		//Create buttons: rectangle, circle, triangle
 		inputEvents = buttonRectangle.GetComponent<MyInputEvents>();
@@ -266,18 +296,17 @@ public class Main : MonoBehaviour
 		inputEvents.OnTouch += ButtonClone_Touch;
 
 
-		//background (for game camera movement)
+		//Background (for game camera movement)
 		inputEvents = background.GetComponent<MyInputEvents>();
 		inputEvents.OnTouch += Background_Touch;
 		inputEvents.OnDrag += Background_Drag;
 		inputEvents.OnRelease += Background_Release;
 
-		//pinch and zoom on game camera
+		//Pinch and zoom on game camera
 		inputEvents = master.GetComponent<MyInputEvents>();
 		inputEvents.OnDoubleTouchStart += Master_DoubleTouchStart;
 		inputEvents.OnDoubleTouchDrag += Master_DoubleTouchDrag;
 		inputEvents.OnMouseScrollWheel += Master_MouseScrollWheel;
-
 	}
 
 	void Update()
@@ -626,29 +655,60 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
+	void Save(string fileName)
+	{
+		Debug.Log("Save");
+
+		XmlDocument xmlDoc = new XmlDocument();
+		XmlNode rootNode = xmlDoc.CreateElement("r");
+
+		//root node - camera size and position
+		XmlAddAttribute(xmlDoc, rootNode, "s", gameCamera.orthographicSize.ToString()); //size
+		XmlAddAttribute(xmlDoc, rootNode, "x", gameCamera.transform.position.x.ToString()); // x position
+		XmlAddAttribute(xmlDoc, rootNode, "y", gameCamera.transform.position.y.ToString()); // y position
+		xmlDoc.AppendChild(rootNode);
+
+		//item nodes - item properties
+		XmlNode itemNode;
+		ItemProperties itemProps;
+		for (int i = 0; i < items.Length; i++)
+		{
+			itemNode = xmlDoc.CreateElement("i");
+			itemProps = items[i].gameObject.GetComponent<ItemProperties>();
+
+			XmlAddAttribute(xmlDoc, itemNode, "s", itemProps.shape.ToString()); //shape
+			XmlAddAttribute(xmlDoc, itemNode, "m", itemProps.material.ToString()); //material
+			XmlAddAttribute(xmlDoc, itemNode, "w", itemProps.width.ToString()); //width
+			XmlAddAttribute(xmlDoc, itemNode, "h", itemProps.height.ToString()); //height
+			XmlAddAttribute(xmlDoc, itemNode, "x", items[i].gameObject.transform.localPosition.x.ToString()); //x position
+			XmlAddAttribute(xmlDoc, itemNode, "y", items[i].gameObject.transform.localPosition.y.ToString()); //y position
+			XmlAddAttribute(xmlDoc, itemNode, "r", items[i].gameObject.transform.rotation.eulerAngles.z.ToString());// z-axis rotation
+
+			rootNode.AppendChild(itemNode);
+		}
+
+		xmlDoc.Save(Application.persistentDataPath + "/" + fileName + ".xml");
+
+		Debug.Log("Saved to: " + Application.persistentDataPath + "/" + fileName + ".xml");
+	}
+	void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
+	{
+		XmlAttribute attribute = xmlDoc.CreateAttribute(attributeName);
+		attribute.Value = attributeValue;
+		parentXmlNode.Attributes.Append(attribute);
+	}
+
 	#region Navigation, camera movement and zoom
 
 
 	//Navigation
-	private void ButtonMenu_Tap(GameObject sender, Camera camera)
-	{
-		if (gameStatus == GameStatus.Transition) return;
-
-		HideGameUI();
-
-		StartCoroutine(TransitionTo(
-			GameStatus.Menu,
-			homeRect,
-			new Vector2(0, homeRect.Top - cameraDefaultSize),
-			cameraDefaultSize));
-	}
 	private void ButtonLearnGallery_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Menu,
-			new MyRect(learnGalleryRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
 			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
@@ -658,7 +718,7 @@ public class Main : MonoBehaviour
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Menu,
-			new MyRect(learnGalleryRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
 			new Vector2(0, playGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
@@ -673,6 +733,23 @@ public class Main : MonoBehaviour
 			cameraDefaultSize));
 
 		ShowGameUI();
+	}
+
+	private void ButtonMenu_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		HideGameUI();
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new Vector2(0, homeRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
+	}
+	private void ButtonPlay_Tap(GameObject sender, Camera camera)
+	{
+		Save(System.DateTime.Now.ToString("yyyyMMddHHmmssff"));
 	}
 
 	
