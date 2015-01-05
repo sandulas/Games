@@ -95,14 +95,14 @@ public class Main : MonoBehaviour
 		menuUnit = cameraDefaultSize * aspectRatio * 2 / 1000;
 
 		playGalleryRect = new MyRect(
-			gameRect.Top + menuUnit * 270 + (playGalleryCount - 1) / 4 * menuUnit * 200,
+			gameRect.Top + menuUnit * 300 + (playGalleryCount - 1) / 4 * menuUnit * 225,
 			-cameraDefaultSize * aspectRatio,
 			gameRect.Top,
 			cameraDefaultSize * aspectRatio);
 		playGalleryRect.Draw();
 
 		learnGalleryRect = new MyRect(
-			playGalleryRect.Top + menuUnit * 290 + (learnGalleryCount - 1) / 4 * menuUnit * 200,
+			playGalleryRect.Top + menuUnit * 315 + (learnGalleryCount - 1) / 4 * menuUnit * 225,
 			-cameraDefaultSize * aspectRatio,
 			playGalleryRect.Top,
 			cameraDefaultSize * aspectRatio);
@@ -202,9 +202,9 @@ public class Main : MonoBehaviour
 		
 		//learn gallery
 		GameObject gameObject = GameObject.Find("ItemBackground");
-		MyTransform.SetScaleXY(gameObject.transform, menuUnit * 110, menuUnit * 110);
+		MyTransform.SetScaleXY(gameObject.transform, menuUnit * 85, menuUnit * 85);
 		Vector2 startPos = new Vector2(
-			learnGalleryRect.Left + menuUnit * 20 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
+			learnGalleryRect.Left + menuUnit * 17 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
 			learnGalleryRect.Top - menuUnit * 70 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
 		MyTransform.SetPositionXY(gameObject.transform,startPos.x, startPos.y);
 		
@@ -212,17 +212,18 @@ public class Main : MonoBehaviour
 		for (int i = 1; i < learnGalleryCount; i++)
 		{
 			tmp = (GameObject)GameObject.Instantiate(gameObject);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 200);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 		}
+		StartCoroutine(LoadScene(1));
 
 		//play gallery
 		startPos = new Vector2(
-			playGalleryRect.Left + menuUnit * 20 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
+			playGalleryRect.Left + menuUnit * 17 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
 			playGalleryRect.Top - menuUnit * 75 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
 		for (int i = 0; i < playGalleryCount; i++)
 		{
 			tmp = (GameObject)GameObject.Instantiate(gameObject);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 200);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 		}
 
 
@@ -253,8 +254,28 @@ public class Main : MonoBehaviour
 		HideItemControls();
 
 		SetupUIInputEvents();
-
 	}
+	IEnumerator LoadScene(int i)
+	{
+		//GameObject thumb = GameObject.CreatePrimitive(PrimitiveType.Quad);
+		GameObject thumb = GameObject.Find("ItemThumb");
+		MyTransform.SetPositionXY(thumb.transform, -5.04f, 27.62f);
+
+		Debug.Log("Load Start - " + Time.frameCount);
+		ResourceRequest request = Resources.LoadAsync<Texture2D>("Learn/learn.0" + i);
+		//yield return request;
+		while (!request.isDone)
+		{
+			Debug.Log(Time.frameCount);
+			yield return 0;
+		}
+		Debug.Log("Load End - " + Time.frameCount);
+
+		Material material = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
+		material.mainTexture = request.asset as Texture2D;
+		thumb.renderer.material = material;
+	}
+
 	private void SetupUIInputEvents()
 	{
 		MyInputEvents inputEvents;
