@@ -839,7 +839,7 @@ public class Main : MonoBehaviour
 		cameraTargetPosition = newCameraPosition;
 
 		gameStatus = GameStatus.Transition;
-		yield return new WaitForSeconds(0.8f);
+		yield return new WaitForSeconds(0.6f);
 		targetCameraTrapRect = newCameraTrapRect;
 		gameStatus = newGameStatus;
 	}
