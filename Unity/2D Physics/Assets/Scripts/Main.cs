@@ -69,7 +69,6 @@ public class Main : MonoBehaviour
 		Physics2D.gravity = Vector2.zero;
 		Application.targetFrameRate = 60;
 		targetCameraTrapRect = gameRect;
-
 	}
 
 	void SetupScene()
@@ -200,29 +199,42 @@ public class Main : MonoBehaviour
 		MyTransform.SetScaleXY(titleLearn.transform, menuUnit * 80, menuUnit * 80);
 		MyTransform.SetScaleXY(titlePlay.transform, menuUnit * 80, menuUnit * 80);
 		
-		//learn gallery
-		GameObject gameObject = GameObject.Find("ItemBackground");
-		MyTransform.SetScaleXY(gameObject.transform, menuUnit * 85, menuUnit * 85);
+		//learn gallery first item
+		GameObject itemBackground = GameObject.Find("ItemBackground");
+		GameObject itemThumb = GameObject.Find("ItemThumb");
+
+		MyTransform.SetScaleXY(itemBackground.transform, menuUnit * 85, menuUnit * 85);
+		MyTransform.SetScaleXY(itemThumb.transform, menuUnit * 194, menuUnit * 142);
+
 		Vector2 startPos = new Vector2(
-			learnGalleryRect.Left + menuUnit * 17 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
-			learnGalleryRect.Top - menuUnit * 70 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
-		MyTransform.SetPositionXY(gameObject.transform,startPos.x, startPos.y);
-		
+			learnGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
+			learnGalleryRect.Top - menuUnit * 70 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
+
+		MyTransform.SetPositionXY(itemBackground.transform,startPos.x, startPos.y);
+		MyTransform.SetPositionXY(itemThumb.transform,startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
+
+		StartCoroutine(LoadScene(1, itemThumb));
+
+		//learn gallery items
 		GameObject tmp;
 		for (int i = 1; i < learnGalleryCount; i++)
 		{
-			tmp = (GameObject)GameObject.Instantiate(gameObject);
+			tmp = (GameObject)GameObject.Instantiate(itemBackground);
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
+
+			tmp = (GameObject)GameObject.Instantiate(itemThumb);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
+
+			StartCoroutine(LoadScene(i + 1, tmp));
 		}
-		StartCoroutine(LoadScene(1));
 
 		//play gallery
 		startPos = new Vector2(
-			playGalleryRect.Left + menuUnit * 17 + gameObject.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * gameObject.transform.localScale.x / 2,
-			playGalleryRect.Top - menuUnit * 75 - gameObject.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * gameObject.transform.localScale.y / 2);
+			playGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
+			playGalleryRect.Top - menuUnit * 75 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
 		for (int i = 0; i < playGalleryCount; i++)
 		{
-			tmp = (GameObject)GameObject.Instantiate(gameObject);
+			tmp = (GameObject)GameObject.Instantiate(itemBackground);
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 		}
 
@@ -237,7 +249,7 @@ public class Main : MonoBehaviour
 
 		//toolbar
 		MyTransform.SetPositionXY(toolbar.transform, gameUIRect.Right, 0);
-		gameObject = GameObject.Find("ToolbarBackground");
+		GameObject gameObject = GameObject.Find("ToolbarBackground");
 		MyTransform.SetPositionXY(gameObject.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
 		MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
 
@@ -255,25 +267,27 @@ public class Main : MonoBehaviour
 
 		SetupUIInputEvents();
 	}
-	IEnumerator LoadScene(int i)
+	IEnumerator LoadScene(int i, GameObject thumb)
 	{
-		//GameObject thumb = GameObject.CreatePrimitive(PrimitiveType.Quad);
-		GameObject thumb = GameObject.Find("ItemThumb");
-		MyTransform.SetPositionXY(thumb.transform, -5.04f, 27.62f);
+//		Debug.Log("Load Start - " + Time.frameCount);
 
-		Debug.Log("Load Start - " + Time.frameCount);
 		ResourceRequest request = Resources.LoadAsync<Texture2D>("Learn/learn.0" + i);
-		//yield return request;
+//		yield return request;
 		while (!request.isDone)
 		{
-			Debug.Log(Time.frameCount);
+//			Debug.Log(Time.frameCount);
 			yield return 0;
 		}
-		Debug.Log("Load End - " + Time.frameCount);
+
+//		Debug.Log("Load End - " + Time.frameCount);
 
 		Material material = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
 		material.mainTexture = request.asset as Texture2D;
+		material.mainTextureScale = new Vector2 (1, thumb.transform.localScale.y / thumb.transform.localScale.x);
+		material.mainTextureOffset = new Vector2 (0, (1 - material.mainTextureScale.y) / 2);
 		thumb.renderer.material = material;
+
+		thumb.GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
 	}
 
 	private void SetupUIInputEvents()
@@ -283,9 +297,6 @@ public class Main : MonoBehaviour
 		//Learn and play gallery buttons
 		buttonLearnGallery.GetComponent<MyInputEvents>().OnTap += ButtonLearnGallery_Tap;
 		buttonPlayGallery.GetComponent<MyInputEvents>().OnTap += ButtonPlayGallery_Tap;
-
-		//Gallery items
-		GameObject.Find("ItemBackground").GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
 
 		//Menu button
 		buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
