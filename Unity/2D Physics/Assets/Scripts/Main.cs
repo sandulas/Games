@@ -4,6 +4,7 @@ using Sandulas;
 using ThisProject;
 using System;
 using System.Xml;
+using System.IO;
 
 public class Main : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class Main : MonoBehaviour
 		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
 	GameStatus gameStatus = GameStatus.Stop;
+	string currentLevel = null;
 
 	GameObject selectedItem = null;
 	ItemProperties selectedItemProps = null;
@@ -61,6 +63,7 @@ public class Main : MonoBehaviour
 
 	#endregion
 
+    //Initialization
 	void Start()
 	{
 		SetupScene();
@@ -213,7 +216,7 @@ public class Main : MonoBehaviour
 		MyTransform.SetPositionXY(itemBackground.transform,startPos.x, startPos.y);
 		MyTransform.SetPositionXY(itemThumb.transform,startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
 
-		StartCoroutine(LoadScene(1, itemThumb));
+		StartCoroutine(LoadGalleryItem("learn.01", itemThumb));
 
 		//learn gallery items
 		GameObject tmp;
@@ -225,18 +228,25 @@ public class Main : MonoBehaviour
 			tmp = (GameObject)GameObject.Instantiate(itemThumb);
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
 
-			StartCoroutine(LoadScene(i + 1, tmp));
+            StartCoroutine(LoadGalleryItem("learn." + (i + 1).ToString("00"), tmp));
 		}
 
 		//play gallery
 		startPos = new Vector2(
 			playGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
 			playGalleryRect.Top - menuUnit * 75 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
-		for (int i = 0; i < playGalleryCount; i++)
-		{
-			tmp = (GameObject)GameObject.Instantiate(itemBackground);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
-		}
+		
+        string[] files = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
+        for (int i = 0; i < files.Length; i++)
+        {
+            tmp = (GameObject)GameObject.Instantiate(itemBackground);
+            MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
+
+            tmp = (GameObject)GameObject.Instantiate(itemThumb);
+            MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
+
+            StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(files[i]), tmp));
+        }
 
 
 		//UI buttons
@@ -267,27 +277,36 @@ public class Main : MonoBehaviour
 
 		SetupUIInputEvents();
 	}
-	IEnumerator LoadScene(int i, GameObject thumb)
+    IEnumerator LoadGalleryItem(string levelName, GameObject thumb)
 	{
-//		Debug.Log("Load Start - " + Time.frameCount);
+        Texture2D texture = null;
 
-		ResourceRequest request = Resources.LoadAsync<Texture2D>("Learn/learn.0" + i);
-//		yield return request;
-		while (!request.isDone)
-		{
-//			Debug.Log(Time.frameCount);
-			yield return 0;
-		}
+        if (levelName.StartsWith("learn."))
+        {
+            ResourceRequest request = Resources.LoadAsync<Texture2D>("Learn/" + levelName);
+            while (!request.isDone)
+            {
+                yield return 0;
+            }
+            texture = request.asset as Texture2D;
+        }
+        else if (levelName.StartsWith("play."))
+        {
+            texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
+            byte [] textureData = File.ReadAllBytes(Application.persistentDataPath + "/" + levelName + ".png");
 
-//		Debug.Log("Load End - " + Time.frameCount);
+            texture.wrapMode = TextureWrapMode.Clamp;
+            texture.filterMode = FilterMode.Bilinear;
+            texture.LoadImage(textureData);
+        }
 
 		Material material = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
-		material.mainTexture = request.asset as Texture2D;
+		material.mainTexture = texture;
 		material.mainTextureScale = new Vector2 (1, thumb.transform.localScale.y / thumb.transform.localScale.x);
 		material.mainTextureOffset = new Vector2 (0, (1 - material.mainTextureScale.y) / 2);
 		thumb.renderer.material = material;
 
-		thumb.name = "level.0" + i;
+		thumb.name = levelName;
 		thumb.GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
 	}
 
@@ -340,76 +359,6 @@ public class Main : MonoBehaviour
 		inputEvents.OnDoubleTouchStart += Master_DoubleTouchStart;
 		inputEvents.OnDoubleTouchDrag += Master_DoubleTouchDrag;
 		inputEvents.OnMouseScrollWheel += Master_MouseScrollWheel;
-	}
-
-	void Update()
-	{
-		if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
-
-		UpdateCamera();
-
-		if (selectedItem != null && itemControlsHolder.activeSelf) ShowItemControls();
-	}
-	void UpdateCamera()
-	{
-		//restrict the size
-		if (cameraTargetSize < 3) cameraTargetSize = 3;
-		else if (cameraTargetSize > gameRect.Height / 2) cameraTargetSize = gameRect.Height / 2;
-		if (cameraTargetSize * aspectRatio > gameRect.Width / 2) cameraTargetSize = gameRect.Width / 2 / aspectRatio;
-
-		//set the size(animated) and update variables
-		gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
-
-		pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
-		cameraTrapRect = new MyRect(
-			targetCameraTrapRect.Top - gameCamera.orthographicSize,
-			targetCameraTrapRect.Left + gameCamera.orthographicSize * aspectRatio,
-			targetCameraTrapRect.Bottom + gameCamera.orthographicSize,
-			targetCameraTrapRect.Right - gameCamera.orthographicSize * aspectRatio);
-
-		//set the position(animated)
-		MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
-
-		//restrict the position
-		Vector2 trappedPosition = cameraTrapRect.GetInsidePosition(gameCamera.transform.position);
-
-		if (trappedPosition.x != gameCamera.transform.position.x)
-		{
-			cameraTargetPosition.x = trappedPosition.x;
-			MyTransform.SetPositionX(gameCamera.transform, cameraTargetPosition.x);
-
-			if (isCameraDragged)
-				cameraDragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
-		}
-
-		if (trappedPosition.y != gameCamera.transform.position.y)
-		{
-			cameraTargetPosition.y = trappedPosition.y;
-			MyTransform.SetPositionY(gameCamera.transform, cameraTargetPosition.y);
-
-			if (isCameraDragged)
-				cameraDragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
-		}
-	}
-
-	void FixedUpdate()
-	{
-		if (isItemDragged)
-		{
-			selectedItem.rigidbody2D.angularVelocity = 0;
-			selectedItem.rigidbody2D.velocity = Vector2.zero;
-		}
-
-		if (makeKinematic == 1)
-		{
-			makeKinematic = 2;
-		}
-		else if (makeKinematic == 2)
-		{
-			selectedItem.rigidbody2D.isKinematic = true;
-			makeKinematic = 0;
-		}
-
 	}
 
 	//Toolbar
@@ -697,8 +646,10 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
-	void Save(string fileName)
+	void Save()
 	{
+		if (currentLevel.StartsWith ("learn.")) return;
+
 		Debug.Log("Save");
 
 		XmlDocument xmlDoc = new XmlDocument();
@@ -729,20 +680,27 @@ public class Main : MonoBehaviour
 			rootNode.AppendChild(itemNode);
 		}
 
-		xmlDoc.Save(Application.persistentDataPath + "/" + fileName + ".xml");
+		if (currentLevel == null) currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
 
-		Debug.Log("Saved to: " + Application.persistentDataPath + "/" + fileName + ".xml");
+		xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
+
+		Debug.Log("Saved to: " + Application.persistentDataPath + "/" + currentLevel + ".xml");
 	}
-	void Load( string fileName)
+	void Load(string levelName)
 	{
 		Debug.Log("Load");
 		
 		DeleteAllItems();
 		
 		XmlDocument xmlDoc = new XmlDocument();
-		//xmlDoc.Load(Application.persistentDataPath + "/save.xml");
-		TextAsset textAsset = (TextAsset)Resources.Load("Learn/" + fileName);
-		xmlDoc.LoadXml(textAsset.text);
+
+		if (levelName.StartsWith ("learn."))
+		{
+            TextAsset textAsset = (TextAsset)Resources.Load("Learn/" + levelName.Replace("learn", "level"));
+			xmlDoc.LoadXml(textAsset.text);
+		}
+		else if (levelName.StartsWith("play."))
+			xmlDoc.Load(Application.persistentDataPath + "/" + levelName + ".xml");
 
 		//set camera position and size
 		XmlNode root = xmlDoc.DocumentElement;
@@ -763,7 +721,8 @@ public class Main : MonoBehaviour
 			MyTransform.SetLocalPositionXY(items[i].gameObject.transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value), float.Parse(root.ChildNodes[i].Attributes["y"].Value));
 			items[i].gameObject.transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
 		}
-		
+		currentLevel = levelName;
+
 		Debug.Log("Loaded");
 	}
 	void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
@@ -806,8 +765,8 @@ public class Main : MonoBehaviour
 		StartCoroutine(TransitionTo(
 			GameStatus.Stop,
 			gameRect,
-			gameRect.Center,
-			cameraDefaultSize));
+			cameraTargetPosition,
+			cameraTargetSize));
 
 		ShowGameUI();
 	}
@@ -826,7 +785,7 @@ public class Main : MonoBehaviour
 	}
 	private void ButtonPlay_Tap(GameObject sender, Camera camera)
 	{
-		Save(System.DateTime.Now.ToString("yyyyMMddHHmmssff"));
+		Save();
 	}
 
 	
@@ -901,6 +860,77 @@ public class Main : MonoBehaviour
 	}
 
 	#endregion
+
+    //Update
+    void Update()
+    {
+        if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
+
+        UpdateCamera();
+
+        if (selectedItem != null && itemControlsHolder.activeSelf) ShowItemControls();
+    }
+    void UpdateCamera()
+    {
+        //restrict the size
+        if (cameraTargetSize < 3) cameraTargetSize = 3;
+        else if (cameraTargetSize > gameRect.Height / 2) cameraTargetSize = gameRect.Height / 2;
+        if (cameraTargetSize * aspectRatio > gameRect.Width / 2) cameraTargetSize = gameRect.Width / 2 / aspectRatio;
+
+        //set the size(animated) and update variables
+        gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
+
+        pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
+        cameraTrapRect = new MyRect(
+            targetCameraTrapRect.Top - gameCamera.orthographicSize,
+            targetCameraTrapRect.Left + gameCamera.orthographicSize * aspectRatio,
+            targetCameraTrapRect.Bottom + gameCamera.orthographicSize,
+            targetCameraTrapRect.Right - gameCamera.orthographicSize * aspectRatio);
+
+        //set the position(animated)
+        MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
+
+        //restrict the position
+        Vector2 trappedPosition = cameraTrapRect.GetInsidePosition(gameCamera.transform.position);
+
+        if (trappedPosition.x != gameCamera.transform.position.x)
+        {
+            cameraTargetPosition.x = trappedPosition.x;
+            MyTransform.SetPositionX(gameCamera.transform, cameraTargetPosition.x);
+
+            if (isCameraDragged)
+                cameraDragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
+        }
+
+        if (trappedPosition.y != gameCamera.transform.position.y)
+        {
+            cameraTargetPosition.y = trappedPosition.y;
+            MyTransform.SetPositionY(gameCamera.transform, cameraTargetPosition.y);
+
+            if (isCameraDragged)
+                cameraDragOffset.y = -Input.mousePosition.y / pixelsPerUnit - cameraTargetPosition.y;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isItemDragged)
+        {
+            selectedItem.rigidbody2D.angularVelocity = 0;
+            selectedItem.rigidbody2D.velocity = Vector2.zero;
+        }
+
+        if (makeKinematic == 1)
+        {
+            makeKinematic = 2;
+        }
+        else if (makeKinematic == 2)
+        {
+            selectedItem.rigidbody2D.isKinematic = true;
+            makeKinematic = 0;
+        }
+
+    }
 }
 
 public enum GameStatus
