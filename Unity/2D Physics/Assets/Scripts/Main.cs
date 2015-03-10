@@ -40,7 +40,8 @@ public class Main : MonoBehaviour
 	
 	//scene setup
 	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit, menuUnit;
-	int learnGalleryCount = 6, playGalleryCount = 10;
+	int learnGalleryCount = 6;
+	string[] playSavedFiles;
 	
 	MyRect playgroundRect = new MyRect(10, -15, -10, 15);
 	float wallWidth = 1f;
@@ -96,8 +97,10 @@ public class Main : MonoBehaviour
 
 		menuUnit = cameraDefaultSize * aspectRatio * 2 / 1000;
 
+		playSavedFiles = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
+
 		playGalleryRect = new MyRect(
-			gameRect.Top + menuUnit * 300 + (playGalleryCount - 1) / 4 * menuUnit * 225,
+			gameRect.Top + menuUnit * 320 + (playSavedFiles.Length - 1) / 4 * menuUnit * 225,
 			-cameraDefaultSize * aspectRatio,
 			gameRect.Top,
 			cameraDefaultSize * aspectRatio);
@@ -236,8 +239,7 @@ public class Main : MonoBehaviour
 			playGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
 			playGalleryRect.Top - menuUnit * 75 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
 		
-        string[] files = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
-        for (int i = 0; i < files.Length; i++)
+        for (int i = 0; i < playSavedFiles.Length; i++)
         {
             tmp = (GameObject)GameObject.Instantiate(itemBackground);
             MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
@@ -245,7 +247,7 @@ public class Main : MonoBehaviour
             tmp = (GameObject)GameObject.Instantiate(itemThumb);
             MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
 
-            StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(files[i]), tmp));
+            StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(playSavedFiles[i]), tmp));
         }
 
 
@@ -646,93 +648,7 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
-	void Save()
-	{
-		if (currentLevel.StartsWith ("learn.")) return;
-
-		Debug.Log("Save");
-
-		XmlDocument xmlDoc = new XmlDocument();
-		XmlNode rootNode = xmlDoc.CreateElement("r");
-
-		//root node - camera size and position
-		XmlAddAttribute(xmlDoc, rootNode, "s", gameCamera.orthographicSize.ToString()); //size
-		XmlAddAttribute(xmlDoc, rootNode, "x", gameCamera.transform.position.x.ToString()); // x position
-		XmlAddAttribute(xmlDoc, rootNode, "y", gameCamera.transform.position.y.ToString()); // y position
-		xmlDoc.AppendChild(rootNode);
-
-		//item nodes - item properties
-		XmlNode itemNode;
-		ItemProperties itemProps;
-		for (int i = 0; i < items.Length; i++)
-		{
-			itemNode = xmlDoc.CreateElement("i");
-			itemProps = items[i].gameObject.GetComponent<ItemProperties>();
-
-			XmlAddAttribute(xmlDoc, itemNode, "s", itemProps.shape.ToString()); //shape
-			XmlAddAttribute(xmlDoc, itemNode, "m", itemProps.material.ToString()); //material
-			XmlAddAttribute(xmlDoc, itemNode, "w", itemProps.width.ToString()); //width
-			XmlAddAttribute(xmlDoc, itemNode, "h", itemProps.height.ToString()); //height
-			XmlAddAttribute(xmlDoc, itemNode, "x", items[i].gameObject.transform.localPosition.x.ToString()); //x position
-			XmlAddAttribute(xmlDoc, itemNode, "y", items[i].gameObject.transform.localPosition.y.ToString()); //y position
-			XmlAddAttribute(xmlDoc, itemNode, "r", items[i].gameObject.transform.rotation.eulerAngles.z.ToString());// z-axis rotation
-
-			rootNode.AppendChild(itemNode);
-		}
-
-		if (currentLevel == null) currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
-
-		xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
-
-		Debug.Log("Saved to: " + Application.persistentDataPath + "/" + currentLevel + ".xml");
-	}
-	void Load(string levelName)
-	{
-		Debug.Log("Load");
-		
-		DeleteAllItems();
-		
-		XmlDocument xmlDoc = new XmlDocument();
-
-		if (levelName.StartsWith ("learn."))
-		{
-            TextAsset textAsset = (TextAsset)Resources.Load("Learn/" + levelName.Replace("learn", "level"));
-			xmlDoc.LoadXml(textAsset.text);
-		}
-		else if (levelName.StartsWith("play."))
-			xmlDoc.Load(Application.persistentDataPath + "/" + levelName + ".xml");
-
-		//set camera position and size
-		XmlNode root = xmlDoc.DocumentElement;
-		cameraTargetPosition = new Vector2(float.Parse(root.Attributes["x"].Value), float.Parse(root.Attributes["y"].Value));
-		cameraTargetSize = float.Parse(root.Attributes["s"].Value);
-		
-		//create items
-		ItemShape shape; ItemMaterial material; float width; float height;
-		for (int i = 0; i < root.ChildNodes.Count; i++)
-		{
-			shape = (ItemShape)Enum.Parse(typeof(ItemShape), root.ChildNodes[i].Attributes["s"].Value);
-			material = (ItemMaterial)Enum.Parse(typeof(ItemMaterial), root.ChildNodes[i].Attributes["m"].Value);
-			width = float.Parse(root.ChildNodes[i].Attributes["w"].Value);
-			height = float.Parse(root.ChildNodes[i].Attributes["h"].Value);
-			
-			CreateItem(shape, material, width, height);
-			
-			MyTransform.SetLocalPositionXY(items[i].gameObject.transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value), float.Parse(root.ChildNodes[i].Attributes["y"].Value));
-			items[i].gameObject.transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
-		}
-		currentLevel = levelName;
-
-		Debug.Log("Loaded");
-	}
-	void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
-	{
-		XmlAttribute attribute = xmlDoc.CreateAttribute(attributeName);
-		attribute.Value = attributeValue;
-		parentXmlNode.Attributes.Append(attribute);
-	}
-
-	#region Navigation, camera movement and zoom
+	#region Navigation, load/save, camera movement and zoom
 
 
 	//Navigation
@@ -769,6 +685,115 @@ public class Main : MonoBehaviour
 			cameraTargetSize));
 
 		ShowGameUI();
+	}
+
+	void Save()
+	{
+		if (currentLevel == null || currentLevel.StartsWith ("learn.")) return;
+
+
+		//SAVE XML DATA
+		Debug.Log("Save XML");
+
+		XmlDocument xmlDoc = new XmlDocument();
+		XmlNode rootNode = xmlDoc.CreateElement("r");
+
+		//root node - camera size and position
+		XmlAddAttribute(xmlDoc, rootNode, "s", gameCamera.orthographicSize.ToString()); //size
+		XmlAddAttribute(xmlDoc, rootNode, "x", gameCamera.transform.position.x.ToString()); // x position
+		XmlAddAttribute(xmlDoc, rootNode, "y", gameCamera.transform.position.y.ToString()); // y position
+		xmlDoc.AppendChild(rootNode);
+
+		//item nodes - item properties
+		XmlNode itemNode;
+		ItemProperties itemProps;
+		for (int i = 0; i < items.Length; i++)
+		{
+			itemNode = xmlDoc.CreateElement("i");
+			itemProps = items[i].gameObject.GetComponent<ItemProperties>();
+
+			XmlAddAttribute(xmlDoc, itemNode, "s", itemProps.shape.ToString()); //shape
+			XmlAddAttribute(xmlDoc, itemNode, "m", itemProps.material.ToString()); //material
+			XmlAddAttribute(xmlDoc, itemNode, "w", itemProps.width.ToString()); //width
+			XmlAddAttribute(xmlDoc, itemNode, "h", itemProps.height.ToString()); //height
+			XmlAddAttribute(xmlDoc, itemNode, "x", items[i].gameObject.transform.localPosition.x.ToString()); //x position
+			XmlAddAttribute(xmlDoc, itemNode, "y", items[i].gameObject.transform.localPosition.y.ToString()); //y position
+			XmlAddAttribute(xmlDoc, itemNode, "r", items[i].gameObject.transform.rotation.eulerAngles.z.ToString());// z-axis rotation
+
+			rootNode.AppendChild(itemNode);
+		}
+
+		if (currentLevel == null) currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
+
+		xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
+
+		Debug.Log("Saved XML to: " + Application.persistentDataPath + "/" + currentLevel + ".xml");
+
+		//SAVE PREVIEW IMAGE
+		Debug.Log("Save preview image");
+
+		RenderTexture renderTexture = new RenderTexture(256, 256, 24, RenderTextureFormat.ARGB32);
+		//renderTexture.antiAliasing = 2;
+		gameCamera.targetTexture = renderTexture;
+		gameCamera.Render();
+		RenderTexture.active = renderTexture;
+		Texture2D texture = new Texture2D(256, 256, TextureFormat.ARGB32, false);
+		texture.ReadPixels(new Rect(0, 0, 256, 2256), 0, 0);
+		texture.Apply();
+
+		File.WriteAllBytes(Application.persistentDataPath + "/" + currentLevel + ".png", texture.EncodeToPNG());
+
+		//Clean up
+		gameCamera.targetTexture = null;
+		RenderTexture.active = null; //added to avoid errors 
+		DestroyImmediate(renderTexture);
+
+		Debug.Log("Saved preview image to: " + Application.persistentDataPath + "/" + currentLevel + ".png");
+	}
+	void Load(string levelName)
+	{
+		Debug.Log("Load");
+
+		DeleteAllItems();
+
+		XmlDocument xmlDoc = new XmlDocument();
+
+		if (levelName.StartsWith ("learn."))
+		{
+			TextAsset textAsset = (TextAsset)Resources.Load("Learn/" + levelName.Replace("learn", "level"));
+			xmlDoc.LoadXml(textAsset.text);
+		}
+		else if (levelName.StartsWith("play."))
+			xmlDoc.Load(Application.persistentDataPath + "/" + levelName + ".xml");
+
+		//set camera position and size
+		XmlNode root = xmlDoc.DocumentElement;
+		cameraTargetPosition = new Vector2(float.Parse(root.Attributes["x"].Value), float.Parse(root.Attributes["y"].Value));
+		cameraTargetSize = float.Parse(root.Attributes["s"].Value);
+
+		//create items
+		ItemShape shape; ItemMaterial material; float width; float height;
+		for (int i = 0; i < root.ChildNodes.Count; i++)
+		{
+			shape = (ItemShape)Enum.Parse(typeof(ItemShape), root.ChildNodes[i].Attributes["s"].Value);
+			material = (ItemMaterial)Enum.Parse(typeof(ItemMaterial), root.ChildNodes[i].Attributes["m"].Value);
+			width = float.Parse(root.ChildNodes[i].Attributes["w"].Value);
+			height = float.Parse(root.ChildNodes[i].Attributes["h"].Value);
+
+			CreateItem(shape, material, width, height);
+
+			MyTransform.SetLocalPositionXY(items[i].gameObject.transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value), float.Parse(root.ChildNodes[i].Attributes["y"].Value));
+			items[i].gameObject.transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
+		}
+		currentLevel = levelName;
+
+		Debug.Log("Loaded");
+	}
+	void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
+	{
+		XmlAttribute attribute = xmlDoc.CreateAttribute(attributeName);
+		attribute.Value = attributeValue;
+		parentXmlNode.Attributes.Append(attribute);
 	}
 
 	private void ButtonMenu_Tap(GameObject sender, Camera camera)
