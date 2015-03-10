@@ -287,6 +287,7 @@ public class Main : MonoBehaviour
 		material.mainTextureOffset = new Vector2 (0, (1 - material.mainTextureScale.y) / 2);
 		thumb.renderer.material = material;
 
+		thumb.name = "level.0" + i;
 		thumb.GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
 	}
 
@@ -732,7 +733,7 @@ public class Main : MonoBehaviour
 
 		Debug.Log("Saved to: " + Application.persistentDataPath + "/" + fileName + ".xml");
 	}
-	void Load()
+	void Load( string fileName)
 	{
 		Debug.Log("Load");
 		
@@ -740,7 +741,7 @@ public class Main : MonoBehaviour
 		
 		XmlDocument xmlDoc = new XmlDocument();
 		//xmlDoc.Load(Application.persistentDataPath + "/save.xml");
-		TextAsset textAsset = (TextAsset)Resources.Load("Learn/level.01");
+		TextAsset textAsset = (TextAsset)Resources.Load("Learn/" + fileName);
 		xmlDoc.LoadXml(textAsset.text);
 
 		//set camera position and size
@@ -800,7 +801,7 @@ public class Main : MonoBehaviour
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
-		Load();
+		Load(sender.name);
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Stop,
