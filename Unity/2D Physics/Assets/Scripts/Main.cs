@@ -548,6 +548,7 @@ public class Main : MonoBehaviour
 		//physicsObject.gameObject.rigidbody2D.isKinematic = true;
 		physicsObject.velocity = Vector2.zero;
 		physicsObject.angularVelocity = 0;
+		physicsObject.gameObject.rigidbody2D.isKinematic = true;
 
 		//setup input events
 		DragAndDrop dragAndDrop = physicsObject.gameObject.AddComponent<DragAndDrop>();
@@ -560,6 +561,14 @@ public class Main : MonoBehaviour
 		//add the item to the list
 		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
 		items[items.Length - 1] = physicsObject;
+	}
+	void DeleteAllItems()
+	{
+		for (int i = 0; i < items.Length; i++)
+		{
+			Destroy(items[i].gameObject);
+		}
+		Array.Resize<PhysicsObject>(ref items, 0);
 	}
 
 	void DragItem(GameObject item)
@@ -723,6 +732,39 @@ public class Main : MonoBehaviour
 
 		Debug.Log("Saved to: " + Application.persistentDataPath + "/" + fileName + ".xml");
 	}
+	void Load()
+	{
+		Debug.Log("Load");
+		
+		DeleteAllItems();
+		
+		XmlDocument xmlDoc = new XmlDocument();
+		//xmlDoc.Load(Application.persistentDataPath + "/save.xml");
+		TextAsset textAsset = (TextAsset)Resources.Load("Learn/level.01");
+		xmlDoc.LoadXml(textAsset.text);
+
+		//set camera position and size
+		XmlNode root = xmlDoc.DocumentElement;
+		cameraTargetPosition = new Vector2(float.Parse(root.Attributes["x"].Value), float.Parse(root.Attributes["y"].Value));
+		cameraTargetSize = float.Parse(root.Attributes["s"].Value);
+		
+		//create items
+		ItemShape shape; ItemMaterial material; float width; float height;
+		for (int i = 0; i < root.ChildNodes.Count; i++)
+		{
+			shape = (ItemShape)Enum.Parse(typeof(ItemShape), root.ChildNodes[i].Attributes["s"].Value);
+			material = (ItemMaterial)Enum.Parse(typeof(ItemMaterial), root.ChildNodes[i].Attributes["m"].Value);
+			width = float.Parse(root.ChildNodes[i].Attributes["w"].Value);
+			height = float.Parse(root.ChildNodes[i].Attributes["h"].Value);
+			
+			CreateItem(shape, material, width, height);
+			
+			MyTransform.SetLocalPositionXY(items[i].gameObject.transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value), float.Parse(root.ChildNodes[i].Attributes["y"].Value));
+			items[i].gameObject.transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
+		}
+		
+		Debug.Log("Loaded");
+	}
 	void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
 	{
 		XmlAttribute attribute = xmlDoc.CreateAttribute(attributeName);
@@ -758,6 +800,8 @@ public class Main : MonoBehaviour
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
+		Load();
+
 		StartCoroutine(TransitionTo(
 			GameStatus.Stop,
 			gameRect,
@@ -776,7 +820,7 @@ public class Main : MonoBehaviour
 		StartCoroutine(TransitionTo(
 			GameStatus.Menu,
 			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
-			new Vector2(0, homeRect.Top - cameraDefaultSize),
+			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
 	private void ButtonPlay_Tap(GameObject sender, Camera camera)
