@@ -16,7 +16,7 @@ public class Main : MonoBehaviour
 	
 	//game
 	GameObject
-		buttonLearnGallery, buttonPlayGallery, titlePlay, titleLearn,
+		buttonLearnGallery, buttonPlayGallery, buttonPlayNew, titlePlay, titleLearn,
 		buttonMenu,	buttonPlay, buttonPause, buttonStop,
 		toolbar, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
@@ -100,7 +100,7 @@ public class Main : MonoBehaviour
 		playSavedFiles = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
 
 		playGalleryRect = new MyRect(
-			gameRect.Top + menuUnit * 320 + (playSavedFiles.Length - 1) / 4 * menuUnit * 225,
+			gameRect.Top + menuUnit * 320 + (playSavedFiles.Length) / 4 * menuUnit * 225,
 			-cameraDefaultSize * aspectRatio,
 			gameRect.Top,
 			cameraDefaultSize * aspectRatio);
@@ -169,6 +169,7 @@ public class Main : MonoBehaviour
 		//define the UI objects
 		buttonLearnGallery = GameObject.Find("ButtonLearnGallery");
 		buttonPlayGallery = GameObject.Find("ButtonPlayGallery");
+		buttonPlayNew = GameObject.Find("ButtonPlayNew");
 		titleLearn = GameObject.Find("TitleLearn");
 		titlePlay = GameObject.Find("TitlePlay");
 		
@@ -234,20 +235,30 @@ public class Main : MonoBehaviour
             StartCoroutine(LoadGalleryItem("learn." + (i + 1).ToString("00"), tmp));
 		}
 
-		//play gallery
+
+		//play gallery "new" item
 		startPos = new Vector2(
 			playGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
 			playGalleryRect.Top - menuUnit * 75 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
-		
-        for (int i = 0; i < playSavedFiles.Length; i++)
+
+		tmp = (GameObject)GameObject.Instantiate(itemBackground);
+		MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
+
+		tmp = (GameObject)GameObject.Instantiate(itemThumb);
+		MyTransform.SetPositionXY(tmp.transform, startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
+
+		MyTransform.SetPositionXY(buttonPlayNew.transform, tmp.transform.position);
+
+		//play gallery items
+        for (int i = 1; i <= playSavedFiles.Length; i++)
         {
-            tmp = (GameObject)GameObject.Instantiate(itemBackground);
-            MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
+			tmp = (GameObject)GameObject.Instantiate(itemBackground);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 
-            tmp = (GameObject)GameObject.Instantiate(itemThumb);
-            MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
+			tmp = (GameObject)GameObject.Instantiate(itemThumb);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
 
-            StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(playSavedFiles[i]), tmp));
+			StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
         }
 
 
@@ -319,6 +330,7 @@ public class Main : MonoBehaviour
 		//Learn and play gallery buttons
 		buttonLearnGallery.GetComponent<MyInputEvents>().OnTap += ButtonLearnGallery_Tap;
 		buttonPlayGallery.GetComponent<MyInputEvents>().OnTap += ButtonPlayGallery_Tap;
+		buttonPlayNew.GetComponent<MyInputEvents>().OnTap += ButtonPlayNew_Tap;
 
 		//Menu button
 		buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
@@ -672,9 +684,29 @@ public class Main : MonoBehaviour
 			new Vector2(0, playGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
+	private void ButtonPlayNew_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		//currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
+
+		//Load(sender.name);
+
+		//SAVE AND CLEAR THE CURRENT LEVEL
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Stop,
+			gameRect,
+			gameRect.Center,
+			cameraDefaultSize));
+
+		//ShowGameUI();
+	}
 	void GalleryItem_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
+
+		currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
 
 		Load(sender.name);
 
@@ -690,7 +722,6 @@ public class Main : MonoBehaviour
 	void Save()
 	{
 		if (currentLevel == null || currentLevel.StartsWith ("learn.")) return;
-
 
 		//SAVE XML DATA
 		Debug.Log("Save XML");
@@ -722,8 +753,6 @@ public class Main : MonoBehaviour
 
 			rootNode.AppendChild(itemNode);
 		}
-
-		if (currentLevel == null) currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
 
 		xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
 
