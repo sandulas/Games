@@ -64,7 +64,8 @@ public class Main : MonoBehaviour
 
 	#endregion
 
-    //Initialization
+
+    //INITIALIZATION
 	void Start()
 	{
 		SetupScene();
@@ -205,62 +206,8 @@ public class Main : MonoBehaviour
 		MyTransform.SetPositionXY(titlePlay.transform, playGalleryRect.Left + menuUnit * 25, playGalleryRect.Top - menuUnit * 15);
 		MyTransform.SetScaleXY(titleLearn.transform, menuUnit * 80, menuUnit * 80);
 		MyTransform.SetScaleXY(titlePlay.transform, menuUnit * 80, menuUnit * 80);
-		
-		//learn gallery first item
-		GameObject itemBackground = GameObject.Find("ItemBackground");
-		GameObject itemThumb = GameObject.Find("ItemThumb");
 
-		MyTransform.SetScaleXY(itemBackground.transform, menuUnit * 85, menuUnit * 85);
-		MyTransform.SetScaleXY(itemThumb.transform, menuUnit * 194, menuUnit * 142);
-
-		Vector2 startPos = new Vector2(
-			learnGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
-			learnGalleryRect.Top - menuUnit * 70 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
-
-		MyTransform.SetPositionXY(itemBackground.transform,startPos.x, startPos.y);
-		MyTransform.SetPositionXY(itemThumb.transform,startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
-
-		StartCoroutine(LoadGalleryItem("learn.01", itemThumb));
-
-		//learn gallery items
-		GameObject tmp;
-		for (int i = 1; i < learnGalleryCount; i++)
-		{
-			tmp = (GameObject)GameObject.Instantiate(itemBackground);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
-
-			tmp = (GameObject)GameObject.Instantiate(itemThumb);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
-
-            StartCoroutine(LoadGalleryItem("learn." + (i + 1).ToString("00"), tmp));
-		}
-
-
-		//play gallery "new" item
-		startPos = new Vector2(
-			playGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
-			playGalleryRect.Top - menuUnit * 75 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
-
-		tmp = (GameObject)GameObject.Instantiate(itemBackground);
-		MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
-
-		tmp = (GameObject)GameObject.Instantiate(itemThumb);
-		MyTransform.SetPositionXY(tmp.transform, startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
-
-		MyTransform.SetPositionXY(buttonPlayNew.transform, tmp.transform.position);
-
-		//play gallery items
-        for (int i = 1; i <= playSavedFiles.Length; i++)
-        {
-			tmp = (GameObject)GameObject.Instantiate(itemBackground);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
-
-			tmp = (GameObject)GameObject.Instantiate(itemThumb);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
-
-			StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
-        }
-
+		LoadGalleries();
 
 		//UI buttons
 		MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
@@ -289,6 +236,64 @@ public class Main : MonoBehaviour
 		HideItemControls();
 
 		SetupUIInputEvents();
+	}
+	void LoadGalleries()
+	{
+
+		//learn gallery first item
+		GameObject itemBackground = GameObject.Find("ItemBackground");
+		GameObject itemThumb = GameObject.Find("ItemThumb");
+
+		MyTransform.SetScaleXY(itemBackground.transform, menuUnit * 85, menuUnit * 85);
+		MyTransform.SetScaleXY(itemThumb.transform, menuUnit * 194, menuUnit * 142);
+
+		Vector2 startPos = new Vector2(
+			learnGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
+			learnGalleryRect.Top - menuUnit * 70 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
+
+		MyTransform.SetPositionXY(itemBackground.transform,startPos.x, startPos.y);
+		MyTransform.SetPositionXY(itemThumb.transform,startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
+
+		StartCoroutine(LoadGalleryItem("learn.01", itemThumb));
+
+		//learn gallery items
+		GameObject tmp;
+		for (int i = 1; i < learnGalleryCount; i++)
+		{
+			tmp = (GameObject)GameObject.Instantiate(itemBackground);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
+
+			tmp = (GameObject)GameObject.Instantiate(itemThumb);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
+
+			StartCoroutine(LoadGalleryItem("learn." + (i + 1).ToString("00"), tmp));
+		}
+
+
+		//play gallery "new" item
+		startPos = new Vector2(
+			playGalleryRect.Left + menuUnit * 17 + itemBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * itemBackground.transform.localScale.x / 2,
+			playGalleryRect.Top - menuUnit * 75 - itemBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * itemBackground.transform.localScale.y / 2);
+
+		tmp = (GameObject)GameObject.Instantiate(itemBackground);
+		MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
+
+		tmp = (GameObject)GameObject.Instantiate(itemThumb);
+		MyTransform.SetPositionXY(tmp.transform, startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
+
+		MyTransform.SetPositionXY(buttonPlayNew.transform, tmp.transform.position);
+
+		//play gallery items
+		for (int i = 1; i <= playSavedFiles.Length; i++)
+		{
+			tmp = (GameObject)GameObject.Instantiate(itemBackground);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
+
+			tmp = (GameObject)GameObject.Instantiate(itemThumb);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
+
+			StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
+		}
 	}
     IEnumerator LoadGalleryItem(string levelName, GameObject thumb)
 	{
@@ -322,7 +327,6 @@ public class Main : MonoBehaviour
 		thumb.name = levelName;
 		thumb.GetComponent<MyInputEvents>().OnTap += GalleryItem_Tap;
 	}
-
 	private void SetupUIInputEvents()
 	{
 		MyInputEvents inputEvents;
@@ -375,7 +379,8 @@ public class Main : MonoBehaviour
 		inputEvents.OnMouseScrollWheel += Master_MouseScrollWheel;
 	}
 
-	//Toolbar
+
+	//EDITING
 	void ButtonCreate_Touch(GameObject sender, Camera camera)
 	{
 		if (sender == buttonRectangle)
@@ -388,7 +393,6 @@ public class Main : MonoBehaviour
 		HideItemControls();
 	}
 
-	//Operations
 	void Item_Touch(GameObject sender, Camera camera)
 	{
 		DragStart(sender);
@@ -487,7 +491,7 @@ public class Main : MonoBehaviour
 		CloneItem();
 	}
 
-	//METHODS
+
 	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
 	{
 		float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
@@ -660,10 +664,8 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
-	#region Navigation, load/save, camera movement and zoom
 
-
-	//Navigation
+	//NAVIGATION
 	private void ButtonLearnGallery_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
@@ -684,6 +686,7 @@ public class Main : MonoBehaviour
 			new Vector2(0, playGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
+
 	private void ButtonPlayNew_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
@@ -719,6 +722,94 @@ public class Main : MonoBehaviour
 		ShowGameUI();
 	}
 
+	private void ButtonMenu_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		HideGameUI();
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
+	}
+	private void ButtonPlay_Tap(GameObject sender, Camera camera)
+	{
+		Save();
+	}
+		
+	//main camera movement
+	void Background_Touch(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		cameraTargetPosition = gameCamera.transform.position;
+		cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
+		isCameraDragged = true;
+	}
+	void Background_Drag(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+		if (!isCameraDragged) return;
+
+		cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
+	}
+	void Background_Release(GameObject sender, Camera camera)
+	{
+		isCameraDragged = false;
+	}
+
+	//main camera pinch and zoom
+	private void Master_DoubleTouchStart(Touch touch0, Touch touch1)
+	{
+		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+	}
+	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
+	{
+		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
+
+		doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+		cameraTargetSize = gameCamera.orthographicSize + doubleTouchDistanceOffset * gameCamera.orthographicSize;
+
+		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
+	}
+	private void Master_MouseScrollWheel(float amount)
+	{
+		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
+
+		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
+	}
+
+	void HideGameUI()
+	{
+		toolbar.SetActive(false);
+		buttonMenu.SetActive(false);
+		buttonPlay.SetActive(false);
+		buttonStop.SetActive(false);
+	}
+	void ShowGameUI()
+	{
+		toolbar.SetActive(true);
+		buttonMenu.SetActive(true);
+		buttonPlay.SetActive(true);
+		buttonStop.SetActive(false);
+	}
+
+	IEnumerator TransitionTo(GameStatus newGameStatus, MyRect newCameraTrapRect, Vector2 newCameraPosition, float newCameraSize)
+	{
+		targetCameraTrapRect = new MyRect(homeRect.Top, gameRect.Left, gameRect.Bottom, gameRect.Right);
+		cameraTargetSize = newCameraSize;
+		cameraTargetPosition = newCameraPosition;
+
+		gameStatus = GameStatus.Transition;
+		yield return new WaitForSeconds(0.6f);
+		targetCameraTrapRect = newCameraTrapRect;
+		gameStatus = newGameStatus;
+	}
+
+
+	//SAVE AND LOAD
 	void Save()
 	{
 		if (currentLevel == null || currentLevel.StartsWith ("learn.")) return;
@@ -825,97 +916,8 @@ public class Main : MonoBehaviour
 		parentXmlNode.Attributes.Append(attribute);
 	}
 
-	private void ButtonMenu_Tap(GameObject sender, Camera camera)
-	{
-		if (gameStatus == GameStatus.Transition) return;
 
-		HideGameUI();
-
-		StartCoroutine(TransitionTo(
-			GameStatus.Menu,
-			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
-			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
-			cameraDefaultSize));
-	}
-	private void ButtonPlay_Tap(GameObject sender, Camera camera)
-	{
-		Save();
-	}
-
-	
-	void HideGameUI()
-	{
-		toolbar.SetActive(false);
-		buttonMenu.SetActive(false);
-		buttonPlay.SetActive(false);
-		buttonStop.SetActive(false);
-	}
-	void ShowGameUI()
-	{
-		toolbar.SetActive(true);
-		buttonMenu.SetActive(true);
-		buttonPlay.SetActive(true);
-		buttonStop.SetActive(false);
-	}
-
-
-	//main camera movement
-	void Background_Touch(GameObject sender, Camera camera)
-	{
-		if (gameStatus == GameStatus.Transition) return;
-
-		cameraTargetPosition = gameCamera.transform.position;
-		cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
-		isCameraDragged = true;
-	}
-	void Background_Drag(GameObject sender, Camera camera)
-	{
-		if (gameStatus == GameStatus.Transition) return;
-		if (!isCameraDragged) return;
-
-		cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
-	}
-	void Background_Release(GameObject sender, Camera camera)
-	{
-		isCameraDragged = false;
-	}
-
-	//main camera pinch and zoom
-	private void Master_DoubleTouchStart(Touch touch0, Touch touch1)
-	{
-		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
-	}
-	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
-	{
-		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
-
-		doubleTouchDistanceOffset = doubleTouchDistance - Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
-		cameraTargetSize = gameCamera.orthographicSize + doubleTouchDistanceOffset * gameCamera.orthographicSize;
-
-		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
-	}
-	private void Master_MouseScrollWheel(float amount)
-	{
-		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
-
-		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
-	}
-
-	IEnumerator TransitionTo(GameStatus newGameStatus, MyRect newCameraTrapRect, Vector2 newCameraPosition, float newCameraSize)
-	{
-		targetCameraTrapRect = new MyRect(homeRect.Top, gameRect.Left, gameRect.Bottom, gameRect.Right);
-		cameraTargetSize = newCameraSize;
-		cameraTargetPosition = newCameraPosition;
-
-		gameStatus = GameStatus.Transition;
-		yield return new WaitForSeconds(0.6f);
-		targetCameraTrapRect = newCameraTrapRect;
-		gameStatus = newGameStatus;
-	}
-
-	#endregion
-
-    //Update
+    //UPDATE
     void Update()
     {
         if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
