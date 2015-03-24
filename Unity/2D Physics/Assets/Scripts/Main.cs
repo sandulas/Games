@@ -284,13 +284,15 @@ public class Main : MonoBehaviour
 		MyTransform.SetPositionXY(buttonPlayNew.transform, tmp.transform.position);
 
 		//play gallery items
+		int pos;
 		for (int i = 1; i <= playSavedFiles.Length; i++)
 		{
+			pos = playSavedFiles.Length - i + 1;
 			tmp = (GameObject)GameObject.Instantiate(itemBackground);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + pos % 4 * menuUnit * 244, startPos.y - pos / 4 * menuUnit * 225);
 
 			tmp = (GameObject)GameObject.Instantiate(itemThumb);
-			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - i / 4 * menuUnit * 225 + menuUnit * 18);
+			MyTransform.SetPositionXY(tmp.transform, startPos.x + pos % 4 * menuUnit * 244 + menuUnit * 3, startPos.y - pos / 4 * menuUnit * 225 + menuUnit * 18);
 
 			StartCoroutine(LoadGalleryItem(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
 		}
