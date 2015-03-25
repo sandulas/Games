@@ -693,11 +693,24 @@ public class Main : MonoBehaviour
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
-		//currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
+		currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
 
-		//Load(sender.name);
+		//create new, empty xml
+		XmlDocument xmlDoc = new XmlDocument();
+		XmlNode rootNode = xmlDoc.CreateElement("r");
 
-		//SAVE AND CLEAR THE CURRENT LEVEL
+		XmlAddAttribute(xmlDoc, rootNode, "s", cameraDefaultSize.ToString()); //size
+		XmlAddAttribute(xmlDoc, rootNode, "x", gameRect.Center.x.ToString()); // x position
+		XmlAddAttribute(xmlDoc, rootNode, "y", gameRect.Center.y.ToString()); // y position
+		xmlDoc.AppendChild(rootNode);
+		xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
+
+		//copy new, empty thumbnail
+		Texture2D texture = Resources.Load<Texture2D>("NewItemBg");
+		File.WriteAllBytes(Application.persistentDataPath + "/" + currentLevel + ".png", texture.EncodeToPNG());
+
+		//load the new level
+		Load(currentLevel);
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Stop,
@@ -705,13 +718,11 @@ public class Main : MonoBehaviour
 			gameRect.Center,
 			cameraDefaultSize));
 
-		//ShowGameUI();
+		ShowGameUI();
 	}
 	void GalleryItem_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
-
-		currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
 
 		Load(sender.name);
 
@@ -860,7 +871,7 @@ public class Main : MonoBehaviour
 		gameCamera.Render();
 		RenderTexture.active = renderTexture;
 		Texture2D texture = new Texture2D(256, 256, TextureFormat.ARGB32, false);
-		texture.ReadPixels(new Rect(0, 0, 256, 2256), 0, 0);
+		texture.ReadPixels(new Rect(0, 0, 256, 256), 0, 0);
 		texture.Apply();
 
 		File.WriteAllBytes(Application.persistentDataPath + "/" + currentLevel + ".png", texture.EncodeToPNG());
