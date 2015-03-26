@@ -23,6 +23,11 @@ TextureImporter:
     21300036: Title_Learn
     21300038: Title_Play
     21300040: New
+    21300042: Item_Delete
+    21300044: Item_Confirm
+    21300046: Item_Separator
+    21300048: Item_Cancel
+    21300050: Item_Delete_Prompt
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -271,6 +276,56 @@ TextureImporter:
         y: 1736
         width: 155
         height: 157
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Item_Delete
+      rect:
+        serializedVersion: 2
+        x: 1357
+        y: 1981
+        width: 43
+        height: 66
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Item_Confirm
+      rect:
+        serializedVersion: 2
+        x: 1402
+        y: 1995
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Item_Separator
+      rect:
+        serializedVersion: 2
+        x: 1456
+        y: 1985
+        width: 11
+        height: 62
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Item_Cancel
+      rect:
+        serializedVersion: 2
+        x: 1469
+        y: 1995
+        width: 52
+        height: 52
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Item_Delete_Prompt
+      rect:
+        serializedVersion: 2
+        x: 1164
+        y: 1897
+        width: 150
+        height: 150
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
