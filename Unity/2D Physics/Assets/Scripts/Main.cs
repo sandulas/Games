@@ -240,55 +240,61 @@ public class Main : MonoBehaviour
 	void LoadGalleries()
 	{
 		//learn gallery first level
-		GameObject levelBackground = GameObject.Find("LearnLevel");
-		GameObject levelThumb = levelBackground.transform.FindChild("Thumb").gameObject;
+		GameObject levelHolder = GameObject.Find("LearnLevel");
+		GameObject levelThumb = levelHolder.transform.FindChild("Thumb").gameObject;
 
-		MyTransform.SetScaleXY(levelBackground.transform, menuUnit * 85, menuUnit * 85);
+		MyTransform.SetScaleXY(levelHolder.transform, menuUnit * 85, menuUnit * 85);
 		MyTransform.SetScaleXY(levelThumb.transform, menuUnit * 172, menuUnit * 126);
 
 		Vector2 startPos = new Vector2(
-			learnGalleryRect.Left + menuUnit * 17 + levelBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * levelBackground.transform.localScale.x / 2,
-			learnGalleryRect.Top - menuUnit * 70 - levelBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * levelBackground.transform.localScale.y / 2);
+			learnGalleryRect.Left + menuUnit * 17 + levelHolder.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * levelHolder.transform.localScale.x / 2,
+			learnGalleryRect.Top - menuUnit * 70 - levelHolder.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * levelHolder.transform.localScale.y / 2);
 
-		MyTransform.SetPositionXY(levelBackground.transform,startPos.x, startPos.y);
+		MyTransform.SetPositionXY(levelHolder.transform,startPos.x, startPos.y);
 		MyTransform.SetPositionXY(levelThumb.transform,startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
 
-		StartCoroutine(LeadGalleryLevel("learn.01", levelThumb));
+		StartCoroutine(LeadGalleryLevel("learn.01", levelHolder));
 
 		//learn gallery levels
 		GameObject tmp;
 		for (int i = 1; i < learnGalleryCount; i++)
 		{
-			tmp = (GameObject)GameObject.Instantiate(levelBackground);
+			tmp = (GameObject)GameObject.Instantiate(levelHolder);
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 
-			StartCoroutine(LeadGalleryLevel("learn." + (i + 1).ToString("00"), tmp.transform.FindChild("Thumb").gameObject));
+			StartCoroutine(LeadGalleryLevel("learn." + (i + 1).ToString("00"), tmp));
 		}
 
 		//play gallery "new" level
 		startPos = new Vector2(
-			playGalleryRect.Left + menuUnit * 17 + levelBackground.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * levelBackground.transform.localScale.x / 2,
-			playGalleryRect.Top - menuUnit * 75 - levelBackground.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * levelBackground.transform.localScale.y / 2);
+			playGalleryRect.Left + menuUnit * 17 + levelHolder.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * levelHolder.transform.localScale.x / 2,
+			playGalleryRect.Top - menuUnit * 75 - levelHolder.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * levelHolder.transform.localScale.y / 2);
 
-		tmp = (GameObject)GameObject.Instantiate(levelBackground);
+		tmp = (GameObject)GameObject.Instantiate(levelHolder);
 		tmp.name = "PlayNewLevel";
 		MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
 
 		MyTransform.SetPositionXY(buttonNewLevel.transform, tmp.transform.FindChild("Thumb").position);
 
 		//play gallery levels
+		levelHolder = GameObject.Find("PlayLevel");
+		levelThumb = levelHolder.transform.FindChild("Thumb").gameObject;
+
+		MyTransform.SetScaleXY(levelHolder.transform, menuUnit * 85, menuUnit * 85);
+		MyTransform.SetScaleXY(levelThumb.transform, menuUnit * 172, menuUnit * 126);
+
 		int pos;
 		for (int i = 1; i <= playSavedFiles.Length; i++)
 		{
 			pos = playSavedFiles.Length - i + 1;
-			tmp = (GameObject)GameObject.Instantiate(levelBackground);
+			tmp = (GameObject)GameObject.Instantiate(levelHolder);
 			tmp.name = "PlayLevel." + pos.ToString("00");
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + pos % 4 * menuUnit * 244, startPos.y - pos / 4 * menuUnit * 225);
 
-			StartCoroutine(LeadGalleryLevel(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp.transform.FindChild("Thumb").gameObject));
+			StartCoroutine(LeadGalleryLevel(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
 		}
 	}
-    IEnumerator LeadGalleryLevel(string levelName, GameObject thumb)
+    IEnumerator LeadGalleryLevel(string levelName, GameObject levelHolder)
 	{
         Texture2D texture = null;
 
@@ -304,13 +310,17 @@ public class Main : MonoBehaviour
         else if (levelName.StartsWith("play."))
         {
             texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
-            byte [] textureData = File.ReadAllBytes(Application.persistentDataPath + "/" + levelName + ".png");
+            byte[] textureData = File.ReadAllBytes(Application.persistentDataPath + "/" + levelName + ".png");
 
             texture.wrapMode = TextureWrapMode.Clamp;
             texture.filterMode = FilterMode.Bilinear;
             texture.LoadImage(textureData);
+
+			levelHolder.transform.FindChild("ConfirmContainer").gameObject.SetActive(false);
         }
 
+		GameObject thumb = levelHolder.transform.FindChild("Thumb").gameObject;
+		
 		Material material = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
 		material.mainTexture = texture;
 		material.mainTextureScale = new Vector2 (1, thumb.transform.localScale.y / thumb.transform.localScale.x);
@@ -424,7 +434,7 @@ public class Main : MonoBehaviour
 //		playSavedFiles[playSavedFiles.Length - 1] = Application.persistentDataPath + "/" +  currentLevel + ".xml";
 
 		//load the new level
-		Load(currentLevel);
+		LoadLevel(currentLevel);
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Stop,
@@ -438,7 +448,7 @@ public class Main : MonoBehaviour
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
-		Load(sender.name);
+		LoadLevel(sender.name);
 
 		StartCoroutine(TransitionTo(
 			GameStatus.Stop,
@@ -463,7 +473,7 @@ public class Main : MonoBehaviour
 	}
 	private void ButtonPlay_Tap(GameObject sender, Camera camera)
 	{
-		Save();
+		SaveLevel();
 	}
 		
 	//main camera movement
@@ -536,7 +546,7 @@ public class Main : MonoBehaviour
 	}
 
 	//SAVE AND LOAD
-	void Save()
+	void SaveLevel()
 	{
 		if (currentLevel == null || currentLevel.StartsWith ("learn.")) return;
 
@@ -596,7 +606,7 @@ public class Main : MonoBehaviour
 
 		Debug.Log("Saved preview image to: " + Application.persistentDataPath + "/" + currentLevel + ".png");
 	}
-	void Load(string levelName)
+	void LoadLevel(string levelName)
 	{
 		Debug.Log("Load");
 
