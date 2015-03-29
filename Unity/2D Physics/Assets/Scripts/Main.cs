@@ -241,17 +241,13 @@ public class Main : MonoBehaviour
 	{
 		//learn gallery first level
 		GameObject levelHolder = GameObject.Find("LearnLevel");
-		GameObject levelThumb = levelHolder.transform.FindChild("Thumb").gameObject;
-
 		MyTransform.SetScaleXY(levelHolder.transform, menuUnit * 85, menuUnit * 85);
-		MyTransform.SetScaleXY(levelThumb.transform, menuUnit * 172, menuUnit * 126);
 
 		Vector2 startPos = new Vector2(
 			learnGalleryRect.Left + menuUnit * 17 + levelHolder.GetComponent<SpriteRenderer>().sprite.rect.width / spritePixelsPerUnit * levelHolder.transform.localScale.x / 2,
 			learnGalleryRect.Top - menuUnit * 70 - levelHolder.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * levelHolder.transform.localScale.y / 2);
 
 		MyTransform.SetPositionXY(levelHolder.transform,startPos.x, startPos.y);
-		MyTransform.SetPositionXY(levelThumb.transform,startPos.x + menuUnit * 3, startPos.y + menuUnit * 18);
 
 		StartCoroutine(LeadGalleryLevel("learn.01", levelHolder));
 
@@ -273,15 +269,11 @@ public class Main : MonoBehaviour
 		tmp = (GameObject)GameObject.Instantiate(levelHolder);
 		tmp.name = "PlayNewLevel";
 		MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
-
 		MyTransform.SetPositionXY(buttonNewLevel.transform, tmp.transform.FindChild("Thumb").position);
 
 		//play gallery levels
 		levelHolder = GameObject.Find("PlayLevel");
-		levelThumb = levelHolder.transform.FindChild("Thumb").gameObject;
-
 		MyTransform.SetScaleXY(levelHolder.transform, menuUnit * 85, menuUnit * 85);
-		MyTransform.SetScaleXY(levelThumb.transform, menuUnit * 172, menuUnit * 126);
 
 		int pos;
 		for (int i = 1; i <= playSavedFiles.Length; i++)
