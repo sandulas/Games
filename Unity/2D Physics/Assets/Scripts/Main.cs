@@ -8,7 +8,7 @@ using System.IO;
 
 public class Main : MonoBehaviour
 {
-	#region Properties and variables
+	#region PROPERTIES AND VARIABLES
 
 	//public
 	public Camera uiCamera, gameCamera;
@@ -51,7 +51,7 @@ public class Main : MonoBehaviour
 	MyRect
 		homeRect, learnGalleryRect, playGalleryRect, gameRect,
 		gameUIRect;
-	
+
 	//camera
 	Vector2 cameraTargetPosition;
 	float cameraTargetSize;
@@ -67,7 +67,8 @@ public class Main : MonoBehaviour
 	#endregion
 
 
-    //INITIALIZATION
+	#region INITIALIZATION
+
 	void Start()
 	{
 		SetupScene();
@@ -103,32 +104,7 @@ public class Main : MonoBehaviour
 		playSavedFiles = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
 		playLevelsCount = playSavedFiles.Length;
 
-		playGalleryRect = new MyRect(
-			gameRect.Top + menuUnit * 320 + (playLevelsCount) / 4 * menuUnit * 225,
-			-cameraDefaultSize * aspectRatio,
-			gameRect.Top,
-			cameraDefaultSize * aspectRatio);
-		playGalleryRect.Draw();
-
-		learnGalleryRect = new MyRect(
-			playGalleryRect.Top + menuUnit * 315 + (learnLevelsCount - 1) / 4 * menuUnit * 225,
-			-cameraDefaultSize * aspectRatio,
-			playGalleryRect.Top,
-			cameraDefaultSize * aspectRatio);
-		learnGalleryRect.Draw();
-
-		homeRect = new MyRect(
-			learnGalleryRect.Top + cameraDefaultSize * 2,
-			-cameraDefaultSize * aspectRatio,
-			learnGalleryRect.Top,
-			cameraDefaultSize * aspectRatio);
-		homeRect.Draw();
-
-		//initialize the background
-		Vector2 sceneSize = new Vector2(gameRect.Width, gameRect.Height + playGalleryRect.Height + learnGalleryRect.Height + homeRect.Height);
-		background.transform.position = new Vector3(0, (sceneSize.y - gameRect.Height) / 2, 0);
-		background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
-		background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
+		UpdateSceneZones();
 
 		//setup the walls
 		GameObject wall;
@@ -154,10 +130,62 @@ public class Main : MonoBehaviour
 		itemsContainer = new GameObject("Objects Container");
 		itemsContainer.transform.position = playgroundRect.Center;
 	}
+	void UpdateSceneZones()
+	{
+		float playGalleryTopOffset;
+		if (playGalleryRect == null)
+			playGalleryTopOffset = float.MaxValue;
+		else
+			playGalleryTopOffset = playGalleryRect.Top;
+
+		playGalleryRect = new MyRect(
+			gameRect.Top + menuUnit * 320 + (playLevelsCount) / 4 * menuUnit * 225,
+			-cameraDefaultSize * aspectRatio,
+			gameRect.Top,
+			cameraDefaultSize * aspectRatio);
+		playGalleryRect.Draw();
+
+		if (playGalleryTopOffset != float.MaxValue)
+			playGalleryTopOffset = playGalleryRect.Top - playGalleryTopOffset;
+		else
+			playGalleryTopOffset = 0;
+
+
+		//update UI screens vertical positions to match the variable height of the play gallery
+		MyTransform.MoveY(GameObject.Find("Play Gallery Screen").transform, playGalleryTopOffset);
+		MyTransform.MoveY(GameObject.Find("Learn Gallery Screen").transform, playGalleryTopOffset);
+		MyTransform.MoveY(GameObject.Find("Home Screen").transform, playGalleryTopOffset);
+		MyTransform.MoveY(gameCamera.transform, playGalleryTopOffset);
+		cameraTargetPosition = gameCamera.transform.position;
+
+
+		learnGalleryRect = new MyRect(
+			playGalleryRect.Top + menuUnit * 315 + (learnLevelsCount - 1) / 4 * menuUnit * 225,
+			-cameraDefaultSize * aspectRatio,
+			playGalleryRect.Top,
+			cameraDefaultSize * aspectRatio);
+		learnGalleryRect.Draw();
+
+		homeRect = new MyRect(
+			learnGalleryRect.Top + cameraDefaultSize * 2,
+			-cameraDefaultSize * aspectRatio,
+			learnGalleryRect.Top,
+			cameraDefaultSize * aspectRatio);
+		homeRect.Draw();
+
+		targetCameraTrapRect = new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right);
+
+		//initialize the background
+		Vector2 sceneSize = new Vector2(gameRect.Width, gameRect.Height + playGalleryRect.Height + learnGalleryRect.Height + homeRect.Height);
+		background.transform.position = new Vector3(0, (sceneSize.y - gameRect.Height) / 2, 0);
+		background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
+		background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
+	}
+
 	void SetupUI()
 	{
 		//setup UI camera size depending on the screen size
-		if (Screen.dpi == 0) dpi = 270;
+		if (Screen.dpi < 1) dpi = 270;
 		else dpi = Screen.dpi;
 		dpi = Mathf.Clamp(dpi, 100, 700);//dpi = 132;
 		float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
@@ -222,9 +250,9 @@ public class Main : MonoBehaviour
 
 		//toolbar
 		MyTransform.SetPositionXY(toolbar.transform, gameUIRect.Right, 0);
-		GameObject gameObject = GameObject.Find("ToolbarBackground");
-		MyTransform.SetPositionXY(gameObject.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
-		MyTransform.SetScaleY(gameObject.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / gameObject.GetComponent<SpriteRenderer>().sprite.rect.height);
+		GameObject obj = GameObject.Find("ToolbarBackground");
+		MyTransform.SetPositionXY(obj.transform, gameUIRect.Right, uiCamera.orthographicSize + 0.01f);
+		MyTransform.SetScaleY(obj.transform, (uiCamera.orthographicSize + 0.02f) * 2 * spritePixelsPerUnit / obj.GetComponent<SpriteRenderer>().sprite.rect.height);
 
 		MyTransform.SetPositionXY(buttonRectangle.transform, gameUIRect.Right + 0.05f, gameUIRect.Top - 0.1f);
 		MyTransform.SetPositionXY(buttonCircle.transform, gameUIRect.Right + 0.05f, gameUIRect.Top - 1.2f - 0.1f);
@@ -259,6 +287,7 @@ public class Main : MonoBehaviour
 		for (int i = 1; i < learnLevelsCount; i++)
 		{
 			tmp = (GameObject)GameObject.Instantiate(levelHolder);
+			tmp.transform.parent = levelHolder.transform.parent;
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 
 			StartCoroutine(LoadGalleryLevel("learn." + (i + 1).ToString("00"), tmp));
@@ -277,12 +306,14 @@ public class Main : MonoBehaviour
 		//play gallery levels
 		levelHolder = GameObject.Find("PlayLevel");
 		MyTransform.SetScaleXY(levelHolder.transform, menuUnit * 85, menuUnit * 85);
+		tmp.transform.parent = levelHolder.transform.parent;
 
 		int pos;
 		for (int i = 1; i <= playLevelsCount; i++)
 		{
 			pos = playLevelsCount - i + 1;
 			tmp = (GameObject)GameObject.Instantiate(levelHolder);
+			tmp.transform.parent = levelHolder.transform.parent;
 			tmp.name = "PlayLevel." + pos.ToString("00");
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + pos % 4 * menuUnit * 244, startPos.y - pos / 4 * menuUnit * 225);
 
@@ -337,7 +368,8 @@ public class Main : MonoBehaviour
 			levelHolder.transform.Find("ConfirmContainer/ButtonConfirm").gameObject.GetComponent<MyInputEvents>().OnTap += ButtonDeleteLevelConfirm_Tap;
 		}
 	}
-	private void SetupUIInputEvents()
+
+	void SetupUIInputEvents()
 	{
 		MyInputEvents inputEvents;
 		
@@ -389,9 +421,13 @@ public class Main : MonoBehaviour
 		inputEvents.OnMouseScrollWheel += Master_MouseScrollWheel;
 	}
 
+	#endregion
 
-	//NAVIGATION
-	private void ButtonLearnGallery_Tap(GameObject sender, Camera camera)
+
+	#region NAVIGATION
+
+	//home
+	void ButtonLearnGallery_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
@@ -401,7 +437,7 @@ public class Main : MonoBehaviour
 			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
-	private void ButtonPlayGallery_Tap(GameObject sender, Camera camera)
+	void ButtonPlayGallery_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
@@ -412,7 +448,8 @@ public class Main : MonoBehaviour
 			cameraDefaultSize));
 	}
 
-	private void ButtonNewLevel_Tap(GameObject sender, Camera camera)
+	//galleries
+	void ButtonNewLevel_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
@@ -446,12 +483,14 @@ public class Main : MonoBehaviour
 
 		//add the new level to the gallery in the first position
 		obj = (GameObject)GameObject.Instantiate(GameObject.Find("PlayLevel"));
+		obj.transform.parent = GameObject.Find("PlayLevel").transform.parent;
+
 		obj.name = "PlayLevel.01";
 		MyTransform.SetPositionXY(obj.transform, startPos.x + (1) % 4 * menuUnit * 244, startPos.y - (1) / 4 * menuUnit * 225);
 		StartCoroutine(LoadGalleryLevel(currentLevel, obj));
 
 		playLevelsCount++;
-
+		UpdateSceneZones();
 
 		//load the new level
 		LoadLevel(currentLevel);
@@ -464,26 +503,56 @@ public class Main : MonoBehaviour
 
 		ShowGameUI();
 	}
-	private void ButtonDeleteLevel_Tap(GameObject sender, Camera camera)
+	void ButtonDeleteLevel_Tap(GameObject sender, Camera camera)
 	{
+		DeleteLevelCancel();
+
 		sender.SetActive(false);
 		GameObject levelHolder = sender.transform.parent.gameObject;
 		levelHolder.transform.Find("ConfirmContainer").gameObject.SetActive(true);
 
 		playLevelToDelete = sender.transform.parent.gameObject;
 	}
-	private void ButtonDeleteLevelCancel_Tap(GameObject sender, Camera camera)
+	void ButtonDeleteLevelCancel_Tap(GameObject sender, Camera camera)
 	{
-		playLevelToDelete.transform.GetChild(1).gameObject.SetActive(true);
-		playLevelToDelete.transform.GetChild(2).gameObject.SetActive(false);
+		DeleteLevelCancel();
 	}
-	private void ButtonDeleteLevelConfirm_Tap(GameObject sender, Camera camera)
+	void ButtonDeleteLevelConfirm_Tap(GameObject sender, Camera camera)
 	{
-		Debug.Log("DELETE LEVEL!!!");
+		//delete the level files
+		try
+		{
+			string levelName = playLevelToDelete.transform.GetChild(0).name;
+			File.Delete(Application.persistentDataPath + "/" + levelName + ".png");
+			File.Delete(Application.persistentDataPath + "/" + levelName + ".xml");
+		}
+		catch {	return;	}
+
+		//remove the level from the gallery
+		playLevelToDelete.SetActive(false);
+		GameObject.Destroy(playLevelToDelete);
+
+		//move the following levels to the left to fill the gap
+		Vector2 startPos = GameObject.Find("PlayNewLevel").transform.position;
+		int index = int.Parse(playLevelToDelete.name.Substring(playLevelToDelete.name.Length - 2));
+		GameObject obj;
+		for (int i = index + 1; i <= playLevelsCount; i++)
+		{
+			obj = GameObject.Find("PlayLevel." + i.ToString("00"));
+			obj.name = "PlayLevel." + (i - 1).ToString("00");
+			MyTransform.SetPositionXY(obj.transform, startPos.x + (i - 1) % 4 * menuUnit * 244, startPos.y - (i - 1) / 4 * menuUnit * 225);
+		}
+
+		playLevelsCount--;
+		playLevelToDelete = null;
+
+		UpdateSceneZones();
 	}
-	private void LevelThumb_Tap(GameObject sender, Camera camera)
+	void LevelThumb_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
+		if (playLevelToDelete == sender.transform.parent.gameObject)
+			return;
 
 		LoadLevel(sender.name);
 
@@ -496,7 +565,8 @@ public class Main : MonoBehaviour
 		ShowGameUI();
 	}
 
-	private void ButtonMenu_Tap(GameObject sender, Camera camera)
+	//game
+	void ButtonMenu_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
@@ -508,7 +578,7 @@ public class Main : MonoBehaviour
 			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
 			cameraDefaultSize));
 	}
-	private void ButtonPlay_Tap(GameObject sender, Camera camera)
+	void ButtonPlay_Tap(GameObject sender, Camera camera)
 	{
 		SaveLevel();
 	}
@@ -535,11 +605,11 @@ public class Main : MonoBehaviour
 	}
 
 	//main camera pinch and zoom
-	private void Master_DoubleTouchStart(Touch touch0, Touch touch1)
+	void Master_DoubleTouchStart(Touch touch0, Touch touch1)
 	{
 		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
 	}
-	private void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
+	void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
 	{
 		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
 
@@ -548,7 +618,7 @@ public class Main : MonoBehaviour
 
 		doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
 	}
-	private void Master_MouseScrollWheel(float amount)
+	void Master_MouseScrollWheel(float amount)
 	{
 		if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
 
@@ -569,6 +639,14 @@ public class Main : MonoBehaviour
 		buttonPlay.SetActive(true);
 		buttonStop.SetActive(false);
 	}
+	void DeleteLevelCancel()
+	{
+		if (playLevelToDelete == null)
+			return;
+		playLevelToDelete.transform.GetChild(1).gameObject.SetActive(true);
+		playLevelToDelete.transform.GetChild(2).gameObject.SetActive(false);
+		playLevelToDelete = null;
+	}
 
 	IEnumerator TransitionTo(GameStatus newGameStatus, MyRect newCameraTrapRect, Vector2 newCameraPosition, float newCameraSize)
 	{
@@ -582,7 +660,11 @@ public class Main : MonoBehaviour
 		gameStatus = newGameStatus;
 	}
 
-	//SAVE AND LOAD
+	#endregion
+
+
+	#region SAVE AND LOAD LEVEL
+
 	void SaveLevel()
 	{
 		if (currentLevel == null || currentLevel.StartsWith ("learn.")) return;
@@ -689,8 +771,11 @@ public class Main : MonoBehaviour
 		parentXmlNode.Attributes.Append(attribute);
 	}
 
+	#endregion
 
-	//EDITING
+
+	#region EDITING
+
 	void ButtonCreate_Touch(GameObject sender, Camera camera)
 	{
 		if (sender == buttonRectangle)
@@ -716,12 +801,12 @@ public class Main : MonoBehaviour
 		ShowItemControls();
 	}
 
-	private void ButtonMove_Touch(GameObject sender, Camera camera)
+	void ButtonMove_Touch(GameObject sender, Camera camera)
 	{
 		DragItem(selectedItem);
 	}
 
-	private void ButtonRotate_Touch(GameObject sender, Camera camera)
+	void ButtonRotate_Touch(GameObject sender, Camera camera)
 	{
 		selectedItem.rigidbody2D.isKinematic = false;
 		isItemDragged = true;
@@ -733,14 +818,14 @@ public class Main : MonoBehaviour
 
 		HideItemControls();
 	}
-	private void ButtonRotate_Drag(GameObject sender, Camera camera)
+	void ButtonRotate_Drag(GameObject sender, Camera camera)
 	{
 		float currentAngle = Vector2.Angle((Vector2)gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.rigidbody2D.worldCenterOfMass, Vector2.right);
 		if (gameCamera.ScreenToWorldPoint(Input.mousePosition).y < selectedItem.rigidbody2D.worldCenterOfMass.y) currentAngle = 360 - currentAngle;
 
 		selectedItem.rigidbody2D.MoveRotation(initialRotation + currentAngle - initialInputAngle);
 	}
-	private void ButtonRotate_Release(GameObject sender, Camera camera)
+	void ButtonRotate_Release(GameObject sender, Camera camera)
 	{
 		//selectedItem.rigidbody2D.isKinematic = true;
 		makeKinematic = 1;
@@ -749,7 +834,7 @@ public class Main : MonoBehaviour
 		ShowItemControls();
 	}
 
-	private void ButtonResize_Touch(GameObject sender, Camera camera)
+	void ButtonResize_Touch(GameObject sender, Camera camera)
 	{
 		resizeParent.transform.position = selectedItem.transform.position;
 		resizeParent.transform.rotation = selectedItem.transform.rotation;
@@ -766,7 +851,7 @@ public class Main : MonoBehaviour
 
 		HideItemControls();
 	}
-	private void ButtonResize_Drag(GameObject sender, Camera camera)
+	void ButtonResize_Drag(GameObject sender, Camera camera)
 	{
 		Vector2 currentInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
 		Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
@@ -785,7 +870,7 @@ public class Main : MonoBehaviour
 
 		selectedItem.rigidbody2D.MovePosition(newPos);
 	}
-	private void ButtonResize_Release(GameObject sender, Camera camera)
+	void ButtonResize_Release(GameObject sender, Camera camera)
 	{
 		selectedItem.transform.parent = itemsContainer.transform;
 
@@ -796,7 +881,7 @@ public class Main : MonoBehaviour
 		ShowItemControls();
 	}
 
-	private void ButtonClone_Touch(GameObject sender, Camera camera)
+	void ButtonClone_Touch(GameObject sender, Camera camera)
 	{
 		CloneItem();
 	}
@@ -974,8 +1059,11 @@ public class Main : MonoBehaviour
 		resizeCorner.y = Math.Sign(resizeCorner.y);
 	}
 
+	#endregion
 
-    //UPDATE
+
+    #region UPDATE
+
     void Update()
     {
         if (cameraFollowObject != null) cameraTargetPosition = cameraFollowObject.transform.position;
@@ -1045,6 +1133,8 @@ public class Main : MonoBehaviour
         }
 
     }
+
+	#endregion
 }
 
 public enum GameStatus

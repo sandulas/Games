@@ -40,6 +40,10 @@ namespace Sandulas
 		{
 			transform.position = new Vector3(transform.position.x, y, transform.position.z);
 		}
+		public static void MoveY(Transform transform, float yOffset)
+		{
+			transform.position = new Vector3(transform.position.x, transform.position.y + yOffset, transform.position.z);
+		}
 
 		public static void SetLocalPositionXY(Transform transform, float x, float y)
 		{
