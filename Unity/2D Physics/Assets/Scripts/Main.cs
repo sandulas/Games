@@ -23,6 +23,7 @@ public class Main : MonoBehaviour
 
 	GameStatus gameStatus = GameStatus.Stop;
 	string currentLevel = null;
+	GameObject playLevelToDelete = null;
 
 	GameObject selectedItem = null;
 	ItemProperties selectedItemProps = null;
@@ -40,7 +41,8 @@ public class Main : MonoBehaviour
 	
 	//scene setup
 	float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit, menuUnit;
-	int learnGalleryCount = 6;
+	int learnLevelsCount = 6;
+	int playLevelsCount;
 	string[] playSavedFiles;
 	
 	MyRect playgroundRect = new MyRect(10, -15, -10, 15);
@@ -99,16 +101,17 @@ public class Main : MonoBehaviour
 		menuUnit = cameraDefaultSize * aspectRatio * 2 / 1000;
 
 		playSavedFiles = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
+		playLevelsCount = playSavedFiles.Length;
 
 		playGalleryRect = new MyRect(
-			gameRect.Top + menuUnit * 320 + (playSavedFiles.Length) / 4 * menuUnit * 225,
+			gameRect.Top + menuUnit * 320 + (playLevelsCount) / 4 * menuUnit * 225,
 			-cameraDefaultSize * aspectRatio,
 			gameRect.Top,
 			cameraDefaultSize * aspectRatio);
 		playGalleryRect.Draw();
 
 		learnGalleryRect = new MyRect(
-			playGalleryRect.Top + menuUnit * 315 + (learnGalleryCount - 1) / 4 * menuUnit * 225,
+			playGalleryRect.Top + menuUnit * 315 + (learnLevelsCount - 1) / 4 * menuUnit * 225,
 			-cameraDefaultSize * aspectRatio,
 			playGalleryRect.Top,
 			cameraDefaultSize * aspectRatio);
@@ -249,16 +252,16 @@ public class Main : MonoBehaviour
 
 		MyTransform.SetPositionXY(levelHolder.transform,startPos.x, startPos.y);
 
-		StartCoroutine(LeadGalleryLevel("learn.01", levelHolder));
+		StartCoroutine(LoadGalleryLevel("learn.01", levelHolder));
 
 		//learn gallery levels
 		GameObject tmp;
-		for (int i = 1; i < learnGalleryCount; i++)
+		for (int i = 1; i < learnLevelsCount; i++)
 		{
 			tmp = (GameObject)GameObject.Instantiate(levelHolder);
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + i % 4 * menuUnit * 244, startPos.y - i / 4 * menuUnit * 225);
 
-			StartCoroutine(LeadGalleryLevel("learn." + (i + 1).ToString("00"), tmp));
+			StartCoroutine(LoadGalleryLevel("learn." + (i + 1).ToString("00"), tmp));
 		}
 
 		//play gallery "new" level
@@ -269,27 +272,28 @@ public class Main : MonoBehaviour
 		tmp = (GameObject)GameObject.Instantiate(levelHolder);
 		tmp.name = "PlayNewLevel";
 		MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
-		MyTransform.SetPositionXY(buttonNewLevel.transform, tmp.transform.FindChild("Thumb").position);
+		MyTransform.SetPositionXY(buttonNewLevel.transform, tmp.transform.Find("Thumb").position);
 
 		//play gallery levels
 		levelHolder = GameObject.Find("PlayLevel");
 		MyTransform.SetScaleXY(levelHolder.transform, menuUnit * 85, menuUnit * 85);
 
 		int pos;
-		for (int i = 1; i <= playSavedFiles.Length; i++)
+		for (int i = 1; i <= playLevelsCount; i++)
 		{
-			pos = playSavedFiles.Length - i + 1;
+			pos = playLevelsCount - i + 1;
 			tmp = (GameObject)GameObject.Instantiate(levelHolder);
 			tmp.name = "PlayLevel." + pos.ToString("00");
 			MyTransform.SetPositionXY(tmp.transform, startPos.x + pos % 4 * menuUnit * 244, startPos.y - pos / 4 * menuUnit * 225);
 
-			StartCoroutine(LeadGalleryLevel(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
+			StartCoroutine(LoadGalleryLevel(Path.GetFileNameWithoutExtension(playSavedFiles[i - 1]), tmp));
 		}
 	}
-    IEnumerator LeadGalleryLevel(string levelName, GameObject levelHolder)
+    IEnumerator LoadGalleryLevel(string levelName, GameObject levelHolder)
 	{
         Texture2D texture = null;
 
+		//if learn level - load from resources
         if (levelName.StartsWith("learn."))
         {
             ResourceRequest request = Resources.LoadAsync<Texture2D>("Learn/" + levelName);
@@ -299,6 +303,7 @@ public class Main : MonoBehaviour
             }
             texture = request.asset as Texture2D;
         }
+		//if play level - load from disk
         else if (levelName.StartsWith("play."))
         {
             texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
@@ -307,20 +312,30 @@ public class Main : MonoBehaviour
             texture.wrapMode = TextureWrapMode.Clamp;
             texture.filterMode = FilterMode.Bilinear;
             texture.LoadImage(textureData);
-
-			levelHolder.transform.FindChild("ConfirmContainer").gameObject.SetActive(false);
         }
 
-		GameObject thumb = levelHolder.transform.FindChild("Thumb").gameObject;
+		//set thumbnail texture and other properties
+		GameObject obj = levelHolder.transform.Find("Thumb").gameObject;
 		
 		Material material = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
 		material.mainTexture = texture;
-		material.mainTextureScale = new Vector2 (1, thumb.transform.localScale.y / thumb.transform.localScale.x);
+		material.mainTextureScale = new Vector2 (1, obj.transform.localScale.y / obj.transform.localScale.x);
 		material.mainTextureOffset = new Vector2 (0, (1 - material.mainTextureScale.y) / 2);
-		thumb.renderer.material = material;
+		obj.renderer.material = material;
 
-		thumb.name = levelName;
-		thumb.GetComponent<MyInputEvents>().OnTap += LevelThumb_Tap;
+		obj.name = levelName;
+		obj.GetComponent<MyInputEvents>().OnTap += LevelThumb_Tap;
+
+		//if play level - set delete button event
+		if (levelName.StartsWith("play."))
+		{
+			obj = levelHolder.transform.Find("ButtonDelete").gameObject;
+			obj.name = "ButtonDelete." + levelName;
+			obj.GetComponent<MyInputEvents>().OnTap += ButtonDeleteLevel_Tap;
+
+			levelHolder.transform.Find("ConfirmContainer/ButtonCancel").gameObject.GetComponent<MyInputEvents>().OnTap += ButtonDeleteLevelCancel_Tap;
+			levelHolder.transform.Find("ConfirmContainer/ButtonConfirm").gameObject.GetComponent<MyInputEvents>().OnTap += ButtonDeleteLevelConfirm_Tap;
+		}
 	}
 	private void SetupUIInputEvents()
 	{
@@ -401,9 +416,9 @@ public class Main : MonoBehaviour
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
-		currentLevel = "play." + System.DateTime.Now.ToString ("yyyyMMddHHmmssff");
+		currentLevel = "play." + System.DateTime.Now.ToString("yyyyMMddHHmmssff");
 
-		//create new, empty xml
+		//create new empty xml
 		XmlDocument xmlDoc = new XmlDocument();
 		XmlNode rootNode = xmlDoc.CreateElement("r");
 
@@ -413,17 +428,30 @@ public class Main : MonoBehaviour
 		xmlDoc.AppendChild(rootNode);
 		xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
 
-		//copy new, empty thumbnail
+		//copy new empty thumbnail
 		Texture2D texture = Resources.Load<Texture2D>("NewLevelBg");
 		File.WriteAllBytes(Application.persistentDataPath + "/" + currentLevel + ".png", texture.EncodeToPNG());
 
 
-//		//add the new level to the gallery
-//		Vector2 startPos = GameObject.Find("PlayNewItem").transform.position;
-//
-//		//add the new level to the list of files
-//		Array.Resize<string>(ref playSavedFiles, playSavedFiles.Length + 1);
-//		playSavedFiles[playSavedFiles.Length - 1] = Application.persistentDataPath + "/" +  currentLevel + ".xml";
+		//move the play gallery levels to the right to make room for the new level
+		Vector2 startPos = GameObject.Find("PlayNewLevel").transform.position;
+
+		GameObject obj;
+		for (int i = playLevelsCount; i >= 1; i--)
+		{
+			obj = GameObject.Find("PlayLevel." + i.ToString("00"));
+			obj.name = "PlayLevel." + (i + 1).ToString("00");
+			MyTransform.SetPositionXY(obj.transform, startPos.x + (i + 1) % 4 * menuUnit * 244, startPos.y - (i + 1) / 4 * menuUnit * 225);
+		}
+
+		//add the new level to the gallery in the first position
+		obj = (GameObject)GameObject.Instantiate(GameObject.Find("PlayLevel"));
+		obj.name = "PlayLevel.01";
+		MyTransform.SetPositionXY(obj.transform, startPos.x + (1) % 4 * menuUnit * 244, startPos.y - (1) / 4 * menuUnit * 225);
+		StartCoroutine(LoadGalleryLevel(currentLevel, obj));
+
+		playLevelsCount++;
+
 
 		//load the new level
 		LoadLevel(currentLevel);
@@ -436,7 +464,24 @@ public class Main : MonoBehaviour
 
 		ShowGameUI();
 	}
-	void LevelThumb_Tap(GameObject sender, Camera camera)
+	private void ButtonDeleteLevel_Tap(GameObject sender, Camera camera)
+	{
+		sender.SetActive(false);
+		GameObject levelHolder = sender.transform.parent.gameObject;
+		levelHolder.transform.Find("ConfirmContainer").gameObject.SetActive(true);
+
+		playLevelToDelete = sender.transform.parent.gameObject;
+	}
+	private void ButtonDeleteLevelCancel_Tap(GameObject sender, Camera camera)
+	{
+		playLevelToDelete.transform.GetChild(1).gameObject.SetActive(true);
+		playLevelToDelete.transform.GetChild(2).gameObject.SetActive(false);
+	}
+	private void ButtonDeleteLevelConfirm_Tap(GameObject sender, Camera camera)
+	{
+		Debug.Log("DELETE LEVEL!!!");
+	}
+	private void LevelThumb_Tap(GameObject sender, Camera camera)
 	{
 		if (gameStatus == GameStatus.Transition) return;
 
