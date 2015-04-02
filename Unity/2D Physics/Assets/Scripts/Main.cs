@@ -101,7 +101,8 @@ public class Main : MonoBehaviour
 
 		menuUnit = cameraDefaultSize * aspectRatio * 2 / 1000;
 
-		playSavedFiles = Directory.GetFiles(Application.persistentDataPath, "play.*.xml");
+		playSavedFiles = Directory.GetFiles(Application.persistentDataPath);
+		playSavedFiles = Array.FindAll(playSavedFiles, x => x.EndsWith(".xml"));
 		playLevelsCount = playSavedFiles.Length;
 
 		UpdateSceneZones();
@@ -337,12 +338,16 @@ public class Main : MonoBehaviour
 		//if play level - load from disk
         else if (levelName.StartsWith("play."))
         {
-            texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
-            byte[] textureData = File.ReadAllBytes(Application.persistentDataPath + "/" + levelName + ".png");
+			try
+			{
+	            texture = new Texture2D(0, 0, TextureFormat.ARGB32, false);
+	            byte[] textureData = File.ReadAllBytes(Application.persistentDataPath + "/" + levelName + ".png");
 
-            texture.wrapMode = TextureWrapMode.Clamp;
-            texture.filterMode = FilterMode.Bilinear;
-            texture.LoadImage(textureData);
+	            texture.wrapMode = TextureWrapMode.Clamp;
+	            texture.filterMode = FilterMode.Bilinear;
+	            texture.LoadImage(textureData);
+			}
+			catch {}
         }
 
 		//set thumbnail texture and other properties
