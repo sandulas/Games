@@ -304,7 +304,7 @@ namespace ThisProject
 					item.GetComponent<Collider2D>().sharedMaterial = physicsMaterial;
 					break;
 				case ItemMaterial.Wood:
-					item.rigidbody2D.mass = 0.65f * (float)itemArea;;
+					item.rigidbody2D.mass = 0.65f * (float)itemArea;
 					item.rigidbody2D.drag = 0.1f;
 					item.rigidbody2D.angularDrag = 0.2f;
 					break;

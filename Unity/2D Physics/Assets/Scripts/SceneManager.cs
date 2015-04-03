@@ -57,6 +57,9 @@ namespace ThisProject
 		void Start()
 		{
 			Time.timeScale = 1;
+			Physics2D.gravity = - Vector2.up * 9.8f;
+			Application.targetFrameRate = 60;
+
 
 			//define the UI objects
 			mainCamera = Camera.main;

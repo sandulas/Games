@@ -569,24 +569,6 @@ public class Main : MonoBehaviour
 
 		ShowGameUI();
 	}
-
-	//game
-	void ButtonMenu_Tap(GameObject sender, Camera camera)
-	{
-		if (gameStatus == GameStatus.Transition) return;
-
-		HideGameUI();
-
-		StartCoroutine(TransitionTo(
-			GameStatus.Menu,
-			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
-			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
-			cameraDefaultSize));
-	}
-	void ButtonPlay_Tap(GameObject sender, Camera camera)
-	{
-		SaveLevel();
-	}
 		
 	//main camera movement
 	void Background_Touch(GameObject sender, Camera camera)
@@ -630,6 +612,7 @@ public class Main : MonoBehaviour
 		cameraTargetSize = gameCamera.orthographicSize + -amount * gameCamera.orthographicSize * 2;
 	}
 
+	//helpers
 	void HideGameUI()
 	{
 		toolbar.SetActive(false);
@@ -723,6 +706,8 @@ public class Main : MonoBehaviour
 
 		File.WriteAllBytes(Application.persistentDataPath + "/" + currentLevel + ".png", texture.EncodeToPNG());
 
+		GameObject.Find(currentLevel).renderer.material.mainTexture = texture;
+
 		//Clean up
 		gameCamera.targetTexture = null;
 		RenderTexture.active = null; //added to avoid errors 
@@ -781,6 +766,27 @@ public class Main : MonoBehaviour
 
 	#region EDITING
 
+	//play, stop, menu
+	void ButtonMenu_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		SaveLevel();
+
+		HideGameUI();
+
+		StartCoroutine(TransitionTo(
+			GameStatus.Menu,
+			new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+			new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
+			cameraDefaultSize));
+	}
+	void ButtonPlay_Tap(GameObject sender, Camera camera)
+	{
+		SaveLevel();
+	}
+
+	//toolbar
 	void ButtonCreate_Touch(GameObject sender, Camera camera)
 	{
 		if (sender == buttonRectangle)
@@ -793,9 +799,10 @@ public class Main : MonoBehaviour
 		HideItemControls();
 	}
 
+	//item
 	void Item_Touch(GameObject sender, Camera camera)
 	{
-		DragStart(sender);
+		DragStart(sender, false);
 	}
 	void Item_Release(GameObject sender, Camera camera)
 	{
@@ -808,7 +815,7 @@ public class Main : MonoBehaviour
 
 	void ButtonMove_Touch(GameObject sender, Camera camera)
 	{
-		DragItem(selectedItem);
+		DragItem(selectedItem, true);
 	}
 
 	void ButtonRotate_Touch(GameObject sender, Camera camera)
@@ -891,20 +898,20 @@ public class Main : MonoBehaviour
 		CloneItem();
 	}
 
-
+	//helpers
 	void CreateNewItem(ItemShape itemShape, ItemMaterial itemMaterial)
 	{
 		float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
 		CreateItem(itemShape, itemMaterial, size, size);
 		MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, gameCamera.ScreenToWorldPoint(Input.mousePosition));
-		DragItem(items[items.Length - 1].gameObject);
+		DragItem(items[items.Length - 1].gameObject, false);
 	}
 	void CloneItem()
 	{
 		CreateItem(selectedItemProps.shape, selectedItemProps.material, selectedItemProps.width, selectedItemProps.height);
 		items[items.Length - 1].gameObject.transform.rotation = selectedItem.transform.rotation;
 		items[items.Length - 1].gameObject.transform.position = selectedItem.transform.position;
-		DragItem(items[items.Length - 1].gameObject);
+		DragItem(items[items.Length - 1].gameObject, false);
 	}
 	void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
 	{
@@ -939,15 +946,23 @@ public class Main : MonoBehaviour
 		Array.Resize<PhysicsObject>(ref items, 0);
 	}
 
-	void DragItem(GameObject item)
+	void DragItem(GameObject item, bool fixedAngle)
 	{
 		item.GetComponent<DragAndDrop>().Drag(gameCamera);
-		DragStart(item);
+		DragStart(item, fixedAngle);
 	}
-	void DragStart(GameObject item)
+	void DragStart(GameObject item, bool fixedAngle)
 	{
 		item.rigidbody2D.isKinematic = false;
-		//item.rigidbody2D.fixedAngle = true;
+		item.rigidbody2D.fixedAngle = fixedAngle;
+
+		//This doesn't work because the DragAndDrop script doesn't keep count on the center of mass, but on the position
+//		if (!fixedAngle)
+//		{
+//			item.rigidbody2D.centerOfMass = item.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
+//			Debug.Log(item.rigidbody2D.centerOfMass);
+//		}
+
 		selectedItem = item;
 		selectedItemProps = selectedItem.GetComponent<ItemProperties>();
 		isItemDragged = true;
