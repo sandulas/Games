@@ -956,12 +956,13 @@ public class Main : MonoBehaviour
 		item.rigidbody2D.isKinematic = false;
 		item.rigidbody2D.fixedAngle = fixedAngle;
 
-		//This doesn't work because the DragAndDrop script doesn't keep count on the center of mass, but on the position
-//		if (!fixedAngle)
-//		{
-//			item.rigidbody2D.centerOfMass = item.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
-//			Debug.Log(item.rigidbody2D.centerOfMass);
-//		}
+		//This doesn't work; remove the DragAndDrop script and implement its functionality in this script; the offset needs to be updated
+		//every frame: offset = gameCamera.WorldToScreenPoint(item.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(item.transform.position);
+		if (!fixedAngle)
+		{
+			item.rigidbody2D.centerOfMass = item.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
+			Debug.Log(item.rigidbody2D.centerOfMass);
+		}
 
 		selectedItem = item;
 		selectedItemProps = selectedItem.GetComponent<ItemProperties>();
