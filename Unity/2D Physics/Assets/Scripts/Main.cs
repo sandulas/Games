@@ -34,6 +34,9 @@ public class Main : MonoBehaviour
 	//operations
 	float initialRotation, initialInputAngle;
 	Vector2 initialSize, initialPosition, initialInputPosition, resizeCorner;
+	Vector3 moveOffset;
+	Vector2 defaultCenterOfMass;
+	bool customCenterOfMass;
 	GameObject resizeParent;
 	bool isItemDragged = false;
 	int makeKinematic = 0;
@@ -803,12 +806,24 @@ public class Main : MonoBehaviour
 	void Item_Touch(GameObject sender, Camera camera)
 	{
 		DragStart(sender, false);
+
+		if (customCenterOfMass)
+			moveOffset = gameCamera.WorldToScreenPoint(sender.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(sender.transform.position);
+		else
+			moveOffset = Input.mousePosition - camera.WorldToScreenPoint(sender.transform.position);
+	}
+	void Item_Drag(GameObject sender, Camera camera)
+	{
+		if (customCenterOfMass)
+			moveOffset = gameCamera.WorldToScreenPoint(sender.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(sender.transform.position);
+		sender.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(camera.ScreenToWorldPoint(Input.mousePosition - moveOffset)));
 	}
 	void Item_Release(GameObject sender, Camera camera)
 	{
 		//sender.rigidbody2D.isKinematic = true;
 		isItemDragged = false;
 		makeKinematic = 1;
+		if (customCenterOfMass) sender.rigidbody2D.centerOfMass = defaultCenterOfMass;
 
 		ShowItemControls();
 	}
@@ -926,12 +941,11 @@ public class Main : MonoBehaviour
 		physicsObject.gameObject.rigidbody2D.isKinematic = true;
 
 		//setup input events
-		DragAndDrop dragAndDrop = physicsObject.gameObject.AddComponent<DragAndDrop>();
-		dragAndDrop.MoveToPositionMethod = delegate(GameObject gameObject, Vector3 position) { gameObject.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(position)); };
+		MyInputEvents inputEvents = physicsObject.gameObject.AddComponent<MyInputEvents>();
 
-		MyInputEvents inputEvents = physicsObject.gameObject.GetComponent<MyInputEvents>();
-		inputEvents.OnRelease += Item_Release;
 		inputEvents.OnTouch += Item_Touch;
+		inputEvents.OnDrag += Item_Drag;
+		inputEvents.OnRelease += Item_Release;
 
 		//add the item to the list
 		Array.Resize<PhysicsObject>(ref items, items.Length + 1);
@@ -948,21 +962,27 @@ public class Main : MonoBehaviour
 
 	void DragItem(GameObject item, bool fixedAngle)
 	{
-		item.GetComponent<DragAndDrop>().Drag(gameCamera);
 		DragStart(item, fixedAngle);
+
+		if (customCenterOfMass)
+			moveOffset = gameCamera.WorldToScreenPoint(item.rigidbody2D.worldCenterOfMass) - gameCamera.WorldToScreenPoint(item.transform.position);
+		else
+			moveOffset = Input.mousePosition - gameCamera.WorldToScreenPoint(item.transform.position);
+		MyInput.Drag(item, gameCamera);
 	}
 	void DragStart(GameObject item, bool fixedAngle)
 	{
 		item.rigidbody2D.isKinematic = false;
 		item.rigidbody2D.fixedAngle = fixedAngle;
 
-		//This doesn't work; remove the DragAndDrop script and implement its functionality in this script; the offset needs to be updated
-		//every frame: offset = gameCamera.WorldToScreenPoint(item.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(item.transform.position);
 		if (!fixedAngle)
 		{
+			defaultCenterOfMass = item.rigidbody2D.centerOfMass;
+			customCenterOfMass = true;
 			item.rigidbody2D.centerOfMass = item.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
-			Debug.Log(item.rigidbody2D.centerOfMass);
 		}
+		else
+			customCenterOfMass = false;
 
 		selectedItem = item;
 		selectedItemProps = selectedItem.GetComponent<ItemProperties>();
