@@ -79,7 +79,10 @@ public class Main : MonoBehaviour
 
 		Physics2D.gravity = Vector2.zero;
 		Application.targetFrameRate = 60;
-		targetCameraTrapRect = gameRect;
+
+//		targetCameraTrapRect = gameRect;
+		targetCameraTrapRect = new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right);
+		HideGameUI();
 	}
 
 	void SetupScene()
