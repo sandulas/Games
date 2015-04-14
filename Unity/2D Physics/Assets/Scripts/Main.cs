@@ -211,8 +211,8 @@ public class Main : MonoBehaviour
 		
 		buttonMenu = GameObject.Find("ButtonMenu");
 		buttonPlay = GameObject.Find("ButtonPlay");
-		buttonPause = GameObject.Find("ButtonPause");
 		buttonStop = GameObject.Find("ButtonStop");
+		buttonPause = GameObject.Find("ButtonPause");
 
 		toolbar = GameObject.Find("Toolbar");
 		buttonRectangle = GameObject.Find("ButtonRectangle");
@@ -247,9 +247,9 @@ public class Main : MonoBehaviour
 		//UI buttons
 		MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
 		MyTransform.SetPositionXY(buttonPlay.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
-		MyTransform.SetPositionXY(buttonPause.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
+		MyTransform.SetPositionXY(buttonPause.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
 		buttonPause.SetActive(false);
-		MyTransform.SetPositionXY(buttonStop.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
+		MyTransform.SetPositionXY(buttonStop.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
 		buttonStop.SetActive(false);
 
 		//toolbar
@@ -381,16 +381,16 @@ public class Main : MonoBehaviour
 	{
 		MyInputEvents inputEvents;
 		
-		//Learn and play gallery buttons
+		//Home and Galleries
 		buttonLearnGallery.GetComponent<MyInputEvents>().OnTap += ButtonLearnGallery_Tap;
 		buttonPlayGallery.GetComponent<MyInputEvents>().OnTap += ButtonPlayGallery_Tap;
 		buttonNewLevel.GetComponent<MyInputEvents>().OnTap += ButtonNewLevel_Tap;
 
-		//Menu button
+		//Game
 		buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
-
-		//Play button
 		buttonPlay.GetComponent<MyInputEvents>().OnTap += ButtonPlay_Tap;
+		buttonStop.GetComponent<MyInputEvents>().OnTap += ButtonStop_Tap;
+		buttonPause.GetComponent<MyInputEvents>().OnTap += ButtonPause_Tap;
 
 
 		//Create buttons: rectangle, circle, triangle
@@ -786,9 +786,48 @@ public class Main : MonoBehaviour
 	}
 	void ButtonPlay_Tap(GameObject sender, Camera camera)
 	{
-		SaveLevel();
-	}
+		if (gameStatus == GameStatus.Transition) return;
 
+		SaveLevel();
+
+		gameStatus = GameStatus.Play;
+
+		buttonPlay.SetActive(false);
+		buttonStop.SetActive(true);
+		buttonPause.SetActive(true);
+
+		HideItemControls();
+		selectedItem = null;
+
+		Physics2D.gravity = -Vector2.up * 9.8f;
+		for (int i = 0; i < items.Length; i++)
+		{
+			items[i].gameObject.rigidbody2D.isKinematic = false;
+		}
+	}
+	void ButtonStop_Tap(GameObject sender, Camera camera)
+	{
+		if (gameStatus == GameStatus.Transition) return;
+
+		LoadLevel(currentLevel);
+
+		gameStatus = GameStatus.Stop;
+
+		buttonPlay.SetActive(true);
+		buttonStop.SetActive(false);
+		buttonPause.SetActive(false);
+
+		Physics2D.gravity = Vector2.zero;
+		for (int i = 0; i < items.Length; i++)
+		{
+			items[i].gameObject.rigidbody2D.isKinematic = true;
+		}
+	}
+	void ButtonPause_Tap(GameObject sender, Camera camera)
+	{
+		Debug.Log("Pause Button Tap");
+	}
+		
 	//toolbar
 	void ButtonCreate_Touch(GameObject sender, Camera camera)
 	{
