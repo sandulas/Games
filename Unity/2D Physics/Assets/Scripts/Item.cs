@@ -14,6 +14,7 @@ namespace ThisProject
 
 		static Texture2D[] itemTextures = new Texture2D[5];
 		static Material[] itemMaterials = new Material[5];
+		static PhysicsMaterial2D PM_Generic, PM_Ice, PM_Metal, PM_Rubber, PM_Wood;
 
 		static Texture2D atlas1;
 		static Material atlas1Material;
@@ -59,9 +60,13 @@ namespace ThisProject
 			atlas1Material = new Material(Shader.Find("Custom/UnlitTransparent"));
 			atlas1Material.mainTexture = atlas1;
 
-			frontLayerIndex = 0;
+			PM_Generic = (PhysicsMaterial2D)Resources.Load("Physics Materials/Generic");
+			PM_Ice = (PhysicsMaterial2D)Resources.Load("Physics Materials/Ice");
+			PM_Metal = (PhysicsMaterial2D)Resources.Load("Physics Materials/Metal");
+			PM_Rubber = (PhysicsMaterial2D)Resources.Load("Physics Materials/Rubber");
+			PM_Wood = (PhysicsMaterial2D)Resources.Load("Physics Materials/Wood");
 
-			Application.targetFrameRate = -1;
+			frontLayerIndex = 0;
 		}
 
 		public static GameObject Create(ItemShape shape, ItemMaterial itemMaterial, float width, float height)
@@ -297,11 +302,6 @@ namespace ThisProject
 					item.rigidbody2D.mass = 1.0f * (float)itemArea;
 					item.rigidbody2D.drag = 0.1f;
 					item.rigidbody2D.angularDrag = 0.2f;
-
-					PhysicsMaterial2D physicsMaterial = new PhysicsMaterial2D("Rubber");
-					physicsMaterial.friction = 0.9f;
-					physicsMaterial.bounciness = 0.8f;
-					item.GetComponent<Collider2D>().sharedMaterial = physicsMaterial;
 					break;
 				case ItemMaterial.Wood:
 					item.rigidbody2D.mass = 0.65f * (float)itemArea;
@@ -311,6 +311,34 @@ namespace ThisProject
 				default:
 					break;
 			}
+
+			SetPhysicsMaterialGeneric(item);
+		}
+		public static void UpdatePhysicsMaterial(GameObject item)
+		{
+			switch(item.GetComponent<ItemProperties>().material)
+			{
+				case ItemMaterial.FixedMetal:
+				case ItemMaterial.Metal:
+					item.collider2D.sharedMaterial = PM_Metal;
+					break;
+				case ItemMaterial.Ice:
+					item.collider2D.sharedMaterial = PM_Ice;
+					break;
+				case ItemMaterial.Rubber:
+					item.collider2D.sharedMaterial = PM_Rubber;
+					break;
+				case ItemMaterial.Wood:
+					item.collider2D.sharedMaterial = PM_Wood;
+					break;
+			}
+			item.collider2D.enabled = false;
+			item.collider2D.enabled = true;
+
+		}
+		public static void SetPhysicsMaterialGeneric(GameObject item)
+		{
+			item.GetComponent<Collider2D>().sharedMaterial = PM_Generic;
 		}
 
 		//	circle
