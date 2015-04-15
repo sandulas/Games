@@ -19,7 +19,7 @@ public class Main : MonoBehaviour
 		buttonLearnGallery, buttonPlayGallery, buttonNewLevel, titlePlay, titleLearn,
 		buttonMenu,	buttonPlay, buttonPause, buttonStop,
 		toolbar, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
-		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
+		buttonDelete, buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
 	GameStatus gameStatus = GameStatus.Stop;
 	string currentLevel = null;
@@ -118,18 +118,22 @@ public class Main : MonoBehaviour
 
 		wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, playgroundRect.Width , wallWidth);
 		Item.Move(wall, 0, playgroundRect.Height / 2 + wallWidth / 2);
+		Item.UpdatePhysicsMaterial(wall);
 		wall.name = "Wall - Top";
 
 		Item.Duplicate(wall);
 		Item.Move(wall, 0, -playgroundRect.Height / 2 - wallWidth / 2);
+		Item.UpdatePhysicsMaterial(wall);
 		wall.name = "Wall - Bottom";
 
 		wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth, playgroundRect.Height + wallWidth * 2);
 		Item.Move(wall, playgroundRect.Width / 2 + wallWidth / 2, 0);
+		Item.UpdatePhysicsMaterial(wall);
 		wall.name = "Wall - Right";
 
 		Item.Duplicate(wall);
 		Item.Move(wall, -playgroundRect.Width / 2 - wallWidth / 2, 0);
+		Item.UpdatePhysicsMaterial(wall);
 		wall.name = "Wall - Left";
 
 		//create the resize parent helper object and items container
@@ -227,6 +231,7 @@ public class Main : MonoBehaviour
 		buttonRubber = GameObject.Find("ButtonRubber");
 		buttonIce = GameObject.Find("ButtonIce");
 		
+		buttonDelete = GameObject.Find("ButtonDelete");
 		buttonMove = GameObject.Find("ButtonMove");
 		buttonRotate = GameObject.Find("ButtonRotate");
 		buttonResize = GameObject.Find("ButtonResize");
@@ -248,6 +253,7 @@ public class Main : MonoBehaviour
 		LoadGalleries();
 
 		//UI buttons
+		MyTransform.SetPositionXY(buttonDelete.transform, gameUIRect.Left + 0.5f, gameUIRect.Bottom + 0.5f);
 		MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
 		MyTransform.SetPositionXY(buttonPlay.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
 		MyTransform.SetPositionXY(buttonPause.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
@@ -371,7 +377,7 @@ public class Main : MonoBehaviour
 		//if play level - set delete button event
 		if (levelName.StartsWith("play."))
 		{
-			obj = levelHolder.transform.Find("ButtonDelete").gameObject;
+			obj = levelHolder.transform.Find("ButtonDeleteLevel").gameObject;
 			obj.name = "ButtonDelete." + levelName;
 			obj.GetComponent<MyInputEvents>().OnTap += ButtonDeleteLevel_Tap;
 
@@ -405,6 +411,8 @@ public class Main : MonoBehaviour
 		inputEvents.OnTouch += ButtonCreate_Touch;
 
 		//Item buttons
+		inputEvents = buttonDelete.GetComponent<MyInputEvents>();
+		inputEvents.OnTap += ButtonDelete_Tap;
 		inputEvents = buttonMove.GetComponent<MyInputEvents>();
 		inputEvents.OnTouch += ButtonMove_Touch;
 		inputEvents = buttonRotate.GetComponent<MyInputEvents>();
@@ -806,6 +814,7 @@ public class Main : MonoBehaviour
 		for (int i = 0; i < items.Length; i++)
 		{
 			items[i].gameObject.rigidbody2D.isKinematic = false;
+			Item.UpdatePhysicsMaterial(items[i].gameObject);
 		}
 	}
 	void ButtonStop_Tap(GameObject sender, Camera camera)
@@ -845,6 +854,16 @@ public class Main : MonoBehaviour
 	}
 
 	//item
+	void ButtonDelete_Tap(GameObject sender, Camera camera)
+	{
+		items = Array.FindAll(items, delegate(PhysicsObject x)
+			{
+				return x.gameObject != selectedItem;
+			});
+		Destroy(selectedItem);
+		selectedItem = null;
+		HideItemControls();
+	}
 	void Item_Touch(GameObject sender, Camera camera)
 	{
 		DragStart(sender, false);
