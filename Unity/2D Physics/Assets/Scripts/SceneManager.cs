@@ -7,7 +7,7 @@ using Sandulas;
 
 namespace ThisProject
 {
-	public enum GameStatus
+	public enum GameStatus2
 	{
 		Play = 0,
 		Pause = 1,
@@ -33,7 +33,7 @@ namespace ThisProject
 		float wallWidth = 0.5f;
 
 		//scene variables
-		GameStatus gameStatus = GameStatus.Stop;
+		GameStatus2 gameStatus = GameStatus2.Stop;
 		Vector2 sceneSize;
 		float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit;
 		MyRect playViewRect, playgroundRect, uiRect, mainCameraRect;
@@ -280,7 +280,7 @@ namespace ThisProject
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
 				dragOffset = InputManager.touchPosition - InputManager.touchObject.transform.position;
-				if (gameStatus == GameStatus.Stop) Item.BringToFront(InputManager.touchObject);
+				if (gameStatus == GameStatus2.Stop) Item.BringToFront(InputManager.touchObject);
 			}
 
 			//start move
@@ -318,7 +318,7 @@ namespace ThisProject
 			}
 
 			//create and start dragging a new item
-			if (gameStatus == GameStatus.Stop)
+			if (gameStatus == GameStatus2.Stop)
 			{
 				if (InputManager.touchObject == buttonRectangle)
 					CreateNewItem(ItemShape.Rectangle, ItemMaterial.Wood);
@@ -357,8 +357,8 @@ namespace ThisProject
 
 				Vector2 trappedPosition = playgroundRect.GetInsidePosition(InputManager.touchPosition - dragOffset);
 
-				if (gameStatus == GameStatus.Stop) Item.Move(InputManager.touchObject, trappedPosition);
-				else if (gameStatus == GameStatus.Play) InputManager.touchObject.rigidbody2D.MovePosition(trappedPosition);
+				if (gameStatus == GameStatus2.Stop) Item.Move(InputManager.touchObject, trappedPosition);
+				else if (gameStatus == GameStatus2.Play) InputManager.touchObject.rigidbody2D.MovePosition(trappedPosition);
 			}
 
 			//rotate button
@@ -393,7 +393,7 @@ namespace ThisProject
 			//Items
 			if (InputManager.touchObject.name.StartsWith("Item"))
 			{
-				if (gameStatus != GameStatus.Stop) return;
+				if (gameStatus != GameStatus2.Stop) return;
 
 				selectedItem = InputManager.touchObject;
 				selectedItemProps = selectedItem.GetComponent<ItemProperties>();
@@ -424,19 +424,19 @@ namespace ThisProject
 		void InputManager_OnTap()
 		{
 			//pause button
-			if (InputManager.touchObject == buttonPause && gameStatus != GameStatus.Pause)
+			if (InputManager.touchObject == buttonPause && gameStatus != GameStatus2.Pause)
 				Pause();
 			
 			//play button
-			if (InputManager.touchObject == buttonPlay && gameStatus != GameStatus.Play)
+			if (InputManager.touchObject == buttonPlay && gameStatus != GameStatus2.Play)
 				Play();
 
 			//stop button
-			if (InputManager.touchObject == buttonStop && gameStatus != GameStatus.Stop)
+			if (InputManager.touchObject == buttonStop && gameStatus != GameStatus2.Stop)
 				Stop();
 
 			//menu button
-			if (InputManager.touchObject == buttonMenu && gameStatus == GameStatus.Stop)
+			if (InputManager.touchObject == buttonMenu && gameStatus == GameStatus2.Stop)
 			{
 				//Save();
 			}
@@ -458,7 +458,7 @@ namespace ThisProject
 					obj[i].rigidbody2D.velocity = objVelocities[i];
 				}
 			}
-			gameStatus = GameStatus.Play;
+			gameStatus = GameStatus2.Play;
 
 			buttonPause.SetActive(true);
 			buttonStop.SetActive(true);
@@ -473,7 +473,7 @@ namespace ThisProject
 				objVelocities[i] = obj[i].rigidbody2D.velocity;
 				obj[i].rigidbody2D.isKinematic = true;
 			}
-			gameStatus = GameStatus.Pause;
+			gameStatus = GameStatus2.Pause;
 
 			buttonPause.SetActive(false);
 			buttonPlay.SetActive(true);
@@ -486,7 +486,7 @@ namespace ThisProject
 				objVelocities[i] = Vector3.zero; ;
 				obj[i].rigidbody2D.isKinematic = true;
 			}
-			gameStatus = GameStatus.Stop;
+			gameStatus = GameStatus2.Stop;
 
 			buttonPause.SetActive(false);
 			buttonStop.SetActive(false);

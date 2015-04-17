@@ -29,6 +29,7 @@ TextureImporter:
     21300048: Item_Cancel
     21300050: Item_Delete_Prompt
     21300052: Delete
+    21300054: Material_Selector
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -337,6 +338,16 @@ TextureImporter:
         y: 1943
         width: 102
         height: 104
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Material_Selector
+      rect:
+        serializedVersion: 2
+        x: 1789
+        y: 1619
+        width: 13
+        height: 23
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

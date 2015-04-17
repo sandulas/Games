@@ -18,7 +18,7 @@ public class Main2 : MonoBehaviour
 		buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 		buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
-	GameStatus gameStatus = GameStatus.Stop;
+	GameStatus2 gameStatus = GameStatus2.Stop;
 
 	GameObject selectedItem = null;
 	ItemProperties selectedItemProps = null;

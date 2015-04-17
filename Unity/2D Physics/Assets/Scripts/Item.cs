@@ -319,16 +319,23 @@ namespace ThisProject
 			switch(item.GetComponent<ItemProperties>().material)
 			{
 				case ItemMaterial.FixedMetal:
+					item.rigidbody2D.isKinematic = true;
+					item.collider2D.sharedMaterial = PM_Metal;
+					break;
 				case ItemMaterial.Metal:
+					item.rigidbody2D.isKinematic = false;
 					item.collider2D.sharedMaterial = PM_Metal;
 					break;
 				case ItemMaterial.Ice:
+					item.rigidbody2D.isKinematic = false;
 					item.collider2D.sharedMaterial = PM_Ice;
 					break;
 				case ItemMaterial.Rubber:
+					item.rigidbody2D.isKinematic = false;
 					item.collider2D.sharedMaterial = PM_Rubber;
 					break;
 				case ItemMaterial.Wood:
+					item.rigidbody2D.isKinematic = false;
 					item.collider2D.sharedMaterial = PM_Wood;
 					break;
 			}
