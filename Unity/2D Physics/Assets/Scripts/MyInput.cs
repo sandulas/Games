@@ -90,7 +90,7 @@ public class MyInput : MonoBehaviour
 		//mouse scroll wheel
 		if (Input.GetAxis("Mouse ScrollWheel") != 0)
 		{
-			gameObject.GetComponent<MyInputEvents>().MouseScrollWheel(Input.GetAxis("Mouse ScrollWheel"));
+			gameObject.GetComponent<MyInputEvents>().MouseScrollWheel(Input.GetAxis("Mouse ScrollWheel") / 10);
 		}
 
 		prevTouchCount = Input.touchCount;

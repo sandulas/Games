@@ -17,7 +17,7 @@ TextureImporter:
     21300024: Resize
     21300026: Clone
     21300028: Play
-    21300030: Pause
+    21300030: GrabDisabled
     21300032: Stop
     21300034: Item_Background
     21300036: Title_Learn
@@ -30,6 +30,7 @@ TextureImporter:
     21300050: Item_Delete_Prompt
     21300052: Delete
     21300054: Material_Selector
+    21300056: GrabEnabled
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -221,7 +222,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Pause
+    - name: GrabDisabled
       rect:
         serializedVersion: 2
         x: 1892
@@ -348,6 +349,16 @@ TextureImporter:
         y: 1619
         width: 13
         height: 23
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: GrabEnabled
+      rect:
+        serializedVersion: 2
+        x: 1732
+        y: 509
+        width: 155
+        height: 157
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
