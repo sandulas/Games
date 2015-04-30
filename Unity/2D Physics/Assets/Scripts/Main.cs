@@ -19,7 +19,7 @@ namespace ThisProject
 		//game
 		GameObject
 			buttonLearnGallery, buttonPlayGallery, buttonNewLevel, titlePlay, titleLearn,
-			buttonMenu,	buttonPlay, buttonPause, buttonStop,
+			buttonMenu,	buttonPlay, buttonGrabDisabled, buttonGrabEnabled, buttonStop,
 			toolbar, materialSelector, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 			buttonDelete, buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
 
@@ -224,7 +224,8 @@ namespace ThisProject
 			buttonMenu = GameObject.Find("ButtonMenu");
 			buttonPlay = GameObject.Find("ButtonPlay");
 			buttonStop = GameObject.Find("ButtonStop");
-			buttonPause = GameObject.Find("ButtonPause");
+			buttonGrabDisabled = GameObject.Find("ButtonGrabDisabled");
+			buttonGrabEnabled = GameObject.Find("ButtonGrabEnabled");
 
 			toolbar = GameObject.Find("Toolbar");
 			materialSelector = GameObject.Find("MaterialSelector");
@@ -262,8 +263,10 @@ namespace ThisProject
 			MyTransform.SetPositionXY(buttonDelete.transform, gameUIRect.Left + 0.5f, gameUIRect.Bottom + 0.5f);
 			MyTransform.SetPositionXY(buttonMenu.transform, gameUIRect.Left + 0.5f, gameUIRect.Top - 0.5f);
 			MyTransform.SetPositionXY(buttonPlay.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
-			MyTransform.SetPositionXY(buttonPause.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
-			buttonPause.SetActive(false);
+			MyTransform.SetPositionXY(buttonGrabDisabled.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
+			MyTransform.SetPositionXY(buttonGrabEnabled.transform, gameUIRect.Left + gameUIRect.Width / 2 + 0.6f, gameUIRect.Top - 0.65f);
+			buttonGrabDisabled.SetActive(false);
+			buttonGrabEnabled.SetActive(false);
 			MyTransform.SetPositionXY(buttonStop.transform, gameUIRect.Left + gameUIRect.Width / 2 - 0.6f, gameUIRect.Top - 0.65f);
 			buttonStop.SetActive(false);
 
@@ -411,7 +414,8 @@ namespace ThisProject
 			buttonMenu.GetComponent<MyInputEvents>().OnTap += ButtonMenu_Tap;
 			buttonPlay.GetComponent<MyInputEvents>().OnTap += ButtonPlay_Tap;
 			buttonStop.GetComponent<MyInputEvents>().OnTap += ButtonStop_Tap;
-			buttonPause.GetComponent<MyInputEvents>().OnTap += ButtonPause_Tap;
+			buttonGrabDisabled.GetComponent<MyInputEvents>().OnTap += ButtonGrabDisabled_Tap;
+			buttonGrabEnabled.GetComponent<MyInputEvents>().OnTap += ButtonGrabEnabled_Tap;
 
 
 			//Toolbar buttons
@@ -647,6 +651,8 @@ namespace ThisProject
 			buttonMenu.SetActive(false);
 			buttonPlay.SetActive(false);
 			buttonStop.SetActive(false);
+			buttonGrabDisabled.SetActive(false);
+			buttonGrabEnabled.SetActive(false);
 		}
 		void ShowGameUI()
 		{
@@ -799,7 +805,7 @@ namespace ThisProject
 		{
 			if (gameStatus == GameStatus.Transition) return;
 
-			SaveLevel();
+			if (gameStatus == GameStatus.Stop) SaveLevel();
 
 			HideGameUI();
 
@@ -819,7 +825,7 @@ namespace ThisProject
 
 			buttonPlay.SetActive(false);
 			buttonStop.SetActive(true);
-			buttonPause.SetActive(true);
+			buttonGrabDisabled.SetActive(true);
 
 			HideItemControls();
 			selectedItem = null;
@@ -840,7 +846,8 @@ namespace ThisProject
 
 			buttonPlay.SetActive(true);
 			buttonStop.SetActive(false);
-			buttonPause.SetActive(false);
+			buttonGrabDisabled.SetActive(false);
+			buttonGrabEnabled.SetActive(false);
 
 			Physics2D.gravity = Vector2.zero;
 			for (int i = 0; i < items.Length; i++)
@@ -848,9 +855,15 @@ namespace ThisProject
 				items[i].gameObject.rigidbody2D.isKinematic = true;
 			}
 		}
-		void ButtonPause_Tap(GameObject sender, Camera camera)
+		void ButtonGrabDisabled_Tap(GameObject sender, Camera camera)
 		{
-			Debug.Log("Pause Button Tap");
+			buttonGrabEnabled.SetActive(true);
+			buttonGrabDisabled.SetActive(false);
+		}
+		void ButtonGrabEnabled_Tap(GameObject sender, Camera camera)
+		{
+			buttonGrabEnabled.SetActive(false);
+			buttonGrabDisabled.SetActive(true);
 		}
 			
 		//toolbar
@@ -906,27 +919,69 @@ namespace ThisProject
 		}
 		void Item_Touch(GameObject sender, Camera camera)
 		{
-			DragStart(sender, false);
+			//when editing
+			if (gameStatus == GameStatus.Stop)
+			{
+				DragStart(sender, false);
 
-			if (customCenterOfMass)
-				moveOffset = gameCamera.WorldToScreenPoint(sender.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(sender.transform.position);
-			else
-				moveOffset = Input.mousePosition - camera.WorldToScreenPoint(sender.transform.position);
+				if (customCenterOfMass)
+					moveOffset = gameCamera.WorldToScreenPoint(sender.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(sender.transform.position);
+				else
+					moveOffset = Input.mousePosition - camera.WorldToScreenPoint(sender.transform.position);
+			}
+			//when playing
+			else if (gameStatus == GameStatus.Play)
+			{
+				if (!buttonGrabEnabled.activeSelf) return;
+
+				selectedItemProps = sender.GetComponent<ItemProperties>();
+				if (selectedItemProps.material != ItemMaterial.FixedMetal)
+				{
+					moveOffset = Input.mousePosition - camera.WorldToScreenPoint(sender.transform.position);
+					sender.rigidbody2D.fixedAngle = true;
+					sender.rigidbody2D.velocity = Vector2.zero;
+					sender.rigidbody2D.gravityScale = 0;
+				}
+			}
 		}
 		void Item_Drag(GameObject sender, Camera camera)
 		{
-			if (customCenterOfMass)
-				moveOffset = gameCamera.WorldToScreenPoint(sender.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(sender.transform.position);
-			sender.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(camera.ScreenToWorldPoint(Input.mousePosition - moveOffset)));
+			//when editing
+			if (gameStatus == GameStatus.Stop)
+			{
+				if (customCenterOfMass)
+					moveOffset = gameCamera.WorldToScreenPoint(sender.rigidbody2D.worldCenterOfMass) - camera.WorldToScreenPoint(sender.transform.position);
+				sender.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(camera.ScreenToWorldPoint(Input.mousePosition - moveOffset)));
+			}
+			//when playing
+			else if (gameStatus == GameStatus.Play)
+			{
+				if (buttonGrabEnabled.activeSelf && selectedItemProps.material != ItemMaterial.FixedMetal)
+				{
+					sender.rigidbody2D.MovePosition(playgroundRect.GetInsidePosition(camera.ScreenToWorldPoint(Input.mousePosition - moveOffset)));
+					//cameraTargetPosition = sender.transform.position;
+				}
+			}
 		}
 		void Item_Release(GameObject sender, Camera camera)
 		{
-			//sender.rigidbody2D.isKinematic = true;
-			isItemDragged = false;
-			makeKinematic = 1;
-			if (customCenterOfMass) sender.rigidbody2D.centerOfMass = defaultCenterOfMass;
+			//when editing
+			if (gameStatus == GameStatus.Stop)
+			{
+				//sender.rigidbody2D.isKinematic = true;
+				isItemDragged = false;
+				makeKinematic = 1;
+				if (customCenterOfMass)
+					sender.rigidbody2D.centerOfMass = defaultCenterOfMass;
 
-			ShowItemControls();
+				ShowItemControls();
+			}
+			//when playing
+			else if (gameStatus == GameStatus.Play)
+			{
+				sender.rigidbody2D.fixedAngle = false;
+				sender.rigidbody2D.gravityScale = 1;
+			}
 		}
 
 		void ButtonMove_Touch(GameObject sender, Camera camera)
