@@ -14,6 +14,9 @@ public class MyInput : MonoBehaviour
 
 	static int prevTouchCount = 0;
 
+	static Vector2 objectPositionOnTouch;
+	static float maxObjectDisplacement;
+
 	void Update()
 	{
 		#region Single Touch
@@ -36,36 +39,59 @@ public class MyInput : MonoBehaviour
 					{
 						touchedObject = inputCollider.gameObject;
 						touchedObjectCamera = cameras[i];
+						objectPositionOnTouch = touchedObjectCamera.WorldToScreenPoint(touchedObject.transform.position);
+						maxObjectDisplacement = 0;
+
 						touchedObjectInputEvents.Touch(touchedObject, touchedObjectCamera);
+
+						if (touchedObjectInputEvents.allowScreenEvents) gameObject.GetComponent<MyInputEvents>().ScreenTouch();
+
 						break;
 					}
 				}
+				else gameObject.GetComponent<MyInputEvents>().ScreenTouch();
 			}
 		}
 
 		//single touch drag
-		if (singleTouchDrag && touchedObject != null)
+		if (singleTouchDrag)
 		{
-			touchedObjectInputEvents.Drag(touchedObject, touchedObjectCamera);
+			if (touchedObject != null)
+			{
+				//how much the touched object has moved on the screen (as ratio of screen height)
+				float currentObjectDisplacement = ((Vector2)touchedObjectCamera.WorldToScreenPoint(touchedObject.transform.position) - objectPositionOnTouch).magnitude / Screen.height;
+				if (currentObjectDisplacement > maxObjectDisplacement) maxObjectDisplacement = currentObjectDisplacement;
+
+				touchedObjectInputEvents.Drag(touchedObject, touchedObjectCamera);
+
+				if (touchedObjectInputEvents.allowScreenEvents) gameObject.GetComponent<MyInputEvents>().ScreenDrag();
+			}
+			else gameObject.GetComponent<MyInputEvents>().ScreenDrag();
 		}
 
 		//single touch tap and release
-		if (singleTouchEnd && touchedObject != null)
+		if (singleTouchEnd)
 		{
-			touchPosition = touchedObjectCamera.ScreenToWorldPoint(Input.mousePosition);
-			touchPosition.z = 0;
-
-			inputCollider = Physics2D.OverlapPoint(touchPosition, touchedObjectCamera.cullingMask);
-			if (inputCollider != null)
+			if (touchedObject != null)
 			{
-				if (touchedObject == inputCollider.gameObject)
+				touchPosition = touchedObjectCamera.ScreenToWorldPoint(Input.mousePosition);
+				touchPosition.z = 0;
+
+				inputCollider = Physics2D.OverlapPoint(touchPosition, touchedObjectCamera.cullingMask);
+
+				//Tap only occurs if the object is under the touch position and it hasn't moved on the screen more then 0.003 of the height of the screen
+				if (inputCollider != null && touchedObject == inputCollider.gameObject && maxObjectDisplacement < 0.003f)
 				{
 					touchedObjectInputEvents.Tap(touchedObject, touchedObjectCamera);
 				}
-			}
 
-			touchedObjectInputEvents.Release(touchedObject, touchedObjectCamera);
-			touchedObject = null;
+				touchedObjectInputEvents.Release(touchedObject, touchedObjectCamera);
+
+				if (touchedObjectInputEvents.allowScreenEvents) gameObject.GetComponent<MyInputEvents>().ScreenRelease();
+
+				touchedObject = null;
+			}
+			else gameObject.GetComponent<MyInputEvents>().ScreenRelease();
 		}
 
 		#endregion
@@ -74,15 +100,15 @@ public class MyInput : MonoBehaviour
 
 		if (doubleTouchStart)
 		{
-			gameObject.GetComponent<MyInputEvents>().DoubleTouchStart(Input.touches[0], Input.touches[1]);
+			gameObject.GetComponent<MyInputEvents>().ScreenDoubleTouchStart(Input.touches[0], Input.touches[1]);
 		}
 		if (doubleTouchDrag)
 		{
-			gameObject.GetComponent<MyInputEvents>().DoubleTouchDrag(Input.touches[0], Input.touches[1]);
+			gameObject.GetComponent<MyInputEvents>().ScreenDoubleTouchDrag(Input.touches[0], Input.touches[1]);
 		}
 		if (doubleTouchEnd)
 		{
-			gameObject.GetComponent<MyInputEvents>().DoubleTouchEnd();
+			gameObject.GetComponent<MyInputEvents>().ScreenDoubleTouchEnd();
 		}
 
 		#endregion
