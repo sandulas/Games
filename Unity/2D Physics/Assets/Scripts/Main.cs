@@ -443,18 +443,18 @@ namespace ThisProject
 			inputEvents.OnRelease += ButtonResize_Release;
 			inputEvents = buttonClone.GetComponent<MyInputEvents>();
 			inputEvents.OnTouch += ButtonClone_Touch;
-
-
-			//Background (for game camera movement)
 			inputEvents = background.GetComponent<MyInputEvents>();
-			inputEvents.OnTouch += Background_Touch;
-			inputEvents.OnDrag += Background_Drag;
-			inputEvents.OnRelease += Background_Release;
+			inputEvents.OnTap += Background_Tap;
 
-			//Pinch and zoom on game camera
+			//Game camera movement and zoom
 			inputEvents = master.GetComponent<MyInputEvents>();
-			inputEvents.OnDoubleTouchStart += Master_DoubleTouchStart;
-			inputEvents.OnDoubleTouchDrag += Master_DoubleTouchDrag;
+
+			inputEvents.OnScreenTouch += Screen_Touch;
+			inputEvents.OnScreenDrag += Screen_Drag;
+			inputEvents.OnScreenRelease += Screen_Release;
+
+			inputEvents.OnDoubleTouchStart += Master_ScreenDoubleTouchStart;
+			inputEvents.OnDoubleTouchDrag += Master_ScreenDoubleTouchDrag;
 			inputEvents.OnMouseScrollWheel += Master_MouseScrollWheel;
 		}
 
@@ -603,7 +603,7 @@ namespace ThisProject
 		}
 			
 		//main camera movement
-		void Background_Touch(GameObject sender, Camera camera)
+		void Screen_Touch()
 		{
 			if (gameStatus == GameStatus.Transition) return;
 
@@ -611,24 +611,23 @@ namespace ThisProject
 			cameraDragOffset = -(Vector2)Input.mousePosition / pixelsPerUnit - cameraTargetPosition;
 			isCameraDragged = true;
 		}
-		void Background_Drag(GameObject sender, Camera camera)
+		void Screen_Drag()
 		{
 			if (gameStatus == GameStatus.Transition) return;
-			if (!isCameraDragged) return;
 
-			cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
+			if (isCameraDragged) cameraTargetPosition = -Input.mousePosition / pixelsPerUnit - cameraDragOffset;
 		}
-		void Background_Release(GameObject sender, Camera camera)
+		void Screen_Release()
 		{
 			isCameraDragged = false;
 		}
 
 		//main camera pinch and zoom
-		void Master_DoubleTouchStart(Touch touch0, Touch touch1)
+		void Master_ScreenDoubleTouchStart(Touch touch0, Touch touch1)
 		{
 			doubleTouchDistance = Vector2.Distance(uiCamera.ScreenToWorldPoint(touch0.position), uiCamera.ScreenToWorldPoint(touch1.position));
 		}
-		void Master_DoubleTouchDrag(Touch touch0, Touch touch1)
+		void Master_ScreenDoubleTouchDrag(Touch touch0, Touch touch1)
 		{
 			if (gameStatus != GameStatus.Play && gameStatus != GameStatus.Stop) return;
 
@@ -1067,6 +1066,17 @@ namespace ThisProject
 		void ButtonClone_Touch(GameObject sender, Camera camera)
 		{
 			CloneItem();
+		}
+
+		void Background_Tap(GameObject sender, Camera camera)
+		{
+			if (gameStatus == GameStatus.Transition) return;
+
+			if (gameStatus == GameStatus.Stop)
+			{
+				selectedItem = null;
+				HideItemControls();
+			}
 		}
 
 		//helpers
