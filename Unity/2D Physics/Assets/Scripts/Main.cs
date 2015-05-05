@@ -47,7 +47,7 @@ namespace ThisProject
 
 		
 		//scene setup
-		float dpi, pixelsPerUnit, aspectRatio, spritePixelsPerUnit, menuUnit;
+		float dpi, scaleFactor, pixelsPerUnit, aspectRatio, spritePixelsPerUnit, menuUnit;
 		int learnLevelsCount = 6;
 		int playLevelsCount;
 		string[] playSavedFiles;
@@ -131,12 +131,12 @@ namespace ThisProject
 			Item.UpdatePhysicsMaterial(wall);
 			wall.name = "Wall - Bottom";
 
-			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth, playgroundRect.Height + wallWidth * 2);
-			Item.Move(wall, playgroundRect.Width / 2 + wallWidth / 2, 0);
+			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth * 4, playgroundRect.Height + wallWidth * 2);
+			Item.Move(wall, playgroundRect.Width / 2 + wallWidth * 2, 0);
 			Item.UpdatePhysicsMaterial(wall);
 			wall.name = "Wall - Right";
 
-			Item.Duplicate(wall);
+			wall = Item.Create(ItemShape.Rectangle, ItemMaterial.FixedMetal, wallWidth, playgroundRect.Height + wallWidth * 2);
 			Item.Move(wall, -playgroundRect.Width / 2 - wallWidth / 2, 0);
 			Item.UpdatePhysicsMaterial(wall);
 			wall.name = "Wall - Left";
@@ -194,8 +194,8 @@ namespace ThisProject
 			//initialize the background
 			Vector2 sceneSize = new Vector2(gameRect.Width, gameRect.Height + playGalleryRect.Height + learnGalleryRect.Height + homeRect.Height);
 			background.transform.position = new Vector3(0, (sceneSize.y - gameRect.Height) / 2, 0);
-			background.transform.localScale = new Vector3(sceneSize.x, sceneSize.y, 1);
-			background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 10, sceneSize.y / 10);
+			background.transform.localScale = new Vector3(sceneSize.x * 2, sceneSize.y, 1);
+			background.renderer.material.mainTextureScale = new Vector2(sceneSize.x / 5, sceneSize.y / 10);
 		}
 
 		void SetupUI()
@@ -204,7 +204,7 @@ namespace ThisProject
 			if (Screen.dpi < 1) dpi = 270;
 			else dpi = Screen.dpi;
 			dpi = Mathf.Clamp(dpi, 100, 700);//dpi = 132;
-			float scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
+			scaleFactor = 1 + (Screen.height / dpi - 3.5f) * 0.15f;
 			uiCamera.orthographicSize = Mathf.Clamp(0.4f + Screen.height / dpi / scaleFactor, 3.6f, 5f);
 
 			//UI area
@@ -601,6 +601,22 @@ namespace ThisProject
 
 			ShowGameUI();
 		}
+
+		//menu
+		void ButtonMenu_Tap(GameObject sender, Camera camera)
+		{
+			if (gameStatus == GameStatus.Transition) return;
+
+			if (gameStatus == GameStatus.Stop) SaveLevel();
+
+			HideGameUI();
+
+			StartCoroutine(TransitionTo(
+				GameStatus.Menu,
+				new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+				new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
+				cameraDefaultSize));
+		}
 			
 		//main camera movement
 		void Screen_Touch()
@@ -671,12 +687,14 @@ namespace ThisProject
 
 		IEnumerator TransitionTo(GameStatus newGameStatus, MyRect newCameraTrapRect, Vector2 newCameraPosition, float newCameraSize)
 		{
-			targetCameraTrapRect = new MyRect(homeRect.Top, gameRect.Left, gameRect.Bottom, gameRect.Right);
+			targetCameraTrapRect = new MyRect(homeRect.Top, gameRect.Left, gameRect.Bottom, gameRect.Right + 10); //add 10 to the right to make sure we compansate for the variable right position of the camera trap
 			cameraTargetSize = newCameraSize;
 			cameraTargetPosition = newCameraPosition;
 
 			gameStatus = GameStatus.Transition;
+
 			yield return new WaitForSeconds(0.6f);
+
 			targetCameraTrapRect = newCameraTrapRect;
 			gameStatus = newGameStatus;
 		}
@@ -799,21 +817,7 @@ namespace ThisProject
 
 		#region EDITING
 
-		//play, stop, menu
-		void ButtonMenu_Tap(GameObject sender, Camera camera)
-		{
-			if (gameStatus == GameStatus.Transition) return;
-
-			if (gameStatus == GameStatus.Stop) SaveLevel();
-
-			HideGameUI();
-
-			StartCoroutine(TransitionTo(
-				GameStatus.Menu,
-				new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
-				new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
-				cameraDefaultSize));
-		}
+		//play, stop, grab
 		void ButtonPlay_Tap(GameObject sender, Camera camera)
 		{
 			if (gameStatus == GameStatus.Transition) return;
@@ -1084,7 +1088,7 @@ namespace ThisProject
 		{
 			float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
 			CreateItem(itemShape, itemMaterial, size, size);
-			MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, gameCamera.ScreenToWorldPoint(Input.mousePosition));
+			MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, playgroundRect.GetInsidePosition(gameCamera.ScreenToWorldPoint(Input.mousePosition)));
 			DragItem(items[items.Length - 1].gameObject, false);
 		}
 		void CloneItem()
@@ -1291,11 +1295,23 @@ namespace ThisProject
 	        gameCamera.orthographicSize = Mathf.Lerp(gameCamera.orthographicSize, cameraTargetSize, 10f * Time.deltaTime);
 
 	        pixelsPerUnit = Screen.height / gameCamera.orthographicSize / 2;
-	        cameraTrapRect = new MyRect(
-	            targetCameraTrapRect.Top - gameCamera.orthographicSize,
-	            targetCameraTrapRect.Left + gameCamera.orthographicSize * aspectRatio,
-	            targetCameraTrapRect.Bottom + gameCamera.orthographicSize,
-	            targetCameraTrapRect.Right - gameCamera.orthographicSize * aspectRatio);
+	        
+			if (gameStatus == GameStatus.Stop || gameStatus == GameStatus.Play)
+			{
+				cameraTrapRect = new MyRect(
+					targetCameraTrapRect.Top - gameCamera.orthographicSize,
+					targetCameraTrapRect.Left + gameCamera.orthographicSize * aspectRatio,
+					targetCameraTrapRect.Bottom + gameCamera.orthographicSize,
+					targetCameraTrapRect.Right - gameCamera.orthographicSize * aspectRatio - wallWidth + gameCamera.orthographicSize * 1.12f / uiCamera.orthographicSize); //keep the edge of the right wall aligned with the edge of the toolbar
+			}
+			else
+			{
+				cameraTrapRect = new MyRect(
+					targetCameraTrapRect.Top - gameCamera.orthographicSize,
+					targetCameraTrapRect.Left + gameCamera.orthographicSize * aspectRatio,
+					targetCameraTrapRect.Bottom + gameCamera.orthographicSize,
+					targetCameraTrapRect.Right - gameCamera.orthographicSize * aspectRatio);
+			}
 
 	        //set the position(animated)
 	        MyTransform.SetPositionXY(gameCamera.transform, Vector2.Lerp(gameCamera.transform.position, cameraTargetPosition, 10f * Time.deltaTime));
@@ -1303,16 +1319,16 @@ namespace ThisProject
 	        //restrict the position
 	        Vector2 trappedPosition = cameraTrapRect.GetInsidePosition(gameCamera.transform.position);
 
-	        if (trappedPosition.x != gameCamera.transform.position.x)
+			if (Math.Abs(trappedPosition.x - gameCamera.transform.position.x) > 0.0001f)
 	        {
 	            cameraTargetPosition.x = trappedPosition.x;
 	            MyTransform.SetPositionX(gameCamera.transform, cameraTargetPosition.x);
 
-	            if (isCameraDragged)
+				if (isCameraDragged)
 	                cameraDragOffset.x = -Input.mousePosition.x / pixelsPerUnit - cameraTargetPosition.x;
 	        }
 
-	        if (trappedPosition.y != gameCamera.transform.position.y)
+			if (Math.Abs(trappedPosition.y - gameCamera.transform.position.y) > 0.0001f)
 	        {
 	            cameraTargetPosition.y = trappedPosition.y;
 	            MyTransform.SetPositionY(gameCamera.transform, cameraTargetPosition.y);
