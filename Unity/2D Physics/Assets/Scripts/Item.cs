@@ -282,11 +282,14 @@ namespace ThisProject
 			}
 
 
-			item.rigidbody2D.isKinematic = false;
+			//item.rigidbody2D.isKinematic = false;
 			switch (properties.material)
 			{
 				case ItemMaterial.FixedMetal:
-					item.rigidbody2D.isKinematic = true;
+					//item.rigidbody2D.isKinematic = true;
+					item.rigidbody2D.mass = 7.9f * (float)itemArea;
+					item.rigidbody2D.drag = 0.1f;
+					item.rigidbody2D.angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Ice:
 					item.rigidbody2D.mass = 0.91f * (float)itemArea;
