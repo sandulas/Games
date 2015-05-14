@@ -325,6 +325,7 @@ namespace ThisProject
 			tmp.name = "PlayNewLevel";
 			MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
 			MyTransform.SetPositionXY(buttonNewLevel.transform, tmp.transform.Find("Thumb").position);
+			MyTransform.SetScaleXY(buttonNewLevel.transform, menuUnit * 85, menuUnit * 85);
 
 			//play gallery levels
 			levelHolder = GameObject.Find("PlayLevel");
@@ -478,10 +479,14 @@ namespace ThisProject
 		{
 			if (gameStatus == GameStatus.Transition) return;
 
+			float yPos = playGalleryRect.Top - cameraDefaultSize;
+			if (playGalleryRect.Height <= (cameraDefaultSize * 2))
+				yPos = playGalleryRect.Bottom + cameraDefaultSize;
+
 			StartCoroutine(TransitionTo(
 				GameStatus.Menu,
 				new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
-				new Vector2(0, playGalleryRect.Top - cameraDefaultSize),
+				new Vector2(0, yPos),
 				cameraDefaultSize));
 		}
 
@@ -1037,7 +1042,7 @@ namespace ThisProject
 
 			HideItemControls();
 		}
-		void ButtonResize_Drag(GameObject sender, Camera camera)
+		void ButtonResize_Drag(GameObject sender, Camera camera)q
 		{
 			Vector2 currentInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
 			Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
@@ -1045,6 +1050,11 @@ namespace ThisProject
 			if (selectedItemProps.shape == ItemShape.Circle)
 			if (resizeOffset.x > resizeOffset.y) resizeOffset.x = resizeOffset.y;
 			else resizeOffset.y = resizeOffset.x;
+
+			if (initialSize.x + resizeOffset.x < 0.2f) resizeOffset.x = -initialSize.x + 0.2f;
+			if (initialSize.x + resizeOffset.x > playgroundRect.Width - 2) resizeOffset.x = playgroundRect.Width - 2 - initialSize.x;
+			if (initialSize.y + resizeOffset.y < 0.2f) resizeOffset.y = -initialSize.y + 0.2f;
+			if (initialSize.y + resizeOffset.y > playgroundRect.Height - 2) resizeOffset.y = playgroundRect.Height - 2 - initialSize.y;
 
 			Item.Resize(selectedItem, initialSize.x + resizeOffset.x, initialSize.y + resizeOffset.y);
 
@@ -1062,6 +1072,7 @@ namespace ThisProject
 
 			//selectedItem.rigidbody2D.isKinematic = true;
 			makeKinematic = 1;
+			isItemDragged = false;
 			selectedItem.rigidbody2D.fixedAngle = false;
 
 			ShowItemControls();
@@ -1089,14 +1100,15 @@ namespace ThisProject
 			float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
 			CreateItem(itemShape, itemMaterial, size, size);
 			MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, playgroundRect.GetInsidePosition(gameCamera.ScreenToWorldPoint(Input.mousePosition)));
-			DragItem(items[items.Length - 1].gameObject, false);
+			DragItem(items[items.Length - 1].gameObject, true);
 		}
 		void CloneItem()
 		{
 			CreateItem(selectedItemProps.shape, selectedItemProps.material, selectedItemProps.width, selectedItemProps.height);
 			items[items.Length - 1].gameObject.transform.rotation = selectedItem.transform.rotation;
-			items[items.Length - 1].gameObject.transform.position = selectedItem.transform.position;
-			DragItem(items[items.Length - 1].gameObject, false);
+			MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, selectedItem.transform.position);
+			//items[items.Length - 1].gameObject.transform.position = selectedItem.transform.position;
+			DragItem(items[items.Length - 1].gameObject, true);
 		}
 		void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
 		{
