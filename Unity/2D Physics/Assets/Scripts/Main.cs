@@ -18,7 +18,7 @@ namespace ThisProject
 		
 		//game
 		GameObject
-			buttonLearnGallery, buttonPlayGallery, buttonNewLevel, titlePlay, titleLearn,
+			buttonLearnGallery, buttonPlayGallery, buttonNewLevel, messageGalleryFull, titlePlay, titleLearn,
 			buttonMenu,	buttonPlay, buttonGrabDisabled, buttonGrabEnabled, buttonStop,
 			toolbar, materialSelector, buttonRectangle, buttonCircle, buttonTriangle, buttonFixed, buttonMetal, buttonWood, buttonRubber, buttonIce,
 			buttonDelete, buttonMove, buttonRotate, buttonResize, buttonClone, itemControlsHolder;
@@ -26,6 +26,7 @@ namespace ThisProject
 		GameStatus gameStatus = GameStatus.Menu;
 		string currentLevel = null;
 		GameObject playLevelToDelete = null;
+		bool returnToPlay;
 
 		GameObject selectedItem = null;
 		ItemProperties selectedItemProps = null;
@@ -93,7 +94,7 @@ namespace ThisProject
 		void SetupScene()
 		{
 			//initialize the main camera
-			gameCamera.transform.position = new Vector3(0, 0, -12);
+			gameCamera.transform.position = new Vector3(0, 1000, -12);
 			cameraTargetPosition = new Vector2(0, 0);
 			cameraTargetSize = cameraDefaultSize;
 
@@ -218,6 +219,7 @@ namespace ThisProject
 			buttonLearnGallery = GameObject.Find("ButtonLearnGallery");
 			buttonPlayGallery = GameObject.Find("ButtonPlayGallery");
 			buttonNewLevel = GameObject.Find("ButtonNewLevel");
+			messageGalleryFull = GameObject.Find("MessageGalleryFull");
 			titleLearn = GameObject.Find("TitleLearn");
 			titlePlay = GameObject.Find("TitlePlay");
 			
@@ -248,8 +250,8 @@ namespace ThisProject
 			//LAYOUT
 
 			//home elements
-			MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.2f, homeRect.Bottom + 1.2f);
-			MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.2f, homeRect.Bottom + 1.2f);
+			MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.4f, homeRect.Bottom + buttonLearnGallery.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * buttonLearnGallery.transform.localScale.y * 1.1f);
+			MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.4f, homeRect.Bottom + buttonLearnGallery.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * buttonLearnGallery.transform.localScale.y * 1.1f);
 
 			//gallery titles
 			MyTransform.SetPositionXY(titleLearn.transform, learnGalleryRect.Left + menuUnit * 25, learnGalleryRect.Top - menuUnit * 15);
@@ -326,6 +328,9 @@ namespace ThisProject
 			MyTransform.SetPositionXY(tmp.transform, startPos.x, startPos.y);
 			MyTransform.SetPositionXY(buttonNewLevel.transform, tmp.transform.Find("Thumb").position);
 			MyTransform.SetScaleXY(buttonNewLevel.transform, menuUnit * 85, menuUnit * 85);
+			MyTransform.SetPositionXY(messageGalleryFull.transform, buttonNewLevel.transform.position.x, buttonNewLevel.transform.position.y - tmp.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * tmp.transform.localScale.y * 0.45f);
+			MyTransform.SetScaleXY(messageGalleryFull.transform, menuUnit * 85, menuUnit * 85);
+			messageGalleryFull.SetActive(false);
 
 			//play gallery levels
 			levelHolder = GameObject.Find("PlayLevel");
@@ -495,6 +500,12 @@ namespace ThisProject
 		{
 			if (gameStatus == GameStatus.Transition) return;
 
+			if (playLevelsCount >= 35)
+			{
+				messageGalleryFull.SetActive(true);
+				return;
+			}
+
 			currentLevel = "play." + System.DateTime.Now.ToString("yyyyMMddHHmmssff");
 
 			//create new empty xml
@@ -588,6 +599,7 @@ namespace ThisProject
 			playLevelsCount--;
 			playLevelToDelete = null;
 
+			messageGalleryFull.SetActive(false);
 			UpdateSceneZones();
 		}
 		void LevelThumb_Tap(GameObject sender, Camera camera)
@@ -616,11 +628,24 @@ namespace ThisProject
 
 			HideGameUI();
 
-			StartCoroutine(TransitionTo(
-				GameStatus.Menu,
-				new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
-				new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
-				cameraDefaultSize));
+			if (returnToPlay)
+			{
+				float yPos = playGalleryRect.Top - cameraDefaultSize;
+				if (playGalleryRect.Height <= (cameraDefaultSize * 2))
+					yPos = playGalleryRect.Bottom + cameraDefaultSize;
+
+				StartCoroutine(TransitionTo(
+					GameStatus.Menu,
+					new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+					new Vector2(0, yPos),
+					cameraDefaultSize));				
+			}
+			else
+				StartCoroutine(TransitionTo(
+					GameStatus.Menu,
+					new MyRect(homeRect.Top, learnGalleryRect.Left, playGalleryRect.Bottom, learnGalleryRect.Right),
+					new Vector2(0, learnGalleryRect.Top - cameraDefaultSize),
+					cameraDefaultSize));				
 		}
 			
 		//main camera movement
@@ -714,8 +739,6 @@ namespace ThisProject
 			if (currentLevel == null || currentLevel.StartsWith ("learn.")) return;
 
 			//SAVE XML DATA
-			Debug.Log("Save XML");
-
 			XmlDocument xmlDoc = new XmlDocument();
 			XmlNode rootNode = xmlDoc.CreateElement("r");
 
@@ -746,11 +769,7 @@ namespace ThisProject
 
 			xmlDoc.Save(Application.persistentDataPath + "/" + currentLevel + ".xml");
 
-			Debug.Log("Saved XML to: " + Application.persistentDataPath + "/" + currentLevel + ".xml");
-
 			//SAVE PREVIEW IMAGE
-			Debug.Log("Save preview image");
-
 			RenderTexture renderTexture = new RenderTexture(256, 256, 24, RenderTextureFormat.ARGB32);
 			//renderTexture.antiAliasing = 2;
 			gameCamera.targetTexture = renderTexture;
@@ -768,13 +787,9 @@ namespace ThisProject
 			gameCamera.targetTexture = null;
 			RenderTexture.active = null; //added to avoid errors 
 			DestroyImmediate(renderTexture);
-
-			Debug.Log("Saved preview image to: " + Application.persistentDataPath + "/" + currentLevel + ".png");
 		}
 		void LoadLevel(string levelName)
 		{
-			Debug.Log("Load");
-
 			DeleteAllItems();
 
 			XmlDocument xmlDoc = new XmlDocument();
@@ -783,9 +798,13 @@ namespace ThisProject
 			{
 				TextAsset textAsset = (TextAsset)Resources.Load("Learn/" + levelName.Replace("learn", "level"));
 				xmlDoc.LoadXml(textAsset.text);
+				returnToPlay = false;
 			}
 			else if (levelName.StartsWith("play."))
+			{
 				xmlDoc.Load(Application.persistentDataPath + "/" + levelName + ".xml");
+				returnToPlay = true;
+			}
 
 			//set camera position and size
 			XmlNode root = xmlDoc.DocumentElement;
@@ -807,8 +826,6 @@ namespace ThisProject
 				items[i].gameObject.transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
 			}
 			currentLevel = levelName;
-
-			Debug.Log("Loaded");
 		}
 		void XmlAddAttribute(XmlDocument xmlDoc, XmlNode parentXmlNode, string attributeName, string attributeValue)
 		{
@@ -1042,7 +1059,7 @@ namespace ThisProject
 
 			HideItemControls();
 		}
-		void ButtonResize_Drag(GameObject sender, Camera camera)q
+		void ButtonResize_Drag(GameObject sender, Camera camera)
 		{
 			Vector2 currentInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
 			Vector2 resizeOffset = Vector2.Scale(currentInputPosition - initialInputPosition, resizeCorner);
