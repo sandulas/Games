@@ -844,10 +844,12 @@ namespace ThisProject
 		{
 			if (gameStatus == GameStatus.Transition) return;
 
+
 			SaveLevel();
 
 			gameStatus = GameStatus.Play;
 
+			toolbar.SetActive(false);
 			buttonPlay.SetActive(false);
 			buttonStop.SetActive(true);
 			buttonGrabDisabled.SetActive(true);
@@ -869,6 +871,7 @@ namespace ThisProject
 
 			gameStatus = GameStatus.Stop;
 
+			toolbar.SetActive(true);
 			buttonPlay.SetActive(true);
 			buttonStop.SetActive(false);
 			buttonGrabDisabled.SetActive(false);
@@ -957,7 +960,12 @@ namespace ThisProject
 			//when playing
 			else if (gameStatus == GameStatus.Play)
 			{
-				if (!buttonGrabEnabled.activeSelf) return;
+				if (!buttonGrabEnabled.activeSelf)
+				{
+					sender.GetComponent<MyInputEvents>().allowScreenEvents = true;
+					return;	
+				}
+				sender.GetComponent<MyInputEvents>().allowScreenEvents = false;
 
 				selectedItemProps = sender.GetComponent<ItemProperties>();
 				if (selectedItemProps.material != ItemMaterial.FixedMetal)
