@@ -250,8 +250,9 @@ namespace ThisProject
 			//LAYOUT
 
 			//home elements
-			MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.4f, homeRect.Bottom + buttonLearnGallery.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * buttonLearnGallery.transform.localScale.y * 1.1f);
-			MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.4f, homeRect.Bottom + buttonLearnGallery.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * buttonLearnGallery.transform.localScale.y * 1.1f);
+			LoadTitle();
+			MyTransform.SetPositionXY(buttonLearnGallery.transform, -1.4f, homeRect.Bottom + 0.6f + buttonLearnGallery.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * buttonLearnGallery.transform.localScale.y * 1.1f);
+			MyTransform.SetPositionXY(buttonPlayGallery.transform, 1.4f, homeRect.Bottom + 0.6f + buttonLearnGallery.GetComponent<SpriteRenderer>().sprite.rect.height / spritePixelsPerUnit * buttonLearnGallery.transform.localScale.y * 1.1f);
 
 			//gallery titles
 			MyTransform.SetPositionXY(titleLearn.transform, learnGalleryRect.Left + menuUnit * 25, learnGalleryRect.Top - menuUnit * 15);
@@ -292,6 +293,28 @@ namespace ThisProject
 			HideItemControls();
 
 			SetupUIInputEvents();
+		}
+		void LoadTitle()
+		{
+			XmlDocument xmlDoc = new XmlDocument();
+			TextAsset textAsset = (TextAsset)Resources.Load("title");
+			xmlDoc.LoadXml(textAsset.text);
+
+			XmlNode root = xmlDoc.DocumentElement;
+			ItemShape shape; ItemMaterial material; float width; float height;
+			for (int i = 0; i < root.ChildNodes.Count; i++)
+			{
+				shape = (ItemShape)Enum.Parse(typeof(ItemShape), root.ChildNodes[i].Attributes["s"].Value);
+				material = (ItemMaterial)Enum.Parse(typeof(ItemMaterial), root.ChildNodes[i].Attributes["m"].Value);
+				width = float.Parse(root.ChildNodes[i].Attributes["w"].Value);
+				height = float.Parse(root.ChildNodes[i].Attributes["h"].Value);
+
+				GameObject item = Item.Create(shape, material, width, height);
+				Destroy(item.rigidbody2D);
+
+				MyTransform.SetLocalPositionXY(item.transform, float.Parse(root.ChildNodes[i].Attributes["x"].Value) - 0.5f, homeRect.Top + float.Parse(root.ChildNodes[i].Attributes["y"].Value) - 8.2f);
+				item.transform.eulerAngles = new Vector3(0, 0, float.Parse(root.ChildNodes[i].Attributes["r"].Value));
+			}
 		}
 		void LoadGalleries()
 		{
@@ -844,7 +867,6 @@ namespace ThisProject
 		{
 			if (gameStatus == GameStatus.Transition) return;
 
-
 			SaveLevel();
 
 			gameStatus = GameStatus.Play;
@@ -973,7 +995,7 @@ namespace ThisProject
 					moveOffset = Input.mousePosition - camera.WorldToScreenPoint(sender.transform.position);
 					sender.rigidbody2D.fixedAngle = true;
 					sender.rigidbody2D.velocity = Vector2.zero;
-					sender.rigidbody2D.gravityScale = 0;
+					//sender.rigidbody2D.gravityScale = 0;
 				}
 			}
 		}
@@ -1013,7 +1035,7 @@ namespace ThisProject
 			else if (gameStatus == GameStatus.Play)
 			{
 				sender.rigidbody2D.fixedAngle = false;
-				sender.rigidbody2D.gravityScale = 1;
+				//sender.rigidbody2D.gravityScale = 1;
 			}
 		}
 
