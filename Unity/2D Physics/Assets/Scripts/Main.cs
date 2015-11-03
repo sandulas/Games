@@ -49,7 +49,7 @@ namespace ThisProject
 		
 		//scene setup
 		float dpi, scaleFactor, pixelsPerUnit, aspectRatio, spritePixelsPerUnit, menuUnit;
-		int learnLevelsCount = 6;
+		int learnLevelsCount = 4;
 		int playLevelsCount;
 		string[] playSavedFiles;
 		
