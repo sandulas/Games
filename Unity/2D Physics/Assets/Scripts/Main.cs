@@ -994,7 +994,7 @@ namespace ThisProject
 				if (selectedItemProps.material != ItemMaterial.FixedMetal)
 				{
 					moveOffset = Input.mousePosition - camera.WorldToScreenPoint(sender.transform.position);
-					sender.GetComponent<Rigidbody2D>().fixedAngle = true;
+					sender.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 					sender.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 					//sender.rigidbody2D.gravityScale = 0;
 				}
@@ -1035,14 +1035,14 @@ namespace ThisProject
 			//when playing
 			else if (gameStatus == GameStatus.Play)
 			{
-				sender.GetComponent<Rigidbody2D>().fixedAngle = false;
+				sender.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 				//sender.rigidbody2D.gravityScale = 1;
 			}
 		}
 
 		void ButtonMove_Touch(GameObject sender, Camera camera)
 		{
-			DragItem(selectedItem, true);
+			DragItem(selectedItem);
 		}
 
 		void ButtonRotate_Touch(GameObject sender, Camera camera)
@@ -1084,7 +1084,7 @@ namespace ThisProject
 			initialInputPosition = resizeParent.transform.InverseTransformPoint(gameCamera.ScreenToWorldPoint(Input.mousePosition));
 
 			selectedItem.GetComponent<Rigidbody2D>().isKinematic = false;
-			selectedItem.GetComponent<Rigidbody2D>().fixedAngle = true;
+			selectedItem.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
 			isItemDragged = true;
 
 
@@ -1121,7 +1121,7 @@ namespace ThisProject
 			//selectedItem.rigidbody2D.isKinematic = true;
 			makeKinematic = 1;
 			isItemDragged = false;
-			selectedItem.GetComponent<Rigidbody2D>().fixedAngle = false;
+			selectedItem.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 
 			ShowItemControls();
 		}
@@ -1148,7 +1148,7 @@ namespace ThisProject
 			float size = 1f / uiCamera.orthographicSize * gameCamera.orthographicSize;
 			CreateItem(itemShape, itemMaterial, size, size);
 			MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, playgroundRect.GetInsidePosition(gameCamera.ScreenToWorldPoint(Input.mousePosition)));
-			DragItem(items[items.Length - 1].gameObject, true);
+			DragItem(items[items.Length - 1].gameObject);
 		}
 		void CloneItem()
 		{
@@ -1156,7 +1156,7 @@ namespace ThisProject
 			items[items.Length - 1].gameObject.transform.rotation = selectedItem.transform.rotation;
 			MyTransform.SetPositionXY(items[items.Length - 1].gameObject.transform, selectedItem.transform.position);
 			//items[items.Length - 1].gameObject.transform.position = selectedItem.transform.position;
-			DragItem(items[items.Length - 1].gameObject, true);
+			DragItem(items[items.Length - 1].gameObject);
 		}
 		void CreateItem(ItemShape itemShape, ItemMaterial itemMaterial, float width, float height)
 		{
@@ -1190,9 +1190,9 @@ namespace ThisProject
 			Array.Resize<PhysicsObject>(ref items, 0);
 		}
 
-		void DragItem(GameObject item, bool fixedAngle)
+		void DragItem(GameObject item)
 		{
-			DragStart(item, fixedAngle);
+			DragStart(item, true);
 
 			if (customCenterOfMass)
 				moveOffset = gameCamera.WorldToScreenPoint(item.GetComponent<Rigidbody2D>().worldCenterOfMass) - gameCamera.WorldToScreenPoint(item.transform.position);
@@ -1203,7 +1203,7 @@ namespace ThisProject
 		void DragStart(GameObject item, bool fixedAngle)
 		{
 			item.GetComponent<Rigidbody2D>().isKinematic = false;
-			item.GetComponent<Rigidbody2D>().fixedAngle = fixedAngle;
+			item.GetComponent<Rigidbody2D>().constraints = fixedAngle ? RigidbodyConstraints2D.FreezeRotation : RigidbodyConstraints2D.None;
 
 			if (!fixedAngle)
 			{
