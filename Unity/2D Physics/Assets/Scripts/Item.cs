@@ -101,13 +101,13 @@ namespace ThisProject
 			GameObject obj = new GameObject();
 			obj.AddComponent<MeshRenderer>();
 			obj.AddComponent<MeshFilter>().mesh = objMesh;
-			obj.renderer.material = itemMaterials[(int)itemMaterial];
+			obj.GetComponent<Renderer>().material = itemMaterials[(int)itemMaterial];
 
 			//create the object effect
 			GameObject objEffect = new GameObject();
 			objEffect.AddComponent<MeshRenderer>();
 			objEffect.AddComponent<MeshFilter>().mesh = objEffectMesh;
-			objEffect.renderer.material = atlas1Material;
+			objEffect.GetComponent<Renderer>().material = atlas1Material;
 
 			//setup the object and the object effect in the scene
 			obj.name = "Item: " + shape + " " + frontLayerIndex;
@@ -203,7 +203,7 @@ namespace ThisProject
 
 			//update the object
 			item.GetComponent<MeshFilter>().mesh = objMesh;
-			item.renderer.material = itemMaterials[(int)itemMaterial];
+			item.GetComponent<Renderer>().material = itemMaterials[(int)itemMaterial];
 
 			//update the object effect
 			GameObject itemEffect = item.transform.GetChild(0).gameObject;
@@ -224,7 +224,7 @@ namespace ThisProject
 		private static void setPhysics(GameObject item)
 		{
 			item.AddComponent<Rigidbody2D>();
-			item.rigidbody2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+			item.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
 			ItemProperties properties = item.GetComponent<ItemProperties>();
 
@@ -287,29 +287,29 @@ namespace ThisProject
 			{
 				case ItemMaterial.FixedMetal:
 					//item.rigidbody2D.isKinematic = true;
-					item.rigidbody2D.mass = 7.9f * (float)itemArea;
-					item.rigidbody2D.drag = 0.1f;
-					item.rigidbody2D.angularDrag = 0.2f;
+					item.GetComponent<Rigidbody2D>().mass = 7.9f * (float)itemArea;
+					item.GetComponent<Rigidbody2D>().drag = 0.1f;
+					item.GetComponent<Rigidbody2D>().angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Ice:
-					item.rigidbody2D.mass = 0.91f * (float)itemArea;
-					item.rigidbody2D.drag = 0.1f;
-					item.rigidbody2D.angularDrag = 0.2f;
+					item.GetComponent<Rigidbody2D>().mass = 0.91f * (float)itemArea;
+					item.GetComponent<Rigidbody2D>().drag = 0.1f;
+					item.GetComponent<Rigidbody2D>().angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Metal:
-					item.rigidbody2D.mass = 7.9f * (float)itemArea;
-					item.rigidbody2D.drag = 0.1f;
-					item.rigidbody2D.angularDrag = 0.2f;
+					item.GetComponent<Rigidbody2D>().mass = 7.9f * (float)itemArea;
+					item.GetComponent<Rigidbody2D>().drag = 0.1f;
+					item.GetComponent<Rigidbody2D>().angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Rubber:
-					item.rigidbody2D.mass = 1.0f * (float)itemArea;
-					item.rigidbody2D.drag = 0.1f;
-					item.rigidbody2D.angularDrag = 0.2f;
+					item.GetComponent<Rigidbody2D>().mass = 1.0f * (float)itemArea;
+					item.GetComponent<Rigidbody2D>().drag = 0.1f;
+					item.GetComponent<Rigidbody2D>().angularDrag = 0.2f;
 					break;
 				case ItemMaterial.Wood:
-					item.rigidbody2D.mass = 0.65f * (float)itemArea;
-					item.rigidbody2D.drag = 0.1f;
-					item.rigidbody2D.angularDrag = 0.2f;
+					item.GetComponent<Rigidbody2D>().mass = 0.65f * (float)itemArea;
+					item.GetComponent<Rigidbody2D>().drag = 0.1f;
+					item.GetComponent<Rigidbody2D>().angularDrag = 0.2f;
 					break;
 				default:
 					break;
@@ -322,28 +322,28 @@ namespace ThisProject
 			switch(item.GetComponent<ItemProperties>().material)
 			{
 				case ItemMaterial.FixedMetal:
-					item.rigidbody2D.isKinematic = true;
-					item.collider2D.sharedMaterial = PM_Metal;
+					item.GetComponent<Rigidbody2D>().isKinematic = true;
+					item.GetComponent<Collider2D>().sharedMaterial = PM_Metal;
 					break;
 				case ItemMaterial.Metal:
-					item.rigidbody2D.isKinematic = false;
-					item.collider2D.sharedMaterial = PM_Metal;
+					item.GetComponent<Rigidbody2D>().isKinematic = false;
+					item.GetComponent<Collider2D>().sharedMaterial = PM_Metal;
 					break;
 				case ItemMaterial.Ice:
-					item.rigidbody2D.isKinematic = false;
-					item.collider2D.sharedMaterial = PM_Ice;
+					item.GetComponent<Rigidbody2D>().isKinematic = false;
+					item.GetComponent<Collider2D>().sharedMaterial = PM_Ice;
 					break;
 				case ItemMaterial.Rubber:
-					item.rigidbody2D.isKinematic = false;
-					item.collider2D.sharedMaterial = PM_Rubber;
+					item.GetComponent<Rigidbody2D>().isKinematic = false;
+					item.GetComponent<Collider2D>().sharedMaterial = PM_Rubber;
 					break;
 				case ItemMaterial.Wood:
-					item.rigidbody2D.isKinematic = false;
-					item.collider2D.sharedMaterial = PM_Wood;
+					item.GetComponent<Rigidbody2D>().isKinematic = false;
+					item.GetComponent<Collider2D>().sharedMaterial = PM_Wood;
 					break;
 			}
-			item.collider2D.enabled = false;
-			item.collider2D.enabled = true;
+			item.GetComponent<Collider2D>().enabled = false;
+			item.GetComponent<Collider2D>().enabled = true;
 
 		}
 		public static void SetPhysicsMaterialGeneric(GameObject item)
