@@ -1048,6 +1048,7 @@ namespace ThisProject
 		void ButtonRotate_Touch(GameObject sender, Camera camera)
 		{
 			selectedItem.GetComponent<Rigidbody2D>().isKinematic = false;
+			selectedItem.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
 			isItemDragged = true;
 
 			initialInputAngle = Vector2.Angle((Vector2)gameCamera.ScreenToWorldPoint(Input.mousePosition) - selectedItem.GetComponent<Rigidbody2D>().worldCenterOfMass, Vector2.right);
@@ -1412,6 +1413,8 @@ namespace ThisProject
 	        }
 	        else if (makeKinematic == 2)
 	        {
+				selectedItem.GetComponent<Rigidbody2D>().angularVelocity = 0;
+				selectedItem.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 	            selectedItem.GetComponent<Rigidbody2D>().isKinematic = true;
 	            makeKinematic = 0;
 	        }
